@@ -4,6 +4,7 @@ import 'package:fl_clash/icons/app_glyphs.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/views/views.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 class Navigation implements NavigationPort {
   static Navigation? _instance;
@@ -30,12 +31,13 @@ class Navigation implements NavigationPort {
             ? [NavigationItemMode.mobile, NavigationItemMode.desktop]
             : [],
       ),
-      NavigationItem(
-        glyph: AppGlyphs.profiles,
-        label: PageLabel.profiles,
-        builder: (_) =>
-            const ProfilesView(key: GlobalObjectKey(PageLabel.profiles)),
-      ),
+      if (V2BoardConfig.allowProfileImports)
+        NavigationItem(
+          glyph: AppGlyphs.profiles,
+          label: PageLabel.profiles,
+          builder: (_) =>
+              const ProfilesView(key: GlobalObjectKey(PageLabel.profiles)),
+        ),
       NavigationItem(
         glyph: AppGlyphs.requests,
         label: PageLabel.requests,

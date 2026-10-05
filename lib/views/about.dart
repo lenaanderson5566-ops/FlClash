@@ -9,6 +9,7 @@ import 'package:fl_clash/widgets/list.dart';
 import 'package:fl_clash/widgets/scaffold.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 @immutable
 class Contributor {
@@ -27,6 +28,10 @@ class AboutView extends ConsumerWidget {
   ];
 
   Future<void> _checkUpdate(BuildContext context, WidgetRef ref) async {
+    if (V2BoardConfig.enabled) {
+      await dialogs.openUrl(V2BoardConfig.websiteUrl);
+      return;
+    }
     if (ref.read(loadingProvider(LoadingTag.checkUpdate))) return;
     final commonAction = ref.read(commonActionProvider.notifier);
     final data = await globalState.loadingRun<Map<String, dynamic>?>(

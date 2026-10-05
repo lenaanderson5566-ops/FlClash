@@ -20,6 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'pages/pages.dart';
+import 'v2board/config.dart';
+import 'v2board/shell.dart';
 
 Widget buildManagerStack({
   required bool isDesktop,
@@ -106,6 +108,7 @@ class ApplicationState extends ConsumerState<Application> {
   }
 
   void _initLink() {
+    if (!V2BoardConfig.allowProfileImports) return;
     linkManager.initAppLinksListen((url) async {
       unawaited(window?.show());
       final message = currentAppLocalizations.createProfileFromUrlTip(url);
@@ -181,7 +184,7 @@ class ApplicationState extends ConsumerState<Application> {
             );
           },
           scrollBehavior: const BaseScrollBehavior(),
-          title: appName,
+          title: V2BoardConfig.enabled ? V2BoardConfig.appName : appName,
           locale: getLocaleForString(locale),
           supportedLocales: AppLocalizations.delegate.supportedLocales,
           themeMode: themeProps.themeMode,
@@ -200,7 +203,7 @@ class ApplicationState extends ConsumerState<Application> {
           home: KeyboardInsetHold(child: child!),
         );
       },
-      child: const HomePage(),
+      child: V2BoardConfig.enabled ? const V2BoardShell() : const HomePage(),
     );
   }
 

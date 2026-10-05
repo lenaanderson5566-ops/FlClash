@@ -7,6 +7,7 @@ import 'package:fl_clash/models/config.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 import 'package:window/window.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 class Window implements WindowPort {
   static Window? _instance;
@@ -36,7 +37,7 @@ class Window implements WindowPort {
       commonPrint.log('another instance owns the data directory, exiting');
       exit(0);
     }
-    if (!safeModeBuild) {
+    if (!safeModeBuild && V2BoardConfig.allowProfileImports) {
       if (system.isWindows) {
         for (final scheme in protocolSchemes) {
           protocol.register(scheme);

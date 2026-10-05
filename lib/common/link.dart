@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 import 'print.dart';
 import 'protocol.dart';
@@ -46,6 +47,7 @@ class LinkManager {
 
   /// Linux argv: the gtk plugin hooks GApplication too late to see it.
   void seedInitialLink(List<String> args) {
+    if (!V2BoardConfig.allowProfileImports) return;
     for (final arg in args) {
       final uri = Uri.tryParse(arg);
       if (uri != null && protocolSchemes.contains(uri.scheme)) {
@@ -60,6 +62,10 @@ class LinkManager {
   ) async {
     commonPrint.log('initAppLinksListen');
     destroy();
+    if (!V2BoardConfig.allowProfileImports) {
+      _pendingUri = null;
+      return;
+    }
     subscription = uriLinkStream().listen((uri) {
       _handle(uri, installConfigCallBack);
     });

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:win32_registry/win32_registry.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 import 'print.dart';
 
@@ -82,6 +83,7 @@ class Protocol {
   }
 
   void register(String scheme) {
+    if (!V2BoardConfig.allowProfileImports) return;
     final plan = ProtocolRegistrationPlan(
       scheme: scheme,
       executable: Platform.resolvedExecutable,
@@ -104,6 +106,7 @@ class Protocol {
   }
 
   Future<void> registerLinux(List<String> schemes) async {
+    if (!V2BoardConfig.allowProfileImports) return;
     final env = Platform.environment;
     final home = env['HOME'];
     if (home == null || home.isEmpty) {

@@ -9,6 +9,7 @@ import 'package:fl_clash/views/profiles/add.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 import 'profile_detail.dart';
 import 'row_card.dart';
@@ -20,6 +21,7 @@ class ProfilesCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (!V2BoardConfig.allowProfileImports) return const SizedBox.shrink();
     final appLocalizations = context.appLocalizations;
     final profile = ref.watch(currentProfileProvider);
     final canSwitch = ref.watch(

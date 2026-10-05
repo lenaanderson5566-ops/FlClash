@@ -74,6 +74,7 @@ class CommonAction extends _$CommonAction {
   }
 
   Future<bool> autoCheckUpdate() async {
+    if (V2BoardConfig.enabled) return false;
     if (!ref.read(appSettingProvider).autoCheckUpdate) return false;
     final res = await request.checkForUpdate();
     await checkUpdateResultHandle(data: res);

@@ -10,8 +10,10 @@ import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 void showAddProfilePage() {
+  if (!V2BoardConfig.allowProfileImports) return;
   final context = globalState.navigatorKey.currentState!.context;
   showExtend(
     context,
@@ -76,6 +78,7 @@ class AddProfileView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (!V2BoardConfig.allowProfileImports) return const SizedBox.shrink();
     final appLocalizations = context.appLocalizations;
     return ListView(
       padding: EdgeInsets.only(top: context.contentTopPadding, bottom: 16),

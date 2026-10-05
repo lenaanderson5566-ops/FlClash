@@ -11,8 +11,13 @@ import 'application.dart';
 import 'bootstrap.dart';
 import 'common/common.dart';
 import 'common/window.dart';
+import 'v2board/config.dart';
 
 void main(List<String> args) {
+  if (!V2BoardConfig.allowProfileImports &&
+      args.any((arg) => arg.contains('://'))) {
+    return;
+  }
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();

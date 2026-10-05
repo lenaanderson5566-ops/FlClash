@@ -6447,6 +6447,511 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Ready to connect`
+  String get fdActive {
+    return Intl.message(
+      'Ready to connect',
+      name: 'fdActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Annual`
+  String get fdAnnual {
+    return Intl.message('Annual', name: 'fdAnnual', desc: '', args: []);
+  }
+
+  /// `Account disabled`
+  String get fdBanned {
+    return Intl.message(
+      'Account disabled',
+      name: 'fdBanned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Two years`
+  String get fdBiennial {
+    return Intl.message('Two years', name: 'fdBiennial', desc: '', args: []);
+  }
+
+  /// `Order`
+  String get fdBuy {
+    return Intl.message('Order', name: 'fdBuy', desc: '', args: []);
+  }
+
+  /// `Cancelled`
+  String get fdCancelled {
+    return Intl.message('Cancelled', name: 'fdCancelled', desc: '', args: []);
+  }
+
+  /// `Cancel order`
+  String get fdCancelOrder {
+    return Intl.message(
+      'Cancel order',
+      name: 'fdCancelOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to complete the request. Refresh orders before retrying a purchase or payment.`
+  String get fdCommerceFailed {
+    return Intl.message(
+      'Unable to complete the request. Refresh orders before retrying a purchase or payment.',
+      name: 'fdCommerceFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed`
+  String get fdCompleted {
+    return Intl.message('Completed', name: 'fdCompleted', desc: '', args: []);
+  }
+
+  /// `Connect`
+  String get fdConnect {
+    return Intl.message('Connect', name: 'fdConnect', desc: '', args: []);
+  }
+
+  /// `Connection`
+  String get fdConnection {
+    return Intl.message('Connection', name: 'fdConnection', desc: '', args: []);
+  }
+
+  /// `Confirm order`
+  String get fdCreateOrder {
+    return Intl.message(
+      'Confirm order',
+      name: 'fdCreateOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traffic credit balance`
+  String get fdCreditBalance {
+    return Intl.message(
+      'Traffic credit balance',
+      name: 'fdCreditBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traffic credits`
+  String get fdCredits {
+    return Intl.message(
+      'Traffic credits',
+      name: 'fdCredits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Devices online / limit`
+  String get fdDevices {
+    return Intl.message(
+      'Devices online / limit',
+      name: 'fdDevices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disconnect`
+  String get fdDisconnect {
+    return Intl.message('Disconnect', name: 'fdDisconnect', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get fdEmail {
+    return Intl.message('Email', name: 'fdEmail', desc: '', args: []);
+  }
+
+  /// `No items available`
+  String get fdEmpty {
+    return Intl.message(
+      'No items available',
+      name: 'fdEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traffic exhausted. Renew or buy credits.`
+  String get fdExhausted {
+    return Intl.message(
+      'Traffic exhausted. Renew or buy credits.',
+      name: 'fdExhausted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription expired`
+  String get fdExpired {
+    return Intl.message(
+      'Subscription expired',
+      name: 'fdExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period expiry`
+  String get fdExpiry {
+    return Intl.message('Period expiry', name: 'fdExpiry', desc: '', args: []);
+  }
+
+  /// `Enter an HTTPS domain without a path`
+  String get fdInvalidUrl {
+    return Intl.message(
+      'Enter an HTTPS domain without a path',
+      name: 'fdInvalidUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get fdLogin {
+    return Intl.message('Sign in', name: 'fdLogin', desc: '', args: []);
+  }
+
+  /// `Sign out`
+  String get fdLogout {
+    return Intl.message('Sign out', name: 'fdLogout', desc: '', args: []);
+  }
+
+  /// `Monthly`
+  String get fdMonthly {
+    return Intl.message('Monthly', name: 'fdMonthly', desc: '', args: []);
+  }
+
+  /// `Unable to reach the panel. Check your network and try again.`
+  String get fdNetworkError {
+    return Intl.message(
+      'Unable to reach the panel. Check your network and try again.',
+      name: 'fdNetworkError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next page`
+  String get fdNext {
+    return Intl.message('Next page', name: 'fdNext', desc: '', args: []);
+  }
+
+  /// `No period expiry`
+  String get fdNoExpiry {
+    return Intl.message(
+      'No period expiry',
+      name: 'fdNoExpiry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a plan to get started`
+  String get fdNoPlan {
+    return Intl.message(
+      'Choose a plan to get started',
+      name: 'fdNoPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Orders`
+  String get fdOrders {
+    return Intl.message('Orders', name: 'fdOrders', desc: '', args: []);
+  }
+
+  /// `Panel address (HTTPS)`
+  String get fdPanelUrl {
+    return Intl.message(
+      'Panel address (HTTPS)',
+      name: 'fdPanelUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay`
+  String get fdPay {
+    return Intl.message('Pay', name: 'fdPay', desc: '', args: []);
+  }
+
+  /// `Pay with a method below. After completing payment, refresh to verify the server order status.`
+  String get fdPaymentNotice {
+    return Intl.message(
+      'Pay with a method below. After completing payment, refresh to verify the server order status.',
+      name: 'fdPaymentNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous page`
+  String get fdPrevious {
+    return Intl.message(
+      'Previous page',
+      name: 'fdPrevious',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Processing`
+  String get fdProcessing {
+    return Intl.message('Processing', name: 'fdProcessing', desc: '', args: []);
+  }
+
+  /// `Quarterly`
+  String get fdQuarterly {
+    return Intl.message('Quarterly', name: 'fdQuarterly', desc: '', args: []);
+  }
+
+  /// `Too many requests. Try again later.`
+  String get fdRateLimited {
+    return Intl.message(
+      'Too many requests. Try again later.',
+      name: 'fdRateLimited',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get fdRefresh {
+    return Intl.message('Refresh', name: 'fdRefresh', desc: '', args: []);
+  }
+
+  /// `Register or reset password on the website`
+  String get fdRegisterHelp {
+    return Intl.message(
+      'Register or reset password on the website',
+      name: 'fdRegisterHelp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period traffic remaining`
+  String get fdRemaining {
+    return Intl.message(
+      'Period traffic remaining',
+      name: 'fdRemaining',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The operation failed. Please retry.`
+  String get fdRequestFailed {
+    return Intl.message(
+      'The operation failed. Please retry.',
+      name: 'fdRequestFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This field is required`
+  String get fdRequired {
+    return Intl.message(
+      'This field is required',
+      name: 'fdRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Semiannual`
+  String get fdSemiannual {
+    return Intl.message('Semiannual', name: 'fdSemiannual', desc: '', args: []);
+  }
+
+  /// `Your session expired. Please sign in again.`
+  String get fdSessionExpired {
+    return Intl.message(
+      'Your session expired. Please sign in again.',
+      name: 'fdSessionExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plans`
+  String get fdShop {
+    return Intl.message('Plans', name: 'fdShop', desc: '', args: []);
+  }
+
+  /// `Support and account services`
+  String get fdSupport {
+    return Intl.message(
+      'Support and account services',
+      name: 'fdSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync subscription`
+  String get fdSync {
+    return Intl.message(
+      'Sync subscription',
+      name: 'fdSync',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Three years`
+  String get fdTriennial {
+    return Intl.message('Three years', name: 'fdTriennial', desc: '', args: []);
+  }
+
+  /// `Unknown`
+  String get fdUnknown {
+    return Intl.message('Unknown', name: 'fdUnknown', desc: '', args: []);
+  }
+
+  /// `Awaiting payment`
+  String get fdUnpaid {
+    return Intl.message(
+      'Awaiting payment',
+      name: 'fdUnpaid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your email and password or complete verification on the website.`
+  String get fdValidationError {
+    return Intl.message(
+      'Check your email and password or complete verification on the website.',
+      name: 'fdValidationError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet balance`
+  String get fdWallet {
+    return Intl.message('Wallet balance', name: 'fdWallet', desc: '', args: []);
+  }
+
+  /// `Sign in to connect and choose nodes`
+  String get fdWelcome {
+    return Intl.message(
+      'Sign in to connect and choose nodes',
+      name: 'fdWelcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage on website`
+  String get fdWebAccount {
+    return Intl.message(
+      'Manage on website',
+      name: 'fdWebAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renewals, orders and account services are available on the website.`
+  String get fdWebAccountHint {
+    return Intl.message(
+      'Renewals, orders and account services are available on the website.',
+      name: 'fdWebAccountHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email or password is incorrect`
+  String get fdInvalidCredentials {
+    return Intl.message(
+      'Email or password is incorrect',
+      name: 'fdInvalidCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connected`
+  String get fdConnected {
+    return Intl.message('Connected', name: 'fdConnected', desc: '', args: []);
+  }
+
+  /// `Disconnected`
+  String get fdDisconnected {
+    return Intl.message(
+      'Disconnected',
+      name: 'fdDisconnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No available subscription. Manage your account on the website.`
+  String get fdNodesUnavailable {
+    return Intl.message(
+      'No available subscription. Manage your account on the website.',
+      name: 'fdNodesUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A little faster. A little freer.`
+  String get fdHeroSubtitle {
+    return Intl.message(
+      'A little faster. A little freer.',
+      name: 'fdHeroSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a route`
+  String get fdChooseRoute {
+    return Intl.message(
+      'Choose a route',
+      name: 'fdChooseRoute',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your connection, your way.`
+  String get fdAccountSubtitle {
+    return Intl.message(
+      'Your connection, your way.',
+      name: 'fdAccountSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription sync failed. Try syncing again before connecting.`
+  String get fdSyncFailed {
+    return Intl.message(
+      'Subscription sync failed. Try syncing again before connecting.',
+      name: 'fdSyncFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

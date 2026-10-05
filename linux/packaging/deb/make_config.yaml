@@ -1,4 +1,4 @@
-display_name: FlClash
+display_name: fastai
 package_name: FlClash
 maintainer:
   name: chen08209
@@ -22,18 +22,15 @@ postuninstall_scripts:
   - 'rm -f /etc/systemd/system/flclash-helper.service'
   - 'systemctl daemon-reload >/dev/null 2>&1 || true'
 
-supported_mime_type:
-  - x-scheme-handler/clash
-  - x-scheme-handler/clashmeta
-  - x-scheme-handler/flclash
+supported_mime_type: []
 
 keywords:
-  - FlClash
+  - fastai
   - Clash
   - ClashMeta
   - Proxy
 
-generic_name: FlClash
+generic_name: fastai
 
 categories:
   - Network

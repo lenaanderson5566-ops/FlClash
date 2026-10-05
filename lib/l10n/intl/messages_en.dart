@@ -624,6 +624,113 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fakeipTtl": MessageLookupByLibrary.simpleMessage("Fake-IP TTL"),
     "fallbackFilter": MessageLookupByLibrary.simpleMessage("Fallback filter"),
+    "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Your connection, your way.",
+    ),
+    "fdActive": MessageLookupByLibrary.simpleMessage("Ready to connect"),
+    "fdAnnual": MessageLookupByLibrary.simpleMessage("Annual"),
+    "fdBanned": MessageLookupByLibrary.simpleMessage("Account disabled"),
+    "fdBiennial": MessageLookupByLibrary.simpleMessage("Two years"),
+    "fdBuy": MessageLookupByLibrary.simpleMessage("Order"),
+    "fdCancelOrder": MessageLookupByLibrary.simpleMessage("Cancel order"),
+    "fdCancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
+    "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Choose a route"),
+    "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
+      "Unable to complete the request. Refresh orders before retrying a purchase or payment.",
+    ),
+    "fdCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
+    "fdConnect": MessageLookupByLibrary.simpleMessage("Connect"),
+    "fdConnected": MessageLookupByLibrary.simpleMessage("Connected"),
+    "fdConnection": MessageLookupByLibrary.simpleMessage("Connection"),
+    "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Confirm order"),
+    "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
+      "Traffic credit balance",
+    ),
+    "fdCredits": MessageLookupByLibrary.simpleMessage("Traffic credits"),
+    "fdDevices": MessageLookupByLibrary.simpleMessage("Devices online / limit"),
+    "fdDisconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
+    "fdDisconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
+    "fdEmail": MessageLookupByLibrary.simpleMessage("Email"),
+    "fdEmpty": MessageLookupByLibrary.simpleMessage("No items available"),
+    "fdExhausted": MessageLookupByLibrary.simpleMessage(
+      "Traffic exhausted. Renew or buy credits.",
+    ),
+    "fdExpired": MessageLookupByLibrary.simpleMessage("Subscription expired"),
+    "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
+    "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
+      "A little faster. A little freer.",
+    ),
+    "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
+      "Email or password is incorrect",
+    ),
+    "fdInvalidUrl": MessageLookupByLibrary.simpleMessage(
+      "Enter an HTTPS domain without a path",
+    ),
+    "fdLogin": MessageLookupByLibrary.simpleMessage("Sign in"),
+    "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),
+    "fdMonthly": MessageLookupByLibrary.simpleMessage("Monthly"),
+    "fdNetworkError": MessageLookupByLibrary.simpleMessage(
+      "Unable to reach the panel. Check your network and try again.",
+    ),
+    "fdNext": MessageLookupByLibrary.simpleMessage("Next page"),
+    "fdNoExpiry": MessageLookupByLibrary.simpleMessage("No period expiry"),
+    "fdNoPlan": MessageLookupByLibrary.simpleMessage(
+      "Choose a plan to get started",
+    ),
+    "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
+      "No available subscription. Manage your account on the website.",
+    ),
+    "fdOrders": MessageLookupByLibrary.simpleMessage("Orders"),
+    "fdPanelUrl": MessageLookupByLibrary.simpleMessage("Panel address (HTTPS)"),
+    "fdPay": MessageLookupByLibrary.simpleMessage("Pay"),
+    "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
+      "Pay with a method below. After completing payment, refresh to verify the server order status.",
+    ),
+    "fdPrevious": MessageLookupByLibrary.simpleMessage("Previous page"),
+    "fdProcessing": MessageLookupByLibrary.simpleMessage("Processing"),
+    "fdQuarterly": MessageLookupByLibrary.simpleMessage("Quarterly"),
+    "fdRateLimited": MessageLookupByLibrary.simpleMessage(
+      "Too many requests. Try again later.",
+    ),
+    "fdRefresh": MessageLookupByLibrary.simpleMessage("Refresh"),
+    "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
+      "Register or reset password on the website",
+    ),
+    "fdRemaining": MessageLookupByLibrary.simpleMessage(
+      "Period traffic remaining",
+    ),
+    "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
+      "The operation failed. Please retry.",
+    ),
+    "fdRequired": MessageLookupByLibrary.simpleMessage(
+      "This field is required",
+    ),
+    "fdSemiannual": MessageLookupByLibrary.simpleMessage("Semiannual"),
+    "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
+      "Your session expired. Please sign in again.",
+    ),
+    "fdShop": MessageLookupByLibrary.simpleMessage("Plans"),
+    "fdSupport": MessageLookupByLibrary.simpleMessage(
+      "Support and account services",
+    ),
+    "fdSync": MessageLookupByLibrary.simpleMessage("Sync subscription"),
+    "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
+      "Subscription sync failed. Try syncing again before connecting.",
+    ),
+    "fdTriennial": MessageLookupByLibrary.simpleMessage("Three years"),
+    "fdUnknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "fdUnpaid": MessageLookupByLibrary.simpleMessage("Awaiting payment"),
+    "fdValidationError": MessageLookupByLibrary.simpleMessage(
+      "Check your email and password or complete verification on the website.",
+    ),
+    "fdWallet": MessageLookupByLibrary.simpleMessage("Wallet balance"),
+    "fdWebAccount": MessageLookupByLibrary.simpleMessage("Manage on website"),
+    "fdWebAccountHint": MessageLookupByLibrary.simpleMessage(
+      "Renewals, orders and account services are available on the website.",
+    ),
+    "fdWelcome": MessageLookupByLibrary.simpleMessage(
+      "Sign in to connect and choose nodes",
+    ),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("Fidelity"),
     "file": MessageLookupByLibrary.simpleMessage("File"),
     "fileDesc": MessageLookupByLibrary.simpleMessage(
@@ -732,9 +839,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputRuleContent": MessageLookupByLibrary.simpleMessage(
       "Enter the rule content",
     ),
-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
-      "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
-    ),
+    "installedAppsPermissionDeniedMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
+        ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "This system hides the installed app list until the permission is granted. Authorize it to configure the per-app proxy.",
     ),

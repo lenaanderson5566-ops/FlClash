@@ -649,6 +649,113 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fakeipTtl": MessageLookupByLibrary.simpleMessage("TTL Fake-IP"),
     "fallbackFilter": MessageLookupByLibrary.simpleMessage("Фильтр fallback"),
+    "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Ваше подключение — ваши правила.",
+    ),
+    "fdActive": MessageLookupByLibrary.simpleMessage("Готов к подключению"),
+    "fdAnnual": MessageLookupByLibrary.simpleMessage("Год"),
+    "fdBanned": MessageLookupByLibrary.simpleMessage("Аккаунт заблокирован"),
+    "fdBiennial": MessageLookupByLibrary.simpleMessage("Два года"),
+    "fdBuy": MessageLookupByLibrary.simpleMessage("Заказать"),
+    "fdCancelOrder": MessageLookupByLibrary.simpleMessage("Отменить заказ"),
+    "fdCancelled": MessageLookupByLibrary.simpleMessage("Отменён"),
+    "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
+    "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
+      "Запрос не завершён. Обновите заказы перед повторной покупкой или оплатой.",
+    ),
+    "fdCompleted": MessageLookupByLibrary.simpleMessage("Завершён"),
+    "fdConnect": MessageLookupByLibrary.simpleMessage("Подключить"),
+    "fdConnected": MessageLookupByLibrary.simpleMessage("Подключено"),
+    "fdConnection": MessageLookupByLibrary.simpleMessage("Подключение"),
+    "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Подтвердить заказ"),
+    "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
+      "Остаток пакета трафика",
+    ),
+    "fdCredits": MessageLookupByLibrary.simpleMessage("Пакет трафика"),
+    "fdDevices": MessageLookupByLibrary.simpleMessage(
+      "Устройства онлайн / лимит",
+    ),
+    "fdDisconnect": MessageLookupByLibrary.simpleMessage("Отключить"),
+    "fdDisconnected": MessageLookupByLibrary.simpleMessage("Не подключено"),
+    "fdEmail": MessageLookupByLibrary.simpleMessage("Электронная почта"),
+    "fdEmpty": MessageLookupByLibrary.simpleMessage("Нет данных"),
+    "fdExhausted": MessageLookupByLibrary.simpleMessage(
+      "Трафик исчерпан. Продлите тариф или купите пакет.",
+    ),
+    "fdExpired": MessageLookupByLibrary.simpleMessage("Подписка истекла"),
+    "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
+    "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Быстрее. Свободнее.",
+    ),
+    "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
+      "Неверная почта или пароль",
+    ),
+    "fdInvalidUrl": MessageLookupByLibrary.simpleMessage(
+      "Введите HTTPS-домен без пути",
+    ),
+    "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
+    "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
+    "fdMonthly": MessageLookupByLibrary.simpleMessage("Месяц"),
+    "fdNetworkError": MessageLookupByLibrary.simpleMessage(
+      "Панель недоступна. Проверьте сеть и повторите.",
+    ),
+    "fdNext": MessageLookupByLibrary.simpleMessage("Следующая"),
+    "fdNoExpiry": MessageLookupByLibrary.simpleMessage("Без срока периода"),
+    "fdNoPlan": MessageLookupByLibrary.simpleMessage(
+      "Выберите тариф для начала",
+    ),
+    "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Нет доступной подписки. Управляйте аккаунтом на сайте.",
+    ),
+    "fdOrders": MessageLookupByLibrary.simpleMessage("Заказы"),
+    "fdPanelUrl": MessageLookupByLibrary.simpleMessage("Адрес панели (HTTPS)"),
+    "fdPay": MessageLookupByLibrary.simpleMessage("Оплатить"),
+    "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
+      "Выберите способ оплаты. После оплаты обновите страницу для проверки статуса заказа на сервере.",
+    ),
+    "fdPrevious": MessageLookupByLibrary.simpleMessage("Предыдущая"),
+    "fdProcessing": MessageLookupByLibrary.simpleMessage("Обработка"),
+    "fdQuarterly": MessageLookupByLibrary.simpleMessage("Квартал"),
+    "fdRateLimited": MessageLookupByLibrary.simpleMessage(
+      "Слишком много запросов. Повторите позже.",
+    ),
+    "fdRefresh": MessageLookupByLibrary.simpleMessage("Обновить"),
+    "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
+      "Регистрация или сброс пароля на сайте",
+    ),
+    "fdRemaining": MessageLookupByLibrary.simpleMessage(
+      "Остаток трафика за период",
+    ),
+    "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
+      "Операция не выполнена. Повторите попытку.",
+    ),
+    "fdRequired": MessageLookupByLibrary.simpleMessage("Обязательное поле"),
+    "fdSemiannual": MessageLookupByLibrary.simpleMessage("Полгода"),
+    "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
+      "Сессия истекла. Войдите снова.",
+    ),
+    "fdShop": MessageLookupByLibrary.simpleMessage("Тарифы"),
+    "fdSupport": MessageLookupByLibrary.simpleMessage(
+      "Поддержка и управление аккаунтом",
+    ),
+    "fdSync": MessageLookupByLibrary.simpleMessage("Синхронизировать подписку"),
+    "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось обновить подписку. Повторите синхронизацию перед подключением.",
+    ),
+    "fdTriennial": MessageLookupByLibrary.simpleMessage("Три года"),
+    "fdUnknown": MessageLookupByLibrary.simpleMessage("Неизвестно"),
+    "fdUnpaid": MessageLookupByLibrary.simpleMessage("Ожидает оплаты"),
+    "fdValidationError": MessageLookupByLibrary.simpleMessage(
+      "Проверьте почту и пароль или пройдите проверку на сайте.",
+    ),
+    "fdWallet": MessageLookupByLibrary.simpleMessage("Баланс кошелька"),
+    "fdWebAccount": MessageLookupByLibrary.simpleMessage("Управление на сайте"),
+    "fdWebAccountHint": MessageLookupByLibrary.simpleMessage(
+      "Продление, заказы и управление аккаунтом доступны на сайте.",
+    ),
+    "fdWelcome": MessageLookupByLibrary.simpleMessage(
+      "Войдите для подключения и выбора узлов",
+    ),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("Точная передача"),
     "file": MessageLookupByLibrary.simpleMessage("Файл"),
     "fileDesc": MessageLookupByLibrary.simpleMessage(
@@ -755,9 +862,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputRuleContent": MessageLookupByLibrary.simpleMessage(
       "Введите содержимое правила",
     ),
-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
-      "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
-    ),
+    "installedAppsPermissionDeniedMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
+        ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "Эта система не выдаёт список установленных приложений без разрешения. Предоставьте его, чтобы настроить прокси для отдельных приложений.",
     ),

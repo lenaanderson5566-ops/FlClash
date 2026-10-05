@@ -18,6 +18,7 @@ class BackupAction extends _$BackupAction {
   }
 
   Future<bool> restore(RestoreOption option, BackupFetch fetch) {
+    if (!V2BoardConfig.allowProfileImports) return Future.value(false);
     return _withWorkDir((workDir) async {
       final archivePath = await fetch(join(workDir, 'download.zip'));
       if (archivePath == null) {
@@ -93,6 +94,7 @@ class BackupAction extends _$BackupAction {
     String? stagingDirPath,
   }) async {
     final configMap = data.configMap;
+    if (!V2BoardConfig.allowProfileImports) return;
     final config = option == RestoreOption.onlyProfiles || configMap == null
         ? null
         : Config.fromJson(configMap);

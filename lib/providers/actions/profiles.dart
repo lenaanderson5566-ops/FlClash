@@ -40,6 +40,7 @@ class ProfilesAction extends _$ProfilesAction {
   }
 
   Future<void> autoUpdateProfiles() async {
+    if (!V2BoardConfig.allowProfileImports) return;
     for (final profile in ref.read(profilesProvider)) {
       if (!profile.autoUpdate) continue;
       final isNotNeedUpdate = profile.lastUpdateDate
@@ -127,6 +128,7 @@ class ProfilesAction extends _$ProfilesAction {
   }
 
   Future<void> addProfileFormFile() async {
+    if (!V2BoardConfig.allowProfileImports) return;
     final platformFile = await globalState.safeRun(picker.pickerFile);
     if (platformFile == null) return;
     final bytes = await platformFile.readBytes();
@@ -147,6 +149,7 @@ class ProfilesAction extends _$ProfilesAction {
   }
 
   Future<void> addProfileFormURL(String url, {String? label}) async {
+    if (!V2BoardConfig.allowProfileImports) return;
     if (globalState.navigatorKey.currentState?.canPop() ?? false) {
       globalState.navigatorKey.currentState?.popUntil((route) => route.isFirst);
     }
@@ -174,6 +177,7 @@ class ProfilesAction extends _$ProfilesAction {
   }
 
   Future<void> addProfileFormQrCode() async {
+    if (!V2BoardConfig.allowProfileImports) return;
     final url = await globalState.safeRun(picker.pickerConfigQRCode);
     if (url == null) return;
     unawaited(addProfileFormURL(url));

@@ -130,7 +130,9 @@ class SetupAction extends _$SetupAction {
     if (system.isAndroid) {
       await _updateStartTime();
     }
-    final shouldRun = _isRunning || ref.read(appSettingProvider).autoRun;
+    final shouldRun =
+        _isRunning ||
+        (!V2BoardConfig.enabled && ref.read(appSettingProvider).autoRun);
     if (shouldRun) {
       await setRunning(true, initialize: true);
     } else {
@@ -139,6 +141,13 @@ class SetupAction extends _$SetupAction {
   }
 
   Future<bool> setRunning(bool running, {bool initialize = false}) {
+    if (running &&
+        V2BoardConfig.enabled &&
+        (!ref.read(v2BoardAccessProvider) ||
+            ref.read(currentProfileProvider)?.label !=
+                V2BoardConfig.managedProfileLabel)) {
+      return Future.value(false);
+    }
     if (running && !initialize && !ref.read(initProvider)) {
       return Future.value(true);
     }

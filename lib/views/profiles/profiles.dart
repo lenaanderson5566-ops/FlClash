@@ -12,6 +12,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fl_clash/v2board/config.dart';
 
 import 'add.dart';
 import 'edit.dart';
@@ -89,6 +90,7 @@ class _ProfilesViewState extends ConsumerState<ProfilesView> {
 
   @override
   Widget build(BuildContext context) {
+    if (!V2BoardConfig.allowProfileImports) return const SizedBox.shrink();
     return Consumer(
       builder: (_, ref, _) {
         final appLocalizations = context.appLocalizations;

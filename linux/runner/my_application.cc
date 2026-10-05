@@ -1,6 +1,7 @@
 #include "my_application.h"
 
 #include <flutter_linux/flutter_linux.h>
+#include <cstring>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
@@ -46,11 +47,11 @@ static void my_application_activate(GApplication* application) {
   if (use_header_bar) {
     GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
     gtk_widget_show(GTK_WIDGET(header_bar));
-    gtk_header_bar_set_title(header_bar, "FlClash");
+    gtk_header_bar_set_title(header_bar, "fastai");
     gtk_header_bar_set_show_close_button(header_bar, TRUE);
     gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
   } else {
-    gtk_window_set_title(window, "FlClash");
+    gtk_window_set_title(window, "fastai");
   }
 
   gtk_window_set_default_size(window, 680, 580);
@@ -76,6 +77,19 @@ static void my_application_activate(GApplication* application) {
 }
 
 // Implements GApplication::command_line.
+static gboolean my_application_local_command_line(GApplication* application,
+                                                 gchar*** arguments,
+                                                 gint* exit_status) {
+  for (guint i = 1; (*arguments)[i] != nullptr; ++i) {
+    if (std::strstr((*arguments)[i], "://") != nullptr) {
+      *exit_status = 0;
+      return TRUE;
+    }
+  }
+  return G_APPLICATION_CLASS(my_application_parent_class)->local_command_line(
+      application, arguments, exit_status);
+}
+
 static gint my_application_command_line(GApplication* application, GApplicationCommandLine* command_line) {
   MyApplication* self = MY_APPLICATION(application);
   if (self->dart_entrypoint_arguments == nullptr) {
@@ -134,6 +148,7 @@ static void my_application_dispose(GObject* object) {
 
 static void my_application_class_init(MyApplicationClass* klass) {
   G_APPLICATION_CLASS(klass)->activate = my_application_activate;
+  G_APPLICATION_CLASS(klass)->local_command_line = my_application_local_command_line;
   G_APPLICATION_CLASS(klass)->command_line = my_application_command_line;
   G_APPLICATION_CLASS(klass)->before_emit = my_application_before_emit;
   G_APPLICATION_CLASS(klass)->after_emit = my_application_after_emit;

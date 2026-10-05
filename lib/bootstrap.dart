@@ -16,6 +16,7 @@ import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fl_clash/v2board/config.dart';
 import 'package:fl_clash/views/disclaimer.dart';
 import 'package:fl_clash/views/navigation.dart';
 import 'package:material_ui/material_ui.dart';
@@ -237,6 +238,7 @@ class Bootstrap {
   }
 
   Future<void> _handlerDisclaimer() async {
+    if (V2BoardConfig.enabled) return;
     if (_container.read(
       appSettingProvider.select((state) => state.disclaimerAccepted),
     )) {
