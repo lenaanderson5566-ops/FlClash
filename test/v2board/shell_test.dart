@@ -1,4 +1,6 @@
 import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/common/theme.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/v2board/update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -86,6 +88,7 @@ void main() {
     WidgetTester tester,
     V2BoardApi? api, {
     FastaiRelease? release,
+    bool desktopLayout = false,
   }) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -96,13 +99,21 @@ void main() {
           runTimeProvider.overrideWithBuild((_, _) => null),
         ],
         child: MaterialApp(
+          builder: (context, child) {
+            globalState.measure = Measure.of(context, 1);
+            globalState.theme = CommonTheme.of(context, 1);
+            return child!;
+          },
           theme: ThemeData(brightness: Brightness.dark),
           locale: const Locale('en'),
           localizationsDelegates: const [
             AppLocalizations.delegate,
             ...GlobalMaterialLocalizations.delegates,
           ],
-          home: V2BoardShell(session: _Session(api)),
+          home: V2BoardShell(
+            session: _Session(api),
+            desktopLayout: desktopLayout,
+          ),
         ),
       ),
     );
@@ -113,13 +124,46 @@ void main() {
     tester,
   ) async {
     await show(tester, null);
+    expect(find.byType(TextFormField), findsNothing);
+    await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+    await tester.pumpAndSettle();
     expect(find.text('FastAI'), findsNWidgets(2));
     final theme = Theme.of(tester.element(find.byType(TextFormField).first));
     expect(theme.brightness, Brightness.light);
     expect(theme.colorScheme.primary, const Color(0xFF153B70));
     expect(theme.scaffoldBackgroundColor, Colors.white);
     expect(find.byType(TextFormField), findsNWidgets(2));
+    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('desktop guests browse navigation and sign in only to connect', (
+    tester,
+  ) async {
+    await show(tester, null, desktopLayout: true);
+    expect(find.byType(NavigationRail), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(TextFormField), findsNothing);
+    expect(find.widgetWithText(FilledButton, 'Connect'), findsOneWidget);
+    await tester.tap(find.text('Proxies'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TextFormField), findsNothing);
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TextFormField), findsNWidgets(2));
+    await tester.tap(find.text('Connection').first);
+    await tester.pumpAndSettle();
+    expect(find.byType(TextFormField), findsNothing);
+    await tester.tap(find.text('Settings'));
+    await tester.pumpAndSettle();
+    expect(find.text('Language'), findsOneWidget);
+    expect(find.byType(TextFormField), findsNothing);
+    await tester.tap(find.text('Connection').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TextFormField), findsNWidgets(2));
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -148,7 +192,7 @@ void main() {
             .onPressed,
         isNull,
       );
-      expect(find.byType(NavigationDestination), findsNWidgets(3));
+      expect(find.byType(NavigationDestination), findsNWidgets(4));
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
@@ -163,6 +207,10 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     await show(tester, null);
+    await tester.ensureVisible(find.widgetWithText(FilledButton, 'Connect'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+    await tester.pumpAndSettle();
     expect(find.byType(TextFormField), findsNWidgets(2));
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
@@ -177,11 +225,11 @@ void main() {
     expect(find.text('test@example.com'), findsOneWidget);
     expect(find.text('Manage on website'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Settings'),
+      find.widgetWithText(ListTile, 'Settings'),
       120,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Settings'), findsOneWidget);
+    expect(find.widgetWithText(ListTile, 'Settings'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -190,7 +238,7 @@ void main() {
     tester,
   ) async {
     await show(tester, _Api(false));
-    expect(find.byType(NavigationDestination), findsNWidgets(3));
+    expect(find.byType(NavigationDestination), findsNWidgets(4));
     final connect = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Connect'),
     );
@@ -227,7 +275,7 @@ void main() {
         scrollable: find.byType(Scrollable).first,
       );
       expect(find.byType(SegmentedButton<Mode>), findsOneWidget);
-      expect(find.byType(NavigationDestination), findsNWidgets(3));
+      expect(find.byType(NavigationDestination), findsNWidgets(4));
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     },

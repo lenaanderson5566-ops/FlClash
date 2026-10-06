@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 
 import 'package:fastai/common/common.dart';
 import 'package:fastai/icons/icons.dart';
@@ -21,9 +22,14 @@ import 'update.dart';
 import 'theme.dart';
 
 class V2BoardShell extends StatelessWidget {
-  const V2BoardShell({super.key, this.session = const V2BoardSession()});
+  const V2BoardShell({
+    super.key,
+    this.session = const V2BoardSession(),
+    this.desktopLayout,
+  });
 
   final V2BoardSession session;
+  final bool? desktopLayout;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +45,22 @@ class V2BoardShell extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
         ),
       ),
-      child: _V2BoardContent(session: session),
+      child: _V2BoardContent(
+        session: session,
+        desktopLayout:
+            desktopLayout ??
+            (defaultTargetPlatform == TargetPlatform.windows ||
+                defaultTargetPlatform == TargetPlatform.macOS),
+      ),
     );
   }
 }
 
 class _V2BoardContent extends ConsumerStatefulWidget {
-  const _V2BoardContent({required this.session});
+  const _V2BoardContent({required this.session, required this.desktopLayout});
 
   final V2BoardSession session;
+  final bool desktopLayout;
 
   @override
   ConsumerState<_V2BoardContent> createState() => _V2BoardShellState();
@@ -64,6 +77,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   bool _busy = true;
   String? _error;
   int _tab = 0;
+  bool _showLogin = false;
   Future<void>? _forgetting;
   Timer? _accountTimer;
 
@@ -210,6 +224,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         if (!mounted) return;
         await _session.save(api);
         await _syncAvailable();
+        if (mounted) setState(() => _showLogin = false);
       } catch (_) {
         if (_api != api) api.close();
         rethrow;
@@ -240,6 +255,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _api = null;
     _account = null;
     _tab = 0;
+    _showLogin = false;
     try {
       await _profile.clear();
     } finally {
@@ -258,6 +274,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Future<void> _sync({bool connect = false}) async {
+    if (_api == null) {
+      _requestLogin();
+      return;
+    }
     await _run(() async {
       await _refresh();
       if (!mounted || _account?.active != true) return;
@@ -398,15 +418,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Widget _overview() {
     final l = context.appLocalizations;
     final account = _account;
-    if (account == null) {
-      return Center(
-        child: FilledButton(
-          onPressed: _busy ? null : () => _run(_refresh),
-          child: Text(l.fdRefresh),
-        ),
-      );
-    }
-    final status = switch (account.status) {
+    final status = switch (account?.status) {
+      null => l.fdWelcome,
       'active' => l.fdActive,
       'banned' => l.fdBanned,
       'noPlan' => l.fdNoPlan,
@@ -414,7 +427,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       _ => l.fdExpired,
     };
     final canConnect =
-        account.active && ref.watch(fastaiReleaseProvider)?.required != true;
+        account?.active == true &&
+        ref.watch(fastaiReleaseProvider)?.required != true;
     final running = ref.watch(isStartProvider);
     final mode = ref.watch(patchClashConfigProvider.select((s) => s.mode));
     return ListView(
@@ -456,33 +470,45 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 Text(status, textAlign: TextAlign.center),
                 const SizedBox(height: 12),
                 TextButton.icon(
-                  onPressed: _busy || !canConnect
-                      ? null
-                      : () => setState(() => _tab = 1),
+                  onPressed: _busy ? null : () => setState(() => _tab = 1),
                   icon: const GlyphIcon(AppGlyphs.proxies),
                   label: Text(l.fdChooseRoute),
                 ),
                 const SizedBox(height: 12),
-                FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(52),
+                Center(
+                  child: SizedBox(
+                    width: 168,
+                    height: 168,
+                    child: FilledButton(
+                      style: FilledButton.styleFrom(shape: AppShape.circle),
+                      onPressed: _busy
+                          ? null
+                          : _api == null
+                          ? _requestLogin
+                          : running
+                          ? () => _run(() async {
+                              await ref
+                                  .read(setupActionProvider.notifier)
+                                  .setRunning(false);
+                            })
+                          : canConnect
+                          ? () => _sync(connect: true)
+                          : null,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const GlyphIcon(AppGlyphs.bolt, size: 48, fill: 1),
+                          const SizedBox(height: 12),
+                          Text(running ? l.fdDisconnect : l.fdConnect),
+                        ],
+                      ),
+                    ),
                   ),
-                  onPressed: _busy
-                      ? null
-                      : running
-                      ? () => _run(() async {
-                          await ref
-                              .read(setupActionProvider.notifier)
-                              .setRunning(false);
-                        })
-                      : canConnect
-                      ? () => _sync(connect: true)
-                      : null,
-                  icon: const GlyphIcon(AppGlyphs.proxies, fill: 1),
-                  label: Text(running ? l.fdDisconnect : l.fdConnect),
                 ),
                 TextButton(
-                  onPressed: _busy || !canConnect ? null : () => _sync(),
+                  onPressed: _busy || (_api != null && !canConnect)
+                      ? null
+                      : () => _sync(),
                   child: Text(l.fdSync),
                 ),
               ],
@@ -502,7 +528,12 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                   children: [
                     const GlyphIcon(AppGlyphs.proxies),
                     const SizedBox(width: 10),
-                    Text(l.outboundMode, style: context.textTheme.titleSmall),
+                    Expanded(
+                      child: Text(
+                        l.outboundMode,
+                        style: context.textTheme.titleSmall,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -515,6 +546,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                   onSelectionChanged: _busy
                       ? null
                       : (values) {
+                          if (_api == null) {
+                            _requestLogin();
+                            return;
+                          }
                           ref
                               .read(setupActionProvider.notifier)
                               .changeMode(values.single);
@@ -525,26 +560,27 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           ),
         ),
         const SizedBox(height: 16),
-        Card(
-          elevation: 0,
-          color: context.colorScheme.surfaceContainerLowest,
-          child: Column(
-            children: [
-              _metric(l.fdRemaining, _bytes(account.remainingBytes)),
-              _metric(l.fdCreditBalance, _bytes(account.creditBytes)),
-              _metric(
-                l.fdExpiry,
-                account.expiresAt?.toLocal().toString().split(' ').first ??
-                    l.fdNoExpiry,
-              ),
-              _metric(
-                l.fdDevices,
-                '${account.subscription['onlineDevices'] ?? 0} / ${account.subscription['deviceLimit'] ?? '—'}',
-              ),
-            ],
+        if (account != null)
+          Card(
+            elevation: 0,
+            color: context.colorScheme.surfaceContainerLowest,
+            child: Column(
+              children: [
+                _metric(l.fdRemaining, _bytes(account.remainingBytes)),
+                _metric(l.fdCreditBalance, _bytes(account.creditBytes)),
+                _metric(
+                  l.fdExpiry,
+                  account.expiresAt?.toLocal().toString().split(' ').first ??
+                      l.fdNoExpiry,
+                ),
+                _metric(
+                  l.fdDevices,
+                  '${account.subscription['onlineDevices'] ?? 0} / ${account.subscription['deviceLimit'] ?? '—'}',
+                ),
+              ],
+            ),
           ),
-        ),
-        if (!account.active)
+        if (account != null && !account.active)
           TextButton(
             onPressed: _busy ? null : () => _run(_portal),
             child: Text(l.fdWebAccount),
@@ -603,6 +639,83 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     );
   }
 
+  void _requestLogin() => setState(() => _showLogin = true);
+
+  void _selectPage(int index) => setState(() {
+    _tab = index;
+    _showLogin = false;
+    _error = null;
+  });
+
+  Widget _page() {
+    if (_showLogin) return _loginView();
+    return switch (_tab) {
+      0 => _overview(),
+      1 =>
+        _api == null
+            ? Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const GlyphIcon(AppGlyphs.proxies, size: 48),
+                    const SizedBox(height: 16),
+                    Text(
+                      context.appLocalizations.fdChooseRoute,
+                      style: context.textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: _busy ? null : _requestLogin,
+                      child: Text(context.appLocalizations.fdLogin),
+                    ),
+                  ],
+                ),
+              )
+            : _account?.active == true
+            ? const ProxiesView()
+            : Center(child: Text(context.appLocalizations.fdNodesUnavailable)),
+      2 => _api == null ? _loginView() : _myAccount(),
+      _ => const ToolsView(),
+    };
+  }
+
+  Widget _desktopBody() {
+    final l = context.appLocalizations;
+    return LayoutBuilder(
+      builder: (context, constraints) => Row(
+        children: [
+          NavigationRail(
+            extended: constraints.maxWidth >= 720,
+            minExtendedWidth: 180,
+            backgroundColor: context.colorScheme.primaryContainer,
+            selectedIndex: _tab,
+            onDestinationSelected: _busy ? null : _selectPage,
+            destinations: [
+              NavigationRailDestination(
+                icon: const GlyphIcon(AppGlyphs.dashboard),
+                label: Text(l.fdConnection),
+              ),
+              NavigationRailDestination(
+                icon: const GlyphIcon(AppGlyphs.proxies),
+                label: Text(l.proxies),
+              ),
+              NavigationRailDestination(
+                icon: const GlyphIcon(AppGlyphs.account),
+                label: Text(l.account),
+              ),
+              NavigationRailDestination(
+                icon: const GlyphIcon(AppGlyphs.settings),
+                label: Text(l.settings),
+              ),
+            ],
+          ),
+          const VerticalDivider(width: 1),
+          Expanded(child: _page()),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
@@ -618,6 +731,18 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       appBar: AppBar(
         title: const Text(V2BoardConfig.appName),
         actions: [
+          if (_showLogin)
+            IconButton(
+              tooltip: l.fdConnection,
+              onPressed: () => _selectPage(0),
+              icon: const GlyphIcon(AppGlyphs.dashboard),
+            ),
+          if (!signedIn && !_showLogin)
+            TextButton(
+              onPressed: _busy ? null : _requestLogin,
+              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              child: Text(l.fdLogin),
+            ),
           if (signedIn)
             IconButton(
               tooltip: l.fdRefresh,
@@ -661,26 +786,13 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 ),
               ),
             ),
-          Expanded(
-            child: !signedIn
-                ? _loginView()
-                : switch (_tab) {
-                    0 => _overview(),
-                    1 =>
-                      _account?.active == true
-                          ? const ProxiesView()
-                          : Center(child: Text(l.fdNodesUnavailable)),
-                    _ => _myAccount(),
-                  },
-          ),
+          Expanded(child: widget.desktopLayout ? _desktopBody() : _page()),
         ],
       ),
-      bottomNavigationBar: signedIn
+      bottomNavigationBar: !widget.desktopLayout
           ? NavigationBar(
               selectedIndex: _tab,
-              onDestinationSelected: _busy
-                  ? null
-                  : (index) => setState(() => _tab = index),
+              onDestinationSelected: _busy ? null : _selectPage,
               destinations: [
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.dashboard),
@@ -693,6 +805,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.account),
                   label: l.account,
+                ),
+                NavigationDestination(
+                  icon: const GlyphIcon(AppGlyphs.settings),
+                  label: l.settings,
                 ),
               ],
             )
