@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 
 import 'config/advanced.dart';
+import 'dashboard/widgets/service_status.dart';
 import 'developer.dart';
 import 'disclaimer.dart';
 
@@ -60,6 +61,12 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: context.appLocalizations.settings,
       items: [
         const _LocaleItem(),
+        ListItem(
+          leading: const GlyphIcon(AppGlyphs.networkCheck),
+          title: Text(context.appLocalizations.networkDetection),
+          subtitle: Text(context.appLocalizations.serviceStatus),
+          onTap: () => showServiceStatusSheet(context),
+        ),
         if (system.isAndroid) const _AccessItem(),
         const _AdvancedConfigItem(),
         const _GeneralItem(),

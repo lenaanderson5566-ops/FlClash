@@ -80,7 +80,8 @@ List<DashboardWidget> dashboardWidgetsSafeFormJson(
     'dashboard widgets',
     () =>
         dashboardWidgets
-            ?.map(
+            ?.where((value) => value != 'dnsQueries' && value != 'requests')
+            .map(
               (e) => e == _legacyOutboundModeV2
                   ? DashboardWidget.outboundMode
                   : $enumDecode(_$DashboardWidgetEnumMap, e),

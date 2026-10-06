@@ -129,8 +129,6 @@ const _$DashboardWidgetEnumMap = {
   DashboardWidget.intranetIp: 'intranetIp',
   DashboardWidget.memoryInfo: 'memoryInfo',
   DashboardWidget.serviceStatus: 'serviceStatus',
-  DashboardWidget.dnsQueries: 'dnsQueries',
-  DashboardWidget.requests: 'requests',
   DashboardWidget.connections: 'connections',
   DashboardWidget.overrideDnsButton: 'overrideDnsButton',
   DashboardWidget.overrideNtpButton: 'overrideNtpButton',

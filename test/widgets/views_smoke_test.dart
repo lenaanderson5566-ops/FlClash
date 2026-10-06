@@ -15,6 +15,7 @@ import 'package:fastai/views/proxies/list.dart';
 import 'package:fastai/views/proxies/tab.dart';
 import 'package:fastai/views/proxies/setting.dart';
 import 'package:fastai/views/views.dart';
+import 'package:fastai/views/dashboard/widgets/service_status.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,8 +32,6 @@ void main() {
     'dashboard': const DashboardView(),
     'proxies': const ProxiesView(),
     'profiles': const ProfilesView(),
-    'requests': const RequestsView(),
-    'dns queries': const DnsQueriesView(),
     'logs': const LogsView(),
     'tools': const ToolsView(),
     'general settings': const GeneralView(),
@@ -77,6 +76,9 @@ void main() {
       if (entry.key == 'tools') {
         expect(find.text('Backup and Restore'), findsNothing);
         expect(find.text('About'), findsNothing);
+        expect(find.text('DNS queries'), findsNothing);
+        expect(find.text('Recent requests'), findsNothing);
+        expect(find.text('Network detection'), findsOneWidget);
       }
       if (entry.key == 'general settings') {
         expect(find.text('User-Agent'), findsNothing);
@@ -106,6 +108,7 @@ void main() {
   }
 
   final toolDestinations = <String, Type>{
+    'Network detection': ServiceStatusSheet,
     'General': GeneralView,
     'Advanced configuration': AdvancedConfigView,
   };

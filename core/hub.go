@@ -831,19 +831,10 @@ func init() {
 			},
 		})
 	}
-	statistic.DefaultRequestNotify = func(c statistic.Tracker) {
-		notifyProbeRoute(c)
-		sendMessage(Message{
-			Type: RequestMessage,
-			Data: c,
-		})
-	}
-	dns.DefaultQueryNotify = func(record dns.QueryRecord) {
-		sendMessage(Message{
-			Type: DnsMessage,
-			Data: newDnsQuery(record),
-		})
-	}
+	statistic.DefaultRequestNotify = notifyProbeRoute
+	// FastAI does not retain or stream browsing and DNS query histories.
+	// The request hook remains solely for explicit service-probe routing.
+	dns.DefaultQueryNotify = nil
 	executor.DefaultProviderLoadedHook = func(providerName string) {
 		scheduleReclaimOwnership()
 		sendMessage(Message{

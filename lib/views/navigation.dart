@@ -39,25 +39,11 @@ class Navigation implements NavigationPort {
               const ProfilesView(key: GlobalObjectKey(PageLabel.profiles)),
         ),
       NavigationItem(
-        glyph: AppGlyphs.requests,
-        label: PageLabel.requests,
-        builder: (_) =>
-            const RequestsView(key: GlobalObjectKey(PageLabel.requests)),
-        modes: [NavigationItemMode.moreFull],
-      ),
-      NavigationItem(
         glyph: AppGlyphs.connections,
         label: PageLabel.connections,
         builder: (_) =>
             const ConnectionsView(key: GlobalObjectKey(PageLabel.connections)),
         modes: [NavigationItemMode.desktop, NavigationItemMode.moreFull],
-      ),
-      NavigationItem(
-        glyph: AppGlyphs.dns,
-        label: PageLabel.dns,
-        builder: (_) =>
-            const DnsQueriesView(key: GlobalObjectKey(PageLabel.dns)),
-        modes: [NavigationItemMode.moreFull],
       ),
       NavigationItem(
         glyph: AppGlyphs.logs,

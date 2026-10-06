@@ -441,8 +441,6 @@ enum DashboardWidget {
   intranetIp,
   memoryInfo,
   serviceStatus,
-  dnsQueries,
-  requests,
   connections,
   overrideDnsButton,
   overrideNtpButton,

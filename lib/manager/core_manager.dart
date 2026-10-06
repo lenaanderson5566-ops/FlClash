@@ -92,20 +92,6 @@ class _CoreContainerState extends ConsumerState<CoreManager>
   }
 
   @override
-  void onRequest(TrackerInfo trackerInfo) async {
-    ref.read(requestsProvider.notifier).addRequest(trackerInfo);
-    ref.read(requestCountProvider.notifier).update((count) => count + 1);
-    super.onRequest(trackerInfo);
-  }
-
-  @override
-  void onDns(DnsQuery dnsQuery) {
-    ref.read(dnsQueriesProvider.notifier).addQuery(dnsQuery);
-    ref.read(dnsQueryCountProvider.notifier).update((count) => count + 1);
-    super.onDns(dnsQuery);
-  }
-
-  @override
   Future<void> onLoaded(String providerName) async {
     final provider = await _core.getExternalProvider(providerName);
     if (!mounted) {

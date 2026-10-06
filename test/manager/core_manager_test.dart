@@ -282,7 +282,33 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('core dns queries are recorded and counted', (tester) async {
+  testWidgets('unsolicited request history events are not retained', (
+    tester,
+  ) async {
+    final container = await _pumpCoreManager(tester, _coreInterface());
+    final request = TrackerInfo(
+      id: 'private-request',
+      start: DateTime.utc(2026),
+      metadata: const Metadata(network: 'tcp', host: 'private.example'),
+      chains: const ['Proxy'],
+      rule: 'DOMAIN',
+      rulePayload: 'private.example',
+    );
+    coreEventManager.sendEvent(
+      CoreEvent(
+        type: CoreEventType.request,
+        data: {...request.toJson(), 'metadata': request.metadata.toJson()},
+      ),
+    );
+    await tester.pump();
+    expect(container.read(requestsProvider).length, 0);
+    expect(container.read(requestCountProvider), 0);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('unsolicited DNS history events are not retained', (
+    tester,
+  ) async {
     final coreInterface = _coreInterface();
     final container = await _pumpCoreManager(tester, coreInterface);
 
@@ -304,9 +330,9 @@ void main() {
 
     expect(
       container.read(dnsQueriesProvider).list.map((query) => query.domain),
-      ['alpha.test', 'beta.test'],
+      isEmpty,
     );
-    expect(container.read(dnsQueryCountProvider), 2);
+    expect(container.read(dnsQueryCountProvider), 0);
 
     await tester.pumpWidget(const SizedBox.shrink());
   });

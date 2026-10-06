@@ -55,16 +55,6 @@ extension DashboardWidgetView on DashboardWidget {
       crossAxisCellCount: 8,
       child: ServiceStatusCard(),
     ),
-    DashboardWidget.dnsQueries => const GridItem(
-      key: ValueKey(DashboardWidget.dnsQueries),
-      crossAxisCellCount: 4,
-      child: DnsQueriesCard(),
-    ),
-    DashboardWidget.requests => const GridItem(
-      key: ValueKey(DashboardWidget.requests),
-      crossAxisCellCount: 4,
-      child: RequestsCard(),
-    ),
     DashboardWidget.connections => const GridItem(
       key: ValueKey(DashboardWidget.connections),
       crossAxisCellCount: 4,

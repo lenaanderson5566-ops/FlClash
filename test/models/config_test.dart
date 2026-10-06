@@ -146,6 +146,24 @@ void main() {
       ]);
     });
 
+    test(
+      'removed history cards are discarded without losing other saved cards',
+      () {
+        final restored = AppSettingProps.fromJson({
+          'dashboardWidgets': [
+            'networkSpeed',
+            'dnsQueries',
+            'requests',
+            'trafficUsage',
+          ],
+        });
+        expect(restored.dashboardWidgets, [
+          DashboardWidget.networkSpeed,
+          DashboardWidget.trafficUsage,
+        ]);
+      },
+    );
+
     test('every dashboard widget survives round-trip', () {
       const props = AppSettingProps(dashboardWidgets: DashboardWidget.values);
       final restored = roundTrip(props.toJson, AppSettingProps.fromJson);
