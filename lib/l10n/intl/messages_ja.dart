@@ -561,7 +561,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("レポートをコピー"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("注文を確認"),
-    "fdCreditBalance": MessageLookupByLibrary.simpleMessage("追加容量の残高"),
+    "fdCreditBalance": MessageLookupByLibrary.simpleMessage("独立データ残量"),
+    "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
+      "独立データには独自の有効期限があり、期間リセットでは消去されません。利用可能な回線はアカウントの権利に従います。",
+    ),
     "fdCredits": MessageLookupByLibrary.simpleMessage("追加通信容量"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("オンライン端末 / 上限"),
@@ -600,6 +603,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "パネルに接続できません。ネットワークを確認してください。",
     ),
     "fdNext": MessageLookupByLibrary.simpleMessage("次のページ"),
+    "fdNextReset": MessageLookupByLibrary.simpleMessage("次回の自動リセット（現地時刻）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("期間の期限なし"),
     "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
       "一致する接続先がありません。絞り込みを解除してください。",
@@ -615,6 +619,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "支払い方法を選択してください。支払い後に更新して注文状態を確認してください。",
     ),
+    "fdPeriodQuota": MessageLookupByLibrary.simpleMessage("期間データ容量"),
+    "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("期間データ使用量"),
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("プロフィール"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("前のページ"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("処理中"),
@@ -633,6 +639,28 @@ class MessageLookup extends MessageLookupByLibrary {
       "リクエストがタイムアウトしました。ネットワークを確認して再試行してください。",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("必須項目です"),
+    "fdResetConfirm": MessageLookupByLibrary.simpleMessage(
+      "リセット権を1回使用して期間使用量をゼロにしますか？独立データ、プラン、契約期限は変更されません。",
+    ),
+    "fdResetCredits": MessageLookupByLibrary.simpleMessage("利用可能なリセット回数"),
+    "fdResetEmpty": MessageLookupByLibrary.simpleMessage("リセットする期間使用量はありません。"),
+    "fdResetHelp": MessageLookupByLibrary.simpleMessage(
+      "リセット権を1回消費して期間使用量をゼロにします。独立データと契約期限は変更されません。",
+    ),
+    "fdResetInactive": MessageLookupByLibrary.simpleMessage(
+      "有効な期間データプランが必要です。",
+    ),
+    "fdResetNoCredit": MessageLookupByLibrary.simpleMessage(
+      "利用可能なリセット権はありません。",
+    ),
+    "fdResetSuccess": MessageLookupByLibrary.simpleMessage(
+      "期間使用量をリセットし、アカウント情報を更新しました。",
+    ),
+    "fdResetTraffic": MessageLookupByLibrary.simpleMessage("期間データをリセット"),
+    "fdResetUnavailable": MessageLookupByLibrary.simpleMessage(
+      "リセット権を取得できません。アカウント情報を更新して再試行してください。",
+    ),
+    "fdRetryReset": MessageLookupByLibrary.simpleMessage("リセット結果を確認"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("6か月"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "セッションが切れました。再ログインしてください。",
@@ -648,6 +676,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdUnknown": MessageLookupByLibrary.simpleMessage("不明"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("支払い待ち"),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage("接続するには更新が必要です"),
+    "fdUseReset": MessageLookupByLibrary.simpleMessage("リセットを1回使用"),
     "fdValidationError": MessageLookupByLibrary.simpleMessage(
       "メールとパスワードを確認するか、公式サイトで認証してください。",
     ),

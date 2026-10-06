@@ -694,7 +694,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Подтвердить заказ"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
-      "Остаток пакета трафика",
+      "Остаток независимого трафика",
+    ),
+    "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
+      "Независимый трафик имеет собственный срок действия и не обнуляется при сбросе периода. Доступ определяется правами аккаунта.",
     ),
     "fdCredits": MessageLookupByLibrary.simpleMessage("Пакет трафика"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Текущий сервер"),
@@ -744,6 +747,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Панель недоступна. Проверьте сеть и повторите.",
     ),
     "fdNext": MessageLookupByLibrary.simpleMessage("Следующая"),
+    "fdNextReset": MessageLookupByLibrary.simpleMessage(
+      "Следующий автоматический сброс (местное время)",
+    ),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("Без срока периода"),
     "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
       "Нет подходящих серверов. Сбросьте фильтры.",
@@ -762,6 +768,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPay": MessageLookupByLibrary.simpleMessage("Оплатить"),
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "Выберите способ оплаты. После оплаты обновите страницу для проверки статуса заказа на сервере.",
+    ),
+    "fdPeriodQuota": MessageLookupByLibrary.simpleMessage("Трафик за период"),
+    "fdPeriodUsed": MessageLookupByLibrary.simpleMessage(
+      "Использовано за период",
     ),
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("Личный профиль"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("Предыдущая"),
@@ -785,6 +795,36 @@ class MessageLookup extends MessageLookupByLibrary {
       "Время ожидания истекло. Проверьте сеть и повторите попытку.",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("Обязательное поле"),
+    "fdResetConfirm": MessageLookupByLibrary.simpleMessage(
+      "Использовать один сброс для обнуления расхода за текущий период? Независимый трафик, тариф и срок подписки останутся прежними.",
+    ),
+    "fdResetCredits": MessageLookupByLibrary.simpleMessage(
+      "Доступные сбросы трафика",
+    ),
+    "fdResetEmpty": MessageLookupByLibrary.simpleMessage(
+      "Нет расхода за период для сброса.",
+    ),
+    "fdResetHelp": MessageLookupByLibrary.simpleMessage(
+      "Использует один доступный сброс для обнуления расхода за период. Независимый трафик и срок подписки не меняются.",
+    ),
+    "fdResetInactive": MessageLookupByLibrary.simpleMessage(
+      "Для сброса нужна действующая подписка с трафиком за период.",
+    ),
+    "fdResetNoCredit": MessageLookupByLibrary.simpleMessage(
+      "Нет доступных сбросов трафика.",
+    ),
+    "fdResetSuccess": MessageLookupByLibrary.simpleMessage(
+      "Расход за период сброшен. Данные аккаунта обновлены.",
+    ),
+    "fdResetTraffic": MessageLookupByLibrary.simpleMessage(
+      "Сбросить трафик периода",
+    ),
+    "fdResetUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Не удалось проверить доступные сбросы. Обновите данные аккаунта и повторите попытку.",
+    ),
+    "fdRetryReset": MessageLookupByLibrary.simpleMessage(
+      "Проверить результат сброса",
+    ),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Полгода"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Сессия истекла. Войдите снова.",
@@ -803,6 +843,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("Ожидает оплаты"),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Для подключения требуется обновление",
+    ),
+    "fdUseReset": MessageLookupByLibrary.simpleMessage(
+      "Использовать один сброс",
     ),
     "fdValidationError": MessageLookupByLibrary.simpleMessage(
       "Проверьте почту и пароль или пройдите проверку на сайте.",

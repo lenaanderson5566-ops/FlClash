@@ -6598,10 +6598,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Traffic credit balance`
+  /// `Independent traffic remaining`
   String get fdCreditBalance {
     return Intl.message(
-      'Traffic credit balance',
+      'Independent traffic remaining',
       name: 'fdCreditBalance',
       desc: '',
       args: [],
@@ -7193,6 +7193,156 @@ class AppLocalizations {
     return Intl.message(
       'Diagnostic report copied',
       name: 'fdDiagnosticsCopied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Independent traffic has its own validity period and is not cleared by period resets. Access follows your account entitlement.`
+  String get fdCreditHelp {
+    return Intl.message(
+      'Independent traffic has its own validity period and is not cleared by period resets. Access follows your account entitlement.',
+      name: 'fdCreditHelp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period traffic used`
+  String get fdPeriodUsed {
+    return Intl.message(
+      'Period traffic used',
+      name: 'fdPeriodUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period traffic allowance`
+  String get fdPeriodQuota {
+    return Intl.message(
+      'Period traffic allowance',
+      name: 'fdPeriodQuota',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next automatic reset (local time)`
+  String get fdNextReset {
+    return Intl.message(
+      'Next automatic reset (local time)',
+      name: 'fdNextReset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset period traffic`
+  String get fdResetTraffic {
+    return Intl.message(
+      'Reset period traffic',
+      name: 'fdResetTraffic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available traffic resets`
+  String get fdResetCredits {
+    return Intl.message(
+      'Available traffic resets',
+      name: 'fdResetCredits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use one reset`
+  String get fdUseReset {
+    return Intl.message(
+      'Use one reset',
+      name: 'fdUseReset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uses one available reset to clear period usage. Independent traffic and the subscription expiry remain unchanged.`
+  String get fdResetHelp {
+    return Intl.message(
+      'Uses one available reset to clear period usage. Independent traffic and the subscription expiry remain unchanged.',
+      name: 'fdResetHelp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use one available reset to clear your current period usage? Independent traffic, your plan and subscription expiry will remain unchanged.`
+  String get fdResetConfirm {
+    return Intl.message(
+      'Use one available reset to clear your current period usage? Independent traffic, your plan and subscription expiry will remain unchanged.',
+      name: 'fdResetConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period traffic reset. Account information refreshed.`
+  String get fdResetSuccess {
+    return Intl.message(
+      'Period traffic reset. Account information refreshed.',
+      name: 'fdResetSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A valid subscription with period traffic is required.`
+  String get fdResetInactive {
+    return Intl.message(
+      'A valid subscription with period traffic is required.',
+      name: 'fdResetInactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No period usage needs to be reset.`
+  String get fdResetEmpty {
+    return Intl.message(
+      'No period usage needs to be reset.',
+      name: 'fdResetEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No traffic resets are available.`
+  String get fdResetNoCredit {
+    return Intl.message(
+      'No traffic resets are available.',
+      name: 'fdResetNoCredit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to check available resets. Refresh account information and retry.`
+  String get fdResetUnavailable {
+    return Intl.message(
+      'Unable to check available resets. Refresh account information and retry.',
+      name: 'fdResetUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check reset result`
+  String get fdRetryReset {
+    return Intl.message(
+      'Check reset result',
+      name: 'fdRetryReset',
       desc: '',
       args: [],
     );

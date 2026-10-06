@@ -3,6 +3,42 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fastai/v2board/account.dart';
 
 void main() {
+  test(
+    'independent credits stay usable after period expiry when the backend grants access',
+    () {
+      final account = V2BoardAccount(
+        {
+          'accountStatus': {'available': true, 'state': 'active'},
+        },
+        {
+          'active': false,
+          'quotaBytes': 1000,
+          'uploadedBytes': 600,
+          'creditBytes': 250,
+        },
+      );
+      expect(account.remainingBytes, 0);
+      expect(account.creditBytes, 250);
+      expect(account.availableBytes, 250);
+      expect(account.active, isTrue);
+      expect(account.periodActive, isFalse);
+    },
+  );
+  test('period usage never subtracts from the independent traffic balance', () {
+    final account = V2BoardAccount({}, {
+      'active': true,
+      'quotaBytes': 1000,
+      'uploadedBytes': 200,
+      'downloadedBytes': 300,
+      'creditBytes': 400,
+      'resetAt': '2026-11-01T00:00:00Z',
+    });
+    expect(account.remainingBytes, 500);
+    expect(account.creditBytes, 400);
+    expect(account.availableBytes, 900);
+    expect(account.resetAt, DateTime.utc(2026, 11));
+  });
+
   test('expired period allowance is unavailable even with unused bytes', () {
     final expired = V2BoardAccount({}, {
       'active': false,

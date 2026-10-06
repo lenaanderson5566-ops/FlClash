@@ -16,6 +16,8 @@ class ClientRequestDiagnostic {
              '/me/client-config',
              '/me/session',
              '/me/login-links',
+             '/me/usage-resets',
+             '/me/usage-resets/consumptions',
            }.contains(path)
            ? path
            : '/other',

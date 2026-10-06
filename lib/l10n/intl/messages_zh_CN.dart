@@ -512,7 +512,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("复制报告"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("确认下单"),
-    "fdCreditBalance": MessageLookupByLibrary.simpleMessage("流量包余额"),
+    "fdCreditBalance": MessageLookupByLibrary.simpleMessage("独立流量剩余"),
+    "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
+      "独立流量单独计量，有效期按购买记录为准，不随周期重置清除；可用线路由后台账号权益决定。",
+    ),
     "fdCredits": MessageLookupByLibrary.simpleMessage("流量包"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("当前线路"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("在线设备 / 设备上限"),
@@ -543,6 +546,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdMonthly": MessageLookupByLibrary.simpleMessage("月付"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage("无法访问面板，请检查网络后重试。"),
     "fdNext": MessageLookupByLibrary.simpleMessage("下一页"),
+    "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自动重置（本地时间）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("无周期到期时间"),
     "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
       "没有匹配的线路，清除筛选后查看全部线路。",
@@ -558,6 +562,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "选择下方支付方式。完成付款后，请刷新并以服务端订单状态为准。",
     ),
+    "fdPeriodQuota": MessageLookupByLibrary.simpleMessage("周期流量额度"),
+    "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("周期流量已用"),
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("个人资料"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("上一页"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("处理中"),
@@ -570,6 +576,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage("操作失败，请重试。"),
     "fdRequestTimeout": MessageLookupByLibrary.simpleMessage("请求超时，请检查网络后重试。"),
     "fdRequired": MessageLookupByLibrary.simpleMessage("请填写此项"),
+    "fdResetConfirm": MessageLookupByLibrary.simpleMessage(
+      "确认消耗一次可用重置次数，清零当前周期已用流量？独立流量、套餐及到期时间保持不变。",
+    ),
+    "fdResetCredits": MessageLookupByLibrary.simpleMessage("可用流量重置次数"),
+    "fdResetEmpty": MessageLookupByLibrary.simpleMessage("当前没有需要重置的周期已用流量。"),
+    "fdResetHelp": MessageLookupByLibrary.simpleMessage(
+      "消耗一次可用重置次数，清零周期已用流量；独立流量和套餐到期时间不变。",
+    ),
+    "fdResetInactive": MessageLookupByLibrary.simpleMessage("需要有效的周期流量套餐才能重置。"),
+    "fdResetNoCredit": MessageLookupByLibrary.simpleMessage("暂无可用流量重置次数。"),
+    "fdResetSuccess": MessageLookupByLibrary.simpleMessage("周期流量已重置，账号信息已刷新。"),
+    "fdResetTraffic": MessageLookupByLibrary.simpleMessage("重置周期流量"),
+    "fdResetUnavailable": MessageLookupByLibrary.simpleMessage(
+      "暂时无法获取重置权益，请刷新账号信息后重试。",
+    ),
+    "fdRetryReset": MessageLookupByLibrary.simpleMessage("确认重置结果"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("半年付"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage("登录已失效，请重新登录。"),
     "fdShop": MessageLookupByLibrary.simpleMessage("套餐"),
@@ -583,6 +605,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "请更新 FastAI 后继续连接",
     ),
+    "fdUseReset": MessageLookupByLibrary.simpleMessage("使用一次重置"),
     "fdValidationError": MessageLookupByLibrary.simpleMessage(
       "请检查邮箱和密码，或前往官网完成验证。",
     ),

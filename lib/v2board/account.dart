@@ -11,6 +11,10 @@ class V2BoardAccount {
       _integer(subscription['downloadedBytes']);
   int get totalBytes => _integer(subscription['quotaBytes']);
   int get creditBytes => _integer(subscription['creditBytes']);
+  bool get periodActive => subscription['active'] == true;
+  int get availableBytes => remainingBytes + creditBytes;
+  DateTime? get resetAt =>
+      DateTime.tryParse(subscription['resetAt'] as String? ?? '');
   int get remainingBytes => subscription['active'] == true
       ? (totalBytes - usedBytes).clamp(0, totalBytes)
       : 0;

@@ -669,7 +669,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("Copy report"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Confirm order"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
-      "Traffic credit balance",
+      "Independent traffic remaining",
+    ),
+    "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
+      "Independent traffic has its own validity period and is not cleared by period resets. Access follows your account entitlement.",
     ),
     "fdCredits": MessageLookupByLibrary.simpleMessage("Traffic credits"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
@@ -717,6 +720,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unable to reach the panel. Check your network and try again.",
     ),
     "fdNext": MessageLookupByLibrary.simpleMessage("Next page"),
+    "fdNextReset": MessageLookupByLibrary.simpleMessage(
+      "Next automatic reset (local time)",
+    ),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("No period expiry"),
     "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
       "No matching routes. Clear the filters to see all routes.",
@@ -736,6 +742,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "Pay with a method below. After completing payment, refresh to verify the server order status.",
     ),
+    "fdPeriodQuota": MessageLookupByLibrary.simpleMessage(
+      "Period traffic allowance",
+    ),
+    "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("Period traffic used"),
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage(
       "Personal profile",
     ),
@@ -762,6 +772,34 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRequired": MessageLookupByLibrary.simpleMessage(
       "This field is required",
     ),
+    "fdResetConfirm": MessageLookupByLibrary.simpleMessage(
+      "Use one available reset to clear your current period usage? Independent traffic, your plan and subscription expiry will remain unchanged.",
+    ),
+    "fdResetCredits": MessageLookupByLibrary.simpleMessage(
+      "Available traffic resets",
+    ),
+    "fdResetEmpty": MessageLookupByLibrary.simpleMessage(
+      "No period usage needs to be reset.",
+    ),
+    "fdResetHelp": MessageLookupByLibrary.simpleMessage(
+      "Uses one available reset to clear period usage. Independent traffic and the subscription expiry remain unchanged.",
+    ),
+    "fdResetInactive": MessageLookupByLibrary.simpleMessage(
+      "A valid subscription with period traffic is required.",
+    ),
+    "fdResetNoCredit": MessageLookupByLibrary.simpleMessage(
+      "No traffic resets are available.",
+    ),
+    "fdResetSuccess": MessageLookupByLibrary.simpleMessage(
+      "Period traffic reset. Account information refreshed.",
+    ),
+    "fdResetTraffic": MessageLookupByLibrary.simpleMessage(
+      "Reset period traffic",
+    ),
+    "fdResetUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Unable to check available resets. Refresh account information and retry.",
+    ),
+    "fdRetryReset": MessageLookupByLibrary.simpleMessage("Check reset result"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Semiannual"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Your session expired. Please sign in again.",
@@ -779,6 +817,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Update required to continue connecting",
     ),
+    "fdUseReset": MessageLookupByLibrary.simpleMessage("Use one reset"),
     "fdValidationError": MessageLookupByLibrary.simpleMessage(
       "Check your email and password or complete verification on the website.",
     ),

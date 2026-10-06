@@ -32,6 +32,13 @@ class _Api extends V2BoardApi {
   bool available;
   Completer<V10Object>? pendingAccount;
   Completer<Uint8List>? pendingConfig;
+  V10Object subscription = {};
+  V10Object resets = {
+    'available': 0,
+    'canReset': false,
+    'disabledReason': 'reset_no_credit',
+  };
+  int resetPosts = 0;
 
   @override
   Future<Uint8List> clientConfig({
@@ -50,6 +57,21 @@ class _Api extends V2BoardApi {
     V10Object? body,
   }) async {
     if (path == '/me' && pendingAccount != null) return pendingAccount!.future;
+    if (path == '/me/usage-resets') return resets;
+    if (path == '/me/usage-resets/consumptions') {
+      resetPosts++;
+      resets = {
+        'available': 0,
+        'canReset': false,
+        'disabledReason': 'reset_empty',
+      };
+      subscription = {
+        ...subscription,
+        'uploadedBytes': 0,
+        'downloadedBytes': 0,
+      };
+      return {'outcome': 'reset'};
+    }
     return path == '/me'
         ? {
             'email': 'test@example.com',
@@ -61,6 +83,7 @@ class _Api extends V2BoardApi {
         : {
             'active': available,
             'plan': {'name': 'Test plan'},
+            ...subscription,
           };
   }
 }
@@ -105,9 +128,13 @@ void main() {
           setupActionProvider.overrideWith(_Setup.new),
           fastaiReleaseProvider.overrideWith(() => _Release(release)),
           profilesProvider.overrideWith(() => TestProfiles([])),
+          viewSizeProvider.overrideWithBuild(
+            (_, _) => tester.view.physicalSize / tester.view.devicePixelRatio,
+          ),
           runTimeProvider.overrideWithBuild((_, _) => null),
         ],
         child: MaterialApp(
+          navigatorKey: rootNavigatorKey,
           builder: (context, child) {
             globalState.measure = Measure.of(context, 1);
             globalState.theme = CommonTheme.of(context, 1);
@@ -153,6 +180,13 @@ void main() {
         ),
         findsNothing,
       );
+      await tester.scrollUntilVisible(
+        find.text(
+          'Account information could not be refreshed. Connect will check your account again.',
+        ),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(
         find.text(
           'Account information could not be refreshed. Connect will check your account again.',
@@ -160,7 +194,11 @@ void main() {
         findsOneWidget,
       );
       api.pendingAccount = null;
-      await tester.ensureVisible(find.widgetWithText(TextButton, 'Refresh'));
+      await tester.scrollUntilVisible(
+        find.widgetWithText(TextButton, 'Refresh'),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(TextButton, 'Refresh'));
       await tester.pumpAndSettle();
@@ -259,6 +297,57 @@ void main() {
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox.shrink());
       }
+    },
+  );
+
+  testWidgets(
+    'account separates independent traffic and confirms a reset before submitting',
+    (tester) async {
+      final api = _Api(true)
+        ..subscription = {
+          'quotaBytes': 1073741824 * 10,
+          'uploadedBytes': 1073741824 * 2,
+          'creditBytes': 1073741824 * 5,
+          'resetAt': '2026-11-01T00:00:00Z',
+        }
+        ..resets = {'available': 1, 'canReset': true};
+      await show(tester, api, desktopLayout: true);
+      await tester.tap(find.text('Account'));
+      await tester.pumpAndSettle();
+      expect(find.text('Independent traffic remaining'), findsOneWidget);
+      expect(find.text('5.00 GB'), findsOneWidget);
+      expect(find.text('8.00 GB'), findsOneWidget);
+      expect(find.text('Next automatic reset (local time)'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.widgetWithText(OutlinedButton, 'Use one reset'),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(OutlinedButton, 'Use one reset'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          'Use one available reset to clear your current period usage? Independent traffic, your plan and subscription expiry will remain unchanged.',
+        ),
+        findsOneWidget,
+      );
+      expect(api.resetPosts, 0);
+      await tester.tap(find.widgetWithText(TextButton, 'Use one reset'));
+      await tester.pumpAndSettle();
+      expect(api.resetPosts, 1);
+      expect(api.subscription['creditBytes'], 1073741824 * 5);
+      expect(find.text('10.00 GB'), findsNWidgets(2));
+      expect(
+        tester
+            .widget<OutlinedButton>(
+              find.widgetWithText(OutlinedButton, 'Use one reset'),
+            )
+            .onPressed,
+        isNull,
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
     },
   );
 
@@ -424,6 +513,11 @@ void main() {
     await tester.tap(find.byType(NavigationDestination).at(3));
     await tester.pumpAndSettle();
     expect(find.text('test@example.com'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Manage on website'),
+      180,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Manage on website'), findsOneWidget);
     expect(find.text('Support and account services'), findsNothing);
     expect(find.widgetWithText(ListTile, 'Settings'), findsNothing);
@@ -452,6 +546,11 @@ void main() {
     await tester.scrollUntilVisible(
       find.text('Manage on website'),
       160,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.scrollUntilVisible(
+      find.text('Manage on website'),
+      180,
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('Manage on website'), findsOneWidget);

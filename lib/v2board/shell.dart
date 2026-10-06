@@ -14,6 +14,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'account.dart';
+import 'usage_reset.dart';
+import 'package:intl/intl.dart';
 import 'diagnostics.dart';
 import 'problem_message.dart';
 import 'api.dart';
@@ -78,6 +80,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   final _form = GlobalKey<FormState>();
   V2BoardApi? _api;
   V2BoardAccount? _account;
+  UsageResetSummary? _resets;
+  UsageResetOperation _resetOperation = UsageResetOperation();
+  bool _resetSummaryStale = false;
   bool _busy = true;
   String? _error;
   String? _errorCode;
@@ -245,6 +250,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       api.object('GET', '/me/subscription'),
     ]);
     if (!mounted || _api != api) return;
+    await _refreshResets(api);
+    if (!mounted || _api != api) return;
     _accountStale = false;
     _account = V2BoardAccount(data[0], data[1]);
     ref
@@ -257,6 +264,131 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         ref.read(isStartProvider)) {
       await ref.read(setupActionProvider.notifier).setRunning(false);
     }
+  }
+
+  Future<void> _refreshResets(V2BoardApi api) async {
+    try {
+      final data = await api.object('GET', '/me/usage-resets');
+      if (!mounted || _api != api) return;
+      _resets = UsageResetSummary(data);
+      _resetSummaryStale = false;
+    } on V2BoardProblem catch (error) {
+      if (error.sessionRejected) rethrow;
+      if (mounted && _api == api) _resetSummaryStale = true;
+    }
+  }
+
+  Future<void> _consumeReset() async {
+    if (_busy ||
+        _api == null ||
+        (!_resetOperation.hasPendingRequest &&
+            (_resetSummaryStale || _resets?.canReset != true))) {
+      return;
+    }
+    final api = _api!;
+    final l = context.appLocalizations;
+    if (!_resetOperation.hasPendingRequest) {
+      final accepted = await dialogs.showMessage(
+        title: l.fdResetTraffic,
+        message: TextSpan(text: l.fdResetConfirm),
+        confirmText: l.fdUseReset,
+      );
+      if (accepted != true || !mounted || _busy || _api != api) return;
+    }
+    await _run(() async {
+      if (_refreshing != null) await _refresh();
+      if (!mounted || _api != api) return;
+      try {
+        await _resetOperation.consume(api);
+      } on V2BoardProblem {
+        await _refreshResets(api);
+        rethrow;
+      }
+      if (!mounted || _api != api) return;
+      await _refresh();
+      if (mounted) context.showNotifier(l.fdResetSuccess);
+    });
+  }
+
+  String _resetDisabledReason() => switch (_resets?.disabledReason) {
+    'reset_inactive' => context.appLocalizations.fdResetInactive,
+    'reset_empty' => context.appLocalizations.fdResetEmpty,
+    'reset_no_credit' => context.appLocalizations.fdResetNoCredit,
+    _ => context.appLocalizations.fdResetHelp,
+  };
+
+  Widget _trafficCard(V2BoardAccount account) {
+    final l = context.appLocalizations;
+    final reset = account.resetAt;
+    return Card(
+      elevation: 0,
+      color: context.colorScheme.surfaceContainerLowest,
+      child: Column(
+        children: [
+          _metric(l.fdRemaining, _bytes(account.remainingBytes)),
+          if (account.periodActive)
+            _metric(l.fdPeriodUsed, _bytes(account.usedBytes)),
+          if (account.periodActive)
+            _metric(l.fdPeriodQuota, _bytes(account.totalBytes)),
+          if (account.periodActive && reset != null)
+            _metric(
+              l.fdNextReset,
+              DateFormat.yMd(
+                Localizations.localeOf(context).toString(),
+              ).add_Hm().format(reset.toLocal()),
+            ),
+          const Divider(height: 1),
+          _metric(l.fdCreditBalance, _bytes(account.creditBytes)),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Text(l.fdCreditHelp),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _resetCard() {
+    final l = context.appLocalizations;
+    return Card(
+      elevation: 0,
+      color: context.colorScheme.surfaceContainerLowest,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ListTile(
+            title: Text(l.fdResetCredits),
+            subtitle: Text(
+              _resetSummaryStale
+                  ? l.fdResetUnavailable
+                  : _resetDisabledReason(),
+            ),
+            trailing: Text(
+              _resetSummaryStale || _resets == null
+                  ? '—'
+                  : '${_resets!.available}',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: OutlinedButton(
+              onPressed:
+                  _busy ||
+                      (_api == null) ||
+                      (!_resetOperation.hasPendingRequest &&
+                          (_resetSummaryStale || _resets?.canReset != true))
+                  ? null
+                  : _consumeReset,
+              child: Text(
+                _resetOperation.hasPendingRequest
+                    ? l.fdRetryReset
+                    : l.fdUseReset,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _login() async {
@@ -334,6 +466,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _api?.close();
     _api = null;
     _account = null;
+    _resets = null;
+    _resetSummaryStale = false;
+    _resetOperation = UsageResetOperation();
     _accountStale = false;
     ref.read(clientDiagnosticsProvider.notifier).clear();
     _tab = 0;
@@ -698,9 +833,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             children: [
               _metric(l.fdEmail, _account?.email ?? ''),
               _metric(l.fdShop, _account?.planName ?? ''),
-              if (_account != null)
-                _metric(l.fdRemaining, _bytes(_account!.remainingBytes)),
-              if (_account != null)
+              if (_account != null &&
+                  (_account!.periodActive || _account!.expiresAt != null))
                 _metric(
                   l.fdExpiry,
                   _account!.expiresAt?.toLocal().toString().split(' ').first ??
@@ -709,6 +843,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ],
           ),
         ),
+        if (_account != null) _trafficCard(_account!),
+        _resetCard(),
         const SizedBox(height: 16),
         ListTile(
           leading: const GlyphIcon(AppGlyphs.openExternal),

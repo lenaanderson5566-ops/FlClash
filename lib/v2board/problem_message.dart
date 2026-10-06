@@ -7,6 +7,9 @@ String clientProblemMessage(
   AppLocalizations l, {
   required bool hadSession,
 }) => switch (problem.code) {
+  'reset_inactive' => l.fdResetInactive,
+  'reset_empty' => l.fdResetEmpty,
+  'reset_no_credit' => l.fdResetNoCredit,
   'CLIENT_VERSION_TOO_LOW' => l.fdUpdateRequired,
   'CLIENT_DISABLED' => l.fdClientUnavailable,
   'SUBSCRIPTION_UNAVAILABLE' => l.fdNodesUnavailable,
