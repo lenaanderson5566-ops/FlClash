@@ -849,5 +849,12 @@
   "fdAccountSubtitle": "接続を、あなたらしく。",
   "fdSyncFailed": "サブスクリプションを同期できませんでした。接続前に再度同期してください。",
   "fdLatestVersion": "最新バージョンです",
-  "fdUpdateRequired": "接続するには更新が必要です"
+  "fdUpdateRequired": "接続するには更新が必要です",
+  "fdSearchRoutes": "国・都市・タグを検索",
+  "fdAllRegions": "すべての地域",
+  "fdCurrentRoute": "現在の接続先",
+  "fdNoMatchingRoutes": "一致する接続先がありません。絞り込みを解除してください。",
+  "fdSyncingRoutes": "接続先を同期中…",
+  "fdConnectionFailed": "接続できませんでした。再試行するか接続先を変更してください。",
+  "fdDisconnecting": "切断中…"
 }

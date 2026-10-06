@@ -7037,6 +7037,76 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Search country, city or tags`
+  String get fdSearchRoutes {
+    return Intl.message(
+      'Search country, city or tags',
+      name: 'fdSearchRoutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All regions`
+  String get fdAllRegions {
+    return Intl.message(
+      'All regions',
+      name: 'fdAllRegions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current route`
+  String get fdCurrentRoute {
+    return Intl.message(
+      'Current route',
+      name: 'fdCurrentRoute',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No matching routes. Clear the filters to see all routes.`
+  String get fdNoMatchingRoutes {
+    return Intl.message(
+      'No matching routes. Clear the filters to see all routes.',
+      name: 'fdNoMatchingRoutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Syncing routes…`
+  String get fdSyncingRoutes {
+    return Intl.message(
+      'Syncing routes…',
+      name: 'fdSyncingRoutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection failed. Retry or choose another route.`
+  String get fdConnectionFailed {
+    return Intl.message(
+      'Connection failed. Retry or choose another route.',
+      name: 'fdConnectionFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disconnecting…`
+  String get fdDisconnecting {
+    return Intl.message(
+      'Disconnecting…',
+      name: 'fdDisconnecting',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

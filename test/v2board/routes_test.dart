@@ -45,6 +45,107 @@ void main() {
       isNull,
     );
   });
+  test('route search uses translated names, tags and country codes', () {
+    const nodes = [
+      Proxy(name: 'node_1', type: 'Vless'),
+      Proxy(name: 'node_2', type: 'AnyTLS'),
+    ];
+    final metadata = <String, Map<String, dynamic>>{
+      'node_1': {
+        'regionCode': 'US',
+        'displayNames': {'zh-CN': '美国 · 圣何塞'},
+        'tags': ['流媒体'],
+      },
+      'node_2': {
+        'regionCode': 'JP',
+        'displayNames': {'zh-CN': '日本 · 东京'},
+        'tags': ['低延迟'],
+      },
+    };
+    const locale = Locale('zh', 'CN');
+    expect(
+      filterRoutes(nodes, metadata, locale, ' 圣何塞 ', null).map((p) => p.name),
+      ['node_1'],
+    );
+    expect(
+      filterRoutes(nodes, metadata, locale, '流媒体', null).map((p) => p.name),
+      ['node_1'],
+    );
+    expect(
+      filterRoutes(nodes, metadata, locale, 'us', null).map((p) => p.name),
+      ['node_1'],
+    );
+    expect(filterRoutes(nodes, metadata, locale, '', 'JP').map((p) => p.name), [
+      'node_2',
+    ]);
+    expect(filterRoutes(nodes, metadata, locale, '流媒体', 'JP'), isEmpty);
+  });
+  testWidgets('search and country filters keep the current route pinned', (
+    tester,
+  ) async {
+    final container = ProviderContainer(
+      overrides: [
+        profilesProvider.overrideWith(() => TestProfiles([])),
+        groupsProvider.overrideWithBuild(
+          (_, _) => const [
+            Group(
+              name: 'FastDog',
+              type: GroupType.Selector,
+              now: 'node_1',
+              all: [
+                Proxy(name: 'node_1', type: 'Vless'),
+                Proxy(name: 'node_2', type: 'AnyTLS'),
+              ],
+            ),
+          ],
+        ),
+        fastaiNodeMetadataProvider.overrideWith(
+          (ref) async => {
+            'node_1': {
+              'regionCode': 'US',
+              'displayNames': {'en-US': 'United States · San Jose'},
+              'tags': ['Streaming'],
+            },
+            'node_2': {
+              'regionCode': 'JP',
+              'displayNames': {'en-US': 'Japan · Tokyo'},
+              'tags': ['Low latency'],
+            },
+          },
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: TestApp(
+          child: Scaffold(body: FastaiRoutesView(onSync: () async {})),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Current route'), findsOneWidget);
+    await tester.enterText(find.byType(TextField), 'Tokyo');
+    await tester.pump();
+    expect(find.text('Japan · Tokyo'), findsOneWidget);
+    expect(find.text('United States · San Jose'), findsOneWidget);
+    await tester.tap(find.widgetWithText(ChoiceChip, 'United States'));
+    await tester.pump();
+    expect(find.text('Japan · Tokyo'), findsNothing);
+    expect(
+      find.text('No matching routes. Clear the filters to see all routes.'),
+      findsOneWidget,
+    );
+    await tester.tap(find.byTooltip('Clear search'));
+    await tester.pump();
+    expect(
+      find.text('No matching routes. Clear the filters to see all routes.'),
+      findsNothing,
+    );
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
   testWidgets('route page shows nodes without engine labels', (tester) async {
     final container = ProviderContainer(
       overrides: [
@@ -134,7 +235,13 @@ void main() {
     expect(find.text('日本 · 东京 · A'), findsOneWidget);
     expect(find.text('premium'), findsOneWidget);
     expect(find.text('node_v2node_123'), findsNothing);
-    expect(find.byType(NodeRegionFlag), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(ListTile),
+        matching: find.byType(NodeRegionFlag),
+      ),
+      findsOneWidget,
+    );
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

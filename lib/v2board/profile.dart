@@ -172,9 +172,10 @@ class V2BoardProfile {
     }
   }
 
-  Future<void> connect(V2BoardApi api) async {
+  Future<void> connect(V2BoardApi api, {void Function()? onConnecting}) async {
     await sync(api);
     if (!ref.context.mounted) return;
+    onConnecting?.call();
     final result = await ref
         .read(setupActionProvider.notifier)
         .setRunning(true, initialize: !ref.read(initProvider));

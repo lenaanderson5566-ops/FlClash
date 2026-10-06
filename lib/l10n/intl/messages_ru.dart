@@ -655,6 +655,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ваше подключение — ваши правила.",
     ),
     "fdActive": MessageLookupByLibrary.simpleMessage("Готов к подключению"),
+    "fdAllRegions": MessageLookupByLibrary.simpleMessage("Все регионы"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("Год"),
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "Проверяет новые версии в фоне. Скачивание и установка выполняются вручную.",
@@ -676,16 +677,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnect": MessageLookupByLibrary.simpleMessage("Подключить"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("Подключено"),
     "fdConnection": MessageLookupByLibrary.simpleMessage("Подключение"),
+    "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось подключиться. Повторите попытку или выберите другой сервер.",
+    ),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Подтвердить заказ"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Остаток пакета трафика",
     ),
     "fdCredits": MessageLookupByLibrary.simpleMessage("Пакет трафика"),
+    "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Текущий сервер"),
     "fdDevices": MessageLookupByLibrary.simpleMessage(
       "Устройства онлайн / лимит",
     ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Отключить"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Не подключено"),
+    "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Отключение…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("Электронная почта"),
     "fdEmpty": MessageLookupByLibrary.simpleMessage("Нет данных"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
@@ -715,6 +721,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdNext": MessageLookupByLibrary.simpleMessage("Следующая"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("Без срока периода"),
+    "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
+      "Нет подходящих серверов. Сбросьте фильтры.",
+    ),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage(
       "Выберите тариф для начала",
     ),
@@ -745,6 +754,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Операция не выполнена. Повторите попытку.",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("Обязательное поле"),
+    "fdSearchRoutes": MessageLookupByLibrary.simpleMessage(
+      "Поиск страны, города или меток",
+    ),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Полгода"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Сессия истекла. Войдите снова.",
@@ -757,6 +769,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSync": MessageLookupByLibrary.simpleMessage("Синхронизировать подписку"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось обновить подписку. Повторите синхронизацию перед подключением.",
+    ),
+    "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage(
+      "Синхронизация серверов…",
     ),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("Три года"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("Неизвестно"),

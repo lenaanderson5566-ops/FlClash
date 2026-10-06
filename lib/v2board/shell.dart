@@ -78,6 +78,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   V2BoardAccount? _account;
   bool _busy = true;
   String? _error;
+  String? _activity;
+  bool _connectAfterLogin = false;
+  bool _retryConnect = false;
   int _tab = 0;
   bool _showLogin = false;
   bool _sidebarExpanded = true;
@@ -127,11 +130,12 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     super.dispose();
   }
 
-  Future<void> _run(Future<void> Function() action) async {
+  Future<void> _run(Future<void> Function() action, {String? activity}) async {
     if (mounted) {
       setState(() {
         _busy = true;
         _error = null;
+        _activity = activity;
       });
     }
     try {
@@ -164,7 +168,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 422 => l.fdValidationError,
                 429 => l.fdRateLimited,
                 _ =>
-                  error.code == 'subscription_failed'
+                  error.code == 'connection_failed'
+                      ? l.fdConnectionFailed
+                      : error.code == 'subscription_failed'
                       ? l.fdSyncFailed
                       : error.code == 'network_error'
                       ? l.fdNetworkError
@@ -180,7 +186,12 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         setState(() => _error = context.appLocalizations.fdRequestFailed);
       }
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _activity = null;
+        });
+      }
     }
   }
 
@@ -233,8 +244,19 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         await _refresh();
         if (!mounted) return;
         await _session.save(api);
-        await _syncAvailable();
+        if (!mounted) return;
         if (mounted) setState(() => _showLogin = false);
+        if (_connectAfterLogin &&
+            _account?.active == true &&
+            ref.read(fastaiReleaseProvider)?.required != true) {
+          _connectAfterLogin = false;
+          _retryConnect = true;
+          _setActivity(context.appLocalizations.fdSyncingRoutes);
+          await _profile.connect(api, onConnecting: _connecting);
+        } else {
+          _connectAfterLogin = false;
+          await _syncAvailable();
+        }
       } catch (_) {
         if (_api != api) api.close();
         rethrow;
@@ -266,6 +288,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _account = null;
     _tab = 0;
     _showLogin = false;
+    _connectAfterLogin = false;
+    _retryConnect = false;
     try {
       await _profile.clear();
     } finally {
@@ -284,8 +308,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Future<void> _sync({bool connect = false}) async {
+    _retryConnect = connect;
     if (_api == null) {
-      _requestLogin();
+      _requestLogin(connect: connect);
       return;
     }
     await _run(() async {
@@ -296,11 +321,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         return;
       }
       if (connect) {
-        await _profile.connect(_api!);
+        await _profile.connect(_api!, onConnecting: _connecting);
       } else {
         await _profile.sync(_api!);
       }
-    });
+    }, activity: context.appLocalizations.fdSyncingRoutes);
   }
 
   Future<void> _syncAvailable() async {
@@ -471,7 +496,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     const SizedBox(width: 10),
                     Flexible(
                       child: Text(
-                        running ? l.fdConnected : l.fdDisconnected,
+                        _activity ??
+                            (running ? l.fdConnected : l.fdDisconnected),
                         style: context.textTheme.headlineSmall,
                       ),
                     ),
@@ -495,13 +521,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                       onPressed: _busy
                           ? null
                           : _api == null
-                          ? _requestLogin
+                          ? () => _requestLogin(connect: true)
                           : running
-                          ? () => _run(() async {
-                              await ref
-                                  .read(setupActionProvider.notifier)
-                                  .setRunning(false);
-                            })
+                          ? _disconnect
                           : canConnect
                           ? () => _sync(connect: true)
                           : null,
@@ -510,7 +532,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                         children: [
                           const GlyphIcon(AppGlyphs.bolt, size: 48, fill: 1),
                           const SizedBox(height: 12),
-                          Text(running ? l.fdDisconnect : l.fdConnect),
+                          Text(
+                            _activity ??
+                                (running ? l.fdDisconnect : l.fdConnect),
+                          ),
                         ],
                       ),
                     ),
@@ -658,7 +683,24 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     );
   }
 
-  void _requestLogin() => setState(() => _showLogin = true);
+  void _setActivity(String value) {
+    if (mounted) setState(() => _activity = value);
+  }
+
+  void _connecting() => _setActivity(context.appLocalizations.connecting);
+
+  Future<void> _disconnect() async {
+    _retryConnect = false;
+    await _run(() async {
+      await ref.read(setupActionProvider.notifier).setRunning(false);
+    }, activity: context.appLocalizations.fdDisconnecting);
+  }
+
+  void _requestLogin({bool connect = false}) => setState(() {
+    _connectAfterLogin = connect;
+    _retryConnect = connect;
+    _showLogin = true;
+  });
 
   Widget _desktopHome() {
     final l = context.appLocalizations;
@@ -702,7 +744,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ),
             const SizedBox(height: 20),
             Text(
-              running ? l.fdConnected : l.fdDisconnected,
+              _activity ?? (running ? l.fdConnected : l.fdDisconnected),
               textAlign: TextAlign.center,
               style: context.textTheme.headlineLarge?.copyWith(
                 fontWeight: FontWeight.bold,
@@ -710,7 +752,13 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ),
             const SizedBox(height: 12),
             Text(
-              l.fdHeroSubtitle,
+              switch (_account?.status) {
+                'noPlan' => l.fdNoPlan,
+                'expired' => l.fdExpired,
+                'exhausted' => l.fdExhausted,
+                'banned' => l.fdBanned,
+                _ => l.fdHeroSubtitle,
+              },
               textAlign: TextAlign.center,
               style: context.textTheme.bodyLarge,
             ),
@@ -721,15 +769,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     ? null
                     : () {
                         if (_api == null) {
-                          _requestLogin();
+                          _requestLogin(connect: true);
                         } else if (running) {
-                          unawaited(
-                            _run(() async {
-                              await ref
-                                  .read(setupActionProvider.notifier)
-                                  .setRunning(false);
-                            }),
-                          );
+                          unawaited(_disconnect());
                         } else {
                           unawaited(_sync(connect: true));
                         }
@@ -737,7 +779,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 style: FilledButton.styleFrom(minimumSize: const Size(180, 52)),
                 child: Text(
                   _busy
-                      ? l.loading
+                      ? _activity ?? l.loading
                       : running
                       ? l.fdDisconnect
                       : l.fdConnect,
@@ -758,7 +800,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               child: Column(
                 children: [
                   ListTile(
-                    leading: const GlyphIcon(AppGlyphs.proxies),
+                    leading: NodeRegionFlag(
+                      regionCode:
+                          ref
+                                  .watch(fastaiNodeMetadataProvider)
+                                  .asData
+                                  ?.value[route]?['regionCode']
+                              as String?,
+                      fallback: const GlyphIcon(AppGlyphs.proxies),
+                    ),
                     title: Text(
                       _api == null || route == null || route.isEmpty
                           ? l.fdChooseRoute
@@ -832,6 +882,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   void _selectPage(int index) => setState(() {
     _tab = index;
     _showLogin = false;
+    _connectAfterLogin = false;
     _error = null;
   });
 
@@ -975,11 +1026,35 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     color: context.colorScheme.errorContainer,
                     shape: AppShape.md,
                   ),
-                  child: Text(
-                    _error!,
-                    style: TextStyle(
-                      color: context.colorScheme.onErrorContainer,
-                    ),
+                  child: Wrap(
+                    spacing: 12,
+                    runSpacing: 8,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        _error!,
+                        style: TextStyle(
+                          color: context.colorScheme.onErrorContainer,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: _busy
+                            ? null
+                            : () {
+                                if (_api == null) {
+                                  _requestLogin(connect: _retryConnect);
+                                } else {
+                                  unawaited(_sync(connect: _retryConnect));
+                                }
+                              },
+                        child: Text(l.retry),
+                      ),
+                      if (_api != null)
+                        TextButton(
+                          onPressed: _busy ? null : () => _selectPage(1),
+                          child: Text(l.fdChooseRoute),
+                        ),
+                    ],
                   ),
                 ),
               ),

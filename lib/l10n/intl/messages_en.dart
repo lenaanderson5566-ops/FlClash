@@ -632,6 +632,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Your connection, your way.",
     ),
     "fdActive": MessageLookupByLibrary.simpleMessage("Ready to connect"),
+    "fdAllRegions": MessageLookupByLibrary.simpleMessage("All regions"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("Annual"),
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "Checks for new versions in the background. Download and installation require your action.",
@@ -653,14 +654,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnect": MessageLookupByLibrary.simpleMessage("Connect"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("Connected"),
     "fdConnection": MessageLookupByLibrary.simpleMessage("Connection"),
+    "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
+      "Connection failed. Retry or choose another route.",
+    ),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Confirm order"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Traffic credit balance",
     ),
     "fdCredits": MessageLookupByLibrary.simpleMessage("Traffic credits"),
+    "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("Devices online / limit"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
+    "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Disconnecting…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("Email"),
     "fdEmpty": MessageLookupByLibrary.simpleMessage("No items available"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
@@ -690,6 +696,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdNext": MessageLookupByLibrary.simpleMessage("Next page"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("No period expiry"),
+    "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
+      "No matching routes. Clear the filters to see all routes.",
+    ),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage(
       "Choose a plan to get started",
     ),
@@ -724,6 +733,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRequired": MessageLookupByLibrary.simpleMessage(
       "This field is required",
     ),
+    "fdSearchRoutes": MessageLookupByLibrary.simpleMessage(
+      "Search country, city or tags",
+    ),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Semiannual"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Your session expired. Please sign in again.",
@@ -737,6 +749,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Subscription sync failed. Try syncing again before connecting.",
     ),
+    "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("Syncing routes…"),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("Three years"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("Awaiting payment"),

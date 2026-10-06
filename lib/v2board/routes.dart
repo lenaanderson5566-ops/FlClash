@@ -39,6 +39,27 @@ List<Proxy> selectableRoutes(Group group, List<Group> groups) {
       .toList();
 }
 
+List<Proxy> filterRoutes(
+  List<Proxy> nodes,
+  Map<String, Map<String, dynamic>> metadata,
+  Locale locale,
+  String query,
+  String? region,
+) {
+  final search = query.trim().toLowerCase();
+  return nodes.where((node) {
+    final info = metadata[node.name];
+    final country = (info?['regionCode'] as String?)?.toUpperCase();
+    if (region != null && country != region) return false;
+    final terms = [
+      nodeDisplayName(info, node.name, locale),
+      country ?? '',
+      ...(info?['tags'] as List? ?? const []).whereType<String>(),
+    ].join(' ').toLowerCase();
+    return search.isEmpty || terms.contains(search);
+  }).toList();
+}
+
 class FastaiRoutesView extends ConsumerStatefulWidget {
   const FastaiRoutesView({super.key, required this.onSync});
   final Future<void> Function() onSync;
@@ -48,6 +69,15 @@ class FastaiRoutesView extends ConsumerStatefulWidget {
 
 class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
   bool _busy = false;
+  final _search = TextEditingController();
+  String? _region;
+
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
+
   Future<void> _run(Future<void> Function() action) async {
     if (_busy) return;
     setState(() => _busy = true);
@@ -80,6 +110,20 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
     final selected = group == null
         ? null
         : ref.watch(selectedProxyNameProvider(group.name));
+    final countries = <String, String>{};
+    for (final node in nodes) {
+      final code = (metadata[node.name]?['regionCode'] as String?)
+          ?.toUpperCase();
+      if (code == null || !RegExp(r'^[A-Z]{2}$').hasMatch(code)) continue;
+      countries[code] = nodeDisplayName(
+        metadata[node.name],
+        code,
+        locale,
+      ).split(' · ').first;
+    }
+    final region = countries.containsKey(_region) ? _region : null;
+    final matches = filterRoutes(nodes, metadata, locale, _search.text, region);
+    final current = nodes.where((node) => node.name == selected).firstOrNull;
     Future<void> choose(String name) async {
       if (group == null) {
         return;
@@ -95,7 +139,10 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
       )) {
         await action.changeProxy(groupName: 'GLOBAL', proxyName: group.name);
       }
-      if (mounted) action.updateGroupsDebounce();
+      if (mounted && context.mounted) {
+        action.updateGroupsDebounce();
+        context.showNotifier(context.appLocalizations.selected);
+      }
     }
 
     Widget row(Proxy proxy, String title) {
@@ -121,9 +168,16 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
                     .join(' · '),
               )
             : null,
-        trailing: delay == null
-            ? null
-            : Text(delay > 0 ? '$delay ms' : l.timeout),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (delay != null) Text(delay > 0 ? '$delay ms' : l.timeout),
+            if (selected == proxy.name) ...[
+              const SizedBox(width: 8),
+              const GlyphIcon(AppGlyphs.check),
+            ],
+          ],
+        ),
         selected: selected == proxy.name,
         onTap: _busy ? null : () => _run(() => choose(proxy.name)),
       );
@@ -138,12 +192,12 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
           children: [
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: _busy || nodes.isEmpty
+                onPressed: _busy || matches.isEmpty
                     ? null
                     : () => _run(
                         () => ref
                             .read(proxiesActionProvider.notifier)
-                            .delayTest(nodes, group?.testUrl),
+                            .delayTest(matches, group?.testUrl),
                       ),
                 icon: const GlyphIcon(AppGlyphs.bolt),
                 label: Text(l.delayTest),
@@ -159,9 +213,67 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
         ),
         if (_busy) const LinearProgressIndicator(),
         const SizedBox(height: 16),
+        TextField(
+          controller: _search,
+          onChanged: (_) => setState(() {}),
+          decoration: InputDecoration(
+            labelText: l.fdSearchRoutes,
+            suffixIcon: _search.text.isEmpty
+                ? null
+                : IconButton(
+                    tooltip: l.clearSearch,
+                    onPressed: () => setState(_search.clear),
+                    icon: const GlyphIcon(AppGlyphs.close),
+                  ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        if (countries.isNotEmpty)
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                ChoiceChip(
+                  label: Text(l.fdAllRegions),
+                  selected: region == null,
+                  shape: AppShape.md,
+                  onSelected: (_) => setState(() => _region = null),
+                ),
+                for (final code in countries.keys.toList()..sort())
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 8),
+                    child: ChoiceChip(
+                      avatar: NodeRegionFlag(
+                        regionCode: code,
+                        fallback: const SizedBox(),
+                      ),
+                      label: Text(countries[code]!),
+                      selected: region == code,
+                      shape: AppShape.md,
+                      onSelected: (_) => setState(() => _region = code),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        const SizedBox(height: 16),
         if (auto != null) row(auto, l.fdAutoRoute),
-        for (final node in nodes)
+        if (current != null) ...[
+          const SizedBox(height: 8),
+          Text(l.fdCurrentRoute, style: context.textTheme.labelLarge),
+          row(
+            current,
+            nodeDisplayName(metadata[current.name], current.name, locale),
+          ),
+          const Divider(),
+        ],
+        for (final node in matches.where((node) => node.name != current?.name))
           row(node, nodeDisplayName(metadata[node.name], node.name, locale)),
+        if (nodes.isNotEmpty && matches.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(l.fdNoMatchingRoutes),
+          ),
         if (nodes.isEmpty)
           Padding(
             padding: const EdgeInsets.all(24),

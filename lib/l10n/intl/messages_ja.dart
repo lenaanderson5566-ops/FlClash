@@ -525,6 +525,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fallbackFilter": MessageLookupByLibrary.simpleMessage("フォールバックフィルター"),
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage("接続を、あなたらしく。"),
     "fdActive": MessageLookupByLibrary.simpleMessage("接続可能"),
+    "fdAllRegions": MessageLookupByLibrary.simpleMessage("すべての地域"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("1年"),
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "バックグラウンドで新しいバージョンを確認します。ダウンロードとインストールは手動で行います。",
@@ -546,12 +547,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnect": MessageLookupByLibrary.simpleMessage("接続"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("接続済み"),
     "fdConnection": MessageLookupByLibrary.simpleMessage("接続"),
+    "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
+      "接続できませんでした。再試行するか接続先を変更してください。",
+    ),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("注文を確認"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("追加容量の残高"),
     "fdCredits": MessageLookupByLibrary.simpleMessage("追加通信容量"),
+    "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("オンライン端末 / 上限"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("切断"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未接続"),
+    "fdDisconnecting": MessageLookupByLibrary.simpleMessage("切断中…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("メールアドレス"),
     "fdEmpty": MessageLookupByLibrary.simpleMessage("データがありません"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
@@ -575,6 +581,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdNext": MessageLookupByLibrary.simpleMessage("次のページ"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("期間の期限なし"),
+    "fdNoMatchingRoutes": MessageLookupByLibrary.simpleMessage(
+      "一致する接続先がありません。絞り込みを解除してください。",
+    ),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("プランを購入して開始"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "利用できる契約がありません。公式サイトでアカウントを管理してください。",
@@ -599,6 +608,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "操作に失敗しました。再試行してください。",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("必須項目です"),
+    "fdSearchRoutes": MessageLookupByLibrary.simpleMessage("国・都市・タグを検索"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("6か月"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "セッションが切れました。再ログインしてください。",
@@ -610,6 +620,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "サブスクリプションを同期できませんでした。接続前に再度同期してください。",
     ),
+    "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("接続先を同期中…"),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("3年"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("不明"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("支払い待ち"),

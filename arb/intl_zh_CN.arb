@@ -849,5 +849,12 @@
   "fdAccountSubtitle": "连接由你掌握。",
   "fdSyncFailed": "订阅同步失败，请重新同步后再连接。",
   "fdLatestVersion": "当前已是最新版本",
-  "fdUpdateRequired": "请更新 FastAI 后继续连接"
+  "fdUpdateRequired": "请更新 FastAI 后继续连接",
+  "fdSearchRoutes": "搜索国家、城市或标签",
+  "fdAllRegions": "全部地区",
+  "fdCurrentRoute": "当前线路",
+  "fdNoMatchingRoutes": "没有匹配的线路，清除筛选后查看全部线路。",
+  "fdSyncingRoutes": "正在同步线路…",
+  "fdConnectionFailed": "连接失败，请重试或切换线路。",
+  "fdDisconnecting": "正在断开…"
 }

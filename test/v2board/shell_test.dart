@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/common/common.dart';
 import 'package:fastai/common/theme.dart';
@@ -27,6 +28,7 @@ class _Session extends V2BoardSession {
 class _Api extends V2BoardApi {
   _Api(this.available) : super('https://example.com');
   final bool available;
+  Completer<Uint8List>? pendingConfig;
 
   @override
   Future<Uint8List> clientConfig({
@@ -34,6 +36,7 @@ class _Api extends V2BoardApi {
     required String platform,
     String? architecture,
   }) async {
+    if (pendingConfig != null) return pendingConfig!.future;
     throw const V2BoardProblem('subscription_failed');
   }
 
@@ -120,6 +123,30 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  testWidgets('connection shows sync progress and provides recovery actions', (
+    tester,
+  ) async {
+    final api = _Api(true);
+    await show(tester, api, desktopLayout: true);
+    api.pendingConfig = Completer<Uint8List>();
+    await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.text('Syncing routes…'), findsWidgets);
+    final button = tester.widget<FilledButton>(find.byType(FilledButton).first);
+    expect(button.onPressed, isNull);
+    api.pendingConfig!.completeError(const V2BoardProblem('connection_failed'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Connection failed. Retry or choose another route.'),
+      findsOneWidget,
+    );
+    expect(find.widgetWithText(TextButton, 'Retry'), findsOneWidget);
+    expect(find.widgetWithText(TextButton, 'Choose a route'), findsOneWidget);
+    expect(find.text('Syncing routes…'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
   testWidgets('login shows fastai with only email and password fields', (
     tester,
   ) async {

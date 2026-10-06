@@ -849,5 +849,12 @@
   "fdAccountSubtitle": "Your connection, your way.",
   "fdSyncFailed": "Subscription sync failed. Try syncing again before connecting.",
   "fdLatestVersion": "Your app is up to date",
-  "fdUpdateRequired": "Update required to continue connecting"
+  "fdUpdateRequired": "Update required to continue connecting",
+  "fdSearchRoutes": "Search country, city or tags",
+  "fdAllRegions": "All regions",
+  "fdCurrentRoute": "Current route",
+  "fdNoMatchingRoutes": "No matching routes. Clear the filters to see all routes.",
+  "fdSyncingRoutes": "Syncing routes…",
+  "fdConnectionFailed": "Connection failed. Retry or choose another route.",
+  "fdDisconnecting": "Disconnecting…"
 }
