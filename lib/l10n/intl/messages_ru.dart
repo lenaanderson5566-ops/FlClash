@@ -701,7 +701,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Глобальный режим"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Быстрее. Свободнее.",
+      "Выберите сервер и подключитесь одним нажатием.",
     ),
     "fdHome": MessageLookupByLibrary.simpleMessage("Главная"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
@@ -754,9 +754,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Операция не выполнена. Повторите попытку.",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("Обязательное поле"),
-    "fdSearchRoutes": MessageLookupByLibrary.simpleMessage(
-      "Поиск страны, города или меток",
-    ),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Полгода"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Сессия истекла. Войдите снова.",

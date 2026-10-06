@@ -6978,10 +6978,10 @@ class AppLocalizations {
     );
   }
 
-  /// `A little faster. A little freer.`
+  /// `Choose a route. Connect in one click.`
   String get fdHeroSubtitle {
     return Intl.message(
-      'A little faster. A little freer.',
+      'Choose a route. Connect in one click.',
       name: 'fdHeroSubtitle',
       desc: '',
       args: [],
@@ -7033,16 +7033,6 @@ class AppLocalizations {
     return Intl.message(
       'Update required to continue connecting',
       name: 'fdUpdateRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Search country, city or tags`
-  String get fdSearchRoutes {
-    return Intl.message(
-      'Search country, city or tags',
-      name: 'fdSearchRoutes',
       desc: '',
       args: [],
     );

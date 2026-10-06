@@ -1,3 +1,4 @@
+import 'package:fastai/v2board/config.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
@@ -180,11 +181,12 @@ class AppTray implements TrayPort {
         ),
         const TrayMenuSeparator(),
       ],
-      TrayMenuCheckbox(
-        label: appLocalizations.autoLaunch,
-        checked: trayState.autoLaunch,
-        onSelected: systemAction.updateAutoLaunch,
-      ),
+      if (!V2BoardConfig.enabled)
+        TrayMenuCheckbox(
+          label: appLocalizations.autoLaunch,
+          checked: trayState.autoLaunch,
+          onSelected: systemAction.updateAutoLaunch,
+        ),
       TrayMenuAction(
         label: appLocalizations.copyEnvVar,
         detail: shortcut(HotAction.copyEnv),

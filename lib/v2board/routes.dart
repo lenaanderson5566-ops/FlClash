@@ -42,21 +42,13 @@ List<Proxy> selectableRoutes(Group group, List<Group> groups) {
 List<Proxy> filterRoutes(
   List<Proxy> nodes,
   Map<String, Map<String, dynamic>> metadata,
-  Locale locale,
-  String query,
   String? region,
 ) {
-  final search = query.trim().toLowerCase();
   return nodes.where((node) {
     final info = metadata[node.name];
     final country = (info?['regionCode'] as String?)?.toUpperCase();
     if (region != null && country != region) return false;
-    final terms = [
-      nodeDisplayName(info, node.name, locale),
-      country ?? '',
-      ...(info?['tags'] as List? ?? const []).whereType<String>(),
-    ].join(' ').toLowerCase();
-    return search.isEmpty || terms.contains(search);
+    return true;
   }).toList();
 }
 
@@ -69,14 +61,7 @@ class FastaiRoutesView extends ConsumerStatefulWidget {
 
 class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
   bool _busy = false;
-  final _search = TextEditingController();
   String? _region;
-
-  @override
-  void dispose() {
-    _search.dispose();
-    super.dispose();
-  }
 
   Future<void> _run(Future<void> Function() action) async {
     if (_busy) return;
@@ -122,7 +107,7 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
       ).split(' · ').first;
     }
     final region = countries.containsKey(_region) ? _region : null;
-    final matches = filterRoutes(nodes, metadata, locale, _search.text, region);
+    final matches = filterRoutes(nodes, metadata, region);
     final current = nodes.where((node) => node.name == selected).firstOrNull;
     Future<void> choose(String name) async {
       if (group == null) {
@@ -213,21 +198,6 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
         ),
         if (_busy) const LinearProgressIndicator(),
         const SizedBox(height: 16),
-        TextField(
-          controller: _search,
-          onChanged: (_) => setState(() {}),
-          decoration: InputDecoration(
-            labelText: l.fdSearchRoutes,
-            suffixIcon: _search.text.isEmpty
-                ? null
-                : IconButton(
-                    tooltip: l.clearSearch,
-                    onPressed: () => setState(_search.clear),
-                    icon: const GlyphIcon(AppGlyphs.close),
-                  ),
-          ),
-        ),
-        const SizedBox(height: 12),
         if (countries.isNotEmpty)
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

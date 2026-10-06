@@ -26,9 +26,10 @@ Config managedNetworkConfig(Config saved) {
     appSettingProps: saved.appSettingProps.copyWith(
       checkCertificate: true,
       developerMode: false,
-      silentLaunch:
-          saved.appSettingProps.autoLaunch &&
-          saved.appSettingProps.silentLaunch,
+      autoLaunch: false,
+      silentLaunch: false,
+      autoRun: false,
+      minimizeOnExit: true,
     ),
   );
 }

@@ -63,7 +63,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
           widget: const DiagnosticsView(),
         ),
         if (system.isAndroid) const _AccessItem(),
-        const GeneralSettings(),
+        if (system.isAndroid) const GeneralSettings(),
       ],
     );
   }

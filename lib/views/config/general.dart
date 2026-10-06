@@ -29,50 +29,11 @@ class GeneralSettings extends ConsumerWidget {
   final bool? isDesktop;
   final bool? isAndroid;
 
-  List<Widget> _startupItems(WidgetRef ref) {
-    return [
-      if (isDesktop ?? system.isDesktop) ...[
-        _appSettingToggle(
-          title: (l) => l.autoLaunch,
-          subtitle: (l) => l.autoLaunchDesc,
-          select: (state) => state.autoLaunch,
-          update: (state, value) => state.copyWith(
-            autoLaunch: value,
-            silentLaunch: value && state.silentLaunch,
-          ),
-        ),
-        _appSettingToggle(
-          enabled: ref.watch(appSettingProvider.select((s) => s.autoLaunch)),
-          title: (l) => l.silentLaunch,
-          subtitle: (l) => l.silentLaunchDesc,
-          select: (state) => state.silentLaunch,
-          update: (state, value) => state.copyWith(silentLaunch: value),
-        ),
-      ],
-      _appSettingToggle(
-        title: (l) => l.autoRun,
-        subtitle: (l) => l.autoRunDesc,
-        select: (state) => state.autoRun,
-        update: (state, value) => state.copyWith(autoRun: value),
-      ),
-      if (isDesktop ?? system.isDesktop)
-        _appSettingToggle(
-          title: (l) => l.minimizeOnExit,
-          select: (state) => state.minimizeOnExit,
-          update: (state, value) => state.copyWith(minimizeOnExit: value),
-        ),
-    ];
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
     return Column(
       children: [
-        generateSectionV3(
-          title: appLocalizations.startupAndBackground,
-          items: _startupItems(ref),
-        ),
         if (isAndroid ?? system.isAndroid)
           generateSectionV3(
             title: appLocalizations.fdBackgroundNotifications,

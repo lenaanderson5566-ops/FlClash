@@ -566,7 +566,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("プラン期限切れ"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
-    "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("もっと軽快に、もっと自由に。"),
+    "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("接続先を選び、ワンクリックで接続。"),
     "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "メールアドレスまたはパスワードが違います",
@@ -608,7 +608,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "操作に失敗しました。再試行してください。",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("必須項目です"),
-    "fdSearchRoutes": MessageLookupByLibrary.simpleMessage("国・都市・タグを検索"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("6か月"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "セッションが切れました。再ログインしてください。",

@@ -676,7 +676,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Global mode"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
-      "A little faster. A little freer.",
+      "Choose a route. Connect in one click.",
     ),
     "fdHome": MessageLookupByLibrary.simpleMessage("Home"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
@@ -732,9 +732,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage(
       "This field is required",
-    ),
-    "fdSearchRoutes": MessageLookupByLibrary.simpleMessage(
-      "Search country, city or tags",
     ),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Semiannual"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(

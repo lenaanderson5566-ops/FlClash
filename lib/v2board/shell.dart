@@ -100,12 +100,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           _origin.text = _api!.panel.origin;
           await _refresh();
           await _syncAvailable();
-          if (mounted &&
-              ref.read(appSettingProvider).autoRun &&
-              _account?.active == true &&
-              ref.read(fastaiReleaseProvider)?.required != true) {
-            await _profile.connect(_api!);
-          }
         } else if (mounted) {
           await _profile.clear();
         }
@@ -722,35 +716,31 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         _api == null ||
         (_account?.active == true &&
             ref.watch(fastaiReleaseProvider)?.required != true);
+    final metadata = ref.watch(fastaiNodeMetadataProvider).asData?.value[route];
+    final color = context.colorScheme.primary;
+    Widget panel(Widget child) => Material(
+      color: Colors.white,
+      shape: AppShape.lg.copyWith(
+        side: BorderSide(color: context.colorScheme.outlineVariant),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: child,
+    );
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
         child: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
           children: [
-            Center(
-              child: SizedBox(
-                width: 144,
-                height: 144,
-                child: GlyphIcon(
-                  AppGlyphs.cloudConnection(running),
-                  size: 132,
-                  color: running
-                      ? context.colorScheme.primary
-                      : context.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
             Text(
               _activity ?? (running ? l.fdConnected : l.fdDisconnected),
               textAlign: TextAlign.center,
-              style: context.textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.bold,
+              style: context.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             Text(
               switch (_account?.status) {
                 'noPlan' => l.fdNoPlan,
@@ -760,90 +750,130 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 _ => l.fdHeroSubtitle,
               },
               textAlign: TextAlign.center,
-              style: context.textTheme.bodyLarge,
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 28),
             Center(
-              child: FilledButton(
-                onPressed: _busy || (!running && !allowed)
-                    ? null
-                    : () {
-                        if (_api == null) {
-                          _requestLogin(connect: true);
-                        } else if (running) {
-                          unawaited(_disconnect());
-                        } else {
-                          unawaited(_sync(connect: true));
-                        }
-                      },
-                style: FilledButton.styleFrom(minimumSize: const Size(180, 52)),
-                child: Text(
-                  _busy
-                      ? _activity ?? l.loading
-                      : running
-                      ? l.fdDisconnect
-                      : l.fdConnect,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 240),
+                padding: const EdgeInsets.all(14),
+                decoration: ShapeDecoration(
+                  color: color.withValues(alpha: running ? 0.10 : 0.04),
+                  shape: AppShape.circle,
+                  shadows: [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.08),
+                      blurRadius: 32,
+                      offset: const Offset(0, 12),
+                    ),
+                  ],
+                ),
+                child: SizedBox(
+                  width: 172,
+                  height: 172,
+                  child: FilledButton(
+                    key: const ValueKey('home-connect'),
+                    onPressed: _busy || (!running && !allowed)
+                        ? null
+                        : () {
+                            if (_api == null) {
+                              _requestLogin(connect: true);
+                            } else if (running) {
+                              unawaited(_disconnect());
+                            } else {
+                              unawaited(_sync(connect: true));
+                            }
+                          },
+                    style: FilledButton.styleFrom(
+                      shape: AppShape.circle,
+                      padding: const EdgeInsets.all(20),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (_busy)
+                          const SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        else
+                          GlyphIcon(
+                            running ? AppGlyphs.check : AppGlyphs.bolt,
+                            size: 48,
+                          ),
+                        const SizedBox(height: 12),
+                        Text(
+                          _busy
+                              ? _activity ?? l.loading
+                              : running
+                              ? l.fdDisconnect
+                              : l.fdConnect,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            ConnectionSettings(
-              isDesktop: true,
-              segmented: true,
-              enabled: !_busy,
+            const SizedBox(height: 32),
+            panel(
+              ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
+                leading: NodeRegionFlag(
+                  regionCode: metadata?['regionCode'] as String?,
+                  fallback: const GlyphIcon(AppGlyphs.proxies),
+                ),
+                title: Text(
+                  _api == null || route == null || route.isEmpty
+                      ? l.fdChooseRoute
+                      : nodeDisplayName(
+                          metadata,
+                          route,
+                          Localizations.localeOf(context),
+                        ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  delay == null
+                      ? l.fdCurrentRoute
+                      : delay > 0
+                      ? '$delay ms'
+                      : l.timeout,
+                ),
+                trailing: const GlyphIcon(AppGlyphs.chevronForward),
+                onTap: _busy ? null : () => _selectPage(1),
+              ),
             ),
-            const SizedBox(height: 24),
-            Card(
-              elevation: 0,
-              color: context.colorScheme.surfaceContainerLowest,
-              shape: AppShape.lg,
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: NodeRegionFlag(
-                      regionCode:
-                          ref
-                                  .watch(fastaiNodeMetadataProvider)
-                                  .asData
-                                  ?.value[route]?['regionCode']
-                              as String?,
-                      fallback: const GlyphIcon(AppGlyphs.proxies),
+            const SizedBox(height: 12),
+            panel(
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(l.connection, style: context.textTheme.labelLarge),
+                    const SizedBox(height: 8),
+                    ConnectionSettings(
+                      isDesktop: true,
+                      segmented: true,
+                      enabled: !_busy,
                     ),
-                    title: Text(
-                      _api == null || route == null || route.isEmpty
-                          ? l.fdChooseRoute
-                          : nodeDisplayName(
-                              ref
-                                  .watch(fastaiNodeMetadataProvider)
-                                  .asData
-                                  ?.value[route],
-                              route,
-                              Localizations.localeOf(context),
-                            ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: delay == null
-                        ? null
-                        : Text(delay > 0 ? '$delay ms' : l.timeout),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (_api != null)
-                          IconButton(
-                            tooltip: l.fdSync,
-                            onPressed: _busy || !allowed ? null : () => _sync(),
-                            icon: const GlyphIcon(AppGlyphs.refresh),
-                          ),
-                        const GlyphIcon(AppGlyphs.chevronForward),
-                      ],
-                    ),
-                    onTap: _busy ? null : () => _selectPage(1),
-                  ),
-                  const Divider(height: 1),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: SegmentedButton<Mode>(
+                    const SizedBox(height: 16),
+                    Text(l.mode, style: context.textTheme.labelLarge),
+                    const SizedBox(height: 8),
+                    SegmentedButton<Mode>(
                       showSelectedIcon: false,
                       segments: [
                         for (final value in [Mode.rule, Mode.global])
@@ -869,8 +899,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                                   .changeMode(values.single);
                             },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

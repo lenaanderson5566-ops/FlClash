@@ -23,6 +23,9 @@ void main() {
         excludeSSIDs: ['old-network'],
         appSettingProps: const AppSettingProps(
           developerMode: true,
+          autoLaunch: true,
+          autoRun: true,
+          minimizeOnExit: false,
           silentLaunch: true,
         ),
         overrideDns: true,
@@ -70,6 +73,9 @@ void main() {
       expect(container.read(excludeSSIDsProvider), isEmpty);
       expect(container.read(appSettingProvider).developerMode, isFalse);
       expect(container.read(appSettingProvider).silentLaunch, isFalse);
+      expect(container.read(appSettingProvider).autoLaunch, isFalse);
+      expect(container.read(appSettingProvider).autoRun, isFalse);
+      expect(container.read(appSettingProvider).minimizeOnExit, isTrue);
       expect(container.read(overrideDnsProvider), isFalse);
       expect(container.read(overrideNtpProvider), isFalse);
       expect(container.read(vpnSettingProvider).enable, isTrue);

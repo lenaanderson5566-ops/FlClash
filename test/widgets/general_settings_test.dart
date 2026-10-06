@@ -1,4 +1,3 @@
-import 'package:fastai/providers/providers.dart';
 import 'package:fastai/views/config/general.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,35 +5,21 @@ import 'package:material_ui/material_ui.dart';
 import '../helpers/test_app.dart';
 
 void main() {
-  testWidgets('minimized startup depends on launch at startup', (tester) async {
-    final container = ProviderContainer();
-    addTearDown(container.dispose);
+  testWidgets('desktop settings have no startup or window behavior controls', (
+    tester,
+  ) async {
     await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: const TestApp(
-          child: SingleChildScrollView(
-            child: GeneralSettings(isDesktop: true, isAndroid: false),
-          ),
+      const ProviderScope(
+        child: TestApp(
+          child: GeneralSettings(isDesktop: true, isAndroid: false),
         ),
       ),
     );
-    await tester.pump();
-    final switches = find.byType(Switch);
-    expect(tester.widget<Switch>(switches.at(1)).onChanged, isNull);
-    container
-        .read(appSettingProvider.notifier)
-        .update((s) => s.copyWith(autoLaunch: true));
-    await tester.pump();
-    expect(tester.widget<Switch>(switches.at(1)).onChanged, isNotNull);
-    await tester.tap(find.text('Start minimized'));
-    await tester.pump();
-    expect(container.read(appSettingProvider).silentLaunch, isTrue);
-    await tester.tap(find.text('Auto launch'));
-    await tester.pump();
-    expect(container.read(appSettingProvider).autoLaunch, isFalse);
-    expect(container.read(appSettingProvider).silentLaunch, isFalse);
-    expect(find.text('On demand'), findsNothing);
+    expect(find.byType(Switch), findsNothing);
+    expect(find.text('Auto launch'), findsNothing);
+    expect(find.text('Start minimized'), findsNothing);
+    expect(find.text('Connect automatically on startup'), findsNothing);
+    expect(find.text('Keep running when the window is closed'), findsNothing);
   });
 
   testWidgets('Android groups background and notification settings', (

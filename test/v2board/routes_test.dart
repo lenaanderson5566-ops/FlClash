@@ -45,42 +45,7 @@ void main() {
       isNull,
     );
   });
-  test('route search uses translated names, tags and country codes', () {
-    const nodes = [
-      Proxy(name: 'node_1', type: 'Vless'),
-      Proxy(name: 'node_2', type: 'AnyTLS'),
-    ];
-    final metadata = <String, Map<String, dynamic>>{
-      'node_1': {
-        'regionCode': 'US',
-        'displayNames': {'zh-CN': '美国 · 圣何塞'},
-        'tags': ['流媒体'],
-      },
-      'node_2': {
-        'regionCode': 'JP',
-        'displayNames': {'zh-CN': '日本 · 东京'},
-        'tags': ['低延迟'],
-      },
-    };
-    const locale = Locale('zh', 'CN');
-    expect(
-      filterRoutes(nodes, metadata, locale, ' 圣何塞 ', null).map((p) => p.name),
-      ['node_1'],
-    );
-    expect(
-      filterRoutes(nodes, metadata, locale, '流媒体', null).map((p) => p.name),
-      ['node_1'],
-    );
-    expect(
-      filterRoutes(nodes, metadata, locale, 'us', null).map((p) => p.name),
-      ['node_1'],
-    );
-    expect(filterRoutes(nodes, metadata, locale, '', 'JP').map((p) => p.name), [
-      'node_2',
-    ]);
-    expect(filterRoutes(nodes, metadata, locale, '流媒体', 'JP'), isEmpty);
-  });
-  testWidgets('search and country filters keep the current route pinned', (
+  testWidgets('country filters keep the current route pinned without search', (
     tester,
   ) async {
     final container = ProviderContainer(
@@ -126,23 +91,14 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text('Current route'), findsOneWidget);
-    await tester.enterText(find.byType(TextField), 'Tokyo');
-    await tester.pump();
-    expect(find.text('Japan · Tokyo'), findsOneWidget);
-    expect(find.text('United States · San Jose'), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
     await tester.tap(find.widgetWithText(ChoiceChip, 'United States'));
     await tester.pump();
     expect(find.text('Japan · Tokyo'), findsNothing);
-    expect(
-      find.text('No matching routes. Clear the filters to see all routes.'),
-      findsOneWidget,
-    );
-    await tester.tap(find.byTooltip('Clear search'));
+    expect(find.text('United States · San Jose'), findsOneWidget);
+    await tester.tap(find.widgetWithText(ChoiceChip, 'All regions'));
     await tester.pump();
-    expect(
-      find.text('No matching routes. Clear the filters to see all routes.'),
-      findsNothing,
-    );
+    expect(find.text('Japan · Tokyo'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

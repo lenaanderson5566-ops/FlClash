@@ -1,3 +1,4 @@
+import 'package:fastai/v2board/config.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -38,6 +39,7 @@ class AutoLaunch {
     if (kDebugMode) {
       return;
     }
+    if (V2BoardConfig.enabled) isAutoLaunch = false;
     if (await isEnable == isAutoLaunch) return;
     if (isAutoLaunch == true) {
       unawaited(enable());

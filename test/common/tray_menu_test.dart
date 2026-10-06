@@ -181,7 +181,7 @@ void main() {
     final l10n = currentAppLocalizations;
     expect(labels, contains(l10n.show));
     expect(labels, contains(l10n.start));
-    expect(labels, contains(l10n.autoLaunch));
+    expect(labels, isNot(contains(l10n.autoLaunch)));
     expect(labels, contains(l10n.copyEnvVar));
     expect(labels, contains(l10n.exit));
     expect(labels, isNot(contains(l10n.tun)));
