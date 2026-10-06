@@ -8,7 +8,6 @@ import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/views.dart';
 import 'package:fastai/views/config/connection_settings.dart';
-import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -637,16 +636,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           title: Text(l.fdSupport),
           onTap: _busy ? null : () => _run(_portal),
         ),
-        ListTile(
-          leading: const GlyphIcon(AppGlyphs.settings),
-          title: Text(l.settings),
-          onTap: _busy
-              ? null
-              : () => Navigator.of(context).push<void>(
-                  MaterialPageRoute(
-                    builder: (_) => const KeyboardInsetHold(child: ToolsView()),
-                  ),
-                ),
+        TextButton.icon(
+          onPressed: _busy ? null : () => _run(_refresh),
+          icon: const GlyphIcon(AppGlyphs.refresh),
+          label: Text(l.fdRefresh),
         ),
         const SizedBox(height: 16),
         OutlinedButton(
@@ -814,12 +807,23 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             extended: _sidebarExpanded && constraints.maxWidth >= 520,
             minExtendedWidth: 180,
             backgroundColor: const Color(0xFFF7F8FA),
-            leading: IconButton(
-              tooltip: _sidebarExpanded ? l.shrink : l.expand,
-              onPressed: () =>
-                  setState(() => _sidebarExpanded = !_sidebarExpanded),
-              icon: GlyphIcon(AppGlyphs.sidebar(_sidebarExpanded ? 1 : 0)),
-              key: const ValueKey('sidebar-toggle'),
+            leading: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    V2BoardConfig.appName,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                IconButton(
+                  tooltip: _sidebarExpanded ? l.shrink : l.expand,
+                  onPressed: () =>
+                      setState(() => _sidebarExpanded = !_sidebarExpanded),
+                  icon: GlyphIcon(AppGlyphs.sidebar(_sidebarExpanded ? 1 : 0)),
+                  key: const ValueKey('sidebar-toggle'),
+                ),
+              ],
             ),
             selectedIndex: _tab,
             onDestinationSelected: _busy ? null : _selectPage,
@@ -838,7 +842,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               ),
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.account),
-                label: Text(l.fdPersonalProfile),
+                label: Text(l.account),
               ),
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.info),
@@ -847,7 +851,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ],
           ),
           const VerticalDivider(width: 1),
-          Expanded(child: _page()),
+          Expanded(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 960),
+                child: _page(),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -856,7 +867,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   @override
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
-    final signedIn = _api != null;
     final release = ref.watch(fastaiReleaseProvider);
     ref.listen(fastaiReleaseProvider, (previous, next) {
       if (next?.required == true) {
@@ -865,74 +875,47 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       }
     });
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: widget.desktopLayout ? Colors.white : null,
-        foregroundColor: widget.desktopLayout
-            ? context.colorScheme.primary
-            : null,
-        title: const Text(V2BoardConfig.appName),
-        actions: [
-          if (_showLogin)
-            IconButton(
-              tooltip: l.fdHome,
-              onPressed: () => _selectPage(0),
-              icon: const GlyphIcon(AppGlyphs.dashboard),
-            ),
-          if (!signedIn && !_showLogin)
-            TextButton(
-              onPressed: _busy ? null : _requestLogin,
-              style: TextButton.styleFrom(
-                foregroundColor: widget.desktopLayout
-                    ? context.colorScheme.primary
-                    : Colors.white,
-              ),
-              child: Text(l.fdLogin),
-            ),
-          if (signedIn)
-            IconButton(
-              tooltip: l.fdRefresh,
-              onPressed: _busy ? null : () => _run(_refresh),
-              icon: const GlyphIcon(AppGlyphs.refresh),
-            ),
-        ],
-      ),
-      body: Column(
-        children: [
-          if (_busy) const LinearProgressIndicator(),
-          if (release != null &&
-              (release.required ||
-                  release.availableFor(
-                    globalState.packageInfo.version,
-                    int.tryParse(globalState.packageInfo.buildNumber) ?? 0,
-                  )))
-            ListTile(
-              title: Text(
-                release.required ? l.fdUpdateRequired : l.discoverNewVersion,
-              ),
-              subtitle: Text(release.latestVersion),
-              trailing: TextButton(
-                onPressed: () => checkFastaiUpdate(context, ref),
-                child: Text(l.goDownload),
-              ),
-            ),
-          if (_error != null)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: ShapeDecoration(
-                  color: context.colorScheme.errorContainer,
-                  shape: AppShape.md,
+      body: SafeArea(
+        child: Column(
+          children: [
+            if (_busy) const LinearProgressIndicator(),
+            if (release != null &&
+                (release.required ||
+                    release.availableFor(
+                      globalState.packageInfo.version,
+                      int.tryParse(globalState.packageInfo.buildNumber) ?? 0,
+                    )))
+              ListTile(
+                title: Text(
+                  release.required ? l.fdUpdateRequired : l.discoverNewVersion,
                 ),
-                child: Text(
-                  _error!,
-                  style: TextStyle(color: context.colorScheme.onErrorContainer),
+                subtitle: Text(release.latestVersion),
+                trailing: TextButton(
+                  onPressed: () => checkFastaiUpdate(context, ref),
+                  child: Text(l.goDownload),
                 ),
               ),
-            ),
-          Expanded(child: widget.desktopLayout ? _desktopBody() : _page()),
-        ],
+            if (_error != null)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: ShapeDecoration(
+                    color: context.colorScheme.errorContainer,
+                    shape: AppShape.md,
+                  ),
+                  child: Text(
+                    _error!,
+                    style: TextStyle(
+                      color: context.colorScheme.onErrorContainer,
+                    ),
+                  ),
+                ),
+              ),
+            Expanded(child: widget.desktopLayout ? _desktopBody() : _page()),
+          ],
+        ),
       ),
       bottomNavigationBar: !widget.desktopLayout
           ? NavigationBar(
@@ -953,7 +936,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 ),
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.account),
-                  label: l.fdPersonalProfile,
+                  label: l.account,
                 ),
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.info),

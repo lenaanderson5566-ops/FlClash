@@ -150,7 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "选中应用将会被排除在VPN之外",
     ),
     "accessControlSettings": MessageLookupByLibrary.simpleMessage("访问控制设置"),
-    "account": MessageLookupByLibrary.simpleMessage("账号"),
+    "account": MessageLookupByLibrary.simpleMessage("帐号"),
     "action": MessageLookupByLibrary.simpleMessage("操作"),
     "actionDelayTest": MessageLookupByLibrary.simpleMessage("测试全部延迟"),
     "actionDirectMode": MessageLookupByLibrary.simpleMessage("直连模式"),

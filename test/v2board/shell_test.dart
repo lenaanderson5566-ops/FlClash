@@ -127,7 +127,7 @@ void main() {
     expect(find.byType(TextFormField), findsNothing);
     await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
     await tester.pumpAndSettle();
-    expect(find.text('FastAI'), findsNWidgets(2));
+    expect(find.text('FastAI'), findsOneWidget);
     final theme = Theme.of(tester.element(find.byType(TextFormField).first));
     expect(theme.brightness, Brightness.light);
     expect(theme.colorScheme.primary, const Color(0xFF153B70));
@@ -143,12 +143,13 @@ void main() {
   ) async {
     await show(tester, null, desktopLayout: true);
     expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(AppBar), findsNothing);
     final rail = tester.widget<NavigationRail>(find.byType(NavigationRail));
     expect(rail.destinations.map((item) => (item.label as Text).data), [
       'Home',
       'Connection',
       'Settings',
-      'Personal profile',
+      'Account',
       'About',
     ]);
     expect(
@@ -249,7 +250,7 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('account keeps website services and settings easy to find', (
+  testWidgets('account keeps website services without duplicating settings', (
     tester,
   ) async {
     await show(tester, _Api(true));
@@ -257,12 +258,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('test@example.com'), findsOneWidget);
     expect(find.text('Manage on website'), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.widgetWithText(ListTile, 'Settings'),
-      120,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(find.widgetWithText(ListTile, 'Settings'), findsOneWidget);
+    expect(find.widgetWithText(ListTile, 'Settings'), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
