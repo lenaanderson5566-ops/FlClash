@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/models/models.dart';
-import 'package:fastai/pages/editor.dart';
 import 'package:fastai/providers/action.dart';
 import 'package:fastai/providers/core.dart';
 import 'package:fastai/providers/state.dart';
@@ -34,7 +32,6 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
   late final TextEditingController _urlController;
   late final TextEditingController _autoUpdateDurationController;
   late bool _autoUpdate;
-  String? _rawText;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _fileInfoNotifier = ValueNotifier<FileInfo?>(null);
   late SetupAction _setupAction;
@@ -135,67 +132,6 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
     });
   }
 
-  Future<void> _handleSaveEdit(BuildContext context, String data) async {
-    final message = await globalState.safeRun<String>(() async {
-      final message = await ref
-          .read(profilesActionProvider.notifier)
-          .validateConfigWithData(data);
-      return message;
-    }, silence: false);
-    if (message?.isNotEmpty == true) {
-      unawaited(
-        dialogs.showMessage(
-          title: currentAppLocalizations.tip,
-          message: TextSpan(text: message),
-        ),
-      );
-      return;
-    }
-    if (context.mounted) {
-      Navigator.of(context).pop(data);
-    }
-  }
-
-  Future<void> _editProfileFile() async {
-    final title = widget.profile.label.takeFirstValid([
-      widget.profile.id.toString(),
-    ]);
-    final editorPage = EditorPage(
-      title: title,
-      load: () async => _rawText ??=
-          await readTextFileTask(
-            await appPath.getProfilePath(widget.profile.id.toString()),
-          ) ??
-          '',
-      onSave: (context, _, content) => _handleSaveEdit(context, content),
-      onPop: (context, _, content) async {
-        if (content == _rawText) {
-          return true;
-        }
-        final res = await dialogs.showMessage(
-          title: title,
-          message: TextSpan(text: context.appLocalizations.hasCacheChange),
-        );
-        if (res == true && context.mounted) {
-          unawaited(_handleSaveEdit(context, content));
-        } else {
-          return true;
-        }
-        return false;
-      },
-    );
-    final data = await BaseNavigator.push<String>(context, editorPage);
-    if (data == null) {
-      return;
-    }
-    _rawText = data;
-    _fileData = Uint8List.fromList(utf8.encode(data));
-    _fileInfoNotifier.value = _fileInfoNotifier.value?.copyWith(
-      size: _fileData?.length ?? 0,
-      lastModified: DateTime.now(),
-    );
-  }
-
   Future<void> _uploadProfileFile() async {
     final platformFile = await globalState.safeRun(picker.pickerFile);
     if (platformFile == null) return;
@@ -256,7 +192,6 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
       ],
       _ProfileFileItem(
         fileInfoNotifier: _fileInfoNotifier,
-        onEdit: _editProfileFile,
         onUpload: _uploadProfileFile,
       ),
     ];
@@ -404,12 +339,10 @@ class _AutoUpdateIntervalField extends StatelessWidget {
 class _ProfileFileItem extends StatelessWidget {
   const _ProfileFileItem({
     required this.fileInfoNotifier,
-    required this.onEdit,
     required this.onUpload,
   });
 
   final ValueNotifier<FileInfo?> fileInfoNotifier;
-  final VoidCallback onEdit;
   final VoidCallback onUpload;
 
   Widget _buildMetadata(BuildContext context, FileInfo fileInfo) {
@@ -432,11 +365,6 @@ class _ProfileFileItem extends StatelessWidget {
   List<CommonPopupMenuItem> _menuItems(BuildContext context) {
     final appLocalizations = context.appLocalizations;
     return [
-      CommonPopupMenuItem(
-        glyph: AppGlyphs.edit,
-        label: appLocalizations.edit,
-        onPressed: onEdit,
-      ),
       CommonPopupMenuItem(
         glyph: AppGlyphs.upload,
         label: appLocalizations.upload,

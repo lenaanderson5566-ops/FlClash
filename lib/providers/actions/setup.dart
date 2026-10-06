@@ -367,14 +367,16 @@ class SetupAction extends _$SetupAction {
     final List<CustomProxy> proxies = [];
     final List<ProxyGroup> proxyGroups = [];
     final List<Rule> rules = [];
-    if (setupState.overwriteType == OverwriteType.script) {
-      scriptContent = await setupState.script?.content;
-    } else if (setupState.overwriteType == OverwriteType.standard) {
-      addedRules.addAll(setupState.addedRules);
-    } else {
-      proxies.addAll(setupState.customProxies);
-      proxyGroups.addAll(setupState.proxyGroups);
-      rules.addAll(setupState.rules);
+    if (!V2BoardConfig.enabled) {
+      if (setupState.overwriteType == OverwriteType.script) {
+        scriptContent = await setupState.script?.content;
+      } else if (setupState.overwriteType == OverwriteType.standard) {
+        addedRules.addAll(setupState.addedRules);
+      } else {
+        proxies.addAll(setupState.customProxies);
+        proxyGroups.addAll(setupState.proxyGroups);
+        rules.addAll(setupState.rules);
+      }
     }
     final realPatchConfig = patchConfig.copyWith(
       tun: patchConfig.tun.getRealTun(routeMode),
@@ -384,11 +386,13 @@ class SetupAction extends _$SetupAction {
       rawConfig = await handleEvaluate(scriptContent!, rawConfig);
     }
     final directory = await appPath.profilesPath;
-    final injected = await _resolveInjectedProviders(
-      setupState,
-      proxyGroups: proxyGroups,
-      rules: rules,
-    );
+    final injected = V2BoardConfig.enabled
+        ? (proxies: <String, dynamic>{}, rules: <String, dynamic>{})
+        : await _resolveInjectedProviders(
+            setupState,
+            proxyGroups: proxyGroups,
+            rules: rules,
+          );
     final res = makeRealProfileTask(
       MakeRealProfileState(
         rules: rules,

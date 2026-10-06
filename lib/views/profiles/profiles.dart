@@ -6,7 +6,6 @@ import 'package:fastai/icons/icons.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/views/profiles/overwrite/overwrite.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_ui/material_ui.dart';
@@ -16,7 +15,6 @@ import 'package:fastai/v2board/config.dart';
 
 import 'add.dart';
 import 'edit.dart';
-import 'preview.dart';
 
 class ProfilesView extends ConsumerStatefulWidget {
   const ProfilesView({super.key});
@@ -226,12 +224,6 @@ class ProfileItem extends ConsumerWidget {
     await profilesAction.deleteProfile(profile.id);
   }
 
-  Future<void> _handlePreview(BuildContext context) async {
-    unawaited(
-      BaseNavigator.push<String>(context, PreviewProfileView(profile: profile)),
-    );
-  }
-
   void _handleShowSubscriptionInfo(BuildContext context) {
     unawaited(
       dialogs.showCommonDialog<void>(
@@ -328,10 +320,6 @@ class ProfileItem extends ConsumerWidget {
     }
   }
 
-  void _handlePushGenProfilePage(BuildContext context, int id) {
-    BaseNavigator.push(context, OverwriteView(profileId: id));
-  }
-
   List<CommonPopupMenuItem> _menuItems(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
     final isUrl = profile.type == ProfileType.url;
@@ -346,13 +334,7 @@ class ProfileItem extends ConsumerWidget {
           _handleShowEditExtendPage(context);
         },
       ),
-      CommonPopupMenuItem(
-        glyph: AppGlyphs.eye,
-        label: appLocalizations.preview,
-        onPressed: () {
-          _handlePreview(context);
-        },
-      ),
+
       if (isUrl)
         CommonPopupMenuItem(
           glyph: AppGlyphs.sync,
@@ -365,13 +347,6 @@ class ProfileItem extends ConsumerWidget {
         glyph: AppGlyphs.moreCircle,
         label: appLocalizations.more,
         subItems: [
-          CommonPopupMenuItem(
-            glyph: AppGlyphs.puzzle,
-            label: appLocalizations.override,
-            onPressed: () {
-              _handlePushGenProfilePage(context, profile.id);
-            },
-          ),
           if (hasSubscriptionInfo)
             CommonPopupMenuItem(
               glyph: AppGlyphs.dataUsage,

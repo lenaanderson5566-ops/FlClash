@@ -4,9 +4,7 @@ import 'package:fastai/icons/icons.dart';
 import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
-import 'package:fastai/views/about.dart';
 import 'package:fastai/views/access.dart';
-import 'package:fastai/views/backup_and_restore.dart';
 import 'package:fastai/views/config/general.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
@@ -53,7 +51,6 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       items: [
         if (!V2BoardConfig.enabled) const _DisclaimerItem(),
         if (enableDeveloperMode) const _DeveloperItem(),
-        const _InfoItem(),
       ],
     );
   }
@@ -63,7 +60,6 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: context.appLocalizations.settings,
       items: [
         const _LocaleItem(),
-        if (V2BoardConfig.allowProfileImports) const _BackupItem(),
         if (system.isAndroid) const _AccessItem(),
         const _AdvancedConfigItem(),
         const _GeneralItem(),
@@ -142,20 +138,6 @@ class _LocaleItem extends ConsumerWidget {
   }
 }
 
-class _BackupItem extends StatelessWidget {
-  const _BackupItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.cloudSync),
-      title: Text(context.appLocalizations.backupAndRestore),
-      subtitle: Text(context.appLocalizations.backupAndRestoreDesc),
-      widget: const BackupAndRestore(),
-    );
-  }
-}
-
 class _AccessItem extends StatelessWidget {
   const _AccessItem();
 
@@ -206,19 +188,6 @@ class _DisclaimerItem extends StatelessWidget {
       leading: const GlyphIcon(AppGlyphs.gavel),
       title: Text(context.appLocalizations.disclaimer),
       widget: const DisclaimerView(),
-    );
-  }
-}
-
-class _InfoItem extends StatelessWidget {
-  const _InfoItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.info),
-      title: Text(context.appLocalizations.about),
-      widget: const AboutView(),
     );
   }
 }

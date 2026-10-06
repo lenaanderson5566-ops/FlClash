@@ -14,6 +14,7 @@ import 'package:fastai/providers/core.dart';
 import 'package:fastai/providers/database.dart';
 import 'package:fastai/providers/state.dart';
 import 'package:fastai/state.dart';
+import 'package:fastai/v2board/config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -941,114 +942,122 @@ void main() {
       },
     );
 
-    test('a custom overwrite injects only the providers it names', () async {
-      final profile = Profile.normal(label: 'p');
-      final core = _MockCoreHandlerInterface();
-      when(() => core.getConfig(any())).thenAnswer(
-        (_) async => {
-          'proxy-providers': {
-            'bundled': {'type': 'http', 'url': 'https://example.com/b.yaml'},
-          },
-        },
-      );
-      const appProxy = ClashProvider(
-        id: 11,
-        kind: ProviderKind.proxy,
-        label: 'appProxies',
-        url: 'https://example.com/p.yaml',
-      );
-      const appRule = ClashProvider(
-        id: 12,
-        kind: ProviderKind.rule,
-        label: 'appRules',
-        url: 'https://example.com/r.yaml',
-        behavior: RuleProviderBehavior.domain,
-        format: RuleProviderFormat.mrs,
-      );
-      const unusedProxy = ClashProvider(
-        id: 13,
-        kind: ProviderKind.proxy,
-        label: 'unused',
-        url: 'https://example.com/u.yaml',
-      );
-      const localRule = ClashProvider(
-        id: 14,
-        kind: ProviderKind.rule,
-        label: 'localRules',
-        behavior: RuleProviderBehavior.classical,
-        format: RuleProviderFormat.yaml,
-      );
-      final setupState = nullProfileSetupState.copyWith(
-        profileId: profile.id,
-        overwriteType: OverwriteType.custom,
-        proxyGroups: [
-          const ProxyGroup(
-            id: 1,
-            name: 'g',
-            type: GroupType.Selector,
-            use: ['appProxies', 'sub'],
-          ),
-        ],
-        rules: [
-          Rule.parse('RULE-SET,appRules,DIRECT', id: 2),
-          Rule.parse('RULE-SET,localRules,DIRECT', id: 3),
-        ],
-        clashProviders: const [appProxy, appRule, unusedProxy, localRule],
-        profileProviders: const {'sub': 42},
-      );
-      final scoped = ProviderContainer(
-        overrides: [
-          coreHandlerProvider.overrideWithValue(CoreController.scoped(core)),
-          setupActionProvider.overrideWith(SetupAction.new),
-        ],
-      );
-      addTearDown(scoped.dispose);
-
-      final res = await scoped
-          .read(setupActionProvider.notifier)
-          .getProfile(
-            setupState: setupState,
-            patchConfig: const PatchClashConfig(),
+    for (final overwriteType in OverwriteType.values) {
+      test(
+        'managed config ignores saved $overwriteType overrides and providers',
+        () async {
+          final profile = Profile.normal(label: 'p');
+          final core = _MockCoreHandlerInterface();
+          when(() => core.getConfig(any())).thenAnswer(
+            (_) async => {
+              'proxies': [
+                {'name': 'server-node', 'type': 'direct'},
+              ],
+              'proxy-groups': [
+                {
+                  'name': 'server-group',
+                  'type': 'select',
+                  'proxies': ['server-node'],
+                },
+              ],
+              'rule': ['MATCH,server-group'],
+              'proxy-providers': {
+                'bundled': {
+                  'type': 'http',
+                  'url': 'https://example.com/b.yaml',
+                },
+              },
+            },
           );
-      final config = loadYaml(res.yaml) as YamlMap;
-      final proxyProviders = config['proxy-providers'] as YamlMap;
+          const appProxy = ClashProvider(
+            id: 11,
+            kind: ProviderKind.proxy,
+            label: 'appProxies',
+            url: 'https://example.com/p.yaml',
+          );
+          const appRule = ClashProvider(
+            id: 12,
+            kind: ProviderKind.rule,
+            label: 'appRules',
+            url: 'https://example.com/r.yaml',
+            behavior: RuleProviderBehavior.domain,
+            format: RuleProviderFormat.mrs,
+          );
+          const unusedProxy = ClashProvider(
+            id: 13,
+            kind: ProviderKind.proxy,
+            label: 'unused',
+            url: 'https://example.com/u.yaml',
+          );
+          const localRule = ClashProvider(
+            id: 14,
+            kind: ProviderKind.rule,
+            label: 'localRules',
+            behavior: RuleProviderBehavior.classical,
+            format: RuleProviderFormat.yaml,
+          );
+          final script = Script.create(label: 'old script');
+          final scriptFile = File(await script.path);
+          await scriptFile.parent.create(recursive: true);
+          await scriptFile.writeAsString(
+            'function main(config) { config.rules = ["MATCH,REJECT"]; return config; }',
+          );
+          final setupState = nullProfileSetupState.copyWith(
+            profileId: profile.id,
+            overwriteType: overwriteType,
+            script: script,
+            customProxies: const [
+              CustomProxy(
+                id: 7,
+                definition: {'name': 'old-node', 'type': 'direct'},
+              ),
+            ],
+            addedRules: [Rule.parse('MATCH,REJECT', id: 8)],
+            proxyGroups: [
+              const ProxyGroup(
+                id: 1,
+                name: 'g',
+                type: GroupType.Selector,
+                use: ['appProxies', 'sub'],
+              ),
+            ],
+            rules: [
+              Rule.parse('RULE-SET,appRules,DIRECT', id: 2),
+              Rule.parse('RULE-SET,localRules,DIRECT', id: 3),
+            ],
+            clashProviders: const [appProxy, appRule, unusedProxy, localRule],
+            profileProviders: const {'sub': 42},
+          );
+          final scoped = ProviderContainer(
+            overrides: [
+              coreHandlerProvider.overrideWithValue(
+                CoreController.scoped(core),
+              ),
+              setupActionProvider.overrideWith(SetupAction.new),
+            ],
+          );
+          addTearDown(scoped.dispose);
 
-      expect(
-        proxyProviders['appProxies']['path'],
-        await appPath.getProviderCachePath(
-          ProviderKind.proxy,
-          appProxy.fileName,
-        ),
+          final res = await scoped
+              .read(setupActionProvider.notifier)
+              .getProfile(
+                setupState: setupState,
+                patchConfig: const PatchClashConfig(globalUa: 'legacy-client'),
+              );
+          final config = loadYaml(res.yaml) as YamlMap;
+          final proxyProviders = config['proxy-providers'] as YamlMap;
+
+          expect(proxyProviders.keys, ['bundled']);
+          expect(config['rule-providers'], isNull);
+          expect(config['proxy-groups'][0]['name'], 'server-group');
+          expect(config['proxy-groups'], hasLength(1));
+          expect(config['proxies'][0]['name'], 'server-node');
+          expect(config['rules'], ['MATCH,server-group']);
+          expect(config['global-ua'], globalState.packageInfo.ua);
+        },
+        skip: !V2BoardConfig.enabled,
       );
-      expect(proxyProviders['sub']['type'], 'file');
-      expect(proxyProviders['sub']['path'], await appPath.getProfilePath('42'));
-      expect(proxyProviders.containsKey('unused'), isFalse);
-      expect(
-        proxyProviders['bundled']['path'],
-        startsWith(
-          await appPath.getProviderDirPath(
-            profile.id,
-            proxiesProviderDirectoryName,
-          ),
-        ),
-      );
-      expect(config['rule-providers']['appRules']['behavior'], 'domain');
-      expect(config['rule-providers']['appRules']['format'], 'mrs');
-      expect(
-        config['rule-providers']['appRules']['path'],
-        await appPath.getProviderCachePath(ProviderKind.rule, appRule.fileName),
-      );
-      final local = config['rule-providers']['localRules'] as YamlMap;
-      expect(local['type'], 'file');
-      expect(local.containsKey('url'), isFalse);
-      expect(
-        local['path'],
-        await appPath.getProviderCachePath(
-          ProviderKind.rule,
-          localRule.fileName,
-        ),
-      );
-    });
+    }
 
     test(
       'a rejected setupConfig without a handoff reports failure, not success',

@@ -4,7 +4,6 @@ import 'package:fastai/features/overwrite/overwrite.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/models/models.dart';
-import 'package:fastai/pages/editor.dart';
 import 'package:fastai/providers/config.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
@@ -127,53 +126,6 @@ class DnsView extends ConsumerWidget {
         );
   }
 
-  Future<void> _handleQuickEdit(BuildContext context, WidgetRef ref) {
-    final config = ref.read(patchClashConfigProvider);
-    final raw = config.dns.overrideYaml(config.dnsOverrideKeys);
-    return BaseNavigator.push(
-      context,
-      EditorPage(
-        title: 'DNS',
-        content: raw,
-        schema: EditorSchema.dns,
-        readOnly: false,
-        onPop: (_, _, content) => _handleQuickEditPop(ref, content, raw),
-      ),
-    );
-  }
-
-  Future<bool> _handleQuickEditPop(
-    WidgetRef ref,
-    String content,
-    String raw,
-  ) async {
-    if (content == raw) {
-      return true;
-    }
-    try {
-      final result = ref
-          .read(patchClashConfigProvider)
-          .dns
-          .applyOverrideYaml(content);
-      ref
-          .read(patchClashConfigProvider.notifier)
-          .update(
-            (state) =>
-                state.copyWith(dns: result.dns, dnsOverrideKeys: result.keys),
-          );
-      return true;
-    } catch (error) {
-      final res = await dialogs.showMessage(
-        message: TextSpan(
-          text:
-              '${compactError(error)}\n\n'
-              '${currentAppLocalizations.discardChanges}',
-        ),
-      );
-      return res == true;
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
@@ -189,11 +141,6 @@ class DnsView extends ConsumerWidget {
           glyph: AppGlyphs.add,
           label: appLocalizations.add,
           onPressed: canAdd ? () => _handleAdd(context, ref) : null,
-        ),
-        CommonPopupMenuItem(
-          glyph: AppGlyphs.compose,
-          label: appLocalizations.quickEdit,
-          onPressed: () => _handleQuickEdit(context, ref),
         ),
       ],
       body: const _OverrideList(),

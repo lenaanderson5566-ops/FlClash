@@ -7,7 +7,6 @@ import 'package:fastai/icons/icons.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/views/profiles/preview.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -123,12 +122,6 @@ class _ProfileDetailSheetState extends ConsumerState<ProfileDetailSheet> {
     });
   }
 
-  void _handlePreview(Profile profile) {
-    unawaited(
-      BaseNavigator.push<String>(context, PreviewProfileView(profile: profile)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // Groups refresh after every applied setup, and after a proxy switch too.
@@ -155,11 +148,6 @@ class _ProfileDetailSheetState extends ConsumerState<ProfileDetailSheet> {
             isLoading: isUpdating,
             onPressed: () => syncProfile(ref, profile),
           ),
-        IconButtonData(
-          glyph: AppGlyphs.eye,
-          tooltip: appLocalizations.preview,
-          onPressed: () => _handlePreview(profile),
-        ),
       ],
       body: ListView(
         padding: const EdgeInsets.symmetric(

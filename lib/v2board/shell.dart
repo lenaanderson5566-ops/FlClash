@@ -667,17 +667,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           padding: const EdgeInsets.all(32),
           children: [
             Center(
-              child: Container(
+              child: SizedBox(
                 width: 144,
                 height: 144,
-                decoration: ShapeDecoration(
-                  color: context.colorScheme.primaryContainer,
-                  shape: AppShape.circle,
-                ),
                 child: GlyphIcon(
-                  AppGlyphs.bolt,
-                  size: 72,
-                  color: context.colorScheme.primary,
+                  AppGlyphs.cloudConnection(running),
+                  size: 132,
+                  color: running
+                      ? context.colorScheme.primary
+                      : context.colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
@@ -792,7 +790,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ? const ProxiesView()
             : Center(child: Text(context.appLocalizations.fdNodesUnavailable)),
       2 => _api == null ? _loginView() : _myAccount(),
-      _ => const ToolsView(),
+      3 => const ToolsView(),
+      _ => const AboutView(),
     };
   }
 
@@ -830,6 +829,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.settings),
                 label: Text(l.settings),
+              ),
+              NavigationRailDestination(
+                icon: const GlyphIcon(AppGlyphs.info),
+                label: Text(l.about),
               ),
             ],
           ),
@@ -941,6 +944,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.settings),
                   label: l.settings,
+                ),
+                NavigationDestination(
+                  icon: const GlyphIcon(AppGlyphs.info),
+                  label: l.about,
                 ),
               ],
             )

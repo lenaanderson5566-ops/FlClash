@@ -3,7 +3,6 @@ import 'dart:ui' show Tristate;
 import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
-import 'package:fastai/pages/editor.dart';
 import 'package:fastai/providers/app.dart';
 import 'package:fastai/providers/config.dart';
 import 'package:fastai/providers/database.dart';
@@ -140,49 +139,5 @@ void main() {
     await tester.tap(find.text(currentAppLocalizations.overrideNtp));
     await tester.pump();
     expect(container.read(overrideNtpProvider), isTrue);
-  });
-
-  Future<EditorPage> openQuickEdit(WidgetTester tester) async {
-    await openMenu(tester);
-    await tester.tap(find.text(currentAppLocalizations.quickEdit));
-    await tester.pumpAndSettle();
-    return tester.widget<EditorPage>(find.byType(EditorPage));
-  }
-
-  testWidgets('quick edit opens the override document and applies it on exit', (
-    tester,
-  ) async {
-    await pumpView(tester);
-    setKeys({NtpOverrideKey.enable});
-    await tester.pump();
-
-    final editor = await openQuickEdit(tester);
-    expect(editor.content, contains('enable: false'));
-    expect(editor.readOnly, isFalse);
-
-    final context = tester.element(find.byType(EditorPage));
-    final popped = await editor.onPop!(context, 'NTP', 'port: 1230');
-    expect(popped, isTrue);
-    expect(config().ntpOverrideKeys, {NtpOverrideKey.port});
-    expect(config().ntp.port, 1230);
-  });
-
-  testWidgets('a rejected quick edit can only be discarded or kept open', (
-    tester,
-  ) async {
-    await pumpView(tester);
-    final editor = await openQuickEdit(tester);
-    final context = tester.element(find.byType(EditorPage));
-
-    final popped = editor.onPop!(context, 'NTP', 'bogus: 1');
-    await tester.pump();
-    expect(
-      find.textContaining(currentAppLocalizations.discardChanges),
-      findsOneWidget,
-    );
-    await tester.tap(find.text(currentAppLocalizations.cancel));
-    await tester.pump();
-    expect(await popped, isFalse);
-    expect(config().ntpOverrideKeys, isEmpty);
   });
 }

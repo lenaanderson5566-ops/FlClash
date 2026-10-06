@@ -4,7 +4,6 @@ import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/views/config/on_demand.dart';
-import 'package:fastai/views/config/user_agents.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,23 +23,6 @@ class LogLevelItem extends ConsumerWidget {
       onChanged: (ref, value) => ref
           .read(patchClashConfigProvider.notifier)
           .update((state) => state.copyWith(logLevel: value)),
-    );
-  }
-}
-
-class UaItem extends ConsumerWidget {
-  const UaItem({super.key});
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final appLocalizations = context.appLocalizations;
-    final globalUa = ref.watch(
-      patchClashConfigProvider.select((state) => state.globalUa),
-    );
-    return ListItem.open(
-      title: Text(appLocalizations.userAgent),
-      subtitle: Text(globalUa ?? appLocalizations.defaultText),
-      widget: const UserAgentsView(),
     );
   }
 }
@@ -386,7 +368,6 @@ class GeneralView extends ConsumerWidget {
 
   List<Widget> _requestItems() {
     return [
-      const UaItem(),
       _appSettingToggle(
         title: (l) => l.checkCertificate,
         subtitle: (l) => l.checkCertificateDesc,

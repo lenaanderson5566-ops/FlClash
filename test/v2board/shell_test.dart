@@ -174,6 +174,12 @@ void main() {
     await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
     expect(find.text('Language'), findsOneWidget);
+    expect(find.text('About'), findsOneWidget);
+    expect(find.text('Backup and Restore'), findsNothing);
+    await tester.tap(find.text('About'));
+    await tester.pumpAndSettle();
+    expect(find.text('FastAI'), findsWidgets);
+    expect(find.text('Check for updates'), findsOneWidget);
     expect(find.byType(TextFormField), findsNothing);
     await tester.tap(find.text('Connection').first);
     await tester.pumpAndSettle();
@@ -208,7 +214,7 @@ void main() {
             .onPressed,
         isNull,
       );
-      expect(find.byType(NavigationDestination), findsNWidgets(4));
+      expect(find.byType(NavigationDestination), findsNWidgets(5));
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
@@ -254,7 +260,7 @@ void main() {
     tester,
   ) async {
     await show(tester, _Api(false));
-    expect(find.byType(NavigationDestination), findsNWidgets(4));
+    expect(find.byType(NavigationDestination), findsNWidgets(5));
     final connect = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Connect'),
     );
@@ -291,7 +297,7 @@ void main() {
         scrollable: find.byType(Scrollable).first,
       );
       expect(find.byType(SegmentedButton<Mode>), findsOneWidget);
-      expect(find.byType(NavigationDestination), findsNWidgets(4));
+      expect(find.byType(NavigationDestination), findsNWidgets(5));
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     },

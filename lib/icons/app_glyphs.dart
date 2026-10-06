@@ -6,6 +6,27 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 
 abstract final class AppGlyphs {
+  static Glyph cloudConnection(bool connected) => Glyph([
+    const GlyphPath(
+      'M7 19.4A4.2 4.2 0 0 1 5.06 11.47A6 6 0 1 1 16.95 9.83A4.8 4.8 0 0 1 16.4 19.4Z',
+    ),
+    if (connected)
+      const GlyphPolyline([
+        GlyphVertex(9, 12),
+        GlyphVertex(11, 14),
+        GlyphVertex(15, 10),
+      ], role: GlyphRole.detail)
+    else ...[
+      const GlyphPolyline([
+        GlyphVertex(10, 10),
+        GlyphVertex(14, 14),
+      ], role: GlyphRole.detail),
+      const GlyphPolyline([
+        GlyphVertex(14, 10),
+        GlyphVertex(10, 14),
+      ], role: GlyphRole.detail),
+    ],
+  ]);
   static const dashboard = Glyph([
     GlyphBox(3.5, 3.5, 10.5, 11.5, 2),
     GlyphBox(13.5, 3.5, 20.5, 9.5, 2),

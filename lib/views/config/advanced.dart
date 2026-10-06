@@ -1,16 +1,11 @@
 import 'package:fastai/common/common.dart';
-import 'package:fastai/enum/enum.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/views/config/dns.dart';
 import 'package:fastai/views/config/network.dart';
 import 'package:fastai/views/config/ntp.dart';
-import 'package:fastai/views/config/providers.dart';
-import 'package:fastai/views/config/scripts.dart';
 import 'package:fastai/widgets/list.dart';
 import 'package:fastai/widgets/scaffold.dart';
 import 'package:material_ui/material_ui.dart';
-
-import 'rules.dart';
 
 class AdvancedConfigView extends StatelessWidget {
   const AdvancedConfigView({super.key});
@@ -36,28 +31,6 @@ class AdvancedConfigView extends StatelessWidget {
         title: const Text('NTP'),
         leading: const GlyphIcon(AppGlyphs.clock),
         widget: const NtpView(),
-      ),
-      ListItem.open(
-        title: Text(appLocalizations.addedRules),
-        leading: const GlyphIcon(AppGlyphs.rules),
-        widget: const AddedRulesView(),
-      ),
-      if (feature.customProviders) ...[
-        ListItem.open(
-          title: Text(appLocalizations.proxyProviders),
-          leading: const GlyphIcon(AppGlyphs.proxies),
-          widget: const ClashProvidersView(kind: ProviderKind.proxy),
-        ),
-        ListItem.open(
-          title: Text(appLocalizations.ruleProviders),
-          leading: const GlyphIcon(AppGlyphs.resources),
-          widget: const ClashProvidersView(kind: ProviderKind.rule),
-        ),
-      ],
-      ListItem.open(
-        title: Text(appLocalizations.script),
-        leading: const GlyphIcon(AppGlyphs.code),
-        widget: const ScriptsView(),
       ),
     ];
     return BaseScaffold(
