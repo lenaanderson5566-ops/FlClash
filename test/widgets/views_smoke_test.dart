@@ -16,7 +16,6 @@ import 'package:fastai/views/config/on_demand.dart';
 import 'package:fastai/views/config/rules.dart';
 import 'package:fastai/views/config/scripts.dart';
 import 'package:fastai/views/config/user_agents.dart';
-import 'package:fastai/views/hotkey.dart';
 import 'package:fastai/views/profiles/overwrite/custom/custom_proxies.dart';
 import 'package:fastai/views/profiles/overwrite/custom/groups.dart';
 import 'package:fastai/views/profiles/overwrite/custom/proxies.dart';
@@ -25,6 +24,7 @@ import 'package:fastai/views/profiles/overwrite/custom/rules.dart';
 import 'package:fastai/views/proxies/list.dart';
 import 'package:fastai/views/proxies/providers.dart';
 import 'package:fastai/views/proxies/tab.dart';
+import 'package:fastai/views/proxies/setting.dart';
 import 'package:fastai/views/views.dart';
 import 'package:fastai/widgets/inherited.dart';
 import 'package:fastai/widgets/paged_sheet.dart';
@@ -57,9 +57,9 @@ void main() {
     'advanced config': const AdvancedConfigView(),
     'on demand config': const OnDemandView(),
     'backup and restore': const BackupAndRestore(),
-    'hotkeys': const HotKeyView(),
     'access control': const AccessView(),
     'proxy providers': const ProvidersView(),
+    'proxy filtering': const Material(child: ProxiesSetting()),
     'added rules': const AddedRulesView(),
     'scripts': const ScriptsView(),
     'user agents': const UserAgentsView(),
@@ -89,6 +89,11 @@ void main() {
         ),
       );
       await tester.pump();
+      if (entry.key == 'proxy filtering') {
+        expect(find.text('Style'), findsNothing);
+        expect(find.text('Layout'), findsNothing);
+        expect(find.text('Size'), findsNothing);
+      }
       if (entry.key == 'access control') {
         await tester.pump(const Duration(milliseconds: 301));
       }

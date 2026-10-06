@@ -8,7 +8,6 @@ import 'package:fastai/views/about.dart';
 import 'package:fastai/views/access.dart';
 import 'package:fastai/views/backup_and_restore.dart';
 import 'package:fastai/views/config/general.dart';
-import 'package:fastai/views/hotkey.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +64,6 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       items: [
         const _LocaleItem(),
         if (V2BoardConfig.allowProfileImports) const _BackupItem(),
-        if (system.isDesktop) const _HotkeyItem(),
         if (system.isAndroid) const _AccessItem(),
         const _AdvancedConfigItem(),
         const _GeneralItem(),
@@ -154,19 +152,6 @@ class _BackupItem extends StatelessWidget {
       title: Text(context.appLocalizations.backupAndRestore),
       subtitle: Text(context.appLocalizations.backupAndRestoreDesc),
       widget: const BackupAndRestore(),
-    );
-  }
-}
-
-class _HotkeyItem extends StatelessWidget {
-  const _HotkeyItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.keyboard),
-      title: Text(context.appLocalizations.hotkeyManagement),
-      widget: const HotKeyView(),
     );
   }
 }

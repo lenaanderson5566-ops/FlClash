@@ -78,6 +78,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   String? _error;
   int _tab = 0;
   bool _showLogin = false;
+  bool _sidebarExpanded = true;
   Future<void>? _forgetting;
   Timer? _accountTimer;
 
@@ -416,6 +417,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   String _bytes(int value) => '${(value / 1073741824).toStringAsFixed(2)} GB';
 
   Widget _overview() {
+    if (widget.desktopLayout) return _desktopHome();
     final l = context.appLocalizations;
     final account = _account;
     final status = switch (account?.status) {
@@ -603,6 +605,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             children: [
               _metric(l.fdEmail, _account?.email ?? ''),
               _metric(l.fdShop, _account?.planName ?? ''),
+              if (_account != null)
+                _metric(l.fdRemaining, _bytes(_account!.remainingBytes)),
+              if (_account != null)
+                _metric(
+                  l.fdExpiry,
+                  _account!.expiresAt?.toLocal().toString().split(' ').first ??
+                      l.fdNoExpiry,
+                ),
             ],
           ),
         ),
@@ -640,6 +650,113 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   void _requestLogin() => setState(() => _showLogin = true);
+
+  Widget _desktopHome() {
+    final l = context.appLocalizations;
+    final running = ref.watch(isStartProvider);
+    final mode = ref.watch(patchClashConfigProvider.select((s) => s.mode));
+    final allowed =
+        _api == null ||
+        (_account?.active == true &&
+            ref.watch(fastaiReleaseProvider)?.required != true);
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(32),
+          children: [
+            Center(
+              child: Container(
+                width: 144,
+                height: 144,
+                decoration: ShapeDecoration(
+                  color: context.colorScheme.primaryContainer,
+                  shape: AppShape.circle,
+                ),
+                child: GlyphIcon(
+                  AppGlyphs.bolt,
+                  size: 72,
+                  color: context.colorScheme.primary,
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            Text(
+              running ? l.fdConnected : l.fdDisconnected,
+              textAlign: TextAlign.center,
+              style: context.textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l.fdHeroSubtitle,
+              textAlign: TextAlign.center,
+              style: context.textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 28),
+            Center(
+              child: FilledButton(
+                onPressed: _busy || (!running && !allowed)
+                    ? null
+                    : () {
+                        if (_api == null) {
+                          _requestLogin();
+                        } else if (running) {
+                          unawaited(
+                            _run(() async {
+                              await ref
+                                  .read(setupActionProvider.notifier)
+                                  .setRunning(false);
+                            }),
+                          );
+                        } else {
+                          unawaited(_sync(connect: true));
+                        }
+                      },
+                style: FilledButton.styleFrom(minimumSize: const Size(160, 52)),
+                child: Text(running ? l.fdDisconnect : l.fdConnect),
+              ),
+            ),
+            const SizedBox(height: 48),
+            DropdownButtonFormField<Mode>(
+              key: ValueKey(mode),
+              initialValue: mode,
+              decoration: InputDecoration(labelText: l.outboundMode),
+              items: [
+                for (final value in Mode.values)
+                  DropdownMenuItem(value: value, child: Text(value.label)),
+              ],
+              onChanged: _busy
+                  ? null
+                  : (value) {
+                      if (_api == null) {
+                        _requestLogin();
+                        return;
+                      }
+                      if (value != null) {
+                        ref
+                            .read(setupActionProvider.notifier)
+                            .changeMode(value);
+                      }
+                    },
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: _busy ? null : () => _selectPage(1),
+              child: Text(l.fdChooseRoute),
+            ),
+            if (_api != null)
+              TextButton(
+                onPressed: _busy || !allowed ? null : () => _sync(),
+                child: Text(l.fdSync),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _selectPage(int index) => setState(() {
     _tab = index;
@@ -685,9 +802,16 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       builder: (context, constraints) => Row(
         children: [
           NavigationRail(
-            extended: constraints.maxWidth >= 720,
+            extended: _sidebarExpanded && constraints.maxWidth >= 520,
             minExtendedWidth: 180,
-            backgroundColor: context.colorScheme.primaryContainer,
+            backgroundColor: const Color(0xFFF7F8FA),
+            leading: IconButton(
+              tooltip: _sidebarExpanded ? l.shrink : l.expand,
+              onPressed: () =>
+                  setState(() => _sidebarExpanded = !_sidebarExpanded),
+              icon: GlyphIcon(AppGlyphs.sidebar(_sidebarExpanded ? 1 : 0)),
+              key: const ValueKey('sidebar-toggle'),
+            ),
             selectedIndex: _tab,
             onDestinationSelected: _busy ? null : _selectPage,
             destinations: [
@@ -729,6 +853,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.desktopLayout ? Colors.white : null,
+        foregroundColor: widget.desktopLayout
+            ? context.colorScheme.primary
+            : null,
         title: const Text(V2BoardConfig.appName),
         actions: [
           if (_showLogin)
@@ -740,7 +868,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           if (!signedIn && !_showLogin)
             TextButton(
               onPressed: _busy ? null : _requestLogin,
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              style: TextButton.styleFrom(
+                foregroundColor: widget.desktopLayout
+                    ? context.colorScheme.primary
+                    : Colors.white,
+              ),
               child: Text(l.fdLogin),
             ),
           if (signedIn)

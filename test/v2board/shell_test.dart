@@ -143,6 +143,22 @@ void main() {
   ) async {
     await show(tester, null, desktopLayout: true);
     expect(find.byType(NavigationRail), findsOneWidget);
+    expect(
+      tester.widget<NavigationRail>(find.byType(NavigationRail)).extended,
+      isTrue,
+    );
+    await tester.tap(find.byKey(const ValueKey('sidebar-toggle')));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<NavigationRail>(find.byType(NavigationRail)).extended,
+      isFalse,
+    );
+    await tester.tap(find.byKey(const ValueKey('sidebar-toggle')));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<NavigationRail>(find.byType(NavigationRail)).extended,
+      isTrue,
+    );
     expect(find.byType(NavigationBar), findsNothing);
     expect(find.byType(TextFormField), findsNothing);
     expect(find.widgetWithText(FilledButton, 'Connect'), findsOneWidget);
