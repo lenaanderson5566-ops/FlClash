@@ -1,9 +1,9 @@
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/dashboard/widgets/core_status_button.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/dashboard/widgets/core_status_button.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

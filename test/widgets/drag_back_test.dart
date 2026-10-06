@@ -1,9 +1,9 @@
-import 'package:fl_clash/common/navigator.dart';
-import 'package:fl_clash/widgets/inherited.dart';
-import 'package:fl_clash/widgets/open_container.dart';
-import 'package:fl_clash/widgets/paged_sheet.dart';
-import 'package:fl_clash/widgets/sheet.dart';
-import 'package:fl_clash/widgets/side_sheet.dart';
+import 'package:fastai/common/navigator.dart';
+import 'package:fastai/widgets/inherited.dart';
+import 'package:fastai/widgets/open_container.dart';
+import 'package:fastai/widgets/paged_sheet.dart';
+import 'package:fastai/widgets/sheet.dart';
+import 'package:fastai/widgets/side_sheet.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';

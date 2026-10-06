@@ -1,4 +1,4 @@
-import 'package:fl_clash/common/protocol.dart';
+import 'package:fastai/common/protocol.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -6,21 +6,21 @@ void main() {
     test('builds registry writes for URL protocol registration', () {
       const plan = ProtocolRegistrationPlan(
         scheme: 'flclash',
-        executable: r'C:\Program Files\FlClash\FlClash.exe',
+        executable: r'C:\Program Files\FastAI\FastAI.exe',
       );
 
       expect(plan.protocolKey, r'Software\Classes\flclash');
       expect(plan.commandKey, r'shell\open\command');
       expect(plan.protocolValueName, 'URL Protocol');
       expect(plan.protocolValue, '');
-      expect(plan.command, r'"C:\Program Files\FlClash\FlClash.exe" "%1"');
+      expect(plan.command, r'"C:\Program Files\FastAI\FastAI.exe" "%1"');
     });
   });
 
   group('LinuxProtocolRegistrationPlan', () {
     const plan = LinuxProtocolRegistrationPlan(
       schemes: protocolSchemes,
-      executable: '/home/me/Apps/FlClash.AppImage',
+      executable: '/home/me/Apps/FastAI.AppImage',
       applicationsDir: '/home/me/.local/share/applications',
     );
 
@@ -33,9 +33,9 @@ void main() {
         plan.desktopEntry,
         '[Desktop Entry]\n'
         'Type=Application\n'
-        'Name=FlClash\n'
+        'Name=FastAI\n'
         'NoDisplay=true\n'
-        'Exec="/home/me/Apps/FlClash.AppImage" %u\n'
+        'Exec="/home/me/Apps/FastAI.AppImage" %u\n'
         'MimeType=x-scheme-handler/clash;x-scheme-handler/clashmeta;'
         'x-scheme-handler/flclash;\n',
       );

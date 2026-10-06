@@ -37,6 +37,30 @@ class V2BoardSession {
     }
   }
 
+  Future<Uri> websiteLink({V2BoardApi? api, String? version}) async {
+    final restored = api ?? await restore();
+    final client = restored ?? V2BoardApi(V2BoardConfig.panelUrl);
+    client.version ??= version;
+    if (api == null) client.onSessionRejected = clear;
+    try {
+      var value = V2BoardConfig.websiteUrl;
+      if (value.isEmpty) {
+        final settings = await client.object('GET', '/public/settings');
+        value = settings['appUrl'] as String? ?? client.panel.origin;
+      }
+      final website = Uri.tryParse(value);
+      if (website == null ||
+          website.scheme != 'https' ||
+          website.host.isEmpty ||
+          website.userInfo.isNotEmpty) {
+        throw const FormatException();
+      }
+      return restored == null ? website : await client.loginLink(website);
+    } finally {
+      if (api == null) client.close();
+    }
+  }
+
   Future<void> save(V2BoardApi api) => _storage.write(
     key: _key,
     value: jsonEncode({

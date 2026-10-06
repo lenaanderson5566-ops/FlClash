@@ -5,7 +5,7 @@ class V2BoardConfig {
   );
   static const appName = String.fromEnvironment(
     'V2BOARD_NAME',
-    defaultValue: 'fastai',
+    defaultValue: 'FastAI',
   );
   static const panelUrl = String.fromEnvironment(
     'V2BOARD_URL',

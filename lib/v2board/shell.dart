@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/views/views.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/views.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,6 +17,7 @@ import 'access.dart';
 import 'config.dart';
 import 'profile.dart';
 import 'session.dart';
+import 'update.dart';
 
 class V2BoardShell extends StatelessWidget {
   const V2BoardShell({super.key, this.session = const V2BoardSession()});
@@ -78,9 +80,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         }
       }),
     );
+    unawaited(_checkRelease());
     _accountTimer = Timer.periodic(const Duration(minutes: 1), (_) {
       if (mounted && _api != null && !_busy && ref.read(appVisibleProvider)) {
         unawaited(_run(_refresh));
+        unawaited(_checkRelease());
       }
     });
   }
@@ -112,24 +116,32 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       }
       if (!mounted) return;
       final l = context.appLocalizations;
+      if (error.code == 'CLIENT_VERSION_TOO_LOW') {
+        ref.read(v2BoardAccessProvider.notifier).rejectVersion();
+        await ref.read(setupActionProvider.notifier).setRunning(false);
+        if (!mounted) return;
+        unawaited(_checkRelease(force: true));
+      }
       setState(
-        () => _error = switch (error.status) {
-          401 => hadSession ? l.fdSessionExpired : l.fdInvalidCredentials,
-          403 =>
-            error.code == 'SUBSCRIPTION_UNAVAILABLE'
-                ? l.fdNodesUnavailable
-                : error.code == 'CLIENT_DISABLED'
-                ? l.fdSyncFailed
-                : l.fdBanned,
-          422 => l.fdValidationError,
-          429 => l.fdRateLimited,
-          _ =>
-            error.code == 'subscription_failed'
-                ? l.fdSyncFailed
-                : error.code == 'network_error'
-                ? l.fdNetworkError
-                : l.fdRequestFailed,
-        },
+        () => _error = error.code == 'CLIENT_VERSION_TOO_LOW'
+            ? l.fdUpdateRequired
+            : switch (error.status) {
+                401 => hadSession ? l.fdSessionExpired : l.fdInvalidCredentials,
+                403 =>
+                  error.code == 'SUBSCRIPTION_UNAVAILABLE'
+                      ? l.fdNodesUnavailable
+                      : error.code == 'CLIENT_DISABLED'
+                      ? l.fdSyncFailed
+                      : l.fdBanned,
+                422 => l.fdValidationError,
+                429 => l.fdRateLimited,
+                _ =>
+                  error.code == 'subscription_failed'
+                      ? l.fdSyncFailed
+                      : error.code == 'network_error'
+                      ? l.fdNetworkError
+                      : l.fdRequestFailed,
+              },
       );
     } on FormatException {
       if (mounted) {
@@ -144,6 +156,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     }
   }
 
+  Future<void> _checkRelease({bool force = false}) async {
+    try {
+      await ref.read(fastaiReleaseProvider.notifier).check(force: force);
+    } catch (_) {
+      // Configuration requests still enforce minimum versions when metadata is unreachable.
+    }
+  }
+
   Future<void> _refresh() async {
     final api = _api!;
     api.language = Localizations.localeOf(context).toLanguageTag();
@@ -153,8 +173,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     ]);
     if (!mounted) return;
     _account = V2BoardAccount(data[0], data[1]);
-    ref.read(v2BoardAccessProvider.notifier).setAvailable(_account!.active);
-    if (!_account!.active && ref.read(isStartProvider)) {
+    ref
+        .read(v2BoardAccessProvider.notifier)
+        .setAvailable(
+          _account!.active && ref.read(fastaiReleaseProvider)?.required != true,
+        );
+    if ((!_account!.active ||
+            ref.read(fastaiReleaseProvider)?.required == true) &&
+        ref.read(isStartProvider)) {
       await ref.read(setupActionProvider.notifier).setRunning(false);
     }
   }
@@ -162,7 +188,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Future<void> _login() async {
     if (!_form.currentState!.validate()) return;
     await _run(() async {
-      final api = V2BoardApi(_origin.text);
+      final api = V2BoardApi(_origin.text)
+        ..version = globalState.packageInfo.version;
       api.language = Localizations.localeOf(context).toLanguageTag();
       try {
         await api.login(_email.text, _password.text);
@@ -186,6 +213,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   void _bindSession(V2BoardApi api) {
+    api.version = globalState.packageInfo.version;
     api.onSessionRejected = () async {
       if (!mounted || _api != api) return;
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -228,6 +256,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     await _run(() async {
       await _refresh();
       if (!mounted || _account?.active != true) return;
+      if (ref.read(fastaiReleaseProvider)?.required == true) {
+        await checkFastaiUpdate(context, ref);
+        return;
+      }
       if (connect) {
         await _profile.connect(_api!);
       } else {
@@ -237,33 +269,18 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Future<void> _syncAvailable() async {
-    if (_account?.active == true) {
+    if (_account?.active == true &&
+        ref.read(fastaiReleaseProvider)?.required != true) {
       await _profile.sync(_api!);
     }
   }
 
   Future<void> _portal() async {
-    const configured = V2BoardConfig.websiteUrl;
-    V10Object? settings;
-    if (configured.isEmpty) {
-      final api = V2BoardApi(_origin.text);
-      try {
-        settings = await api.object('GET', '/public/settings');
-      } finally {
-        api.close();
-      }
-    }
-    final value = configured.isNotEmpty
-        ? configured
-        : settings?['appUrl'] as String? ?? _origin.text;
-    final url = Uri.tryParse(value);
-    if (url == null ||
-        url.scheme != 'https' ||
-        url.host.isEmpty ||
-        url.userInfo.isNotEmpty) {
-      throw const FormatException();
-    }
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+    final destination = await _session.websiteLink(
+      api: _api,
+      version: globalState.packageInfo.version,
+    );
+    if (!await launchUrl(destination, mode: LaunchMode.externalApplication)) {
       throw const V2BoardProblem('request_failed');
     }
   }
@@ -393,6 +410,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       'exhausted' => l.fdExhausted,
       _ => l.fdExpired,
     };
+    final canConnect =
+        account.active && ref.watch(fastaiReleaseProvider)?.required != true;
     final running = ref.watch(isStartProvider);
     final mode = ref.watch(patchClashConfigProvider.select((s) => s.mode));
     return ListView(
@@ -434,7 +453,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 Text(status, textAlign: TextAlign.center),
                 const SizedBox(height: 12),
                 TextButton.icon(
-                  onPressed: _busy || !account.active
+                  onPressed: _busy || !canConnect
                       ? null
                       : () => setState(() => _tab = 1),
                   icon: const GlyphIcon(AppGlyphs.proxies),
@@ -453,14 +472,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                               .read(setupActionProvider.notifier)
                               .setRunning(false);
                         })
-                      : account.active
+                      : canConnect
                       ? () => _sync(connect: true)
                       : null,
                   icon: const GlyphIcon(AppGlyphs.proxies, fill: 1),
                   label: Text(running ? l.fdDisconnect : l.fdConnect),
                 ),
                 TextButton(
-                  onPressed: _busy || !account.active ? null : () => _sync(),
+                  onPressed: _busy || !canConnect ? null : () => _sync(),
                   child: Text(l.fdSync),
                 ),
               ],
@@ -585,6 +604,13 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
     final signedIn = _api != null;
+    final release = ref.watch(fastaiReleaseProvider);
+    ref.listen(fastaiReleaseProvider, (previous, next) {
+      if (next?.required == true) {
+        ref.read(v2BoardAccessProvider.notifier).setAvailable(false);
+        unawaited(ref.read(setupActionProvider.notifier).setRunning(false));
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -607,6 +633,22 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       body: Column(
         children: [
           if (_busy) const LinearProgressIndicator(),
+          if (release != null &&
+              (release.required ||
+                  release.availableFor(
+                    globalState.packageInfo.version,
+                    int.tryParse(globalState.packageInfo.buildNumber) ?? 0,
+                  )))
+            ListTile(
+              title: Text(
+                release.required ? l.fdUpdateRequired : l.discoverNewVersion,
+              ),
+              subtitle: Text(release.latestVersion),
+              trailing: TextButton(
+                onPressed: () => checkFastaiUpdate(context, ref),
+                child: Text(l.goDownload),
+              ),
+            ),
           if (_error != null)
             Padding(
               padding: const EdgeInsets.all(16),

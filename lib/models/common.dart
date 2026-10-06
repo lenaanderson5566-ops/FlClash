@@ -3,9 +3,9 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/glyph.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/glyph.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

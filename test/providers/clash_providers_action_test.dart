@@ -1,17 +1,17 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/core/controller.dart';
-import 'package:fl_clash/core/interface.dart';
-import 'package:fl_clash/database/database.dart' as db;
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/action.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/providers/core.dart';
-import 'package:fl_clash/providers/database.dart';
-import 'package:fl_clash/providers/state.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/core/controller.dart';
+import 'package:fastai/core/interface.dart';
+import 'package:fastai/database/database.dart' as db;
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/action.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/providers/core.dart';
+import 'package:fastai/providers/database.dart';
+import 'package:fastai/providers/state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:path/path.dart' show basenameWithoutExtension;

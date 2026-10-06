@@ -1,9 +1,9 @@
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/views/dns_queries.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/views/dns_queries.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'feed_card.dart';

@@ -1,15 +1,18 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/list.dart';
-import 'package:fl_clash/widgets/scaffold.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/widgets/list.dart';
+import 'package:fastai/widgets/scaffold.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fl_clash/v2board/config.dart';
+import 'package:fastai/v2board/config.dart';
+import 'package:fastai/v2board/update.dart';
+import 'package:fastai/v2board/session.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 @immutable
 class Contributor {
@@ -29,7 +32,7 @@ class AboutView extends ConsumerWidget {
 
   Future<void> _checkUpdate(BuildContext context, WidgetRef ref) async {
     if (V2BoardConfig.enabled) {
-      await dialogs.openUrl(V2BoardConfig.websiteUrl);
+      await checkFastaiUpdate(context, ref);
       return;
     }
     if (ref.read(loadingProvider(LoadingTag.checkUpdate))) return;
@@ -47,15 +50,18 @@ class AboutView extends ConsumerWidget {
     required String title,
     required String url,
     required String label,
+    VoidCallback? onTap,
   }) {
     return ListItem(
       leading: _LinkBadge(glyph: glyph),
       title: Text(title),
       subtitle: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
       trailing: const GlyphIcon(AppGlyphs.openExternal),
-      onTap: () {
-        dialogs.openUrl(url);
-      },
+      onTap:
+          onTap ??
+          () {
+            dialogs.openUrl(url);
+          },
     );
   }
 
@@ -104,9 +110,26 @@ class AboutView extends ConsumerWidget {
               ),
               _buildLinkItem(
                 glyph: AppGlyphs.send,
-                title: 'Telegram',
-                url: 'https://t.me/FlClash',
-                label: 't.me/FlClash',
+                title: appLocalizations.fdWebAccount,
+                url: V2BoardConfig.websiteUrl,
+                label: 'fastdog.ws',
+                onTap: () async {
+                  try {
+                    final url = await const V2BoardSession().websiteLink(
+                      version: globalState.packageInfo.version,
+                    );
+                    if (!await launchUrl(
+                      url,
+                      mode: LaunchMode.externalApplication,
+                    )) {
+                      throw StateError('Website launch failed');
+                    }
+                  } catch (_) {
+                    if (context.mounted) {
+                      context.showNotifier(appLocalizations.fdRequestFailed);
+                    }
+                  }
+                },
               ),
             ],
           ),

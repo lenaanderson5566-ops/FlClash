@@ -1,7 +1,7 @@
-import 'package:fl_clash/common/network_error.dart';
-import 'package:fl_clash/core/desktop/launch_policy.dart';
-import 'package:fl_clash/core/method.dart';
-import 'package:fl_clash/l10n/l10n.dart';
+import 'package:fastai/common/network_error.dart';
+import 'package:fastai/core/desktop/launch_policy.dart';
+import 'package:fastai/core/method.dart';
+import 'package:fastai/l10n/l10n.dart';
 
 import 'dart:ui';
 

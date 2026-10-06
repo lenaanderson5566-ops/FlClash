@@ -1,5 +1,5 @@
-import 'package:fl_clash/models/config.dart';
-import 'package:fl_clash/providers/config.dart';
+import 'package:fastai/models/config.dart';
+import 'package:fastai/providers/config.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:animations/animations.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/dashboard/widget_metrics.dart';
-import 'package:fl_clash/views/proxies/card.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/dashboard/widget_metrics.dart';
+import 'package:fastai/views/proxies/card.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

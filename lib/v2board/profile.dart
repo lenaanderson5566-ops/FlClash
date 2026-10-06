@@ -1,11 +1,13 @@
 import 'dart:io';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'api.dart';
+import 'access.dart';
 import 'config.dart';
+import 'update.dart';
 
 class V2BoardProfile {
   V2BoardProfile(this.ref);
@@ -17,13 +19,18 @@ class V2BoardProfile {
     final bytes = await api.clientConfig(
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
+      architecture: fastaiArchitecture,
     );
     if (!ref.context.mounted) return;
     final previous = ref
         .read(profilesProvider)
-        .where((profile) => profile.label == label)
+        .where(
+          (profile) =>
+              profile.label == label || profile.label == 'fastai · managed',
+        )
         .firstOrNull;
     final profile = (previous ?? Profile.normal(label: label)).copyWith(
+      label: label,
       autoUpdate: false,
     );
     final updated = await profile.saveFile(
@@ -31,6 +38,9 @@ class V2BoardProfile {
       validate: ref.read(coreHandlerProvider).validateConfig,
     );
     if (!ref.context.mounted) return;
+    ref.read(v2BoardAccessProvider.notifier)
+      ..acceptVersion()
+      ..setAvailable(true);
     ref.read(profilesActionProvider.notifier).putProfile(updated);
     ref.read(currentProfileIdProvider.notifier).value = updated.id;
     ref.read(setupActionProvider.notifier).applyProfileDebounce();
@@ -41,7 +51,10 @@ class V2BoardProfile {
     if (!ref.context.mounted) return;
     final profiles = ref
         .read(profilesProvider)
-        .where((profile) => profile.label == label)
+        .where(
+          (profile) =>
+              profile.label == label || profile.label == 'fastai · managed',
+        )
         .toList();
     for (final profile in profiles) {
       if (!ref.context.mounted) return;

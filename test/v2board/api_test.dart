@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:fl_clash/v2board/api.dart';
-import 'package:fl_clash/v2board/config.dart';
+import 'package:fastai/v2board/api.dart';
+import 'package:fastai/v2board/config.dart';
 
 class _Adapter implements HttpClientAdapter {
   _Adapter(this.respond);
@@ -35,6 +35,51 @@ ResponseBody _json(dynamic body, [int status = 200]) => ResponseBody.fromString(
 );
 
 void main() {
+  test('website login uses a one-time code on the trusted origin', () async {
+    final code = List.filled(64, 'a').join();
+    final adapter = _Adapter(
+      (_) => _json({
+        'data': 'https://panel.example/#/login?verify=$code&redirect=dashboard',
+      }),
+    );
+    final api = V2BoardApi(
+      'https://panel.example',
+      dio: Dio()..httpClientAdapter = adapter,
+    );
+    addTearDown(api.close);
+    api.accessToken = 'private-session';
+    final link = await api.loginLink(Uri.parse('https://panel.example'));
+    expect(link.query, isEmpty);
+    expect(link.toString(), isNot(contains('private-session')));
+    expect(adapter.requests.single.method, 'POST');
+    expect(
+      adapter.requests.single.headers['Authorization'],
+      'Bearer private-session',
+    );
+  });
+
+  test(
+    'website login rejects other origins and long-lived tokens in queries',
+    () async {
+      for (final link in [
+        'https://evil.example/#/login?verify=${List.filled(64, 'a').join()}&redirect=dashboard',
+        'https://panel.example/?token=session#/login?verify=wrong&redirect=dashboard',
+        'http://panel.example/#/login?verify=wrong&redirect=dashboard',
+      ]) {
+        final adapter = _Adapter((_) => _json({'data': link}));
+        final api = V2BoardApi(
+          'https://panel.example',
+          dio: Dio()..httpClientAdapter = adapter,
+        );
+        addTearDown(api.close);
+        await expectLater(
+          api.loginLink(Uri.parse('https://panel.example')),
+          throwsA(isA<V2BoardProblem>()),
+        );
+      }
+    },
+  );
+
   test(
     'native configuration uses the panel session and never a subscription URL',
     () async {

@@ -1,7 +1,7 @@
-import 'package:fl_clash/features/overwrite/rule_preset.dart';
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/models/clash_config.dart';
-import 'package:fl_clash/providers/app.dart';
+import 'package:fastai/features/overwrite/rule_preset.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/models/clash_config.dart';
+import 'package:fastai/providers/app.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 

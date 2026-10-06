@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:ffi/ffi.dart';
-import 'package:fl_clash/common/boot_record.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/common/system_dns.dart';
-import 'package:fl_clash/core/desktop/helper_client.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/plugins/app.dart';
+import 'package:fastai/common/boot_record.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/common/system_dns.dart';
+import 'package:fastai/core/desktop/helper_client.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/plugins/app.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart';
 

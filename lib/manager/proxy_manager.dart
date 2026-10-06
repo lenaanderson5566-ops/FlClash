@@ -1,8 +1,8 @@
-import 'package:fl_clash/common/proxy.dart';
-import 'package:fl_clash/common/print.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/state.dart';
+import 'package:fastai/common/proxy.dart';
+import 'package:fastai/common/print.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/state.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,9 +1,9 @@
 import 'package:drift/native.dart';
-import 'package:fl_clash/database/database.dart';
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/profiles/overwrite/custom/icon.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/database/database.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/profiles/overwrite/custom/icon.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

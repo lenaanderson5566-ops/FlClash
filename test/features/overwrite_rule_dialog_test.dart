@@ -1,8 +1,8 @@
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/features/overwrite/rule.dart';
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/app.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/features/overwrite/rule.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/app.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 

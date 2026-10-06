@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/shape.dart';
-import 'package:fl_clash/widgets/drag_back.dart';
-import 'package:fl_clash/widgets/inherited.dart';
-import 'package:fl_clash/widgets/pop_scope.dart';
-import 'package:fl_clash/widgets/sheet.dart';
-import 'package:fl_clash/widgets/sheet_navigator.dart';
+import 'package:fastai/common/shape.dart';
+import 'package:fastai/widgets/drag_back.dart';
+import 'package:fastai/widgets/inherited.dart';
+import 'package:fastai/widgets/pop_scope.dart';
+import 'package:fastai/widgets/sheet.dart';
+import 'package:fastai/widgets/sheet_navigator.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:navigator_resizable/navigator_resizable.dart';
 

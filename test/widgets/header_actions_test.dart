@@ -1,8 +1,8 @@
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/theme.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/theme.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 

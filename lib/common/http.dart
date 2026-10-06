@@ -1,16 +1,16 @@
 import 'dart:io';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/providers/state.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/providers/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FlClashHttpOverrides extends HttpOverrides {
+class FastAIHttpOverrides extends HttpOverrides {
   final ProviderContainer _container;
 
-  FlClashHttpOverrides(this._container);
+  FastAIHttpOverrides(this._container);
 
   static String findProxyFor(ProviderContainer container, Uri url) {
     return findProxyForReader(container.read, url);

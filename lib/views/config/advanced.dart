@@ -1,13 +1,13 @@
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/views/config/dns.dart';
-import 'package:fl_clash/views/config/network.dart';
-import 'package:fl_clash/views/config/ntp.dart';
-import 'package:fl_clash/views/config/providers.dart';
-import 'package:fl_clash/views/config/scripts.dart';
-import 'package:fl_clash/widgets/list.dart';
-import 'package:fl_clash/widgets/scaffold.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/views/config/dns.dart';
+import 'package:fastai/views/config/network.dart';
+import 'package:fastai/views/config/ntp.dart';
+import 'package:fastai/views/config/providers.dart';
+import 'package:fastai/views/config/scripts.dart';
+import 'package:fastai/widgets/list.dart';
+import 'package:fastai/widgets/scaffold.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'rules.dart';

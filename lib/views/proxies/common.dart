@@ -1,6 +1,6 @@
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/state.dart';
 import 'package:flutter/widgets.dart';
 
 const proxyGridSpacing = 8.0;

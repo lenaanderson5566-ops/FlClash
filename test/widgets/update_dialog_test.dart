@@ -1,7 +1,7 @@
-import 'package:fl_clash/providers/action.dart';
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/providers/action.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/state.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -66,8 +66,8 @@ Future<void> tapCancel(WidgetTester tester) async {
 void main() {
   setUpAll(() {
     globalState.packageInfo = PackageInfo(
-      appName: 'FlClash',
-      packageName: 'com.follow.clash',
+      appName: 'FastAI',
+      packageName: 'ws.fastdog.fastai',
       version: _runningVersion,
       buildNumber: '1',
     );

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/core.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/core.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yaml/yaml.dart';
 
@@ -156,7 +156,7 @@ abstract class ProxyGroup with _$ProxyGroup {
 
 extension ProxyGroupExt on ProxyGroup {
   /// Only what `GroupCommonOption` and the per-type option structs read, so the
-  /// generated config carries no FlClash bookkeeping and no null placeholders.
+  /// generated config carries no FastAI bookkeeping and no null placeholders.
   Map<String, dynamic> get definition {
     return {
       'name': name,

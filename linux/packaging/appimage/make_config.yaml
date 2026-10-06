@@ -1,4 +1,4 @@
-display_name: fastai
+display_name: FastAI
 
 icon: ./assets/images/icon.png
 
@@ -10,7 +10,7 @@ keywords:
   - ClashMeta
   - Proxy
 
-generic_name: fastai
+generic_name: FastAI
 
 categories:
   - Network

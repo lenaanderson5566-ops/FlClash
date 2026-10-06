@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Будет добавлено: ${count}, пропущено (уже есть): ${skipped}";
 
   static String m1(code) =>
-      "Windows отказалась запускать FlClashCore.exe (ошибка ${code}). Политики контроля приложений, такие как Smart App Control или AppLocker, блокируют неподписанные программы; разрешите FlClash в этой политике или отключите её и повторите попытку.";
+      "Windows отказалась запускать FastAICore.exe (ошибка ${code}). Политики контроля приложений, такие как Smart App Control или AppLocker, блокируют неподписанные программы; разрешите FastAI в этой политике или отключите её и повторите попытку.";
 
   static String m2(name) =>
       "Приложение два раза подряд не смогло завершить запуск. Чтобы разорвать цикл, профиль ${name} снят с выбора, а автоматическая настройка пропущена. Вы можете выбрать его снова в любой момент.";
@@ -415,7 +415,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "core": MessageLookupByLibrary.simpleMessage("Ядро"),
     "coreBlockedByPolicyTip": m1,
     "coreBlockedBySmartAppControlTip": MessageLookupByLibrary.simpleMessage(
-      "Smart App Control в Windows заблокировал неподписанный FlClashCore.exe. Откройте Безопасность Windows → Управление приложениями и браузером → Параметры Smart App Control, выберите «Выкл.» и снова запустите FlClash. Повторно включить Smart App Control без переустановки Windows нельзя.",
+      "Smart App Control в Windows заблокировал неподписанный FastAICore.exe. Откройте Безопасность Windows → Управление приложениями и браузером → Параметры Smart App Control, выберите «Выкл.» и снова запустите FastAI. Повторно включить Smart App Control без переустановки Windows нельзя.",
     ),
     "coreStatus": MessageLookupByLibrary.simpleMessage("Статус ядра"),
     "country": MessageLookupByLibrary.simpleMessage("Регион"),
@@ -519,7 +519,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Эти данные обрабатываются и хранятся компанией Google от нашего имени, могут передаваться на серверы за пределами вашей страны или региона (например, в США) и регулируются Политикой конфиденциальности Google и документацией Firebase о конфиденциальности и безопасности. Отчёты о сбоях хранятся до 90 дней; статистика хранится в соответствии с политикой хранения Firebase по умолчанию.",
     ),
     "disclaimerDesc": MessageLookupByLibrary.simpleMessage(
-      "Перед использованием FlClash (далее — «Программа») внимательно прочитайте это заявление и убедитесь, что понимаете его полностью. Нажимая «Согласен», вы подтверждаете, что прочитали, поняли и принимаете все приведённые ниже условия. Если вы не согласны, нажмите «Выход» и прекратите использование Программы.",
+      "Перед использованием FastAI (далее — «Программа») внимательно прочитайте это заявление и убедитесь, что понимаете его полностью. Нажимая «Согласен», вы подтверждаете, что прочитали, поняли и принимаете все приведённые ниже условия. Если вы не согласны, нажмите «Выход» и прекратите использование Программы.",
     ),
     "disclaimerFirebasePrivacy": MessageLookupByLibrary.simpleMessage(
       "Конфиденциальность и безопасность Firebase",
@@ -693,6 +693,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdInvalidUrl": MessageLookupByLibrary.simpleMessage(
       "Введите HTTPS-домен без пути",
     ),
+    "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
+      "Установлена последняя версия",
+    ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("Месяц"),
@@ -745,6 +748,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTriennial": MessageLookupByLibrary.simpleMessage("Три года"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("Неизвестно"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("Ожидает оплаты"),
+    "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
+      "Для подключения требуется обновление",
+    ),
     "fdValidationError": MessageLookupByLibrary.simpleMessage(
       "Проверьте почту и пароль или пройдите проверку на сайте.",
     ),
@@ -801,7 +807,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Кэшировать изменения?",
     ),
     "helperCorruptTip": MessageLookupByLibrary.simpleMessage(
-      "Служба Helper недоступна, поэтому TUN-режим включить нельзя. Переустановите FlClash.",
+      "Служба Helper недоступна, поэтому TUN-режим включить нельзя. Переустановите FastAI.",
     ),
     "hideFromList": MessageLookupByLibrary.simpleMessage("Скрыть из списка"),
     "hideIp": MessageLookupByLibrary.simpleMessage("Скрыть IP"),

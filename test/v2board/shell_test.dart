@@ -1,10 +1,13 @@
-import 'package:fl_clash/l10n/l10n.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/v2board/update.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:typed_data';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/v2board/api.dart';
-import 'package:fl_clash/v2board/session.dart';
-import 'package:fl_clash/v2board/shell.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/v2board/api.dart';
+import 'package:fastai/v2board/session.dart';
+import 'package:fastai/v2board/shell.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -27,6 +30,7 @@ class _Api extends V2BoardApi {
   Future<Uint8List> clientConfig({
     required String version,
     required String platform,
+    String? architecture,
   }) async {
     throw const V2BoardProblem('subscription_failed');
   }
@@ -59,12 +63,35 @@ class _Setup extends SetupAction {
       true;
 }
 
+class _Release extends FastaiReleaseState {
+  _Release(this.initial);
+  final FastaiRelease? initial;
+
+  @override
+  FastaiRelease? build() => initial;
+  @override
+  Future<FastaiRelease?> check({bool force = false}) async => state;
+}
+
 void main() {
-  Future<void> show(WidgetTester tester, V2BoardApi? api) async {
+  setUpAll(() {
+    globalState.packageInfo = PackageInfo(
+      appName: 'FastAI',
+      packageName: 'ws.fastdog.fastai',
+      version: '1.0.0',
+      buildNumber: '2026100601',
+    );
+  });
+  Future<void> show(
+    WidgetTester tester,
+    V2BoardApi? api, {
+    FastaiRelease? release,
+  }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           setupActionProvider.overrideWith(_Setup.new),
+          fastaiReleaseProvider.overrideWith(() => _Release(release)),
           profilesProvider.overrideWith(() => TestProfiles([])),
           runTimeProvider.overrideWithBuild((_, _) => null),
         ],
@@ -85,12 +112,41 @@ void main() {
     tester,
   ) async {
     await show(tester, null);
-    expect(find.text('fastai'), findsNWidgets(2));
+    expect(find.text('FastAI'), findsNWidgets(2));
     expect(find.byType(TextFormField), findsNWidgets(2));
     expect(find.byType(NavigationBar), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
+
+  testWidgets(
+    'mandatory update preserves account access and disables connection',
+    (tester) async {
+      await show(
+        tester,
+        _Api(true),
+        release: FastaiRelease.fromJson({
+          'latestVersion': '2.0.0',
+          'latestBuild': 2,
+          'minimumVersion': '2.0.0',
+          'downloadUrl': 'https://fastdog.ws/download/FastAI.exe',
+          'sha256': List.filled(64, 'a').join(),
+        }),
+      );
+      expect(
+        find.text('Update required to continue connecting'),
+        findsOneWidget,
+      );
+      expect(
+        tester
+            .widget<FilledButton>(find.widgetWithText(FilledButton, 'Connect'))
+            .onPressed,
+        isNull,
+      );
+      expect(find.byType(NavigationDestination), findsNWidgets(3));
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
 
   testWidgets('branded login fits a narrow window with larger text', (
     tester,

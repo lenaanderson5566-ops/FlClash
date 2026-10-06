@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/app_localizations.dart';
-import 'package:fl_clash/common/app_ports.dart';
-import 'package:fl_clash/common/feature.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/manager/window_manager.dart';
-import 'package:fl_clash/models/config.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/common/app_localizations.dart';
+import 'package:fastai/common/app_ports.dart';
+import 'package:fastai/common/feature.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/manager/window_manager.dart';
+import 'package:fastai/models/config.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

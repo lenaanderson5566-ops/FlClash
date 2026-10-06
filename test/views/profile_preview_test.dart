@@ -1,9 +1,9 @@
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/models/profile.dart';
-import 'package:fl_clash/pages/editor.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/profiles/preview.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/models/profile.dart';
+import 'package:fastai/pages/editor.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/profiles/preview.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/inherited.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/widgets/inherited.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'card.dart';

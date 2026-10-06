@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:fl_clash/core/controller.dart';
-import 'package:fl_clash/core/desktop/model.dart';
-import 'package:fl_clash/core/interface.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
+import 'package:fastai/core/controller.dart';
+import 'package:fastai/core/desktop/model.dart';
+import 'package:fastai/core/interface.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 

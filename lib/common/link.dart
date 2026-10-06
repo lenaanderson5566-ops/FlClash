@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fl_clash/v2board/config.dart';
+import 'package:fastai/v2board/config.dart';
 
 import 'print.dart';
 import 'protocol.dart';

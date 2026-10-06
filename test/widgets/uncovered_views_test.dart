@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:fl_clash/common/request.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/features/overwrite/overwrite.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/pages/editor.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/about.dart';
-import 'package:fl_clash/views/config/scripts.dart';
-import 'package:fl_clash/views/profiles/overwrite/standard.dart';
-import 'package:fl_clash/views/proxies/setting.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/request.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/features/overwrite/overwrite.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/pages/editor.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/about.dart';
+import 'package:fastai/views/config/scripts.dart';
+import 'package:fastai/views/profiles/overwrite/standard.dart';
+import 'package:fastai/views/proxies/setting.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -131,8 +131,8 @@ void main() {
     // AboutView reads globalState.packageInfo, which only the real app bootstrap
     // populates.
     globalState.packageInfo = PackageInfo(
-      appName: 'FlClash',
-      packageName: 'com.follow.clash',
+      appName: 'FastAI',
+      packageName: 'ws.fastdog.fastai',
       version: '0.0.0',
       buildNumber: '1',
     );
@@ -198,7 +198,7 @@ void main() {
     await tester.pump();
 
     expect(find.byType(AboutView), findsOneWidget);
-    expect(find.text('Telegram'), findsOneWidget);
+    expect(find.text('Manage on website'), findsOneWidget);
     final hero = find.byWidgetPredicate(
       (widget) => widget.runtimeType.toString() == '_AboutHero',
     );

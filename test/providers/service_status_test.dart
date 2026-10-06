@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/constant.dart';
-import 'package:fl_clash/common/service_probe.dart';
-import 'package:fl_clash/core/controller.dart';
-import 'package:fl_clash/core/interface.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/providers/core.dart';
-import 'package:fl_clash/providers/route_state.dart';
-import 'package:fl_clash/providers/routed_probe.dart';
-import 'package:fl_clash/providers/service_status.dart';
+import 'package:fastai/common/constant.dart';
+import 'package:fastai/common/service_probe.dart';
+import 'package:fastai/core/controller.dart';
+import 'package:fastai/core/interface.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/providers/core.dart';
+import 'package:fastai/providers/route_state.dart';
+import 'package:fastai/providers/routed_probe.dart';
+import 'package:fastai/providers/service_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:fl_clash/common/constant.dart';
-import 'package:fl_clash/common/window.dart';
-import 'package:fl_clash/models/config.dart';
+import 'package:fastai/common/constant.dart';
+import 'package:fastai/common/window.dart';
+import 'package:fastai/models/config.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 

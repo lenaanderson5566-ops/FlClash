@@ -1,5 +1,5 @@
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/providers.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/providers.dart';
 
 class TestScripts extends Scripts {
   final List<Script> initial;

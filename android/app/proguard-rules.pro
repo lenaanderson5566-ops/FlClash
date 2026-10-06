@@ -1,4 +1,4 @@
 
--keep class com.follow.clash.models.** { *; }
+-keep class ws.fastdog.fastai.models.** { *; }
 
--keep class com.follow.clash.service.models.** { *; }
+-keep class ws.fastdog.fastai.service.models.** { *; }

@@ -1,8 +1,8 @@
-display_name: fastai
-package_name: FlClash
+display_name: FastAI
+package_name: fastai
 maintainer:
-  name: chen08209
-  email: chen08209@gmail.com
+  name: FastAI
+  email: lenaanderson5566@gmail.com
 
 priority: optional
 section: x11
@@ -18,8 +18,8 @@ dependencies:
 # its teardown belongs here; the binary is already gone when postrm runs.
 postuninstall_scripts:
   - 'case "${1:-}" in remove|purge) ;; *) exit 0 ;; esac'
-  - 'systemctl disable --now flclash-helper.service >/dev/null 2>&1 || true'
-  - 'rm -f /etc/systemd/system/flclash-helper.service'
+  - 'systemctl disable --now fastai-helper.service >/dev/null 2>&1 || true'
+  - 'rm -f /etc/systemd/system/fastai-helper.service'
   - 'systemctl daemon-reload >/dev/null 2>&1 || true'
 
 supported_mime_type: []
@@ -30,7 +30,7 @@ keywords:
   - ClashMeta
   - Proxy
 
-generic_name: fastai
+generic_name: FastAI
 
 categories:
   - Network

@@ -1,11 +1,11 @@
-package com.follow.clash
+package ws.fastdog.fastai
 
-import com.follow.clash.common.AccessControlMode
-import com.follow.clash.models.SetupParams
-import com.follow.clash.models.SharedState
-import com.follow.clash.service.models.AccessControlProps
-import com.follow.clash.service.models.NotificationParams
-import com.follow.clash.service.models.VpnOptions
+import ws.fastdog.fastai.common.AccessControlMode
+import ws.fastdog.fastai.models.SetupParams
+import ws.fastdog.fastai.models.SharedState
+import ws.fastdog.fastai.service.models.AccessControlProps
+import ws.fastdog.fastai.service.models.NotificationParams
+import ws.fastdog.fastai.service.models.VpnOptions
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -104,7 +104,7 @@ private class FakeHost(override val scope: CoroutineScope) : ServiceStateHost {
     var lastStartOptions: VpnOptions? = null
 
     override var runTimeMillis = 0L
-    override val homeDirPath = "/data/user/0/com.follow.clash/files"
+    override val homeDirPath = "/data/user/0/ws.fastdog.fastai/files"
     override val sdkInt = 34
 
     val toasts = mutableListOf<String>()

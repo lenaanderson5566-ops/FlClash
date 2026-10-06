@@ -1,10 +1,10 @@
-import 'package:fl_clash/common/app_ports.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/app_glyphs.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/views/views.dart';
+import 'package:fastai/common/app_ports.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/app_glyphs.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/views/views.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:fl_clash/v2board/config.dart';
+import 'package:fastai/v2board/config.dart';
 
 class Navigation implements NavigationPort {
   static Navigation? _instance;

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/widgets/activate_box.dart';
-import 'package:fl_clash/widgets/defer_pointer.dart';
-import 'package:fl_clash/widgets/motion_grid.dart';
-import 'package:fl_clash/widgets/navigation_dock.dart';
-import 'package:fl_clash/widgets/grid.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/widgets/activate_box.dart';
+import 'package:fastai/widgets/defer_pointer.dart';
+import 'package:fastai/widgets/motion_grid.dart';
+import 'package:fastai/widgets/navigation_dock.dart';
+import 'package:fastai/widgets/grid.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';

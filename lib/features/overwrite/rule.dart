@@ -1,12 +1,12 @@
 library;
 
 import 'package:collection/collection.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/models/clash_config.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/models/clash_config.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 
 final ruleItemHeight =

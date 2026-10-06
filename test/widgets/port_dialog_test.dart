@@ -1,8 +1,8 @@
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/providers/database.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/config/general.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/providers/database.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/config/general.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

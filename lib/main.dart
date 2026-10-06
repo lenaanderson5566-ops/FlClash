@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/pages/error.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/pages/error.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rust_api/rust_api.dart';
@@ -36,7 +36,7 @@ void main(List<String> args) {
         await RustLib.init();
         final version = await system.init();
         final container = await bootstrap.init(version);
-        HttpOverrides.global = FlClashHttpOverrides(container);
+        HttpOverrides.global = FastAIHttpOverrides(container);
         request.attach(container.read);
         runApp(
           UncontrolledProviderScope(

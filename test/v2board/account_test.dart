@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:fl_clash/v2board/account.dart';
+import 'package:fastai/v2board/account.dart';
 
 void main() {
   test('expired period allowance is unavailable even with unused bytes', () {

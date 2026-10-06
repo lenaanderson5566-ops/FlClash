@@ -1,6 +1,6 @@
-import 'package:fl_clash/core/event.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
+import 'package:fastai/core/event.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _RecordingListener with CoreEventListener {

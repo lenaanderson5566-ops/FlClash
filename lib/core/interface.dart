@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/models/models.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/models/models.dart';
 
 import 'desktop/model.dart';
 import 'method.dart';

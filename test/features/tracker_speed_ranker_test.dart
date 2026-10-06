@@ -1,5 +1,5 @@
-import 'package:fl_clash/features/connection/tracker_speed_ranker.dart';
-import 'package:fl_clash/models/models.dart';
+import 'package:fastai/features/connection/tracker_speed_ranker.dart';
+import 'package:fastai/models/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 TrackerInfo _tracker(

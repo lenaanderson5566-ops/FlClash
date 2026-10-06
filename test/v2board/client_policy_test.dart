@@ -1,16 +1,33 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:fl_clash/common/link.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/providers/action.dart';
-import 'package:fl_clash/v2board/access.dart';
-import 'package:fl_clash/v2board/config.dart';
-import 'package:fl_clash/views/navigation.dart';
+import 'package:fastai/common/link.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/providers/action.dart';
+import 'package:fastai/v2board/access.dart';
+import 'package:fastai/v2board/config.dart';
+import 'package:fastai/views/navigation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test(
+    'server version rejection survives entitlement refresh until config sync succeeds',
+    () {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final access = container.read(v2BoardAccessProvider.notifier);
+      access.setAvailable(true);
+      expect(container.read(v2BoardAccessProvider), isTrue);
+      access.rejectVersion();
+      access.setAvailable(true);
+      expect(container.read(v2BoardAccessProvider), isFalse);
+      access.acceptVersion();
+      access.setAvailable(true);
+      expect(container.read(v2BoardAccessProvider), isTrue);
+    },
+  );
+
   test(
     'external scheme and launch links never attach an import listener',
     () async {

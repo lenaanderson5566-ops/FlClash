@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:ui' show Brightness, Color;
 
-import 'package:fl_clash/common/app_ports.dart';
-import 'package:fl_clash/common/preferences.dart';
-import 'package:fl_clash/models/config.dart';
-import 'package:fl_clash/providers/action.dart';
-import 'package:fl_clash/providers/actions/system_exit.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/common/app_ports.dart';
+import 'package:fastai/common/preferences.dart';
+import 'package:fastai/models/config.dart';
+import 'package:fastai/providers/action.dart';
+import 'package:fastai/providers/actions/system_exit.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';

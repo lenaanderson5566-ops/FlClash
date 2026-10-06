@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:win32_registry/win32_registry.dart';
-import 'package:fl_clash/v2board/config.dart';
+import 'package:fastai/v2board/config.dart';
 
 import 'print.dart';
 
@@ -53,7 +53,7 @@ class LinuxProtocolRegistrationPlan {
   String get desktopEntry => [
     '[Desktop Entry]',
     'Type=Application',
-    'Name=FlClash',
+    'Name=FastAI',
     'NoDisplay=true',
     'Exec=$exec',
     'MimeType=${mimeTypes.join(';')};',

@@ -5,8 +5,14 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    id("com.google.gms.google-services") apply false
+    id("com.google.firebase.crashlytics") apply false
+}
+
+val firebaseEnabled = providers.gradleProperty("fastaiFirebase").orNull == "true"
+if (firebaseEnabled) {
+    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.firebase.crashlytics")
 }
 
 val localProperties = Properties().apply {
@@ -26,7 +32,7 @@ val hasReleaseSigning = releaseStoreFile.exists() &&
     releaseKeyPassword != null
 
 android {
-    namespace = "com.follow.clash"
+    namespace = "ws.fastdog.fastai"
     compileSdk = libs.versions.compileSdk.get().toInt()
     ndkVersion = libs.versions.ndkVersion.get()
 
@@ -36,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.follow.clash"
+        applicationId = "ws.fastdog.fastai"
         minSdk = flutter.minSdkVersion
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = flutter.versionCode
@@ -81,7 +87,7 @@ android {
                 "proguard-rules.pro",
             )
 
-            configure<CrashlyticsExtension> {
+            if (firebaseEnabled) configure<CrashlyticsExtension> {
                 nativeSymbolUploadEnabled = hasReleaseSigning
             }
         }
@@ -104,7 +110,7 @@ flutter {
 }
 
 // The Crashlytics plugin finalizes R8 with the mapping upload but leaves the native symbol upload to the caller.
-if (hasReleaseSigning) {
+if (firebaseEnabled && hasReleaseSigning) {
     tasks.matching { it.name == "assembleRelease" || it.name == "bundleRelease" }.configureEach {
         finalizedBy("uploadCrashlyticsSymbolFileRelease")
     }

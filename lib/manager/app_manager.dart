@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/common/permission.dart';
-import 'package:fl_clash/common/system_dns.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/animated_visibility.dart';
-import 'package:fl_clash/widgets/icon.dart';
-import 'package:fl_clash/widgets/sidebar.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/common/permission.dart';
+import 'package:fastai/common/system_dns.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/widgets/animated_visibility.dart';
+import 'package:fastai/widgets/icon.dart';
+import 'package:fastai/widgets/sidebar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

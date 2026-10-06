@@ -1,6 +1,6 @@
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/common/shape.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/common/shape.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

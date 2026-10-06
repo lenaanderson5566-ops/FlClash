@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/widgets/scaffold.dart';
-import 'package:fl_clash/widgets/sheet.dart';
-import 'package:fl_clash/widgets/sheet_header.dart';
-import 'package:fl_clash/widgets/side_sheet.dart';
-import 'package:fl_clash/widgets/snap_sheet.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/widgets/scaffold.dart';
+import 'package:fastai/widgets/sheet.dart';
+import 'package:fastai/widgets/sheet_header.dart';
+import 'package:fastai/widgets/side_sheet.dart';
+import 'package:fastai/widgets/snap_sheet.dart';
 import 'package:flutter/gestures.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

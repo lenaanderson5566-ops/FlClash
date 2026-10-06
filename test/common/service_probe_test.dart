@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:fl_clash/common/constant.dart';
-import 'package:fl_clash/common/service_probe.dart';
-import 'package:fl_clash/core/controller.dart';
-import 'package:fl_clash/core/interface.dart';
-import 'package:fl_clash/models/models.dart';
+import 'package:fastai/common/constant.dart';
+import 'package:fastai/common/service_probe.dart';
+import 'package:fastai/core/controller.dart';
+import 'package:fastai/core/interface.dart';
+import 'package:fastai/models/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

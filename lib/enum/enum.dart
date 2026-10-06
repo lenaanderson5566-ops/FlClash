@@ -2,9 +2,9 @@
 
 import 'dart:io';
 
-import 'package:fl_clash/common/context.dart';
-import 'package:fl_clash/common/system.dart';
-import 'package:fl_clash/icons/icons.dart';
+import 'package:fastai/common/context.dart';
+import 'package:fastai/common/system.dart';
+import 'package:fastai/icons/icons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

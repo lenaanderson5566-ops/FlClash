@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:fl_clash/common/webdav.dart';
-import 'package:fl_clash/core/method.dart';
-import 'package:fl_clash/l10n/l10n.dart';
+import 'package:fastai/common/webdav.dart';
+import 'package:fastai/core/method.dart';
+import 'package:fastai/l10n/l10n.dart';
 
 enum _Kind {
   timeout,

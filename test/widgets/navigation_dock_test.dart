@@ -1,15 +1,15 @@
 import 'dart:typed_data';
 
-import 'package:fl_clash/common/app_ports.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/icons/icons.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/pages/home.dart';
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/views/dashboard/widgets/start_button.dart';
-import 'package:fl_clash/views/navigation.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/app_ports.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/icons/icons.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/pages/home.dart';
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/state.dart';
+import 'package:fastai/views/dashboard/widgets/start_button.dart';
+import 'package:fastai/views/navigation.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

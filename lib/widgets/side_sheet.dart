@@ -1,7 +1,7 @@
-import 'package:fl_clash/common/color.dart';
-import 'package:fl_clash/common/shape.dart';
-import 'package:fl_clash/widgets/drag_back.dart';
-import 'package:fl_clash/widgets/sheet_navigator.dart';
+import 'package:fastai/common/color.dart';
+import 'package:fastai/common/shape.dart';
+import 'package:fastai/widgets/drag_back.dart';
+import 'package:fastai/widgets/sheet_navigator.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 

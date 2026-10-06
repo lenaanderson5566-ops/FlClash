@@ -1,5 +1,5 @@
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/widgets/null_status.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/widgets/null_status.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 

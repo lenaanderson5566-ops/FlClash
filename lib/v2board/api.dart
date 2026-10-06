@@ -53,7 +53,10 @@ class V2BoardApi {
       sendTimeout: const Duration(seconds: 15),
       followRedirects: false,
       validateStatus: (status) => status != null,
-      headers: {'Accept': 'application/json'},
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': V2BoardConfig.appName,
+      },
     );
   }
 
@@ -61,6 +64,7 @@ class V2BoardApi {
   final Dio _dio;
   String? accessToken;
   Future<void> Function()? onSessionRejected;
+  String? version;
   String language = 'zh-CN';
 
   Future<dynamic> request(
@@ -78,6 +82,8 @@ class V2BoardApi {
           method: method,
           headers: {
             'Accept-Language': language,
+            'User-Agent':
+                '${V2BoardConfig.appName}${version == null ? '' : '/$version'}',
             if (accessToken != null) 'Authorization': 'Bearer $accessToken',
           },
         ),
@@ -114,6 +120,7 @@ class V2BoardApi {
   Future<Uint8List> clientConfig({
     required String version,
     required String platform,
+    String? architecture,
   }) async {
     if (accessToken == null || accessToken!.isEmpty) {
       throw const V2BoardProblem('UNAUTHENTICATED', status: 401);
@@ -121,7 +128,11 @@ class V2BoardApi {
     try {
       final response = await _dio.get<List<int>>(
         '/me/client-config',
-        queryParameters: {'clientVersion': version, 'platform': platform},
+        queryParameters: {
+          'clientVersion': version,
+          'platform': platform,
+          'architecture': ?architecture,
+        },
         options: Options(
           responseType: ResponseType.bytes,
           headers: {
@@ -191,6 +202,33 @@ class V2BoardApi {
       throw const V2BoardProblem('invalid_response');
     }
     accessToken = token;
+  }
+
+  Future<Uri> loginLink(Uri website) async {
+    final data = await request(
+      'POST',
+      '/me/login-links',
+      body: {'redirect': 'dashboard'},
+    );
+    if (data is! String) throw const V2BoardProblem('invalid_response');
+    final url = Uri.tryParse(data);
+    if (url == null ||
+        url.scheme != 'https' ||
+        url.origin != website.origin ||
+        url.userInfo.isNotEmpty ||
+        url.query.isNotEmpty ||
+        !url.fragment.startsWith('/login?verify=')) {
+      throw const V2BoardProblem('invalid_response');
+    }
+    final fragment = Uri.parse(url.fragment);
+    if (!RegExp(
+          r'^[a-f0-9]{64}$',
+        ).hasMatch(fragment.queryParameters['verify'] ?? '') ||
+        fragment.queryParameters['redirect'] != 'dashboard' ||
+        fragment.queryParameters.length != 2) {
+      throw const V2BoardProblem('invalid_response');
+    }
+    return url;
   }
 
   void close() => _dio.close(force: true);

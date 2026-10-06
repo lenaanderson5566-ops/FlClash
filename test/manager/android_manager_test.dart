@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:fl_clash/manager/android_manager.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/providers/database.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/manager/android_manager.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/providers/database.dart';
+import 'package:fastai/state.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

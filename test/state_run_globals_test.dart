@@ -1,15 +1,15 @@
-import 'package:fl_clash/bootstrap.dart';
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/bootstrap.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod/riverpod.dart';
 
 final _packageInfo = PackageInfo(
-  appName: 'FlClash',
-  packageName: 'com.follow.clash',
+  appName: 'FastAI',
+  packageName: 'ws.fastdog.fastai',
   version: '1.2.3',
   buildNumber: '1',
 );
@@ -44,7 +44,7 @@ void main() {
       setGlobalUa('');
 
       expect(globalState.ua, _packageInfo.ua);
-      expect(globalState.ua, contains('FlClash/v1.2.3'));
+      expect(globalState.ua, contains('FastAI/v1.2.3'));
     });
 
     test('prefers the configured global user agent', () {

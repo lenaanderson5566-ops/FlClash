@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/core/controller.dart';
-import 'package:fl_clash/core/interface.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/l10n/l10n.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/providers/action.dart';
-import 'package:fl_clash/providers/app.dart';
-import 'package:fl_clash/providers/config.dart';
-import 'package:fl_clash/providers/core.dart';
-import 'package:fl_clash/providers/database.dart';
-import 'package:fl_clash/providers/state.dart';
-import 'package:fl_clash/state.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/core/controller.dart';
+import 'package:fastai/core/interface.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/l10n/l10n.dart';
+import 'package:fastai/models/models.dart';
+import 'package:fastai/providers/action.dart';
+import 'package:fastai/providers/app.dart';
+import 'package:fastai/providers/config.dart';
+import 'package:fastai/providers/core.dart';
+import 'package:fastai/providers/database.dart';
+import 'package:fastai/providers/state.dart';
+import 'package:fastai/state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -759,8 +759,8 @@ void main() {
       await AppLocalizations.load(const Locale('en'));
       originalLastConfigMd5 = globalState.lastConfigMd5;
       globalState.packageInfo = PackageInfo(
-        appName: 'FlClash',
-        packageName: 'com.follow.clash',
+        appName: 'FastAI',
+        packageName: 'ws.fastdog.fastai',
         version: '0.0.0',
         buildNumber: '0',
       );

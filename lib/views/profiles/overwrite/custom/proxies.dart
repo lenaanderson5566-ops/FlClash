@@ -1,10 +1,10 @@
-import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/models/models.dart' hide FileInfo;
-import 'package:fl_clash/providers/providers.dart';
-import 'package:fl_clash/views/profiles/overwrite/custom/name_add_picker.dart';
-import 'package:fl_clash/views/profiles/overwrite/custom/name_list_editor.dart';
-import 'package:fl_clash/widgets/widgets.dart';
+import 'package:fastai/common/common.dart';
+import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart' hide FileInfo;
+import 'package:fastai/providers/providers.dart';
+import 'package:fastai/views/profiles/overwrite/custom/name_add_picker.dart';
+import 'package:fastai/views/profiles/overwrite/custom/name_list_editor.dart';
+import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
