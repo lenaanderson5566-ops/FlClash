@@ -12,6 +12,8 @@ import 'access.dart';
 import 'config.dart';
 import 'update.dart';
 import 'geo.dart';
+import 'subscription_policy.dart';
+import 'package:fastai/enum/enum.dart';
 import 'package:fastai/common/common.dart';
 
 class V2BoardProfile {
@@ -29,6 +31,13 @@ class V2BoardProfile {
     final config = Map<String, dynamic>.from(
       json.decode(json.encode(loadYaml(utf8.decode(bytes)))) as Map,
     );
+    final removed = removeSubscriptionMetadata(config);
+    if (removed.isNotEmpty) {
+      commonPrint.log(
+        'Native configuration contained ${removed.length} subscription metadata nodes; removed.',
+        logLevel: LogLevel.warning,
+      );
+    }
     enforceBundledRules(config);
     bytes = Uint8List.fromList(utf8.encode(await encodeYamlTask(config)));
     if (!ref.context.mounted) return;
@@ -42,6 +51,11 @@ class V2BoardProfile {
     final profile = (previous ?? Profile.normal(label: label)).copyWith(
       label: label,
       autoUpdate: false,
+      selectedMap: {
+        for (final entry
+            in (previous?.selectedMap ?? <String, String>{}).entries)
+          if (!removed.contains(entry.value)) entry.key: entry.value,
+      },
     );
     final updated = await profile.saveFile(
       bytes,
