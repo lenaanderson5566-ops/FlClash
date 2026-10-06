@@ -656,6 +656,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdActive": MessageLookupByLibrary.simpleMessage("Готов к подключению"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("Год"),
+    "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
+      "Проверяет новые версии в фоне. Скачивание и установка выполняются вручную.",
+    ),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
       "Фоновая работа и уведомления",
     ),

@@ -183,6 +183,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Future<void> _checkRelease({bool force = false}) async {
+    if (!force && !ref.read(appSettingProvider).autoCheckUpdate) return;
     try {
       await ref.read(fastaiReleaseProvider.notifier).check(force: force);
     } catch (_) {

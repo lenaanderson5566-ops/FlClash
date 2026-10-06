@@ -192,6 +192,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('FastAI'), findsWidgets);
     expect(find.text('Check for updates'), findsOneWidget);
+    expect(find.text('Auto check for updates'), findsOneWidget);
     expect(find.byType(TextFormField), findsNothing);
     await tester.tap(find.text('Home').first);
     await tester.pumpAndSettle();

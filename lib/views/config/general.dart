@@ -64,16 +64,6 @@ class GeneralSettings extends ConsumerWidget {
     ];
   }
 
-  List<Widget> _requestItems() {
-    return [
-      _appSettingToggle(
-        title: (l) => l.autoCheckUpdate,
-        select: (state) => state.autoCheckUpdate,
-        update: (state, value) => state.copyWith(autoCheckUpdate: value),
-      ),
-    ];
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
@@ -101,10 +91,6 @@ class GeneralSettings extends ConsumerWidget {
               ),
             ],
           ),
-        generateSectionV3(
-          title: appLocalizations.requestsAndUpdates,
-          items: _requestItems(),
-        ),
       ],
     );
   }

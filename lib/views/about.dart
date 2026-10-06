@@ -6,6 +6,7 @@ import 'package:fastai/icons/icons.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/widgets/list.dart';
+import 'package:fastai/widgets/config_item.dart';
 import 'package:fastai/widgets/scaffold.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,6 +70,15 @@ class AboutView extends ConsumerWidget {
             onCheckUpdate: () {
               _checkUpdate(context, ref);
             },
+          ),
+          const SizedBox(height: 16),
+          ConfigToggleItem(
+            title: (l) => l.autoCheckUpdate,
+            subtitle: (l) => l.fdAutoCheckUpdateDesc,
+            selector: appSettingProvider.select((s) => s.autoCheckUpdate),
+            onChanged: (ref, enabled) => ref
+                .read(appSettingProvider.notifier)
+                .update((s) => s.copyWith(autoCheckUpdate: enabled)),
           ),
           const SizedBox(height: 8),
           generateSectionV3(

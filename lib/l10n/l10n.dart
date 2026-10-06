@@ -6533,6 +6533,16 @@ class AppLocalizations {
     );
   }
 
+  /// `Checks for new versions in the background. Download and installation require your action.`
+  String get fdAutoCheckUpdateDesc {
+    return Intl.message(
+      'Checks for new versions in the background. Download and installation require your action.',
+      name: 'fdAutoCheckUpdateDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get fdHome {
     return Intl.message('Home', name: 'fdHome', desc: '', args: []);

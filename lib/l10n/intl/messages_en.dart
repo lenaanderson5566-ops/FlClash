@@ -633,6 +633,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdActive": MessageLookupByLibrary.simpleMessage("Ready to connect"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("Annual"),
+    "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
+      "Checks for new versions in the background. Download and installation require your action.",
+    ),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
       "Background and notifications",
     ),

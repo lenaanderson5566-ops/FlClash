@@ -479,6 +479,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage("连接由你掌握。"),
     "fdActive": MessageLookupByLibrary.simpleMessage("可连接"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("年付"),
+    "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
+      "在后台检查新版本，下载和安装需要手动确认。",
+    ),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage("后台与通知"),
     "fdBanned": MessageLookupByLibrary.simpleMessage("账户已停用"),
     "fdBiennial": MessageLookupByLibrary.simpleMessage("两年付"),

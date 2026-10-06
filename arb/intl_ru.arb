@@ -789,6 +789,7 @@
   "fdCompleted": "Завершён",
   "fdConnect": "Подключить",
   "fdBackgroundNotifications": "Фоновая работа и уведомления",
+  "fdAutoCheckUpdateDesc": "Проверяет новые версии в фоне. Скачивание и установка выполняются вручную.",
   "fdHome": "Главная",
   "fdPersonalProfile": "Личный профиль",
   "fdConnection": "Подключение",

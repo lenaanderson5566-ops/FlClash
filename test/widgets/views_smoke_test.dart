@@ -69,7 +69,7 @@ void main() {
         expect(find.text('General'), findsNothing);
         expect(find.byType(GeneralSettings), findsOneWidget);
         expect(find.text('System proxy'), findsNothing);
-        expect(find.text('Auto check for updates'), findsOneWidget);
+        expect(find.text('Auto check for updates'), findsNothing);
       }
       if (entry.key == 'access control') {
         await tester.pump(const Duration(milliseconds: 301));

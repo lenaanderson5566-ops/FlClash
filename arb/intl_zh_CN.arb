@@ -789,6 +789,7 @@
   "fdCompleted": "已完成",
   "fdConnect": "连接",
   "fdBackgroundNotifications": "后台与通知",
+  "fdAutoCheckUpdateDesc": "在后台检查新版本，下载和安装需要手动确认。",
   "fdHome": "首页",
   "fdPersonalProfile": "个人资料",
   "fdConnection": "连接",

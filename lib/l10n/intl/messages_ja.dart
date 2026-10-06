@@ -526,6 +526,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage("接続を、あなたらしく。"),
     "fdActive": MessageLookupByLibrary.simpleMessage("接続可能"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("1年"),
+    "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
+      "バックグラウンドで新しいバージョンを確認します。ダウンロードとインストールは手動で行います。",
+    ),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
       "バックグラウンドと通知",
     ),

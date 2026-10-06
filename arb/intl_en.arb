@@ -789,6 +789,7 @@
   "fdCompleted": "Completed",
   "fdConnect": "Connect",
   "fdBackgroundNotifications": "Background and notifications",
+  "fdAutoCheckUpdateDesc": "Checks for new versions in the background. Download and installation require your action.",
   "fdHome": "Home",
   "fdPersonalProfile": "Personal profile",
   "fdConnection": "Connection",
