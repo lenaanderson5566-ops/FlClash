@@ -523,6 +523,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fakeipRange6": MessageLookupByLibrary.simpleMessage("Fake-IP範囲（IPv6）"),
     "fakeipTtl": MessageLookupByLibrary.simpleMessage("Fake-IP TTL"),
     "fallbackFilter": MessageLookupByLibrary.simpleMessage("フォールバックフィルター"),
+    "fdAccountStale": MessageLookupByLibrary.simpleMessage(
+      "アカウント情報を更新できませんでした。接続時に再確認します。",
+    ),
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage("接続を、あなたらしく。"),
     "fdActive": MessageLookupByLibrary.simpleMessage("接続可能"),
     "fdAllRegions": MessageLookupByLibrary.simpleMessage("すべての地域"),
@@ -539,7 +542,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdBuy": MessageLookupByLibrary.simpleMessage("注文する"),
     "fdCancelOrder": MessageLookupByLibrary.simpleMessage("注文をキャンセル"),
     "fdCancelled": MessageLookupByLibrary.simpleMessage("キャンセル済み"),
+    "fdCertificateError": MessageLookupByLibrary.simpleMessage(
+      "サーバー証明書を確認できません。システム時刻を確認するかサポートにお問い合わせください。",
+    ),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("接続先を選ぶ"),
+    "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
+      "FastAI は一時的に利用できません。公式サイトからサポートにお問い合わせください。",
+    ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "処理できませんでした。購入や支払いを再試行する前に注文を更新してください。",
     ),
@@ -550,11 +559,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "接続できませんでした。再試行するか接続先を変更してください。",
     ),
+    "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("レポートをコピー"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("注文を確認"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("追加容量の残高"),
     "fdCredits": MessageLookupByLibrary.simpleMessage("追加通信容量"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("オンライン端末 / 上限"),
+    "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("接続診断レポート"),
+    "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
+      "サポート用にリクエスト結果と所要時間をコピーします。認証情報や設定内容は含まれません。",
+    ),
+    "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
+      "診断レポートをコピーしました",
+    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("切断"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未接続"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("切断中…"),
@@ -568,6 +585,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("接続先を選び、ワンクリックで接続。"),
     "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
+    "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
+      "サーバーから無効な設定が返されました。再同期するかサポートにお問い合わせください。",
+    ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "メールアドレスまたはパスワードが違います",
     ),
@@ -602,11 +622,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。しばらくお待ちください。",
     ),
+    "fdReferenceId": MessageLookupByLibrary.simpleMessage("問い合わせ番号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("更新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("公式サイトで登録・パスワード再設定"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("期間の残り通信量"),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "操作に失敗しました。再試行してください。",
+    ),
+    "fdRequestTimeout": MessageLookupByLibrary.simpleMessage(
+      "リクエストがタイムアウトしました。ネットワークを確認して再試行してください。",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("必須項目です"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("6か月"),

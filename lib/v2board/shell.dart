@@ -14,6 +14,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'account.dart';
+import 'diagnostics.dart';
+import 'problem_message.dart';
 import 'api.dart';
 import 'access.dart';
 import 'config.dart';
@@ -78,6 +80,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   V2BoardAccount? _account;
   bool _busy = true;
   String? _error;
+  String? _errorCode;
   String? _activity;
   bool _connectAfterLogin = false;
   bool _retryConnect = false;
@@ -86,8 +89,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   bool _sidebarExpanded = true;
   Future<void>? _forgetting;
   Timer? _accountTimer;
+  Future<void>? _refreshing;
+  V2BoardApi? _refreshClient;
+  bool _accountStale = false;
 
-  V2BoardProfile get _profile => V2BoardProfile(ref);
+  late final V2BoardProfile _profile = V2BoardProfile(ref);
 
   @override
   void initState() {
@@ -106,9 +112,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       }),
     );
     unawaited(_checkRelease());
+    ref.listenManual(appVisibleProvider, (previous, visible) {
+      if (visible && previous == false && _api != null && !_busy) {
+        unawaited(_refreshInBackground());
+        unawaited(_checkRelease());
+      }
+    });
     _accountTimer = Timer.periodic(const Duration(minutes: 1), (_) {
       if (mounted && _api != null && !_busy && ref.read(appVisibleProvider)) {
-        unawaited(_run(_refresh));
+        unawaited(_refreshInBackground());
         unawaited(_checkRelease());
       }
     });
@@ -129,6 +141,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       setState(() {
         _busy = true;
         _error = null;
+        _errorCode = null;
         _activity = activity;
       });
     }
@@ -148,29 +161,28 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         if (!mounted) return;
         unawaited(_checkRelease(force: true));
       }
-      setState(
-        () => _error = error.code == 'CLIENT_VERSION_TOO_LOW'
-            ? l.fdUpdateRequired
-            : switch (error.status) {
-                401 => hadSession ? l.fdSessionExpired : l.fdInvalidCredentials,
-                403 =>
-                  error.code == 'SUBSCRIPTION_UNAVAILABLE'
-                      ? l.fdNodesUnavailable
-                      : error.code == 'CLIENT_DISABLED'
-                      ? l.fdSyncFailed
-                      : l.fdBanned,
-                422 => l.fdValidationError,
-                429 => l.fdRateLimited,
-                _ =>
-                  error.code == 'connection_failed'
-                      ? l.fdConnectionFailed
-                      : error.code == 'subscription_failed'
-                      ? l.fdSyncFailed
-                      : error.code == 'network_error'
-                      ? l.fdNetworkError
-                      : l.fdRequestFailed,
-              },
+      if (error.code == 'CLIENT_DISABLED' ||
+          error.code == 'SUBSCRIPTION_UNAVAILABLE') {
+        ref.read(v2BoardAccessProvider.notifier).setAvailable(false);
+        await ref.read(setupActionProvider.notifier).setRunning(false);
+        if (!mounted) return;
+      }
+      final diagnostic = ClientRequestDiagnostic(
+        method: '',
+        path: '',
+        code: error.code,
+        requestId: error.requestId,
+        status: error.status,
+        duration: Duration.zero,
       );
+      setState(() {
+        _errorCode = error.code;
+        _error = [
+          clientProblemMessage(error, l, hadSession: hadSession),
+          if (diagnostic.requestId.isNotEmpty)
+            '${l.fdReferenceId}: ${diagnostic.requestId}',
+        ].join('\n');
+      });
     } on FormatException {
       if (mounted) {
         setState(() => _error = context.appLocalizations.fdInvalidUrl);
@@ -198,14 +210,42 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     }
   }
 
-  Future<void> _refresh() async {
+  Future<void> _refresh() {
+    if (_refreshing != null && identical(_refreshClient, _api)) {
+      return _refreshing!;
+    }
+    _refreshClient = _api;
+    late final Future<void> task;
+    task = _refreshAccount().whenComplete(() {
+      if (identical(_refreshing, task)) {
+        _refreshing = null;
+        _refreshClient = null;
+      }
+    });
+    return _refreshing = task;
+  }
+
+  Future<void> _refreshInBackground() async {
+    final client = _api;
+    try {
+      await _refresh();
+      if (mounted) setState(() {});
+    } catch (_) {
+      if (mounted && client != null && _api == client) {
+        setState(() => _accountStale = true);
+      }
+    }
+  }
+
+  Future<void> _refreshAccount() async {
     final api = _api!;
     api.language = Localizations.localeOf(context).toLanguageTag();
     final data = await Future.wait([
       api.object('GET', '/me'),
       api.object('GET', '/me/subscription'),
     ]);
-    if (!mounted) return;
+    if (!mounted || _api != api) return;
+    _accountStale = false;
     _account = V2BoardAccount(data[0], data[1]);
     ref
         .read(v2BoardAccessProvider.notifier)
@@ -226,6 +266,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         ..version = globalState.packageInfo.version;
       api.language = Localizations.localeOf(context).toLanguageTag();
       try {
+        _observeRequests(api);
         await api.login(_email.text, _password.text);
         if (!mounted) {
           api.close();
@@ -258,7 +299,20 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
   }
 
+  void _observeRequests(V2BoardApi api) {
+    api.onDiagnostic = (event) {
+      if (!mounted) return;
+      ref.read(clientDiagnosticsProvider.notifier).record(event);
+      commonPrint.log(
+        'Client request: ${event.summary} · ${event.code}'
+        '${event.requestId.isEmpty ? '' : ' · ${event.requestId}'}',
+        logLevel: event.code == 'ok' ? LogLevel.info : LogLevel.warning,
+      );
+    };
+  }
+
   void _bindSession(V2BoardApi api) {
+    _observeRequests(api);
     api.version = globalState.packageInfo.version;
     api.onSessionRejected = () async {
       if (!mounted || _api != api) return;
@@ -280,6 +334,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _api?.close();
     _api = null;
     _account = null;
+    _accountStale = false;
+    ref.read(clientDiagnosticsProvider.notifier).clear();
     _tab = 0;
     _showLogin = false;
     _connectAfterLogin = false;
@@ -358,6 +414,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             : origin
             ? TextInputType.url
             : TextInputType.emailAddress,
+        autofillHints: origin
+            ? null
+            : [password ? AutofillHints.password : AutofillHints.username],
         decoration: InputDecoration(labelText: label),
         validator: (value) => (value ?? '').trim().isEmpty
             ? context.appLocalizations.fdRequired
@@ -658,6 +717,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           trailing: const GlyphIcon(AppGlyphs.openExternal),
           onTap: _busy ? null : () => _run(_portal),
         ),
+        if (_accountStale)
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(l.fdAccountStale),
+          ),
         TextButton.icon(
           onPressed: _busy ? null : () => _run(_refresh),
           icon: const GlyphIcon(AppGlyphs.refresh),
@@ -1062,6 +1126,17 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                           color: context.colorScheme.onErrorContainer,
                         ),
                       ),
+                      if (const {
+                        'invalid_config',
+                        'invalid_response',
+                        'CLIENT_DISABLED',
+                        'SUBSCRIPTION_UNAVAILABLE',
+                        'certificate_error',
+                      }.contains(_errorCode))
+                        TextButton(
+                          onPressed: _busy ? null : () => _run(_portal),
+                          child: Text(l.fdWebAccount),
+                        ),
                       TextButton(
                         onPressed: _busy
                             ? null
@@ -1074,7 +1149,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                               },
                         child: Text(l.retry),
                       ),
-                      if (_api != null)
+                      if (_api != null && _errorCode == 'connection_failed')
                         TextButton(
                           onPressed: _busy ? null : () => _selectPage(1),
                           child: Text(l.fdChooseRoute),

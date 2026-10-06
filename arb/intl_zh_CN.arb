@@ -855,5 +855,15 @@
   "fdSyncingRoutes": "正在同步线路…",
   "fdConnectionFailed": "连接失败，请重试或切换线路。",
   "fdDisconnecting": "正在断开…",
-  "fdOfficialWebsite": "官方网站"
+  "fdOfficialWebsite": "官方网站",
+  "fdInvalidConfig": "服务器返回的配置异常，请重新同步或联系支持。",
+  "fdClientUnavailable": "FastAI 暂时不可用，请前往官网联系支持。",
+  "fdRequestTimeout": "请求超时，请检查网络后重试。",
+  "fdCertificateError": "无法验证服务器证书，请检查系统时间或联系支持。",
+  "fdReferenceId": "问题编号",
+  "fdAccountStale": "账号信息暂未刷新，连接时将重新检查账号状态。",
+  "fdDiagnosticReport": "连接诊断报告",
+  "fdDiagnosticReportHint": "复制请求结果和耗时，便于支持人员排查；不包含登录凭据和配置内容。",
+  "fdCopyDiagnostics": "复制报告",
+  "fdDiagnosticsCopied": "已复制诊断报告"
 }

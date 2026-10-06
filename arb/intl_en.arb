@@ -855,5 +855,15 @@
   "fdSyncingRoutes": "Syncing routes…",
   "fdConnectionFailed": "Connection failed. Retry or choose another route.",
   "fdDisconnecting": "Disconnecting…",
-  "fdOfficialWebsite": "Official website"
+  "fdOfficialWebsite": "Official website",
+  "fdInvalidConfig": "The server returned an invalid configuration. Sync again or contact support.",
+  "fdClientUnavailable": "FastAI is temporarily unavailable. Contact support on the website.",
+  "fdRequestTimeout": "The request timed out. Check your network and retry.",
+  "fdCertificateError": "Unable to verify the server certificate. Check your system clock or contact support.",
+  "fdReferenceId": "Reference ID",
+  "fdAccountStale": "Account information could not be refreshed. Connect will check your account again.",
+  "fdDiagnosticReport": "Connection diagnostic report",
+  "fdDiagnosticReportHint": "Copy request results and timings for support. Credentials and configuration contents are excluded.",
+  "fdCopyDiagnostics": "Copy report",
+  "fdDiagnosticsCopied": "Diagnostic report copied"
 }

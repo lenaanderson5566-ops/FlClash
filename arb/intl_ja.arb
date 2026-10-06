@@ -855,5 +855,15 @@
   "fdSyncingRoutes": "接続先を同期中…",
   "fdConnectionFailed": "接続できませんでした。再試行するか接続先を変更してください。",
   "fdDisconnecting": "切断中…",
-  "fdOfficialWebsite": "公式サイト"
+  "fdOfficialWebsite": "公式サイト",
+  "fdInvalidConfig": "サーバーから無効な設定が返されました。再同期するかサポートにお問い合わせください。",
+  "fdClientUnavailable": "FastAI は一時的に利用できません。公式サイトからサポートにお問い合わせください。",
+  "fdRequestTimeout": "リクエストがタイムアウトしました。ネットワークを確認して再試行してください。",
+  "fdCertificateError": "サーバー証明書を確認できません。システム時刻を確認するかサポートにお問い合わせください。",
+  "fdReferenceId": "問い合わせ番号",
+  "fdAccountStale": "アカウント情報を更新できませんでした。接続時に再確認します。",
+  "fdDiagnosticReport": "接続診断レポート",
+  "fdDiagnosticReportHint": "サポート用にリクエスト結果と所要時間をコピーします。認証情報や設定内容は含まれません。",
+  "fdCopyDiagnostics": "レポートをコピー",
+  "fdDiagnosticsCopied": "診断レポートをコピーしました"
 }

@@ -76,7 +76,6 @@ class FastaiReleaseState extends Notifier<FastaiRelease?> {
         DateTime.now().difference(_lastCheck!) < const Duration(hours: 6)) {
       return state;
     }
-    _lastCheck = DateTime.now();
     final api = V2BoardApi(V2BoardConfig.panelUrl)
       ..version = globalState.packageInfo.version;
     try {
@@ -95,7 +94,9 @@ class FastaiReleaseState extends Notifier<FastaiRelease?> {
           data['channel'] != 'stable') {
         throw const FormatException('Invalid release target');
       }
-      return state = FastaiRelease.fromJson(data);
+      final release = FastaiRelease.fromJson(data);
+      _lastCheck = DateTime.now();
+      return state = release;
     } finally {
       api.close();
     }

@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fastai/v2board/api.dart';
 import 'package:fastai/v2board/config.dart';
+import 'package:fastai/v2board/diagnostics.dart';
 
 class _Adapter implements HttpClientAdapter {
   _Adapter(this.respond);
@@ -35,6 +36,141 @@ ResponseBody _json(dynamic body, [int status = 200]) => ResponseBody.fromString(
 );
 
 void main() {
+  test(
+    'a successful HTML page does not authorize the cached configuration',
+    () async {
+      final adapter = _Adapter(
+        (_) => ResponseBody.fromString(
+          '',
+          200,
+          headers: {
+            'content-type': ['text/html'],
+          },
+        ),
+      );
+      final api = V2BoardApi(
+        'https://panel.example',
+        dio: Dio()..httpClientAdapter = adapter,
+      )..accessToken = 'session';
+      addTearDown(api.close);
+      await expectLater(
+        api.validateCachedConfig(version: '1.0.0', platform: 'windows'),
+        throwsA(
+          isA<V2BoardProblem>().having(
+            (e) => e.code,
+            'code',
+            'invalid_response',
+          ),
+        ),
+      );
+    },
+  );
+
+  test(
+    'cached configuration is reauthorized with HEAD without downloading YAML',
+    () async {
+      final adapter = _Adapter(
+        (_) => ResponseBody.fromString(
+          '',
+          200,
+          headers: {
+            'content-type': ['application/yaml'],
+            'x-fastai-config-version': ['2'],
+          },
+        ),
+      );
+      final api = V2BoardApi(
+        'https://panel.example',
+        dio: Dio()..httpClientAdapter = adapter,
+      )..accessToken = 'session';
+      addTearDown(api.close);
+      await api.validateCachedConfig(
+        version: '1.0.0',
+        platform: 'windows',
+        architecture: 'x64',
+      );
+      expect(adapter.requests.single.method, 'HEAD');
+      expect(adapter.requests.single.uri.path, '/api/v10/me/client-config');
+      expect(adapter.requests.single.queryParameters['clientVersion'], '1.0.0');
+      expect(
+        adapter.requests.single.headers['Authorization'],
+        'Bearer session',
+      );
+    },
+  );
+
+  test(
+    'HEAD rejection retrieves the typed error and never grants cached access',
+    () async {
+      for (final entry in {
+        'CLIENT_DISABLED': 403,
+        'CLIENT_VERSION_TOO_LOW': 409,
+        'SUBSCRIPTION_UNAVAILABLE': 403,
+        'UNAUTHENTICATED': 401,
+      }.entries) {
+        var rejected = false;
+        final events = <ClientRequestDiagnostic>[];
+        final adapter = _Adapter(
+          (options) => options.method == 'HEAD'
+              ? ResponseBody.fromString('', entry.value)
+              : _json({'code': entry.key, 'requestId': 'req-123'}, entry.value),
+        );
+        final api =
+            V2BoardApi(
+                'https://panel.example',
+                dio: Dio()..httpClientAdapter = adapter,
+              )
+              ..accessToken = 'private-token'
+              ..onSessionRejected = () async {
+                rejected = true;
+              }
+              ..onDiagnostic = events.add;
+        addTearDown(api.close);
+        await expectLater(
+          api.validateCachedConfig(version: '1.0.0', platform: 'windows'),
+          throwsA(
+            isA<V2BoardProblem>().having((e) => e.code, 'code', entry.key),
+          ),
+        );
+        expect(adapter.requests.map((e) => e.method), ['HEAD', 'GET']);
+        expect(rejected, entry.value == 401);
+        expect(events.last.requestId, 'req-123');
+        expect(events.last.code, entry.key);
+      }
+    },
+  );
+
+  test(
+    'timeouts remain distinct from unavailable network and certificates',
+    () async {
+      for (final entry in {
+        DioExceptionType.connectionTimeout: 'request_timeout',
+        DioExceptionType.receiveTimeout: 'request_timeout',
+        DioExceptionType.badCertificate: 'certificate_error',
+        DioExceptionType.connectionError: 'network_error',
+      }.entries) {
+        final adapter = _Adapter(
+          (options) =>
+              throw DioException(requestOptions: options, type: entry.key),
+        );
+        final events = <ClientRequestDiagnostic>[];
+        final api = V2BoardApi(
+          'https://panel.example',
+          dio: Dio()..httpClientAdapter = adapter,
+        )..onDiagnostic = events.add;
+        addTearDown(api.close);
+        await expectLater(
+          api.request('GET', '/me'),
+          throwsA(
+            isA<V2BoardProblem>().having((e) => e.code, 'code', entry.value),
+          ),
+        );
+        expect(events.single.code, entry.value);
+        expect(events.single.endpoint, '/me');
+      }
+    },
+  );
+
   test('website login uses a one-time code on the trusted origin', () async {
     final code = List.filled(64, 'a').join();
     final adapter = _Adapter(

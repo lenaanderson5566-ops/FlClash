@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/common/common.dart';
 import 'package:fastai/common/theme.dart';
@@ -9,6 +10,7 @@ import 'dart:typed_data';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/v2board/api.dart';
+import 'package:fastai/v2board/access.dart';
 import 'package:fastai/v2board/session.dart';
 import 'package:fastai/v2board/shell.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +29,8 @@ class _Session extends V2BoardSession {
 
 class _Api extends V2BoardApi {
   _Api(this.available) : super('https://example.com');
-  final bool available;
+  bool available;
+  Completer<V10Object>? pendingAccount;
   Completer<Uint8List>? pendingConfig;
 
   @override
@@ -45,18 +48,21 @@ class _Api extends V2BoardApi {
     String method,
     String path, {
     V10Object? body,
-  }) async => path == '/me'
-      ? {
-          'email': 'test@example.com',
-          'accountStatus': {
-            'available': available,
-            'state': available ? 'active' : 'new',
-          },
-        }
-      : {
-          'active': available,
-          'plan': {'name': 'Test plan'},
-        };
+  }) async {
+    if (path == '/me' && pendingAccount != null) return pendingAccount!.future;
+    return path == '/me'
+        ? {
+            'email': 'test@example.com',
+            'accountStatus': {
+              'available': available,
+              'state': available ? 'active' : 'new',
+            },
+          }
+        : {
+            'active': available,
+            'plan': {'name': 'Test plan'},
+          };
+  }
 }
 
 class _Setup extends SetupAction {
@@ -122,6 +128,139 @@ void main() {
     );
     await tester.pumpAndSettle();
   }
+
+  testWidgets(
+    'background account refresh does not block navigation or show global errors',
+    (tester) async {
+      final api = _Api(false);
+      await show(tester, api, desktopLayout: true);
+      api.pendingAccount = Completer<V10Object>();
+      await tester.pump(const Duration(minutes: 1));
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+      expect(
+        tester
+            .widget<NavigationRail>(find.byType(NavigationRail))
+            .onDestinationSelected,
+        isNotNull,
+      );
+      await tester.tap(find.text('Account'));
+      await tester.pumpAndSettle();
+      api.pendingAccount!.completeError(const V2BoardProblem('network_error'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          'Unable to reach the panel. Check your network and try again.',
+        ),
+        findsNothing,
+      );
+      expect(
+        find.text(
+          'Account information could not be refreshed. Connect will check your account again.',
+        ),
+        findsOneWidget,
+      );
+      api.pendingAccount = null;
+      await tester.ensureVisible(find.widgetWithText(TextButton, 'Refresh'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Refresh'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          'Account information could not be refreshed. Connect will check your account again.',
+        ),
+        findsNothing,
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
+  testWidgets(
+    'invalid config provides support rather than asking for another node',
+    (tester) async {
+      final api = _Api(true);
+      await show(tester, api, desktopLayout: true);
+      api.pendingConfig = Completer<Uint8List>();
+      await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+      await tester.pump();
+      api.pendingConfig!.completeError(
+        const V2BoardProblem('invalid_response', requestId: 'req-config-123'),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.textContaining('The server returned an invalid configuration.'),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining('Reference ID: req-config-123'),
+        findsOneWidget,
+      );
+      expect(
+        find.widgetWithText(TextButton, 'Manage on website'),
+        findsOneWidget,
+      );
+      expect(find.widgetWithText(TextButton, 'Choose a route'), findsNothing);
+      expect(find.text('Enter an HTTPS domain without a path'), findsNothing);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
+  testWidgets(
+    'client disabled preserves account access but revokes connection access',
+    (tester) async {
+      final api = _Api(true);
+      await show(tester, api, desktopLayout: true);
+      api.pendingConfig = Completer<Uint8List>();
+      await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+      await tester.pump();
+      api.pendingConfig!.completeError(
+        const V2BoardProblem('CLIENT_DISABLED', status: 403),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          'FastAI is temporarily unavailable. Contact support on the website.',
+        ),
+        findsOneWidget,
+      );
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(V2BoardShell)),
+      );
+      expect(container.read(v2BoardAccessProvider), isFalse);
+      await tester.tap(find.text('Account'));
+      await tester.pumpAndSettle();
+      expect(find.text('test@example.com'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
+  testWidgets(
+    'invalid YAML and encoding failures never report an invalid website URL',
+    (tester) async {
+      for (final bytes in [
+        Uint8List.fromList([0xff, 0xfe]),
+        Uint8List.fromList(utf8.encode('proxies: [broken')),
+        Uint8List.fromList(utf8.encode('proxies: wrong\nproxy-groups: []\n')),
+      ]) {
+        final api = _Api(true);
+        await show(tester, api, desktopLayout: true);
+        api.pendingConfig = Completer<Uint8List>();
+        await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+        await tester.pump();
+        api.pendingConfig!.complete(bytes);
+        await tester.pumpAndSettle();
+        expect(
+          find.text(
+            'The server returned an invalid configuration. Sync again or contact support.',
+          ),
+          findsOneWidget,
+        );
+        expect(find.text('Enter an HTTPS domain without a path'), findsNothing);
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox.shrink());
+      }
+    },
+  );
 
   testWidgets('connection shows sync progress and provides recovery actions', (
     tester,

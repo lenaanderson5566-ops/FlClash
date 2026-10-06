@@ -628,6 +628,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fakeipTtl": MessageLookupByLibrary.simpleMessage("Fake-IP TTL"),
     "fallbackFilter": MessageLookupByLibrary.simpleMessage("Fallback filter"),
+    "fdAccountStale": MessageLookupByLibrary.simpleMessage(
+      "Account information could not be refreshed. Connect will check your account again.",
+    ),
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage(
       "Your connection, your way.",
     ),
@@ -646,7 +649,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdBuy": MessageLookupByLibrary.simpleMessage("Order"),
     "fdCancelOrder": MessageLookupByLibrary.simpleMessage("Cancel order"),
     "fdCancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
+    "fdCertificateError": MessageLookupByLibrary.simpleMessage(
+      "Unable to verify the server certificate. Check your system clock or contact support.",
+    ),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Choose a route"),
+    "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
+      "FastAI is temporarily unavailable. Contact support on the website.",
+    ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "Unable to complete the request. Refresh orders before retrying a purchase or payment.",
     ),
@@ -657,6 +666,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "Connection failed. Retry or choose another route.",
     ),
+    "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("Copy report"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Confirm order"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Traffic credit balance",
@@ -664,6 +674,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("Traffic credits"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("Devices online / limit"),
+    "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage(
+      "Connection diagnostic report",
+    ),
+    "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
+      "Copy request results and timings for support. Credentials and configuration contents are excluded.",
+    ),
+    "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
+      "Diagnostic report copied",
+    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Disconnecting…"),
@@ -679,6 +698,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Choose a route. Connect in one click.",
     ),
     "fdHome": MessageLookupByLibrary.simpleMessage("Home"),
+    "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
+      "The server returned an invalid configuration. Sync again or contact support.",
+    ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Email or password is incorrect",
     ),
@@ -723,6 +745,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Try again later.",
     ),
+    "fdReferenceId": MessageLookupByLibrary.simpleMessage("Reference ID"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Refresh"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "Register or reset password on the website",
@@ -732,6 +755,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "The operation failed. Please retry.",
+    ),
+    "fdRequestTimeout": MessageLookupByLibrary.simpleMessage(
+      "The request timed out. Check your network and retry.",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage(
       "This field is required",

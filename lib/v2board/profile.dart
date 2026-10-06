@@ -2,13 +2,14 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
-import 'package:yaml/yaml.dart' show loadYaml;
+import 'package:yaml/yaml.dart' show loadYaml, YamlException;
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'api.dart';
+import 'config_cache.dart';
 import 'node_metadata.dart';
 import 'access.dart';
 import 'config.dart';
@@ -22,15 +23,22 @@ class V2BoardProfile {
   V2BoardProfile(this.ref);
 
   final WidgetRef ref;
+  ClientConfigCache? _cache;
   static const label = V2BoardConfig.managedProfileLabel;
 
   Future<void> sync(V2BoardApi api) async {
+    _cache = null;
     var bytes = await api.clientConfig(
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
     );
-    final responseText = utf8.decode(bytes);
+    String responseText;
+    try {
+      responseText = utf8.decode(bytes);
+    } on FormatException {
+      throw const V2BoardProblem('invalid_config');
+    }
     Map<String, Map<String, dynamic>> metadata = {};
     var yamlText = responseText;
     if (responseText.trimLeft().startsWith('{')) {
@@ -49,9 +57,31 @@ class V2BoardProfile {
         throw const V2BoardProblem('invalid_response');
       }
     }
-    final config = Map<String, dynamic>.from(
-      json.decode(json.encode(loadYaml(yamlText))) as Map,
-    );
+    Map<String, dynamic> config;
+    try {
+      config = Map<String, dynamic>.from(
+        json.decode(json.encode(loadYaml(yamlText))) as Map,
+      );
+    } on YamlException {
+      throw const V2BoardProblem('invalid_config');
+    } on FormatException {
+      throw const V2BoardProblem('invalid_config');
+    } on TypeError {
+      throw const V2BoardProblem('invalid_config');
+    }
+    if (config['proxies'] is! List ||
+        config['proxy-groups'] is! List ||
+        (config['proxies'] as List).any(
+          (node) => node is! Map || node['name'] is! String,
+        ) ||
+        (config['proxy-groups'] as List).any(
+          (group) =>
+              group is! Map ||
+              group['name'] is! String ||
+              group['proxies'] is! List,
+        )) {
+      throw const V2BoardProblem('invalid_config');
+    }
     final nodeNames = (config['proxies'] as List? ?? const [])
         .whereType<Map>()
         .map((node) => node['name'])
@@ -130,10 +160,15 @@ class V2BoardProfile {
         ...preservedSelections,
       },
     );
-    final updated = await profile.saveFile(
-      bytes,
-      validate: ref.read(coreHandlerProvider).validateConfig,
-    );
+    Profile updated;
+    try {
+      updated = await profile.saveFile(
+        bytes,
+        validate: ref.read(coreHandlerProvider).validateConfig,
+      );
+    } on MessageException {
+      throw const V2BoardProblem('invalid_config');
+    }
     final metadataPath = await nodeMetadataFile(updated.id);
     await metadataPath.writeAsString(
       jsonEncode({
@@ -152,9 +187,17 @@ class V2BoardProfile {
     ref.read(profilesActionProvider.notifier).putProfile(updated);
     ref.read(currentProfileIdProvider.notifier).value = updated.id;
     ref.read(setupActionProvider.notifier).applyProfileDebounce();
+    _cache = ClientConfigCache(
+      client: api,
+      profileId: updated.id,
+      hash: sha256.convert(bytes).toString(),
+      version: globalState.packageInfo.version,
+      syncedAt: DateTime.now(),
+    );
   }
 
   Future<void> clear() async {
+    _cache = null;
     await ref.read(setupActionProvider.notifier).setRunning(false);
     if (!ref.context.mounted) return;
     final profiles = ref
@@ -172,8 +215,39 @@ class V2BoardProfile {
     }
   }
 
+  Future<bool> _reuseConfig(V2BoardApi api) async {
+    final cache = _cache;
+    final profile = ref.read(currentProfileProvider);
+    if (cache == null ||
+        profile == null ||
+        !cache.reusable(
+          client: api,
+          profileId: profile.id,
+          version: globalState.packageInfo.version,
+          now: DateTime.now(),
+        )) {
+      return false;
+    }
+    try {
+      final file = await profile.file;
+      if (!await file.exists() ||
+          (await sha256.bind(file.openRead()).first).toString() != cache.hash) {
+        return false;
+      }
+    } on FileSystemException {
+      return false;
+    }
+    await api.validateCachedConfig(
+      version: globalState.packageInfo.version,
+      platform: Platform.operatingSystem,
+      architecture: fastaiArchitecture,
+    );
+    return ref.context.mounted &&
+        ref.read(currentProfileProvider)?.id == cache.profileId;
+  }
+
   Future<void> connect(V2BoardApi api, {void Function()? onConnecting}) async {
-    await sync(api);
+    if (!await _reuseConfig(api)) await sync(api);
     if (!ref.context.mounted) return;
     onConnecting?.call();
     final result = await ref

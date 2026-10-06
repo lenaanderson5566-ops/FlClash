@@ -7097,6 +7097,106 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `The server returned an invalid configuration. Sync again or contact support.`
+  String get fdInvalidConfig {
+    return Intl.message(
+      'The server returned an invalid configuration. Sync again or contact support.',
+      name: 'fdInvalidConfig',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FastAI is temporarily unavailable. Contact support on the website.`
+  String get fdClientUnavailable {
+    return Intl.message(
+      'FastAI is temporarily unavailable. Contact support on the website.',
+      name: 'fdClientUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The request timed out. Check your network and retry.`
+  String get fdRequestTimeout {
+    return Intl.message(
+      'The request timed out. Check your network and retry.',
+      name: 'fdRequestTimeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to verify the server certificate. Check your system clock or contact support.`
+  String get fdCertificateError {
+    return Intl.message(
+      'Unable to verify the server certificate. Check your system clock or contact support.',
+      name: 'fdCertificateError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reference ID`
+  String get fdReferenceId {
+    return Intl.message(
+      'Reference ID',
+      name: 'fdReferenceId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account information could not be refreshed. Connect will check your account again.`
+  String get fdAccountStale {
+    return Intl.message(
+      'Account information could not be refreshed. Connect will check your account again.',
+      name: 'fdAccountStale',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection diagnostic report`
+  String get fdDiagnosticReport {
+    return Intl.message(
+      'Connection diagnostic report',
+      name: 'fdDiagnosticReport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy request results and timings for support. Credentials and configuration contents are excluded.`
+  String get fdDiagnosticReportHint {
+    return Intl.message(
+      'Copy request results and timings for support. Credentials and configuration contents are excluded.',
+      name: 'fdDiagnosticReportHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy report`
+  String get fdCopyDiagnostics {
+    return Intl.message(
+      'Copy report',
+      name: 'fdCopyDiagnostics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Diagnostic report copied`
+  String get fdDiagnosticsCopied {
+    return Intl.message(
+      'Diagnostic report copied',
+      name: 'fdDiagnosticsCopied',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

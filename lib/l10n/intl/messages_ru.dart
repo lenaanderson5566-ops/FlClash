@@ -651,6 +651,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fakeipTtl": MessageLookupByLibrary.simpleMessage("TTL Fake-IP"),
     "fallbackFilter": MessageLookupByLibrary.simpleMessage("Фильтр fallback"),
+    "fdAccountStale": MessageLookupByLibrary.simpleMessage(
+      "Не удалось обновить данные аккаунта. Они будут проверены при подключении.",
+    ),
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage(
       "Ваше подключение — ваши правила.",
     ),
@@ -669,7 +672,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdBuy": MessageLookupByLibrary.simpleMessage("Заказать"),
     "fdCancelOrder": MessageLookupByLibrary.simpleMessage("Отменить заказ"),
     "fdCancelled": MessageLookupByLibrary.simpleMessage("Отменён"),
+    "fdCertificateError": MessageLookupByLibrary.simpleMessage(
+      "Не удалось проверить сертификат сервера. Проверьте системное время или обратитесь в поддержку.",
+    ),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
+    "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
+      "FastAI временно недоступен. Обратитесь в поддержку на сайте.",
+    ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "Запрос не завершён. Обновите заказы перед повторной покупкой или оплатой.",
     ),
@@ -680,6 +689,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось подключиться. Повторите попытку или выберите другой сервер.",
     ),
+    "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage(
+      "Копировать отчёт",
+    ),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Подтвердить заказ"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Остаток пакета трафика",
@@ -688,6 +700,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Текущий сервер"),
     "fdDevices": MessageLookupByLibrary.simpleMessage(
       "Устройства онлайн / лимит",
+    ),
+    "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage(
+      "Отчёт диагностики подключения",
+    ),
+    "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
+      "Скопируйте результаты запросов и время ответа для поддержки. Учётные данные и содержимое конфигурации не включаются.",
+    ),
+    "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
+      "Диагностический отчёт скопирован",
     ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Отключить"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Не подключено"),
@@ -704,6 +725,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Выберите сервер и подключитесь одним нажатием.",
     ),
     "fdHome": MessageLookupByLibrary.simpleMessage("Главная"),
+    "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
+      "Сервер вернул некорректную конфигурацию. Повторите синхронизацию или обратитесь в поддержку.",
+    ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Неверная почта или пароль",
     ),
@@ -746,6 +770,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Слишком много запросов. Повторите позже.",
     ),
+    "fdReferenceId": MessageLookupByLibrary.simpleMessage("Номер обращения"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Обновить"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "Регистрация или сброс пароля на сайте",
@@ -755,6 +780,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "Операция не выполнена. Повторите попытку.",
+    ),
+    "fdRequestTimeout": MessageLookupByLibrary.simpleMessage(
+      "Время ожидания истекло. Проверьте сеть и повторите попытку.",
     ),
     "fdRequired": MessageLookupByLibrary.simpleMessage("Обязательное поле"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Полгода"),
