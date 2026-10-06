@@ -3,7 +3,7 @@ import 'package:fastai/providers/state.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/dashboard/dashboard.dart';
 import 'package:fastai/views/dashboard/widget_metrics.dart';
-import 'package:fastai/widgets/super_grid.dart';
+import 'package:fastai/widgets/motion_grid.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,15 +37,18 @@ void main() {
     );
     await tester.pump();
 
-    final grid = find.byType(SuperGrid);
+    expect(find.byType(Draggable), findsNothing);
+    expect(find.byType(LongPressDraggable), findsNothing);
+    expect(find.byTooltip('Edit'), findsNothing);
+    final grid = find.byType(MotionGrid);
     expect(tester.getSize(grid).width, 479);
-    expect(tester.widget<SuperGrid>(grid).crossAxisCount, 8);
+    expect(tester.widget<MotionGrid>(grid).crossAxisCount, 8);
 
     tester.view.physicalSize = const Size(512, 1000);
     await tester.pump();
 
     expect(tester.getSize(grid).width, 480);
-    expect(tester.widget<SuperGrid>(grid).crossAxisCount, 12);
+    expect(tester.widget<MotionGrid>(grid).crossAxisCount, 12);
     expect(tester.takeException(), null);
   });
 
@@ -75,8 +78,8 @@ void main() {
     );
     await tester.pump();
 
-    final grid = find.byType(SuperGrid);
-    expect(tester.widget<SuperGrid>(grid).crossAxisCount, 16);
+    final grid = find.byType(MotionGrid);
+    expect(tester.widget<MotionGrid>(grid).crossAxisCount, 16);
     expect(tester.getSize(grid).width, 1120);
     expect(tester.getTopLeft(grid).dx, 240);
     expect(tester.takeException(), null);
@@ -116,26 +119,38 @@ void main() {
     tester.view.physicalSize = const Size(511, 1000);
     await tester.pump();
 
-    expect(tester.widget<SuperGrid>(find.byType(SuperGrid)).crossAxisCount, 8);
+    expect(
+      tester.widget<MotionGrid>(find.byType(MotionGrid)).crossAxisCount,
+      8,
+    );
     expect(unitHeight(), 80);
 
     tester.view.physicalSize = const Size(632, 1000);
     await tester.pump();
 
-    expect(tester.widget<SuperGrid>(find.byType(SuperGrid)).crossAxisCount, 12);
+    expect(
+      tester.widget<MotionGrid>(find.byType(MotionGrid)).crossAxisCount,
+      12,
+    );
     expect(unitHeight(), 80);
 
     tester.view.physicalSize = const Size(872, 1000);
     await tester.pump();
 
-    expect(tester.widget<SuperGrid>(find.byType(SuperGrid)).crossAxisCount, 12);
+    expect(
+      tester.widget<MotionGrid>(find.byType(MotionGrid)).crossAxisCount,
+      12,
+    );
     final beforeBreakpoint = unitHeight();
     expect(beforeBreakpoint, closeTo(98.5, 0.1));
 
     tester.view.physicalSize = const Size(873, 1000);
     await tester.pump();
 
-    expect(tester.widget<SuperGrid>(find.byType(SuperGrid)).crossAxisCount, 16);
+    expect(
+      tester.widget<MotionGrid>(find.byType(MotionGrid)).crossAxisCount,
+      16,
+    );
     expect(unitHeight(), closeTo(beforeBreakpoint, 0.1));
 
     tester.view.physicalSize = const Size(892, 1000);

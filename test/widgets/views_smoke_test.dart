@@ -25,7 +25,6 @@ import 'package:fastai/views/profiles/overwrite/custom/rules.dart';
 import 'package:fastai/views/proxies/list.dart';
 import 'package:fastai/views/proxies/providers.dart';
 import 'package:fastai/views/proxies/tab.dart';
-import 'package:fastai/views/theme.dart';
 import 'package:fastai/views/views.dart';
 import 'package:fastai/widgets/inherited.dart';
 import 'package:fastai/widgets/paged_sheet.dart';
@@ -57,7 +56,6 @@ void main() {
     'network config': const Scaffold(body: NetworkListView()),
     'advanced config': const AdvancedConfigView(),
     'on demand config': const OnDemandView(),
-    'theme': const ThemeView(),
     'backup and restore': const BackupAndRestore(),
     'hotkeys': const HotKeyView(),
     'access control': const AccessView(),
@@ -110,8 +108,6 @@ void main() {
   }
 
   final toolDestinations = <String, Type>{
-    'Theme': ThemeView,
-    'Backup and restore': BackupAndRestore,
     'General': GeneralView,
     'Advanced configuration': AdvancedConfigView,
   };
@@ -140,6 +136,7 @@ void main() {
       );
       await tester.pump();
 
+      expect(find.text('Theme'), findsNothing);
       final target = find.text(entry.key);
       await tester.scrollUntilVisible(
         target,

@@ -14,21 +14,8 @@ import 'package:fastai/v2board/update.dart';
 import 'package:fastai/v2board/session.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-@immutable
-class Contributor {
-  final String avatar;
-  final String name;
-
-  const Contributor({required this.avatar, required this.name});
-}
-
 class AboutView extends ConsumerWidget {
   const AboutView({super.key});
-
-  static const _contributors = [
-    Contributor(avatar: 'assets/images/avatar/june2.jpg', name: 'June2'),
-    Contributor(avatar: 'assets/images/avatar/arue.jpg', name: 'Arue'),
-  ];
 
   Future<void> _checkUpdate(BuildContext context, WidgetRef ref) async {
     if (V2BoardConfig.enabled) {
@@ -97,18 +84,6 @@ class AboutView extends ConsumerWidget {
             title: appLocalizations.more,
             items: [
               _buildLinkItem(
-                glyph: AppGlyphs.code,
-                title: appLocalizations.project,
-                url: 'https://github.com/$repository',
-                label: 'github.com/$repository',
-              ),
-              _buildLinkItem(
-                glyph: AppGlyphs.cpu,
-                title: appLocalizations.core,
-                url: 'https://github.com/chen08209/Clash.Meta/tree/FlClash',
-                label: 'github.com/chen08209/Clash.Meta',
-              ),
-              _buildLinkItem(
                 glyph: AppGlyphs.send,
                 title: appLocalizations.fdWebAccount,
                 url: V2BoardConfig.websiteUrl,
@@ -131,19 +106,6 @@ class AboutView extends ConsumerWidget {
                   }
                 },
               ),
-            ],
-          ),
-          generateSectionV3(
-            title: appLocalizations.otherContributors,
-            items: [
-              for (final contributor in _contributors)
-                ListItem(
-                  leading: CircleAvatar(
-                    foregroundImage: AssetImage(contributor.avatar),
-                  ),
-                  title: Text(contributor.name),
-                  subtitle: Text(appLocalizations.appIconDesign),
-                ),
             ],
           ),
         ],

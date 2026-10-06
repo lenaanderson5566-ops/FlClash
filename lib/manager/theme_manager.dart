@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/state.dart';
+import '../v2board/config.dart';
 
 class ThemeManager extends ConsumerWidget {
   final Widget child;
@@ -22,7 +23,9 @@ class ThemeManager extends ConsumerWidget {
     }
     return Consumer(
       builder: (context, ref, _) {
-        final brightness = ref.watch(currentBrightnessProvider);
+        final brightness = V2BoardConfig.enabled
+            ? Brightness.light
+            : ref.watch(currentBrightnessProvider);
         final iconBrightness = brightness == Brightness.light
             ? Brightness.dark
             : Brightness.light;

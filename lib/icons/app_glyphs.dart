@@ -6,14 +6,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 
 abstract final class AppGlyphs {
-  static const fastDog = Glyph([
-    GlyphPath('M7 9 L4 5 Q2 4 3 10 L5 15 M17 9 L20 5 Q22 4 21 10 L19 15'),
-    GlyphPath('M7 7 Q12 4 17 7 L19 14 Q20 20 12 21 Q4 20 5 14 Z'),
-    GlyphCircle(9, 12, 0.6, role: GlyphRole.detail, solid: true),
-    GlyphCircle(15, 12, 0.6, role: GlyphRole.detail, solid: true),
-    GlyphPath('M10 16 Q12 14 14 16 L12 18 Z', role: GlyphRole.detail),
-  ]);
-
   static const dashboard = Glyph([
     GlyphBox(3.5, 3.5, 10.5, 11.5, 2),
     GlyphBox(13.5, 3.5, 20.5, 9.5, 2),

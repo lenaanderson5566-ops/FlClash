@@ -50,7 +50,6 @@ export 'sidebar.dart';
 export 'snap_sheet.dart';
 export 'skeleton.dart';
 export 'subscription_info_view.dart';
-export 'super_grid.dart';
 export 'super_reorderable_list.dart';
 export 'tab.dart';
 export 'text.dart';

@@ -96,6 +96,7 @@ void main() {
           runTimeProvider.overrideWithBuild((_, _) => null),
         ],
         child: MaterialApp(
+          theme: ThemeData(brightness: Brightness.dark),
           locale: const Locale('en'),
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -113,6 +114,10 @@ void main() {
   ) async {
     await show(tester, null);
     expect(find.text('FastAI'), findsNWidgets(2));
+    final theme = Theme.of(tester.element(find.byType(TextFormField).first));
+    expect(theme.brightness, Brightness.light);
+    expect(theme.colorScheme.primary, const Color(0xFF153B70));
+    expect(theme.scaffoldBackgroundColor, Colors.white);
     expect(find.byType(TextFormField), findsNWidgets(2));
     expect(find.byType(NavigationBar), findsNothing);
     expect(tester.takeException(), isNull);

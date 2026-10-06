@@ -18,6 +18,7 @@ import 'config.dart';
 import 'profile.dart';
 import 'session.dart';
 import 'update.dart';
+import 'theme.dart';
 
 class V2BoardShell extends StatelessWidget {
   const V2BoardShell({super.key, this.session = const V2BoardSession()});
@@ -29,9 +30,13 @@ class V2BoardShell extends StatelessWidget {
     final theme = Theme.of(context);
     return Theme(
       data: theme.copyWith(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE77732),
-          brightness: theme.brightness,
+        brightness: Brightness.light,
+        colorScheme: fastaiColorScheme(),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: theme.appBarTheme.copyWith(
+          backgroundColor: const Color(0xFF153B70),
+          foregroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
         ),
       ),
       child: _V2BoardContent(session: session),
@@ -365,7 +370,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       padding: const EdgeInsets.all(20),
       decoration: ShapeDecoration(
         gradient: LinearGradient(
-          colors: [colors.primaryContainer, colors.surfaceContainerLow],
+          colors: [colors.primaryContainer, colors.surface],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -383,8 +388,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               ],
             ),
           ),
-          const SizedBox(width: 16),
-          GlyphIcon(AppGlyphs.fastDog, size: 80, color: colors.primary),
         ],
       ),
     );
@@ -613,14 +616,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GlyphIcon(AppGlyphs.fastDog),
-            SizedBox(width: 10),
-            Text(V2BoardConfig.appName),
-          ],
-        ),
+        title: const Text(V2BoardConfig.appName),
         actions: [
           if (signedIn)
             IconButton(

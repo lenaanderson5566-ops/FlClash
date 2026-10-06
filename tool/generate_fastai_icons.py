@@ -1,15 +1,11 @@
-"""Render the native FastDog glyph into FastAI launcher/tray assets (Pillow)."""
+"""Render the native FastAI connection glyph into FastAI launcher/tray assets (Pillow)."""
 from pathlib import Path
 import math
 import re
 from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parent.parent
-PATHS = [
-    'M7 9 L4 5 Q2 4 3 10 L5 15 M17 9 L20 5 Q22 4 21 10 L19 15',
-    'M7 7 Q12 4 17 7 L19 14 Q20 20 12 21 Q4 20 5 14 Z',
-    'M10 16 Q12 14 14 16 L12 18 Z',
-]
+PATHS = ['M13 3 L6 13 L11 13 L10 21 L18 10 L13 10 Z']
 
 
 def lines(path):
@@ -42,7 +38,7 @@ def lines(path):
     return result
 
 
-def icon(size, color='#E77732', template=False):
+def icon(size, color='#153B70', template=False):
     scale = 4
     width = size * scale
     image = Image.new('RGBA', (width, width))
@@ -55,7 +51,7 @@ def icon(size, color='#E77732', template=False):
             points.append((width/2 + math.copysign(abs(x)**.4, x)*width*.48,
                            width/2 + math.copysign(abs(y)**.4, y)*width*.48))
         draw.polygon(points, fill=color)
-    ink = '#000000' if template else '#FFF8F1'
+    ink = '#000000' if template else '#FFFFFF'
     transform = lambda p: tuple((v*.72 + 3.36)*width/24 for v in p)
     for path in PATHS:
         for points in lines(path):
@@ -65,15 +61,12 @@ def icon(size, color='#E77732', template=False):
                 x, y = transform(point)
                 radius = stroke / 2
                 draw.ellipse((x-radius, y-radius, x+radius, y+radius), fill=ink)
-    for x in [9, 15]:
-        a, b = transform((x-.65, 11.35)), transform((x+.65, 12.65))
-        draw.ellipse((*a, *b), fill=ink)
     return image.resize((size, size), Image.Resampling.LANCZOS)
 
 
 def main():
     source = ROOT / 'assets/images/fastai.svg'
-    source.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#E77732" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">' + ''.join(f'<path d="{p}"/>' for p in PATHS) + '<circle cx="9" cy="12" r=".6" fill="#E77732"/><circle cx="15" cy="12" r=".6" fill="#E77732"/></g></svg>', encoding='utf-8')
+    source.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#153B70" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">' + ''.join(f'<path d="{p}"/>' for p in PATHS) + '</g></svg>', encoding='utf-8')
     icon(1024).save(ROOT / 'assets/images/icon.png')
     for name in ['assets/images/icon.ico', 'windows/runner/resources/app_icon.ico']:
         icon(256).save(ROOT / name, sizes=[(n, n) for n in [16, 24, 32, 48, 64, 128, 256]])
@@ -84,7 +77,7 @@ def main():
             size = original.width
         icon(size).save(file, lossless=True)
     icon(512).save(ROOT / 'android/app/ic_launcher-playstore.png')
-    banner = Image.new('RGBA', (320, 180), '#FFF8F1')
+    banner = Image.new('RGBA', (320, 180), '#FFFFFF')
     banner.alpha_composite(icon(144), (88, 18))
     banner.save(ROOT / 'android/app/src/main/res/mipmap-xhdpi/ic_banner.png')
     for file in (ROOT / 'assets/images/tray').rglob('*'):
@@ -93,12 +86,12 @@ def main():
         with Image.open(file) as original:
             size = original.width
         status = int(file.stem[-1])
-        image = icon(size, color={1:'#A7A19C', 2:'#E77732', 3:'#36A66A', 4:'#A7A19C'}[status], template='macos' in file.parts)
+        image = icon(size, color={1:'#A7A19C', 2:'#153B70', 3:'#36A66A', 4:'#A7A19C'}[status], template='macos' in file.parts)
         image.save(file)
-    foreground = '<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="36" android:viewportHeight="36"><group android:translateX="6" android:translateY="6">' + ''.join(f'<path android:pathData="{p}" android:fillColor="#00000000" android:strokeColor="#FFF8F1" android:strokeWidth="1.25" android:strokeLineCap="round" android:strokeLineJoin="round"/>' for p in PATHS) + '<path android:fillColor="#FFF8F1" android:pathData="M8.4,12a0.6,0.6 0,1 0,1.2 0a0.6,0.6 0,1 0,-1.2 0 M14.4,12a0.6,0.6 0,1 0,1.2 0a0.6,0.6 0,1 0,-1.2 0"/></group></vector>'
+    foreground = '<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="36" android:viewportHeight="36"><group android:translateX="6" android:translateY="6">' + ''.join(f'<path android:pathData="{p}" android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="1.25" android:strokeLineCap="round" android:strokeLineJoin="round"/>' for p in PATHS) + '</group></vector>'
     for name in ['ic_launcher_foreground.xml', 'ic_launcher_foreground_tv.xml']:
         (ROOT / 'android/app/src/main/res/drawable' / name).write_text(foreground, encoding='utf-8')
-    (ROOT / 'android/app/src/main/res/values/ic_launcher_background.xml').write_text('<resources><color name="ic_launcher_background">#E77732</color></resources>', encoding='utf-8')
+    (ROOT / 'android/app/src/main/res/values/ic_launcher_background.xml').write_text('<resources><color name="ic_launcher_background">#153B70</color></resources>', encoding='utf-8')
 
 
 if __name__ == '__main__':

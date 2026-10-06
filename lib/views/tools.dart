@@ -17,7 +17,6 @@ import 'package:fastai/v2board/config.dart';
 import 'config/advanced.dart';
 import 'developer.dart';
 import 'disclaimer.dart';
-import 'theme.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
   const ToolsView({super.key});
@@ -65,7 +64,6 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: context.appLocalizations.settings,
       items: [
         const _LocaleItem(),
-        const _ThemeItem(),
         if (V2BoardConfig.allowProfileImports) const _BackupItem(),
         if (system.isDesktop) const _HotkeyItem(),
         if (system.isAndroid) const _AccessItem(),
@@ -142,20 +140,6 @@ class _LocaleItem extends ConsumerWidget {
       },
       textBuilder: (locale) => _getLocaleString(context, locale),
       value: currentLocale,
-    );
-  }
-}
-
-class _ThemeItem extends StatelessWidget {
-  const _ThemeItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.paintbrush),
-      title: Text(context.appLocalizations.theme),
-      subtitle: Text(context.appLocalizations.themeDesc),
-      widget: const ThemeView(),
     );
   }
 }

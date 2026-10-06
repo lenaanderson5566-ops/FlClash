@@ -22,6 +22,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'pages/pages.dart';
 import 'v2board/config.dart';
 import 'v2board/shell.dart';
+import 'v2board/theme.dart';
 
 Widget buildManagerStack({
   required bool isDesktop,
@@ -86,7 +87,9 @@ class ApplicationState extends ConsumerState<Application> {
   );
 
   ColorScheme _getAppColorScheme({required Brightness brightness}) {
-    return ref.read(genColorSchemeProvider(brightness));
+    return V2BoardConfig.enabled
+        ? fastaiColorScheme()
+        : ref.read(genColorSchemeProvider(brightness));
   }
 
   @override
@@ -187,7 +190,9 @@ class ApplicationState extends ConsumerState<Application> {
           title: V2BoardConfig.enabled ? V2BoardConfig.appName : appName,
           locale: getLocaleForString(locale),
           supportedLocales: AppLocalizations.delegate.supportedLocales,
-          themeMode: themeProps.themeMode,
+          themeMode: V2BoardConfig.enabled
+              ? ThemeMode.light
+              : themeProps.themeMode,
           theme: ThemeData(
             useMaterial3: true,
             pageTransitionsTheme: _pageTransitionsTheme,
