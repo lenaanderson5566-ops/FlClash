@@ -286,7 +286,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('test@example.com'), findsOneWidget);
     expect(find.text('Manage on website'), findsOneWidget);
+    expect(find.text('Support and account services'), findsNothing);
     expect(find.widgetWithText(ListTile, 'Settings'), findsNothing);
+    await tester.tap(find.byType(NavigationDestination).at(4));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Official website'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Official website'), findsOneWidget);
+    expect(find.text('Manage on website'), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

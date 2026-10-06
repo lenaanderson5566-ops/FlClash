@@ -705,6 +705,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "No available subscription. Manage your account on the website.",
     ),
+    "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage(
+      "Official website",
+    ),
     "fdOrders": MessageLookupByLibrary.simpleMessage("Orders"),
     "fdPanelUrl": MessageLookupByLibrary.simpleMessage("Panel address (HTTPS)"),
     "fdPay": MessageLookupByLibrary.simpleMessage("Pay"),
@@ -739,9 +742,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Plans"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Smart mode"),
-    "fdSupport": MessageLookupByLibrary.simpleMessage(
-      "Support and account services",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Sync subscription"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Subscription sync failed. Try syncing again before connecting.",
@@ -759,7 +759,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdWallet": MessageLookupByLibrary.simpleMessage("Wallet balance"),
     "fdWebAccount": MessageLookupByLibrary.simpleMessage("Manage on website"),
     "fdWebAccountHint": MessageLookupByLibrary.simpleMessage(
-      "Renewals, orders and account services are available on the website.",
+      "Renewals, orders, account settings and support are available on the website.",
     ),
     "fdWelcome": MessageLookupByLibrary.simpleMessage(
       "Sign in to connect and choose nodes",

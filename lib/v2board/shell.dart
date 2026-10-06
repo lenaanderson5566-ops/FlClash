@@ -658,11 +658,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           trailing: const GlyphIcon(AppGlyphs.openExternal),
           onTap: _busy ? null : () => _run(_portal),
         ),
-        ListTile(
-          leading: const GlyphIcon(AppGlyphs.proxies),
-          title: Text(l.fdSupport),
-          onTap: _busy ? null : () => _run(_portal),
-        ),
         TextButton.icon(
           onPressed: _busy ? null : () => _run(_refresh),
           icon: const GlyphIcon(AppGlyphs.refresh),

@@ -588,6 +588,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "利用できる契約がありません。公式サイトでアカウントを管理してください。",
     ),
+    "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("公式サイト"),
     "fdOrders": MessageLookupByLibrary.simpleMessage("注文"),
     "fdPanelUrl": MessageLookupByLibrary.simpleMessage("パネルのアドレス（HTTPS）"),
     "fdPay": MessageLookupByLibrary.simpleMessage("支払う"),
@@ -614,7 +615,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("プラン"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("スマートモード"),
-    "fdSupport": MessageLookupByLibrary.simpleMessage("サポートとアカウント管理"),
     "fdSync": MessageLookupByLibrary.simpleMessage("設定を同期"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "サブスクリプションを同期できませんでした。接続前に再度同期してください。",
@@ -630,7 +630,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdWallet": MessageLookupByLibrary.simpleMessage("ウォレット残高"),
     "fdWebAccount": MessageLookupByLibrary.simpleMessage("公式サイトで管理"),
     "fdWebAccountHint": MessageLookupByLibrary.simpleMessage(
-      "更新、注文、アカウント管理は公式サイトで行えます。",
+      "更新、注文、アカウント設定とサポートは公式サイトでご利用いただけます。",
     ),
     "fdWelcome": MessageLookupByLibrary.simpleMessage("ログインして接続とノードを選択"),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("フィデリティ"),

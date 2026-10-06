@@ -6858,16 +6858,6 @@ class AppLocalizations {
     return Intl.message('Plans', name: 'fdShop', desc: '', args: []);
   }
 
-  /// `Support and account services`
-  String get fdSupport {
-    return Intl.message(
-      'Support and account services',
-      name: 'fdSupport',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Sync subscription`
   String get fdSync {
     return Intl.message(
@@ -6933,10 +6923,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Renewals, orders and account services are available on the website.`
+  /// `Renewals, orders, account settings and support are available on the website.`
   String get fdWebAccountHint {
     return Intl.message(
-      'Renewals, orders and account services are available on the website.',
+      'Renewals, orders, account settings and support are available on the website.',
       name: 'fdWebAccountHint',
       desc: '',
       args: [],
@@ -7093,6 +7083,16 @@ class AppLocalizations {
     return Intl.message(
       'Disconnecting…',
       name: 'fdDisconnecting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Official website`
+  String get fdOfficialWebsite {
+    return Intl.message(
+      'Official website',
+      name: 'fdOfficialWebsite',
       desc: '',
       args: [],
     );

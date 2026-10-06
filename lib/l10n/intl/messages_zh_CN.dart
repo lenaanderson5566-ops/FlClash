@@ -533,6 +533,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "暂无可用订阅，请前往官网管理账户。",
     ),
+    "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("官方网站"),
     "fdOrders": MessageLookupByLibrary.simpleMessage("订单"),
     "fdPanelUrl": MessageLookupByLibrary.simpleMessage("面板地址（HTTPS）"),
     "fdPay": MessageLookupByLibrary.simpleMessage("支付"),
@@ -553,7 +554,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage("登录已失效，请重新登录。"),
     "fdShop": MessageLookupByLibrary.simpleMessage("套餐"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("智能模式"),
-    "fdSupport": MessageLookupByLibrary.simpleMessage("客服与账户服务"),
     "fdSync": MessageLookupByLibrary.simpleMessage("同步订阅"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage("订阅同步失败，请重新同步后再连接。"),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("正在同步线路…"),
@@ -569,7 +569,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdWallet": MessageLookupByLibrary.simpleMessage("钱包余额"),
     "fdWebAccount": MessageLookupByLibrary.simpleMessage("官网账户服务"),
     "fdWebAccountHint": MessageLookupByLibrary.simpleMessage(
-      "续费、订单和账户服务请前往官网办理。",
+      "续费、订单、账户设置与客服请前往官网办理。",
     ),
     "fdWelcome": MessageLookupByLibrary.simpleMessage("登录后连接代理、选择节点"),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("高保真"),

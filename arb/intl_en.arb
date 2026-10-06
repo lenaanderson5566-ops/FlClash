@@ -830,7 +830,6 @@
   "fdSemiannual": "Semiannual",
   "fdSessionExpired": "Your session expired. Please sign in again.",
   "fdShop": "Plans",
-  "fdSupport": "Support and account services",
   "fdSync": "Sync subscription",
   "fdTriennial": "Three years",
   "fdUnknown": "Unknown",
@@ -839,7 +838,7 @@
   "fdWallet": "Wallet balance",
   "fdWelcome": "Sign in to connect and choose nodes",
   "fdWebAccount": "Manage on website",
-  "fdWebAccountHint": "Renewals, orders and account services are available on the website.",
+  "fdWebAccountHint": "Renewals, orders, account settings and support are available on the website.",
   "fdInvalidCredentials": "Email or password is incorrect",
   "fdConnected": "Connected",
   "fdDisconnected": "Disconnected",
@@ -855,5 +854,6 @@
   "fdNoMatchingRoutes": "No matching routes. Clear the filters to see all routes.",
   "fdSyncingRoutes": "Syncing routes…",
   "fdConnectionFailed": "Connection failed. Retry or choose another route.",
-  "fdDisconnecting": "Disconnecting…"
+  "fdDisconnecting": "Disconnecting…",
+  "fdOfficialWebsite": "Official website"
 }

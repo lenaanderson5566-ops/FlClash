@@ -730,6 +730,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Нет доступной подписки. Управляйте аккаунтом на сайте.",
     ),
+    "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage(
+      "Официальный сайт",
+    ),
     "fdOrders": MessageLookupByLibrary.simpleMessage("Заказы"),
     "fdPanelUrl": MessageLookupByLibrary.simpleMessage("Адрес панели (HTTPS)"),
     "fdPay": MessageLookupByLibrary.simpleMessage("Оплатить"),
@@ -760,9 +763,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Тарифы"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Умный режим"),
-    "fdSupport": MessageLookupByLibrary.simpleMessage(
-      "Поддержка и управление аккаунтом",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Синхронизировать подписку"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось обновить подписку. Повторите синхронизацию перед подключением.",
@@ -782,7 +782,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdWallet": MessageLookupByLibrary.simpleMessage("Баланс кошелька"),
     "fdWebAccount": MessageLookupByLibrary.simpleMessage("Управление на сайте"),
     "fdWebAccountHint": MessageLookupByLibrary.simpleMessage(
-      "Продление, заказы и управление аккаунтом доступны на сайте.",
+      "Продление, заказы, настройки аккаунта и поддержка доступны на сайте.",
     ),
     "fdWelcome": MessageLookupByLibrary.simpleMessage(
       "Войдите для подключения и выбора узлов",

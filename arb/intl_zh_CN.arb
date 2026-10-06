@@ -830,7 +830,6 @@
   "fdSemiannual": "半年付",
   "fdSessionExpired": "登录已失效，请重新登录。",
   "fdShop": "套餐",
-  "fdSupport": "客服与账户服务",
   "fdSync": "同步订阅",
   "fdTriennial": "三年付",
   "fdUnknown": "未知",
@@ -839,7 +838,7 @@
   "fdWallet": "钱包余额",
   "fdWelcome": "登录后连接代理、选择节点",
   "fdWebAccount": "官网账户服务",
-  "fdWebAccountHint": "续费、订单和账户服务请前往官网办理。",
+  "fdWebAccountHint": "续费、订单、账户设置与客服请前往官网办理。",
   "fdInvalidCredentials": "邮箱或密码错误",
   "fdConnected": "已连接",
   "fdDisconnected": "未连接",
@@ -855,5 +854,6 @@
   "fdNoMatchingRoutes": "没有匹配的线路，清除筛选后查看全部线路。",
   "fdSyncingRoutes": "正在同步线路…",
   "fdConnectionFailed": "连接失败，请重试或切换线路。",
-  "fdDisconnecting": "正在断开…"
+  "fdDisconnecting": "正在断开…",
+  "fdOfficialWebsite": "官方网站"
 }

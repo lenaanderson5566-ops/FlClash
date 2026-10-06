@@ -12,7 +12,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 import 'package:fastai/v2board/update.dart';
-import 'package:fastai/v2board/session.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends ConsumerWidget {
@@ -86,14 +85,14 @@ class AboutView extends ConsumerWidget {
             items: [
               _buildLinkItem(
                 glyph: AppGlyphs.send,
-                title: appLocalizations.fdWebAccount,
+                title: appLocalizations.fdOfficialWebsite,
                 url: V2BoardConfig.websiteUrl,
-                label: 'fastdog.ws',
+                label:
+                    Uri.tryParse(V2BoardConfig.websiteUrl)?.host ??
+                    V2BoardConfig.websiteUrl,
                 onTap: () async {
                   try {
-                    final url = await const V2BoardSession().websiteLink(
-                      version: globalState.packageInfo.version,
-                    );
+                    final url = Uri.parse(V2BoardConfig.websiteUrl);
                     if (!await launchUrl(
                       url,
                       mode: LaunchMode.externalApplication,

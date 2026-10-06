@@ -830,7 +830,6 @@
   "fdSemiannual": "6か月",
   "fdSessionExpired": "セッションが切れました。再ログインしてください。",
   "fdShop": "プラン",
-  "fdSupport": "サポートとアカウント管理",
   "fdSync": "設定を同期",
   "fdTriennial": "3年",
   "fdUnknown": "不明",
@@ -839,7 +838,7 @@
   "fdWallet": "ウォレット残高",
   "fdWelcome": "ログインして接続とノードを選択",
   "fdWebAccount": "公式サイトで管理",
-  "fdWebAccountHint": "更新、注文、アカウント管理は公式サイトで行えます。",
+  "fdWebAccountHint": "更新、注文、アカウント設定とサポートは公式サイトでご利用いただけます。",
   "fdInvalidCredentials": "メールアドレスまたはパスワードが違います",
   "fdConnected": "接続済み",
   "fdDisconnected": "未接続",
@@ -855,5 +854,6 @@
   "fdNoMatchingRoutes": "一致する接続先がありません。絞り込みを解除してください。",
   "fdSyncingRoutes": "接続先を同期中…",
   "fdConnectionFailed": "接続できませんでした。再試行するか接続先を変更してください。",
-  "fdDisconnecting": "切断中…"
+  "fdDisconnecting": "切断中…",
+  "fdOfficialWebsite": "公式サイト"
 }
