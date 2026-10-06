@@ -3,7 +3,6 @@ import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/views/config/on_demand.dart';
-import 'package:fastai/views/config/connection_settings.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,8 +23,8 @@ ConfigToggleItem _appSettingToggle({
   );
 }
 
-class GeneralView extends ConsumerWidget {
-  const GeneralView({super.key});
+class GeneralSettings extends ConsumerWidget {
+  const GeneralSettings({super.key});
 
   List<Widget> _startupItems(AppLocalizations appLocalizations) {
     return [
@@ -89,27 +88,17 @@ class GeneralView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final appLocalizations = context.appLocalizations;
-    return BaseScaffold(
-      title: appLocalizations.general,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ).copyWith(top: context.appBarInset, bottom: 16),
-        children: [
-          generateSectionV3(
-            title: appLocalizations.startupAndBackground,
-            items: _startupItems(appLocalizations),
-          ),
-          generateSectionV3(
-            title: appLocalizations.requestsAndUpdates,
-            items: _requestItems(),
-          ),
-          generateSectionV3(
-            title: appLocalizations.connection,
-            items: const [ConnectionSettings()],
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        generateSectionV3(
+          title: appLocalizations.startupAndBackground,
+          items: _startupItems(appLocalizations),
+        ),
+        generateSectionV3(
+          title: appLocalizations.requestsAndUpdates,
+          items: _requestItems(),
+        ),
+      ],
     );
   }
 }

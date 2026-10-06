@@ -7,6 +7,7 @@ import 'package:fastai/enum/enum.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/views.dart';
+import 'package:fastai/views/config/connection_settings.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -507,6 +508,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     ),
                   ),
                 ),
+                const ConnectionSettings(isDesktop: false),
                 TextButton(
                   onPressed: _busy || (_api != null && !canConnect)
                       ? null
@@ -717,7 +719,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 child: Text(running ? l.fdDisconnect : l.fdConnect),
               ),
             ),
-            const SizedBox(height: 48),
+            const SizedBox(height: 28),
+            const ConnectionSettings(isDesktop: true),
+            const SizedBox(height: 16),
             DropdownButtonFormField<Mode>(
               key: ValueKey(mode),
               initialValue: mode,

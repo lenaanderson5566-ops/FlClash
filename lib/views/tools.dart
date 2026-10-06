@@ -67,7 +67,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
           widget: const DiagnosticsView(),
         ),
         if (system.isAndroid) const _AccessItem(),
-        const _GeneralItem(),
+        const GeneralSettings(),
       ],
     );
   }
@@ -153,19 +153,6 @@ class _AccessItem extends StatelessWidget {
       title: Text(context.appLocalizations.accessControl),
       subtitle: Text(context.appLocalizations.accessControlDesc),
       widget: const AccessView(),
-    );
-  }
-}
-
-class _GeneralItem extends StatelessWidget {
-  const _GeneralItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.settings),
-      title: Text(context.appLocalizations.general),
-      widget: const GeneralView(),
     );
   }
 }

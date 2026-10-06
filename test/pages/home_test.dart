@@ -9,7 +9,7 @@ import 'package:fastai/models/models.dart';
 import 'package:fastai/pages/home.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/views/config/general.dart';
+import 'package:fastai/views/diagnostics.dart';
 import 'package:fastai/views/tools.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:fastai/views/navigation.dart';
@@ -473,7 +473,7 @@ void main() {
       );
       await tester.pump();
 
-      final generalItem = find.text('General');
+      final generalItem = find.text('Network detection');
       await tester.scrollUntilVisible(
         generalItem,
         500,
@@ -481,7 +481,7 @@ void main() {
       );
       await tester.tap(generalItem);
       await tester.pumpAndSettle();
-      expect(find.byType(GeneralView), findsOneWidget);
+      expect(find.byType(DiagnosticsView), findsOneWidget);
 
       final logItem = find.text('Logcat');
       await tester.scrollUntilVisible(
@@ -489,7 +489,7 @@ void main() {
         500,
         scrollable: find
             .descendant(
-              of: find.byType(GeneralView),
+              of: find.byType(DiagnosticsView),
               matching: find.byType(Scrollable),
             )
             .first,
@@ -498,7 +498,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(container.read(appSettingProvider).openLogs, isTrue);
-      expect(find.byType(GeneralView), findsOneWidget);
+      expect(find.byType(DiagnosticsView), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );

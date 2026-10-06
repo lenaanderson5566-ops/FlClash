@@ -162,6 +162,7 @@ void main() {
     expect(find.byType(NavigationBar), findsNothing);
     expect(find.byType(TextFormField), findsNothing);
     expect(find.widgetWithText(FilledButton, 'Connect'), findsOneWidget);
+    expect(find.text('System proxy'), findsOneWidget);
     await tester.tap(find.text('Proxies'));
     await tester.pumpAndSettle();
     expect(find.byType(TextFormField), findsNothing);
@@ -174,6 +175,8 @@ void main() {
     await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
     expect(find.text('Language'), findsOneWidget);
+    expect(find.text('General'), findsNothing);
+    expect(find.text('System proxy'), findsNothing);
     expect(find.text('About'), findsOneWidget);
     expect(find.text('Backup and Restore'), findsNothing);
     await tester.tap(find.text('About'));

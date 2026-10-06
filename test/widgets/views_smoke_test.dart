@@ -27,7 +27,6 @@ void main() {
     'profiles': const ProfilesView(),
     'logs': const LogsView(),
     'tools': const ToolsView(),
-    'general settings': const GeneralView(),
     'on demand config': const OnDemandView(),
     'access control': const AccessView(),
     'proxy filtering': const Material(child: ProxiesSetting()),
@@ -69,13 +68,10 @@ void main() {
         expect(find.text('DNS queries'), findsNothing);
         expect(find.text('Recent requests'), findsNothing);
         expect(find.text('Network detection'), findsOneWidget);
-      }
-      if (entry.key == 'general settings') {
-        expect(find.text('User-Agent'), findsNothing);
-        expect(find.text('Port'), findsNothing);
-        expect(find.text('Allow LAN'), findsNothing);
-        expect(find.text('IPv6'), findsNothing);
-        expect(find.text('Append system DNS'), findsNothing);
+        expect(find.text('General'), findsNothing);
+        expect(find.byType(GeneralSettings), findsOneWidget);
+        expect(find.text('System proxy'), findsNothing);
+        expect(find.text('Auto check for updates'), findsOneWidget);
       }
       if (entry.key == 'access control') {
         await tester.pump(const Duration(milliseconds: 301));
@@ -95,10 +91,7 @@ void main() {
     });
   }
 
-  final toolDestinations = <String, Type>{
-    'Network detection': DiagnosticsView,
-    'General': GeneralView,
-  };
+  final toolDestinations = <String, Type>{'Network detection': DiagnosticsView};
 
   for (final entry in toolDestinations.entries) {
     testWidgets('tools opens ${entry.key}', (tester) async {
