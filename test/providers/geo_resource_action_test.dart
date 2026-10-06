@@ -3,19 +3,16 @@ import 'package:fastai/common/theme.dart';
 import 'package:fastai/core/controller.dart';
 import 'package:fastai/core/interface.dart';
 import 'package:fastai/enum/enum.dart';
-import 'package:fastai/icons/icons.dart';
 import 'package:fastai/l10n/l10n.dart';
-import 'package:fastai/manager/status_manager.dart';
 import 'package:fastai/providers/action.dart';
 import 'package:fastai/providers/app.dart';
 import 'package:fastai/providers/core.dart';
 import 'package:fastai/state.dart';
+import 'package:fastai/manager/status_manager.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-import '../helpers/glyph_finders.dart';
 
 class _MockCoreHandlerInterface extends Mock implements CoreHandlerInterface {}
 
@@ -51,6 +48,25 @@ Future<ProviderContainer> _pumpGeoResourceAction(
 }
 
 void main() {
+  testWidgets('manual updates are blocked without calling the Core', (
+    tester,
+  ) async {
+    final coreInterface = _MockCoreHandlerInterface();
+    final container = await _pumpGeoResourceAction(tester, coreInterface);
+    await expectLater(
+      container
+          .read(geoResourceActionProvider.notifier)
+          .updateGeoResource(GeoResource.MMDB),
+      throwsStateError,
+    );
+    verifyNever(() => coreInterface.updateGeoData(any()));
+    expect(
+      container.read(isUpdatingProvider(GeoResource.MMDB.updatingKey)),
+      isFalse,
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('passive updates change progress without surfacing messages', (
     tester,
   ) async {
@@ -73,170 +89,6 @@ void main() {
 
     expect(container.read(isUpdatingProvider(key)), isFalse);
     expect(find.text('background failure'), findsNothing);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('a manually skipped update is shown as info', (tester) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(() => coreInterface.updateGeoData('MMDB')).thenAnswer((_) async => '');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    final action = container.read(geoResourceActionProvider.notifier);
-    final key = GeoResource.MMDB.updatingKey;
-
-    await action.updateGeoResource(GeoResource.MMDB);
-
-    expect(container.read(isUpdatingProvider(key)), isTrue);
-
-    action.handleCoreUpdate('MMDB', false, true, null);
-    await tester.pump();
-
-    expect(container.read(isUpdatingProvider(key)), isFalse);
-    expect(
-      find.text(currentAppLocalizations.geoSkipped(GeoResource.MMDB.name)),
-      findsOneWidget,
-    );
-    expect(find.byGlyph(AppGlyphs.checkCircle), findsNothing);
-    expect(find.byGlyph(AppGlyphs.error), findsNothing);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('a rejected manual request clears progress', (tester) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(
-      () => coreInterface.updateGeoData('MMDB'),
-    ).thenAnswer((_) async => 'unknown geo resource');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    final action = container.read(geoResourceActionProvider.notifier);
-    final key = GeoResource.MMDB.updatingKey;
-
-    await expectLater(
-      action.updateGeoResource(GeoResource.MMDB),
-      throwsA(
-        isA<MessageException>().having(
-          (error) => error.message,
-          'message',
-          'unknown geo resource',
-        ),
-      ),
-    );
-
-    expect(container.read(isUpdatingProvider(key)), isFalse);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('a repeated manual request stays one operation', (tester) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(() => coreInterface.updateGeoData('MMDB')).thenAnswer((_) async => '');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    final action = container.read(geoResourceActionProvider.notifier);
-    final key = GeoResource.MMDB.updatingKey;
-
-    await action.updateGeoResource(GeoResource.MMDB);
-    action.handleCoreUpdate('MMDB', true, false, null);
-    await action.updateGeoResource(GeoResource.MMDB);
-
-    expect(container.read(isUpdatingProvider(key)), isTrue);
-
-    action.handleCoreUpdate('MMDB', false, false, null);
-    await tester.pump();
-
-    expect(container.read(isUpdatingProvider(key)), isFalse);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('a core disconnect drops the pending geo operation', (
-    tester,
-  ) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(() => coreInterface.updateGeoData('MMDB')).thenAnswer((_) async => '');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    container.read(coreStatusProvider.notifier).value = CoreStatus.connected;
-    final action = container.read(geoResourceActionProvider.notifier);
-    final key = GeoResource.MMDB.updatingKey;
-
-    await action.updateGeoResource(GeoResource.MMDB);
-
-    expect(container.read(isUpdatingProvider(key)), isTrue);
-
-    container.read(coreStatusProvider.notifier).value = CoreStatus.disconnected;
-    await tester.pump();
-
-    expect(container.read(isUpdatingProvider(key)), isFalse);
-
-    action.handleCoreUpdate('MMDB', false, false, null);
-    await tester.pump();
-
-    expect(container.read(isUpdatingProvider(key)), isFalse);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('the stale sweep preserves late manual completion', (
-    tester,
-  ) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(() => coreInterface.updateGeoData('MMDB')).thenAnswer((_) async => '');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    container.read(updatingActionProvider.notifier);
-    final action = container.read(geoResourceActionProvider.notifier);
-    final key = GeoResource.MMDB.updatingKey;
-
-    await action.updateGeoResource(GeoResource.MMDB);
-    await tester.pump(updatingStaleTimeout + updatingSweepInterval);
-
-    expect(container.read(isUpdatingProvider(key)), isFalse);
-
-    action.handleCoreUpdate('MMDB', false, false, null);
-    await tester.pump();
-
-    expect(
-      find.text(currentAppLocalizations.geoUpdated(GeoResource.MMDB.name)),
-      findsOneWidget,
-    );
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('a manual update failure is surfaced as an error', (
-    tester,
-  ) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(() => coreInterface.updateGeoData('MMDB')).thenAnswer((_) async => '');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    final action = container.read(geoResourceActionProvider.notifier);
-
-    await action.updateGeoResource(GeoResource.MMDB);
-    action.handleCoreUpdate('MMDB', false, false, 'download failed');
-    await tester.pump();
-
-    expect(find.text('download failed'), findsOneWidget);
-    expect(find.byGlyph(AppGlyphs.error), findsOneWidget);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets('leaving the connected Core clears manual feedback', (
-    tester,
-  ) async {
-    final coreInterface = _MockCoreHandlerInterface();
-    when(() => coreInterface.updateGeoData('MMDB')).thenAnswer((_) async => '');
-    final container = await _pumpGeoResourceAction(tester, coreInterface);
-    container.read(coreStatusProvider.notifier).value = CoreStatus.connected;
-    final action = container.read(geoResourceActionProvider.notifier);
-
-    await action.updateGeoResource(GeoResource.MMDB);
-    container.read(coreStatusProvider.notifier).value = CoreStatus.connecting;
-    action.handleCoreUpdate('MMDB', false, false, null);
-    await tester.pump();
-
-    expect(
-      find.text(currentAppLocalizations.geoUpdated(GeoResource.MMDB.name)),
-      findsNothing,
-    );
 
     await tester.pumpWidget(const SizedBox.shrink());
   });

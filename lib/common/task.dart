@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:fastai/v2board/config.dart';
+import 'package:fastai/v2board/geo.dart';
 
 import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
@@ -349,6 +351,7 @@ Future<({String yaml, String md5})> _makeRealProfileTask(
         .toList();
   }
   rawConfig['rules'] = rules;
+  if (V2BoardConfig.enabled) enforceBundledRules(rawConfig);
   final yaml = await _encodeYaml(Map<String, dynamic>.from(rawConfig));
   return (yaml: yaml, md5: yaml.toMd5());
 }

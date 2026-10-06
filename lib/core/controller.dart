@@ -6,6 +6,8 @@ import 'package:fastai/core/core.dart';
 import 'package:fastai/core/interface.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
+import 'package:fastai/v2board/config.dart';
+import 'package:fastai/v2board/geo.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -60,6 +62,10 @@ class CoreController {
 
   static Future<void> initGeo() async {
     final homePath = await appPath.homeDirPath;
+    if (V2BoardConfig.enabled) {
+      await restoreBundledGeo(homePath);
+      return;
+    }
     const geoFileNameList = [MMDB, GEOIP, GEOSITE, ASN];
     try {
       for (final geoFileName in geoFileNameList) {
@@ -112,6 +118,9 @@ class CoreController {
   }
 
   Future<String> updateConfig(UpdateParams updateParams) async {
+    if (V2BoardConfig.enabled) {
+      updateParams = updateParams.copyWith(geoAutoUpdate: false, geoXUrl: {});
+    }
     return _interface.updateConfig(updateParams);
   }
 
@@ -186,6 +195,9 @@ class CoreController {
   }
 
   Future<String> updateGeoData(String type) {
+    if (V2BoardConfig.enabled) {
+      throw StateError('FastAI Geo data is updated only with the app.');
+    }
     return _interface.updateGeoData(type);
   }
 

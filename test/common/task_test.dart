@@ -171,7 +171,7 @@ void main() {
             'file': {'type': 'file', 'path': './local.yaml'},
           },
           'rule-providers': {
-            'remote': {'type': 'http', 'url': 'https://example.com/rule.yaml'},
+            'remote': {'type': 'file', 'path': './rule.yaml'},
           },
           'rules': ['DOMAIN,existing.example,DIRECT', 'MATCH,Original'],
         }),
@@ -220,11 +220,17 @@ void main() {
       expect(config['hosts']['router.local'], ['192.168.1.1', '192.168.1.2']);
       expect(config['sniffer']['sniff']['HTTP']['ports'], ['80', '443']);
       expect(
-        config['proxy-providers']['remote']['path'],
+        config['proxy-providers']['remote']['path'].toString().replaceAll(
+          '\\',
+          '/',
+        ),
         startsWith('/profiles/providers/7/proxies/'),
       );
       expect(
-        config['rule-providers']['remote']['path'],
+        config['rule-providers']['remote']['path'].toString().replaceAll(
+          '\\',
+          '/',
+        ),
         startsWith('/profiles/providers/7/rules/'),
       );
       expect(config['rules'], [
@@ -285,7 +291,7 @@ void main() {
   // them would otherwise decide whether GEO databases auto-update — including
   // switching the updater back on after the user turned it off.
   test(
-    'makeRealProfileTask lets the app setting own the geo updater',
+    'makeRealProfileTask freezes Geo updates despite profile and saved settings',
     () async {
       final rawConfig = await decodeJSONTask<Map<String, dynamic>>(
         await encodeJSONTask({
@@ -300,7 +306,7 @@ void main() {
           profileId: 11,
           rawConfig: rawConfig,
           realPatchConfig: const PatchClashConfig(
-            geoAutoUpdate: false,
+            geoAutoUpdate: true,
             geoUpdateInterval: 48,
           ),
           overrideDns: false,
@@ -315,7 +321,8 @@ void main() {
       final config = loadYaml(result.yaml) as YamlMap;
 
       expect(config['geo-auto-update'], false);
-      expect(config['geo-update-interval'], 48);
+      expect(config['geo-update-interval'], isNull);
+      expect(config['geox-url'], isNull);
     },
   );
 

@@ -10,5 +10,4 @@ export 'dns_queries.dart';
 export 'logs.dart';
 export 'profiles/profiles.dart';
 export 'proxies/proxies.dart';
-export 'resources.dart';
 export 'tools.dart';

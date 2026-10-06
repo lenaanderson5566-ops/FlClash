@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:yaml/yaml.dart' show loadYaml;
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
@@ -8,6 +11,8 @@ import 'api.dart';
 import 'access.dart';
 import 'config.dart';
 import 'update.dart';
+import 'geo.dart';
+import 'package:fastai/common/common.dart';
 
 class V2BoardProfile {
   V2BoardProfile(this.ref);
@@ -16,11 +21,16 @@ class V2BoardProfile {
   static const label = V2BoardConfig.managedProfileLabel;
 
   Future<void> sync(V2BoardApi api) async {
-    final bytes = await api.clientConfig(
+    var bytes = await api.clientConfig(
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
     );
+    final config = Map<String, dynamic>.from(
+      json.decode(json.encode(loadYaml(utf8.decode(bytes)))) as Map,
+    );
+    enforceBundledRules(config);
+    bytes = Uint8List.fromList(utf8.encode(await encodeYamlTask(config)));
     if (!ref.context.mounted) return;
     final previous = ref
         .read(profilesProvider)

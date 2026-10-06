@@ -108,7 +108,7 @@ void main() {
       verify(() => mock.validateConfig('/path')).called(1);
     });
 
-    test('updateConfig delegates to interface', () async {
+    test('updateConfig disables persisted Geo update settings', () async {
       const params = UpdateParams(
         tun: Tun(enable: false),
         mixedPort: 7890,
@@ -122,7 +122,12 @@ void main() {
         unifiedDelay: false,
       );
       when(() => mock.updateConfig(params)).thenAnswer((_) async => 'ok');
-      final result = await controller.updateConfig(params);
+      final result = await controller.updateConfig(
+        params.copyWith(
+          geoAutoUpdate: true,
+          geoXUrl: {'geoip': 'https://example.com/data'},
+        ),
+      );
       expect(result, 'ok');
     });
 
@@ -284,10 +289,9 @@ void main() {
       expect(result, false);
     });
 
-    test('updateGeoData delegates', () async {
-      when(() => mock.updateGeoData('MMDB')).thenAnswer((_) async => 'ok');
-      final result = await controller.updateGeoData('MMDB');
-      expect(result, 'ok');
+    test('updateGeoData is blocked for bundled data', () {
+      expect(() => controller.updateGeoData('MMDB'), throwsStateError);
+      verifyNever(() => mock.updateGeoData(any()));
     });
 
     test('requestGc delegates to forceGc', () async {

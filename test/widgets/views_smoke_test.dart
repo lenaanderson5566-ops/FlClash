@@ -47,7 +47,6 @@ void main() {
     'profiles': const ProfilesView(),
     'requests': const RequestsView(),
     'dns queries': const DnsQueriesView(),
-    'resources': const ResourcesView(),
     'logs': const LogsView(),
     'tools': const ToolsView(),
     'general settings': const GeneralView(),
