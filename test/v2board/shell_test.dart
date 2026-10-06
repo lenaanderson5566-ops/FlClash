@@ -317,7 +317,10 @@ void main() {
       expect(find.text('Independent traffic remaining'), findsOneWidget);
       expect(find.text('5.00 GB'), findsOneWidget);
       expect(find.text('8.00 GB'), findsOneWidget);
-      expect(find.text('Next automatic reset (local time)'), findsOneWidget);
+      expect(
+        find.textContaining('Next automatic reset (local time)'),
+        findsOneWidget,
+      );
       await tester.scrollUntilVisible(
         find.widgetWithText(OutlinedButton, 'Use one reset'),
         180,
@@ -337,7 +340,8 @@ void main() {
       await tester.pumpAndSettle();
       expect(api.resetPosts, 1);
       expect(api.subscription['creditBytes'], 1073741824 * 5);
-      expect(find.text('10.00 GB'), findsNWidgets(2));
+      expect(find.text('10.00 GB'), findsOneWidget);
+      expect(find.textContaining('0.00 GB / 10.00 GB'), findsOneWidget);
       expect(
         tester
             .widget<OutlinedButton>(

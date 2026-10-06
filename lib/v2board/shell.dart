@@ -320,74 +320,112 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Widget _trafficCard(V2BoardAccount account) {
     final l = context.appLocalizations;
     final reset = account.resetAt;
+    final colors = context.colorScheme;
     return Card(
       elevation: 0,
-      color: context.colorScheme.surfaceContainerLowest,
-      child: Column(
-        children: [
-          _metric(l.fdRemaining, _bytes(account.remainingBytes)),
-          if (account.periodActive)
-            _metric(l.fdPeriodUsed, _bytes(account.usedBytes)),
-          if (account.periodActive)
-            _metric(l.fdPeriodQuota, _bytes(account.totalBytes)),
-          if (account.periodActive && reset != null)
-            _metric(
-              l.fdNextReset,
-              DateFormat.yMd(
-                Localizations.localeOf(context).toString(),
-              ).add_Hm().format(reset.toLocal()),
+      color: colors.surfaceContainerLowest,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(l.fdRemaining, style: context.textTheme.bodyMedium),
+            const SizedBox(height: 4),
+            Text(
+              _bytes(account.remainingBytes),
+              style: context.textTheme.headlineSmall,
             ),
-          const Divider(height: 1),
-          _metric(l.fdCreditBalance, _bytes(account.creditBytes)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Text(l.fdCreditHelp),
-          ),
-        ],
+            if (account.periodActive && account.totalBytes > 0) ...[
+              const SizedBox(height: 12),
+              LinearProgressIndicator(
+                value: (account.remainingBytes / account.totalBytes).clamp(
+                  0,
+                  1,
+                ),
+                semanticsLabel: l.fdRemaining,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${l.fdPeriodUsed} ${_bytes(account.usedBytes)} / ${_bytes(account.totalBytes)}',
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: colors.onSurfaceVariant,
+                ),
+              ),
+            ],
+            if (account.periodActive && reset != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                '${l.fdNextReset} · ${DateFormat.yMd(Localizations.localeOf(context).toString()).format(reset.toLocal())}',
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: colors.onSurfaceVariant,
+                ),
+              ),
+            ],
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Divider(height: 1),
+            ),
+            Tooltip(
+              message: l.fdCreditHelp,
+              child: Text(
+                l.fdCreditBalance,
+                style: context.textTheme.bodyMedium,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              _bytes(account.creditBytes),
+              style: context.textTheme.titleLarge,
+            ),
+            const SizedBox(height: 16),
+            _resetCard(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _resetCard() {
     final l = context.appLocalizations;
-    return Card(
-      elevation: 0,
-      color: context.colorScheme.surfaceContainerLowest,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ListTile(
-            title: Text(l.fdResetCredits),
-            subtitle: Text(
+    final pending = _resetOperation.hasPendingRequest;
+    final enabled =
+        pending || (!_resetSummaryStale && _resets?.canReset == true);
+    final count = _resetSummaryStale || _resets == null
+        ? '—'
+        : '${_resets!.available}';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 16,
+          runSpacing: 4,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(
+              '${l.fdResetCredits} · $count',
+              style: context.textTheme.bodySmall,
+            ),
+            OutlinedButton(
+              onPressed: _busy || _api == null || !enabled
+                  ? null
+                  : _consumeReset,
+              child: Text(pending ? l.fdRetryReset : l.fdUseReset),
+            ),
+          ],
+        ),
+        if (_resetSummaryStale || (!enabled && _resets?.disabledReason != null))
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
               _resetSummaryStale
                   ? l.fdResetUnavailable
                   : _resetDisabledReason(),
-            ),
-            trailing: Text(
-              _resetSummaryStale || _resets == null
-                  ? '—'
-                  : '${_resets!.available}',
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: OutlinedButton(
-              onPressed:
-                  _busy ||
-                      (_api == null) ||
-                      (!_resetOperation.hasPendingRequest &&
-                          (_resetSummaryStale || _resets?.canReset != true))
-                  ? null
-                  : _consumeReset,
-              child: Text(
-                _resetOperation.hasPendingRequest
-                    ? l.fdRetryReset
-                    : l.fdUseReset,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
               ),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 
@@ -844,7 +882,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           ),
         ),
         if (_account != null) _trafficCard(_account!),
-        _resetCard(),
         const SizedBox(height: 16),
         ListTile(
           leading: const GlyphIcon(AppGlyphs.openExternal),
