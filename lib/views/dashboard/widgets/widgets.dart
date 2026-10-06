@@ -5,7 +5,6 @@ export 'network_speed.dart';
 export 'outbound_mode.dart';
 export 'profiles.dart';
 export 'proxy_groups.dart';
-export 'quick_options.dart';
 export 'run_time.dart';
 export 'traffic_usage.dart';
 export 'memory_info.dart';

@@ -63,8 +63,6 @@ final List<HotKeyAction> defaultHotKeyActions = system.isWindows
 
 const List<DashboardWidget> defaultDashboardWidgets = [
   DashboardWidget.networkSpeed,
-  DashboardWidget.systemProxyButton,
-  DashboardWidget.tunButton,
   DashboardWidget.outboundMode,
   DashboardWidget.networkDetection,
   DashboardWidget.trafficUsage,
@@ -80,7 +78,17 @@ List<DashboardWidget> dashboardWidgetsSafeFormJson(
     'dashboard widgets',
     () =>
         dashboardWidgets
-            ?.where((value) => value != 'dnsQueries' && value != 'requests')
+            ?.where(
+              (value) => !const {
+                'dnsQueries',
+                'requests',
+                'tunButton',
+                'vpnButton',
+                'systemProxyButton',
+                'overrideDnsButton',
+                'overrideNtpButton',
+              }.contains(value),
+            )
             .map(
               (e) => e == _legacyOutboundModeV2
                   ? DashboardWidget.outboundMode

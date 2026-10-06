@@ -1,5 +1,6 @@
 import 'package:fastai/common/common.dart';
 import 'package:fastai/models/models.dart';
+import 'package:fastai/v2board/network_policy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'generated/config.g.dart';
@@ -144,6 +145,7 @@ Config _config(Ref ref) {
 }
 
 void writeConfig(Ref ref, Config config) {
+  config = managedNetworkConfig(config);
   ref.read(appSettingProvider.notifier).value = config.appSettingProps;
   ref.read(windowSettingProvider.notifier).value = config.windowProps;
   ref.read(vpnSettingProvider.notifier).value = config.vpnProps;
@@ -161,6 +163,7 @@ void writeConfig(Ref ref, Config config) {
 }
 
 List<Override> buildConfigOverrides(Config config) {
+  config = managedNetworkConfig(config);
   return [
     appSettingProvider.overrideWithBuild((_, _) => config.appSettingProps),
     windowSettingProvider.overrideWithBuild((_, _) => config.windowProps),

@@ -5,17 +5,13 @@ import 'package:fastai/providers/config.dart';
 import 'package:fastai/providers/database.dart';
 import 'package:fastai/providers/state.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/views/config/advanced.dart';
-import 'package:fastai/views/config/dns.dart';
-import 'package:fastai/views/config/ntp.dart';
 import 'package:fastai/views/config/general.dart';
-import 'package:fastai/views/config/network.dart';
 import 'package:fastai/views/config/on_demand.dart';
 import 'package:fastai/views/proxies/list.dart';
 import 'package:fastai/views/proxies/tab.dart';
 import 'package:fastai/views/proxies/setting.dart';
 import 'package:fastai/views/views.dart';
-import 'package:fastai/views/dashboard/widgets/service_status.dart';
+import 'package:fastai/views/diagnostics.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,9 +19,6 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/test_app.dart';
 import '../helpers/test_database_providers.dart';
 import '../helpers/test_profiles.dart';
-
-Finder _portField(String label) =>
-    find.ancestor(of: find.text(label), matching: find.byType(TextFormField));
 
 void main() {
   final cases = <String, Widget>{
@@ -35,10 +28,6 @@ void main() {
     'logs': const LogsView(),
     'tools': const ToolsView(),
     'general settings': const GeneralView(),
-    'dns config': const DnsView(),
-    'ntp config': const NtpView(),
-    'network config': const Scaffold(body: NetworkListView()),
-    'advanced config': const AdvancedConfigView(),
     'on demand config': const OnDemandView(),
     'access control': const AccessView(),
     'proxy filtering': const Material(child: ProxiesSetting()),
@@ -76,18 +65,17 @@ void main() {
       if (entry.key == 'tools') {
         expect(find.text('Backup and Restore'), findsNothing);
         expect(find.text('About'), findsNothing);
+        expect(find.text('Advanced configuration'), findsNothing);
         expect(find.text('DNS queries'), findsNothing);
         expect(find.text('Recent requests'), findsNothing);
         expect(find.text('Network detection'), findsOneWidget);
       }
       if (entry.key == 'general settings') {
         expect(find.text('User-Agent'), findsNothing);
-      }
-      if (entry.key == 'advanced config') {
-        expect(find.text('Script'), findsNothing);
-        expect(find.text('Additional rules'), findsNothing);
-        expect(find.text('Proxy providers'), findsNothing);
-        expect(find.text('Rule providers'), findsNothing);
+        expect(find.text('Port'), findsNothing);
+        expect(find.text('Allow LAN'), findsNothing);
+        expect(find.text('IPv6'), findsNothing);
+        expect(find.text('Append system DNS'), findsNothing);
       }
       if (entry.key == 'access control') {
         await tester.pump(const Duration(milliseconds: 301));
@@ -108,9 +96,8 @@ void main() {
   }
 
   final toolDestinations = <String, Type>{
-    'Network detection': ServiceStatusSheet,
+    'Network detection': DiagnosticsView,
     'General': GeneralView,
-    'Advanced configuration': AdvancedConfigView,
   };
 
   for (final entry in toolDestinations.entries) {
@@ -151,54 +138,6 @@ void main() {
       expect(tester.takeException(), null);
     });
   }
-
-  testWidgets('port dialog validates the fields the expander hides', (
-    tester,
-  ) async {
-    tester.view.physicalSize = const Size(1000, 800);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
-    final container = ProviderContainer(
-      overrides: [profilesProvider.overrideWith(TestProfiles.new)],
-    );
-    addTearDown(container.dispose);
-    globalState.container = container;
-    container
-        .read(viewSizeProvider.notifier)
-        .update((_) => const Size(1000, 800));
-    final before = container.read(patchClashConfigProvider);
-
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: const TestApp(child: Scaffold(body: PortItem())),
-      ),
-    );
-    await tester.pump();
-
-    await tester.tap(find.text('Port').first);
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byTooltip('Expand'));
-    await tester.pumpAndSettle();
-
-    await tester.enterText(_portField('SOCKS port'), '');
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byTooltip('Collapse'));
-    await tester.pumpAndSettle();
-    expect(_portField('SOCKS port'), findsNothing);
-
-    await tester.tap(find.text('Submit'));
-    await tester.pumpAndSettle();
-
-    expect(tester.takeException(), null);
-    expect(container.read(patchClashConfigProvider), before);
-    expect(_portField('SOCKS port'), findsOneWidget);
-    expect(find.text('SOCKS port cannot be empty'), findsOneWidget);
-  });
 
   testWidgets('proxies renders populated tab and list layouts', (tester) async {
     tester.view.physicalSize = const Size(1400, 1000);

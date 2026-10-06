@@ -25,21 +25,6 @@ extension DashboardWidgetView on DashboardWidget {
       crossAxisCellCount: 4,
       child: NetworkDetection(),
     ),
-    DashboardWidget.tunButton => const GridItem(
-      key: ValueKey(DashboardWidget.tunButton),
-      crossAxisCellCount: 4,
-      child: TUNButton(),
-    ),
-    DashboardWidget.vpnButton => const GridItem(
-      key: ValueKey(DashboardWidget.vpnButton),
-      crossAxisCellCount: 4,
-      child: VpnButton(),
-    ),
-    DashboardWidget.systemProxyButton => const GridItem(
-      key: ValueKey(DashboardWidget.systemProxyButton),
-      crossAxisCellCount: 4,
-      child: SystemProxyButton(),
-    ),
     DashboardWidget.intranetIp => const GridItem(
       key: ValueKey(DashboardWidget.intranetIp),
       crossAxisCellCount: 4,
@@ -59,16 +44,6 @@ extension DashboardWidgetView on DashboardWidget {
       key: ValueKey(DashboardWidget.connections),
       crossAxisCellCount: 4,
       child: ConnectionsCard(),
-    ),
-    DashboardWidget.overrideDnsButton => const GridItem(
-      key: ValueKey(DashboardWidget.overrideDnsButton),
-      crossAxisCellCount: 4,
-      child: OverrideDnsButton(),
-    ),
-    DashboardWidget.overrideNtpButton => const GridItem(
-      key: ValueKey(DashboardWidget.overrideNtpButton),
-      crossAxisCellCount: 4,
-      child: OverrideNtpButton(),
     ),
     DashboardWidget.runTime => const GridItem(
       key: ValueKey(DashboardWidget.runTime),

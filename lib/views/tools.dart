@@ -11,8 +11,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 
-import 'config/advanced.dart';
-import 'dashboard/widgets/service_status.dart';
+import 'diagnostics.dart';
 import 'developer.dart';
 import 'disclaimer.dart';
 
@@ -61,14 +60,13 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: context.appLocalizations.settings,
       items: [
         const _LocaleItem(),
-        ListItem(
+        ListItem.open(
           leading: const GlyphIcon(AppGlyphs.networkCheck),
           title: Text(context.appLocalizations.networkDetection),
           subtitle: Text(context.appLocalizations.serviceStatus),
-          onTap: () => showServiceStatusSheet(context),
+          widget: const DiagnosticsView(),
         ),
         if (system.isAndroid) const _AccessItem(),
-        const _AdvancedConfigItem(),
         const _GeneralItem(),
       ],
     );
@@ -168,20 +166,6 @@ class _GeneralItem extends StatelessWidget {
       leading: const GlyphIcon(AppGlyphs.settings),
       title: Text(context.appLocalizations.general),
       widget: const GeneralView(),
-    );
-  }
-}
-
-class _AdvancedConfigItem extends StatelessWidget {
-  const _AdvancedConfigItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.wrench),
-      title: Text(context.appLocalizations.advancedConfig),
-      subtitle: Text(context.appLocalizations.advancedConfigDesc),
-      widget: const AdvancedConfigView(),
     );
   }
 }

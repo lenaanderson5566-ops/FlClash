@@ -490,6 +490,36 @@ void main() {
   });
 
   group('requestAdmin', () {
+    test(
+      'managed offline preferences do not authorize or update the core',
+      () async {
+        await action.updateConfig();
+        expect(action.authorizeCalls, 0);
+      },
+      skip: !V2BoardConfig.enabled,
+    );
+
+    test(
+      'managed TUN denial falls back to system proxy and can be retried',
+      () async {
+        action.authorizeResult = AuthorizeCode.error;
+        action.changeConnectionMode(true);
+        await action.requestAdmin(true);
+        expect(container.read(patchClashConfigProvider).tun.enable, isFalse);
+        expect(container.read(proxyStateProvider).systemProxy, isTrue);
+        action.changeConnectionMode(true);
+        expect(
+          container.read(authorizedTunEnableProvider),
+          TunAuthorizationState.none,
+        );
+        action.authorizeResult = AuthorizeCode.none;
+        await action.requestAdmin(true);
+        expect(container.read(patchClashConfigProvider).tun.enable, isTrue);
+        expect(container.read(proxyStateProvider).systemProxy, isFalse);
+      },
+      skip: !V2BoardConfig.enabled,
+    );
+
     test('never asks for authorization while tun is disabled', () async {
       expect(await action.requestAdmin(false), isTrue);
 

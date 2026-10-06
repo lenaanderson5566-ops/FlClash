@@ -251,6 +251,7 @@ class SetupAction extends _$SetupAction {
 
   @visibleForTesting
   Future<void> updateConfig() async {
+    if (V2BoardConfig.enabled && ref.read(runTimeProvider) == null) return;
     await globalState.safeRun(() async {
       final patchConfig = ref.read(patchClashConfigProvider);
       final shouldContinueSetup = await requestAdmin(patchConfig.tun.enable);
@@ -262,7 +263,9 @@ class SetupAction extends _$SetupAction {
       final message = await _core.updateConfig(
         _effectivePatchConfig(patchConfig).toUpdateParams(
           routeMode: networkSetting.routeMode,
-          authentication: networkSetting.authentication.credentials,
+          authentication: V2BoardConfig.enabled
+              ? const []
+              : networkSetting.authentication.credentials,
         ),
       );
       if (message.isNotEmpty) throw MessageException(message);
@@ -273,6 +276,18 @@ class SetupAction extends _$SetupAction {
     debouncer.call(FunctionTag.applyProfile, (silence, force) {
       applyProfile(silence: silence, force: force);
     }, args: [silence, force]);
+  }
+
+  void changeConnectionMode(bool tun) {
+    if (tun &&
+        ref.read(authorizedTunEnableProvider) ==
+            TunAuthorizationState.unauthorized) {
+      ref.read(authorizedTunEnableProvider.notifier).value =
+          TunAuthorizationState.none;
+    }
+    ref
+        .read(patchClashConfigProvider.notifier)
+        .update((state) => state.copyWith.tun(enable: tun));
   }
 
   void changeMode(Mode mode) {
@@ -357,9 +372,10 @@ class SetupAction extends _$SetupAction {
         ),
       ),
     );
-    final overrideDns = ref.read(overrideDnsProvider);
-    final overrideNtp = ref.read(overrideNtpProvider);
-    final appendSystemDns = networkSetting.appendSystemDns;
+    final overrideDns = !V2BoardConfig.enabled && ref.read(overrideDnsProvider);
+    final overrideNtp = !V2BoardConfig.enabled && ref.read(overrideNtpProvider);
+    final appendSystemDns =
+        !V2BoardConfig.enabled && networkSetting.appendSystemDns;
     final routeMode = networkSetting.routeMode;
     final configMap = await _core.getConfig(profileId);
     String? scriptContent;
@@ -378,8 +394,9 @@ class SetupAction extends _$SetupAction {
         rules.addAll(setupState.rules);
       }
     }
-    final realPatchConfig = patchConfig.copyWith(
-      tun: patchConfig.tun.getRealTun(routeMode),
+    final managedPatch = managedPatchConfig(patchConfig);
+    final realPatchConfig = managedPatch.copyWith(
+      tun: managedPatch.tun.getRealTun(routeMode),
     );
     Map<String, dynamic> rawConfig = configMap;
     if (scriptContent?.isNotEmpty == true) {
@@ -409,7 +426,9 @@ class SetupAction extends _$SetupAction {
         appendSystemDns: appendSystemDns,
         addedRules: addedRules,
         defaultUA: defaultUA,
-        authentication: networkSetting.authentication.credentials,
+        authentication: V2BoardConfig.enabled
+            ? const []
+            : networkSetting.authentication.credentials,
         matchTarget: setupState.matchTarget,
         safeMode: ref.read(safeModeProvider),
       ),
@@ -493,6 +512,7 @@ class SetupAction extends _$SetupAction {
   }
 
   PatchClashConfig _effectivePatchConfig(PatchClashConfig patchConfig) {
+    patchConfig = managedPatchConfig(patchConfig);
     if (ref.read(safeModeProvider)) {
       return patchConfig.copyWith(
         tun: patchConfig.tun.copyWith(enable: false),
@@ -521,6 +541,12 @@ class SetupAction extends _$SetupAction {
     }
     final authorizationState = ref.read(authorizedTunEnableProvider);
     if (authorizationState != TunAuthorizationState.none) {
+      if (V2BoardConfig.enabled &&
+          authorizationState == TunAuthorizationState.unauthorized) {
+        ref
+            .read(patchClashConfigProvider.notifier)
+            .update((state) => state.copyWith.tun(enable: false));
+      }
       return true;
     }
 
@@ -539,6 +565,15 @@ class SetupAction extends _$SetupAction {
         authorizationNotifier.value = TunAuthorizationState.authorized;
         return true;
       case AuthorizeCode.error:
+        if (V2BoardConfig.enabled) {
+          ref
+              .read(patchClashConfigProvider.notifier)
+              .update((state) => state.copyWith.tun(enable: false));
+          commonPrint.log(
+            'TUN authorization failed; using system proxy.',
+            logLevel: LogLevel.warning,
+          );
+        }
         return true;
     }
   }

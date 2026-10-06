@@ -14,6 +14,7 @@ import 'package:fastai/providers/actions/system_exit.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/v2board/config.dart';
+import 'package:fastai/v2board/network_policy.dart';
 import 'package:fastai/v2board/access.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';

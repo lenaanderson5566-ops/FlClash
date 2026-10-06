@@ -484,9 +484,10 @@ void main() {
     }
 
     final normal = await build(safeMode: false);
-    expect(normal['dns']['listen'], '0.0.0.0:53');
-    expect(normal['external-controller-tls'], '127.0.0.1:9443');
-    expect(normal['ntp']['write-to-system'], true);
+    expect(normal['dns']['listen'], '127.0.0.1:1053');
+    expect(normal['external-controller-tls'], '');
+    expect(normal['ntp']['write-to-system'], false);
+    expect(normal['ntp']['enable'], false);
 
     final safe = await build(safeMode: true);
     expect(safe['dns']['listen'], '');
@@ -494,7 +495,7 @@ void main() {
     expect(safe['external-controller-unix'], '');
     expect(safe['external-controller-pipe'], '');
     expect(safe['ntp']['write-to-system'], false);
-    expect(safe['ntp']['enable'], true);
+    expect(safe['ntp']['enable'], false);
   });
 
   group('makeRealProfileTask interface-name mode', () {

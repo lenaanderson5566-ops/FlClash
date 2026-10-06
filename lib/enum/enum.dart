@@ -435,22 +435,17 @@ enum DashboardWidget {
   outboundMode,
   trafficUsage,
   networkDetection,
-  tunButton(platforms: desktopPlatforms),
-  vpnButton(platforms: [SupportPlatform.Android]),
-  systemProxyButton(platforms: desktopPlatforms),
   intranetIp,
   memoryInfo,
   serviceStatus,
   connections,
-  overrideDnsButton,
-  overrideNtpButton,
   runTime,
   proxyGroups,
   profiles;
 
-  final List<SupportPlatform> platforms;
+  const DashboardWidget();
 
-  const DashboardWidget({this.platforms = SupportPlatform.values});
+  List<SupportPlatform> get platforms => SupportPlatform.values;
 }
 
 enum DnsQueryInitiator { app, rule, direct, proxy, other }

@@ -48,7 +48,7 @@ TrayState trayState(Ref ref) {
     mode: clashConfig.mode,
     port: clashConfig.mixedPort,
     autoLaunch: appSetting.autoLaunch,
-    systemProxy: systemProxy,
+    systemProxy: V2BoardConfig.enabled ? !clashConfig.tunEnable : systemProxy,
     tunEnable: clashConfig.tunEnable,
     isStart: isStart,
     groups: groups,

@@ -123,12 +123,22 @@ class SystemAction extends _$SystemAction {
   }
 
   void updateTun() {
+    if (V2BoardConfig.enabled) {
+      ref
+          .read(setupActionProvider.notifier)
+          .changeConnectionMode(!ref.read(patchClashConfigProvider).tun.enable);
+      return;
+    }
     ref
         .read(patchClashConfigProvider.notifier)
         .update((state) => state.copyWith.tun(enable: !state.tun.enable));
   }
 
   void updateSystemProxy() {
+    if (V2BoardConfig.enabled) {
+      updateTun();
+      return;
+    }
     ref
         .read(networkSettingProvider.notifier)
         .update((state) => state.copyWith(systemProxy: !state.systemProxy));

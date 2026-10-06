@@ -353,7 +353,15 @@ Future<({String yaml, String md5})> _makeRealProfileTask(
         .toList();
   }
   rawConfig['rules'] = rules;
-  if (V2BoardConfig.enabled) enforceBundledRules(rawConfig);
+  if (V2BoardConfig.enabled) {
+    rawConfig['ntp'] = {'enable': false, 'write-to-system': false};
+    rawConfig['dns']['listen'] = data.safeMode ? '' : '127.0.0.1:1053';
+    rawConfig['dns']['ipv6'] = false;
+    rawConfig['external-controller-tls'] = '';
+    rawConfig['external-controller-unix'] = '';
+    rawConfig['external-controller-pipe'] = '';
+    enforceBundledRules(rawConfig);
+  }
   final yaml = await _encodeYaml(Map<String, dynamic>.from(rawConfig));
   return (yaml: yaml, md5: yaml.toMd5());
 }

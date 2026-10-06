@@ -2,6 +2,7 @@ import 'package:fastai/common/common.dart';
 import 'package:fastai/database/database.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
+import 'package:fastai/v2board/config.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

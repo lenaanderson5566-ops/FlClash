@@ -45,7 +45,11 @@ ProxyState proxyState(Ref ref) {
   );
   return ProxyState(
     isStart: suspend ? false : isStart,
-    systemProxy: systemProxySelector.systemProxy,
+    systemProxy: V2BoardConfig.enabled
+        ? !ref.watch(
+            patchClashConfigProvider.select((state) => state.tun.enable),
+          )
+        : systemProxySelector.systemProxy,
     bassDomain: systemProxySelector.bypassDomain,
     port: mixedPort,
   );
