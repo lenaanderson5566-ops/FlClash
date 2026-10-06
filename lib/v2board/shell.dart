@@ -41,16 +41,7 @@ class V2BoardShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Theme(
-      data: theme.copyWith(
-        brightness: Brightness.light,
-        colorScheme: fastaiColorScheme(),
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: theme.appBarTheme.copyWith(
-          backgroundColor: const Color(0xFF153B70),
-          foregroundColor: Colors.white,
-          surfaceTintColor: Colors.transparent,
-        ),
-      ),
+      data: fastaiTheme(theme),
       child: _V2BoardContent(
         session: session,
         desktopLayout:
@@ -639,34 +630,45 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Widget _metric(String label, String value) {
-    return ListTile(
-      title: Text(label, style: context.textTheme.bodyMedium),
-      trailing: Text(value, style: context.textTheme.titleSmall),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Flexible(
+            flex: 2,
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: context.textTheme.titleSmall,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _brandHeader(String title, String subtitle) {
-    final colors = context.colorScheme;
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: ShapeDecoration(
-        gradient: LinearGradient(
-          colors: [colors.primaryContainer, colors.surface],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        shape: AppShape.xxl,
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: context.textTheme.headlineMedium),
-                const SizedBox(height: 8),
-                Text(subtitle, style: context.textTheme.bodyMedium),
-              ],
+          Text(title, style: context.textTheme.headlineMedium),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.onSurfaceVariant,
             ),
           ),
         ],
@@ -881,14 +883,17 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ],
           ),
         ),
+        const SizedBox(height: 16),
         if (_account != null) _trafficCard(_account!),
         const SizedBox(height: 16),
-        ListTile(
-          leading: const GlyphIcon(AppGlyphs.openExternal),
-          title: Text(l.fdWebAccount),
-          subtitle: Text(l.fdWebAccountHint),
-          trailing: const GlyphIcon(AppGlyphs.openExternal),
-          onTap: _busy ? null : () => _run(_portal),
+        Card(
+          child: ListTile(
+            leading: const GlyphIcon(AppGlyphs.openExternal),
+            title: Text(l.fdWebAccount),
+            subtitle: Text(l.fdWebAccountHint),
+            trailing: const GlyphIcon(AppGlyphs.openExternal),
+            onTap: _busy ? null : () => _run(_portal),
+          ),
         ),
         if (_accountStale)
           Padding(
@@ -992,15 +997,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 duration: const Duration(milliseconds: 240),
                 padding: const EdgeInsets.all(14),
                 decoration: ShapeDecoration(
-                  color: color.withValues(alpha: running ? 0.10 : 0.04),
-                  shape: AppShape.circle,
-                  shadows: [
-                    BoxShadow(
-                      color: color.withValues(alpha: 0.08),
-                      blurRadius: 32,
-                      offset: const Offset(0, 12),
-                    ),
-                  ],
+                  color: color.withValues(alpha: running ? 0.08 : 0.035),
+                  shape: AppShape.circle.copyWith(
+                    side: BorderSide(color: color.withValues(alpha: 0.10)),
+                  ),
                 ),
                 child: SizedBox(
                   width: 172,
@@ -1188,15 +1188,22 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         children: [
           NavigationRail(
             extended: _sidebarExpanded && constraints.maxWidth >= 520,
-            minExtendedWidth: 180,
-            backgroundColor: const Color(0xFFF7F8FA),
+            minExtendedWidth: 200,
+            minWidth: 80,
+            groupAlignment: -1,
+            backgroundColor: context.colorScheme.surfaceContainerLow,
             leading: Column(
               children: [
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Text(
                     V2BoardConfig.appName,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                      color: Color(0xFF153B70),
+                    ),
                   ),
                 ),
                 IconButton(
@@ -1237,7 +1244,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           Expanded(
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 960),
+                constraints: BoxConstraints(maxWidth: _tab == 1 ? 880 : 680),
                 child: _page(),
               ),
             ),

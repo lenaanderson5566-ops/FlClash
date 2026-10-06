@@ -134,37 +134,57 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
       final delay = ref.watch(
         delayProvider(proxyName: proxy.name, testUrl: group?.testUrl),
       );
-      return ListTile(
-        leading: NodeRegionFlag(
-          regionCode: metadata[proxy.name]?['regionCode'] as String?,
-          fallback: GlyphIcon(
-            selected == proxy.name ? AppGlyphs.check : AppGlyphs.proxies,
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Material(
+          color: selected == proxy.name
+              ? context.colorScheme.primaryContainer
+              : context.colorScheme.surface,
+          shape: AppShape.lg.copyWith(
+            side: BorderSide(
+              color: selected == proxy.name
+                  ? context.colorScheme.primary.withValues(alpha: 0.28)
+                  : context.colorScheme.outlineVariant,
+            ),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 6,
+            ),
+            leading: NodeRegionFlag(
+              regionCode: metadata[proxy.name]?['regionCode'] as String?,
+              fallback: GlyphIcon(
+                selected == proxy.name ? AppGlyphs.check : AppGlyphs.proxies,
+              ),
+            ),
+            title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+            subtitle:
+                (metadata[proxy.name]?['tags'] as List?)
+                        ?.whereType<String>()
+                        .isNotEmpty ==
+                    true
+                ? Text(
+                    (metadata[proxy.name]!['tags'] as List)
+                        .whereType<String>()
+                        .join(' · '),
+                  )
+                : null,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (delay != null) Text(delay > 0 ? '$delay ms' : l.timeout),
+                if (selected == proxy.name) ...[
+                  const SizedBox(width: 8),
+                  const GlyphIcon(AppGlyphs.check),
+                ],
+              ],
+            ),
+            selected: selected == proxy.name,
+            onTap: _busy ? null : () => _run(() => choose(proxy.name)),
           ),
         ),
-        title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-        subtitle:
-            (metadata[proxy.name]?['tags'] as List?)
-                    ?.whereType<String>()
-                    .isNotEmpty ==
-                true
-            ? Text(
-                (metadata[proxy.name]!['tags'] as List)
-                    .whereType<String>()
-                    .join(' · '),
-              )
-            : null,
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (delay != null) Text(delay > 0 ? '$delay ms' : l.timeout),
-            if (selected == proxy.name) ...[
-              const SizedBox(width: 8),
-              const GlyphIcon(AppGlyphs.check),
-            ],
-          ],
-        ),
-        selected: selected == proxy.name,
-        onTap: _busy ? null : () => _run(() => choose(proxy.name)),
       );
     }
 
