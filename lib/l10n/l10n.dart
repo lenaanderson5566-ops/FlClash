@@ -6543,6 +6543,31 @@ class AppLocalizations {
     );
   }
 
+  /// `Smart mode`
+  String get fdSmartMode {
+    return Intl.message('Smart mode', name: 'fdSmartMode', desc: '', args: []);
+  }
+
+  /// `Global mode`
+  String get fdGlobalMode {
+    return Intl.message(
+      'Global mode',
+      name: 'fdGlobalMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic selection`
+  String get fdAutoRoute {
+    return Intl.message(
+      'Automatic selection',
+      name: 'fdAutoRoute',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get fdHome {
     return Intl.message('Home', name: 'fdHome', desc: '', args: []);

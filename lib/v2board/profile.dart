@@ -31,6 +31,16 @@ class V2BoardProfile {
     final config = Map<String, dynamic>.from(
       json.decode(json.encode(loadYaml(utf8.decode(bytes)))) as Map,
     );
+    final managedGroups = config['proxy-groups'] as List? ?? const [];
+    final primary = managedGroups
+        .where(
+          (g) =>
+              g is Map &&
+              g['type'] == 'select' &&
+              g['name'] != 'GLOBAL' &&
+              g['hidden'] != true,
+        )
+        .firstOrNull;
     final removed = removeSubscriptionMetadata(config);
     if (removed.isNotEmpty) {
       commonPrint.log(
@@ -48,13 +58,37 @@ class V2BoardProfile {
               profile.label == label || profile.label == 'fastai · managed',
         )
         .firstOrNull;
+    final choices = primary == null
+        ? <String>[]
+        : (primary['proxies'] as List? ?? const [])
+              .whereType<String>()
+              .where(
+                (name) => !const {
+                  'DIRECT',
+                  'REJECT',
+                  'REJECT-DROP',
+                  'PASS',
+                }.contains(name.toUpperCase()),
+              )
+              .toList();
+    final previousChoice = primary == null
+        ? null
+        : previous?.selectedMap[primary['name']];
     final profile = (previous ?? Profile.normal(label: label)).copyWith(
       label: label,
       autoUpdate: false,
       selectedMap: {
+        if (primary != null) 'GLOBAL': primary['name'] as String,
+        if (primary != null && choices.isNotEmpty)
+          primary['name'] as String: choices.contains(previousChoice)
+              ? previousChoice!
+              : choices.first,
         for (final entry
             in (previous?.selectedMap ?? <String, String>{}).entries)
-          if (!removed.contains(entry.value)) entry.key: entry.value,
+          if (!removed.contains(entry.value) &&
+              (primary == null ||
+                  (entry.key != 'GLOBAL' && entry.key != primary['name'])))
+            entry.key: entry.value,
       },
     );
     final updated = await profile.saveFile(

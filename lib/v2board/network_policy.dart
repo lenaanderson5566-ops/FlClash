@@ -1,10 +1,11 @@
 import 'package:fastai/models/models.dart';
 import 'config.dart';
+import 'package:fastai/enum/enum.dart';
 
 PatchClashConfig managedPatchConfig(PatchClashConfig saved) {
   if (!V2BoardConfig.enabled) return saved;
   return const PatchClashConfig().copyWith(
-    mode: saved.mode,
+    mode: saved.mode == Mode.direct ? Mode.rule : saved.mode,
     logLevel: saved.logLevel,
     tun: defaultTun.copyWith(enable: saved.tun.enable),
   );

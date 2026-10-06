@@ -10,6 +10,12 @@ import 'package:material_ui/material_ui.dart';
 import '../helpers/test_app.dart';
 
 void main() {
+  test('legacy direct mode migrates to smart mode', () {
+    expect(
+      managedPatchConfig(const PatchClashConfig(mode: Mode.direct)).mode,
+      Mode.rule,
+    );
+  });
   test(
     'loading old configuration retains supported preferences and resets advanced settings',
     () {
@@ -107,7 +113,9 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: const TestApp(
-          child: Scaffold(body: ConnectionSettings(isDesktop: true, segmented: true)),
+          child: Scaffold(
+            body: ConnectionSettings(isDesktop: true, segmented: true),
+          ),
         ),
       ),
     );

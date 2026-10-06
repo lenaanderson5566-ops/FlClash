@@ -20,6 +20,7 @@ import 'profile.dart';
 import 'session.dart';
 import 'update.dart';
 import 'theme.dart';
+import 'routes.dart';
 
 class V2BoardShell extends StatelessWidget {
   const V2BoardShell({
@@ -549,8 +550,13 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 const SizedBox(height: 12),
                 SegmentedButton<Mode>(
                   segments: [
-                    for (final value in Mode.values)
-                      ButtonSegment(value: value, label: Text(value.label)),
+                    for (final value in [Mode.rule, Mode.global])
+                      ButtonSegment(
+                        value: value,
+                        label: Text(
+                          value == Mode.rule ? l.fdSmartMode : l.fdGlobalMode,
+                        ),
+                      ),
                   ],
                   selected: {mode},
                   onSelectionChanged: _busy
@@ -782,8 +788,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     child: SegmentedButton<Mode>(
                       showSelectedIcon: false,
                       segments: [
-                        for (final value in Mode.values)
-                          ButtonSegment(value: value, label: Text(value.label)),
+                        for (final value in [Mode.rule, Mode.global])
+                          ButtonSegment(
+                            value: value,
+                            label: Text(
+                              value == Mode.rule
+                                  ? l.fdSmartMode
+                                  : l.fdGlobalMode,
+                            ),
+                          ),
                       ],
                       selected: {mode},
                       onSelectionChanged: _busy
@@ -839,7 +852,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 ),
               )
             : _account?.active == true
-            ? const ProxiesView()
+            ? FastaiRoutesView(onSync: () => _sync())
             : Center(child: Text(context.appLocalizations.fdNodesUnavailable)),
       2 => const ToolsView(),
       3 => _api == null ? _loginView() : _myAccount(),

@@ -529,6 +529,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "バックグラウンドで新しいバージョンを確認します。ダウンロードとインストールは手動で行います。",
     ),
+    "fdAutoRoute": MessageLookupByLibrary.simpleMessage("自動選択"),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
       "バックグラウンドと通知",
     ),
@@ -558,6 +559,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("プラン期限切れ"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
+    "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("もっと軽快に、もっと自由に。"),
     "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
@@ -602,6 +604,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "セッションが切れました。再ログインしてください。",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("プラン"),
+    "fdSmartMode": MessageLookupByLibrary.simpleMessage("スマートモード"),
     "fdSupport": MessageLookupByLibrary.simpleMessage("サポートとアカウント管理"),
     "fdSync": MessageLookupByLibrary.simpleMessage("設定を同期"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

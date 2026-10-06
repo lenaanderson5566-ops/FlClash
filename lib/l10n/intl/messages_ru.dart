@@ -659,6 +659,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "Проверяет новые версии в фоне. Скачивание и установка выполняются вручную.",
     ),
+    "fdAutoRoute": MessageLookupByLibrary.simpleMessage("Автоматический выбор"),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
       "Фоновая работа и уведомления",
     ),
@@ -692,6 +693,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Подписка истекла"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
+    "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Глобальный режим"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Быстрее. Свободнее.",
     ),
@@ -748,6 +750,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Сессия истекла. Войдите снова.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Тарифы"),
+    "fdSmartMode": MessageLookupByLibrary.simpleMessage("Умный режим"),
     "fdSupport": MessageLookupByLibrary.simpleMessage(
       "Поддержка и управление аккаунтом",
     ),

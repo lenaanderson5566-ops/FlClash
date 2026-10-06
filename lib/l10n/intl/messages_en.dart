@@ -636,6 +636,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "Checks for new versions in the background. Download and installation require your action.",
     ),
+    "fdAutoRoute": MessageLookupByLibrary.simpleMessage("Automatic selection"),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
       "Background and notifications",
     ),
@@ -667,6 +668,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Subscription expired"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
+    "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Global mode"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "A little faster. A little freer.",
     ),
@@ -727,6 +729,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Your session expired. Please sign in again.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Plans"),
+    "fdSmartMode": MessageLookupByLibrary.simpleMessage("Smart mode"),
     "fdSupport": MessageLookupByLibrary.simpleMessage(
       "Support and account services",
     ),

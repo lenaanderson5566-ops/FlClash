@@ -482,6 +482,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAutoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "在后台检查新版本，下载和安装需要手动确认。",
     ),
+    "fdAutoRoute": MessageLookupByLibrary.simpleMessage("自动选择"),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage("后台与通知"),
     "fdBanned": MessageLookupByLibrary.simpleMessage("账户已停用"),
     "fdBiennial": MessageLookupByLibrary.simpleMessage("两年付"),
@@ -507,6 +508,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExhausted": MessageLookupByLibrary.simpleMessage("流量已用尽，请续费或购买流量包。"),
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("周期到期时间"),
+    "fdGlobalMode": MessageLookupByLibrary.simpleMessage("全局模式"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("轻快一点，自由一点。"),
     "fdHome": MessageLookupByLibrary.simpleMessage("首页"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage("邮箱或密码错误"),
@@ -541,6 +543,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("半年付"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage("登录已失效，请重新登录。"),
     "fdShop": MessageLookupByLibrary.simpleMessage("套餐"),
+    "fdSmartMode": MessageLookupByLibrary.simpleMessage("智能模式"),
     "fdSupport": MessageLookupByLibrary.simpleMessage("客服与账户服务"),
     "fdSync": MessageLookupByLibrary.simpleMessage("同步订阅"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage("订阅同步失败，请重新同步后再连接。"),
