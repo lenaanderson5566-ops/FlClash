@@ -6,8 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ConnectionSettings extends ConsumerWidget {
-  const ConnectionSettings({super.key, this.isDesktop});
+  const ConnectionSettings({
+    super.key,
+    this.isDesktop,
+    this.segmented = false,
+    this.enabled = true,
+  });
   final bool? isDesktop;
+  final bool segmented;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,6 +22,33 @@ class ConnectionSettings extends ConsumerWidget {
       final denied =
           ref.watch(authorizedTunEnableProvider) ==
           TunAuthorizationState.unauthorized;
+      if (segmented) {
+        final l = context.appLocalizations;
+        return Column(
+          children: [
+            SegmentedButton<bool>(
+              showSelectedIcon: false,
+              segments: [
+                ButtonSegment(value: false, label: Text(l.systemProxy)),
+                ButtonSegment(value: true, label: Text(l.tun)),
+              ],
+              selected: {
+                ref.watch(patchClashConfigProvider.select((s) => s.tun.enable)),
+              },
+              onSelectionChanged: enabled
+                  ? (values) => ref
+                        .read(setupActionProvider.notifier)
+                        .changeConnectionMode(values.single)
+                  : null,
+            ),
+            if (denied)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(l.tunDesc, textAlign: TextAlign.center),
+              ),
+          ],
+        );
+      }
       return ConfigOptionsItem<bool>(
         title: (l) => l.connection,
         subtitle: denied ? (l) => l.tunDesc : null,

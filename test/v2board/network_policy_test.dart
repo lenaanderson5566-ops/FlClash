@@ -107,12 +107,10 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: const TestApp(
-          child: Scaffold(body: ConnectionSettings(isDesktop: true)),
+          child: Scaffold(body: ConnectionSettings(isDesktop: true, segmented: true)),
         ),
       ),
     );
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Connection'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('TUN'));
     await tester.pumpAndSettle();

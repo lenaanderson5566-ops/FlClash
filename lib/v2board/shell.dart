@@ -657,6 +657,18 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     final l = context.appLocalizations;
     final running = ref.watch(isStartProvider);
     final mode = ref.watch(patchClashConfigProvider.select((s) => s.mode));
+    final groupName = mode == Mode.global
+        ? GroupName.GLOBAL.name
+        : ref.watch(currentProfileProvider.select((s) => s?.currentGroupName));
+    final selected = groupName == null
+        ? null
+        : ref.watch(selectedProxyNameProvider(groupName));
+    final route = selected == null
+        ? null
+        : ref.watch(realSelectedProxyStateProvider(selected)).proxyName;
+    final delay = route == null || route.isEmpty
+        ? null
+        : ref.watch(delayProvider(proxyName: route));
     final allowed =
         _api == null ||
         (_account?.active == true &&
@@ -666,7 +678,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         constraints: const BoxConstraints(maxWidth: 520),
         child: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(32),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           children: [
             Center(
               child: SizedBox(
@@ -681,7 +693,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 ),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
             Text(
               running ? l.fdConnected : l.fdDisconnected,
               textAlign: TextAlign.center,
@@ -715,45 +727,81 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                           unawaited(_sync(connect: true));
                         }
                       },
-                style: FilledButton.styleFrom(minimumSize: const Size(160, 52)),
-                child: Text(running ? l.fdDisconnect : l.fdConnect),
+                style: FilledButton.styleFrom(minimumSize: const Size(180, 52)),
+                child: Text(
+                  _busy
+                      ? l.loading
+                      : running
+                      ? l.fdDisconnect
+                      : l.fdConnect,
+                ),
               ),
             ),
-            const SizedBox(height: 28),
-            const ConnectionSettings(isDesktop: true),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<Mode>(
-              key: ValueKey(mode),
-              initialValue: mode,
-              decoration: InputDecoration(labelText: l.outboundMode),
-              items: [
-                for (final value in Mode.values)
-                  DropdownMenuItem(value: value, child: Text(value.label)),
-              ],
-              onChanged: _busy
-                  ? null
-                  : (value) {
-                      if (_api == null) {
-                        _requestLogin();
-                        return;
-                      }
-                      if (value != null) {
-                        ref
-                            .read(setupActionProvider.notifier)
-                            .changeMode(value);
-                      }
-                    },
+            const SizedBox(height: 24),
+            ConnectionSettings(
+              isDesktop: true,
+              segmented: true,
+              enabled: !_busy,
             ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: _busy ? null : () => _selectPage(1),
-              child: Text(l.fdChooseRoute),
-            ),
-            if (_api != null)
-              TextButton(
-                onPressed: _busy || !allowed ? null : () => _sync(),
-                child: Text(l.fdSync),
+            const SizedBox(height: 24),
+            Card(
+              elevation: 0,
+              color: context.colorScheme.surfaceContainerLowest,
+              shape: AppShape.lg,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const GlyphIcon(AppGlyphs.proxies),
+                    title: Text(
+                      _api == null || route == null || route.isEmpty
+                          ? l.fdChooseRoute
+                          : route,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: delay == null
+                        ? null
+                        : Text(delay > 0 ? '$delay ms' : l.timeout),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (_api != null)
+                          IconButton(
+                            tooltip: l.fdSync,
+                            onPressed: _busy || !allowed ? null : () => _sync(),
+                            icon: const GlyphIcon(AppGlyphs.refresh),
+                          ),
+                        const GlyphIcon(AppGlyphs.chevronForward),
+                      ],
+                    ),
+                    onTap: _busy ? null : () => _selectPage(1),
+                  ),
+                  const Divider(height: 1),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: SegmentedButton<Mode>(
+                      showSelectedIcon: false,
+                      segments: [
+                        for (final value in Mode.values)
+                          ButtonSegment(value: value, label: Text(value.label)),
+                      ],
+                      selected: {mode},
+                      onSelectionChanged: _busy
+                          ? null
+                          : (values) {
+                              if (_api == null) {
+                                _requestLogin();
+                                return;
+                              }
+                              ref
+                                  .read(setupActionProvider.notifier)
+                                  .changeMode(values.single);
+                            },
+                    ),
+                  ),
+                ],
               ),
+            ),
           ],
         ),
       ),
