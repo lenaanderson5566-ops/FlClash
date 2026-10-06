@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:fastai/v2board/node_metadata.dart';
 import 'package:fastai/v2board/routes.dart';
 import 'package:fastai/models/models.dart';
@@ -136,6 +137,12 @@ void main() {
     expect(find.byType(NodeRegionFlag), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
+  });
+  test('TW SVG contains the Chinese flag', () async {
+    expect(
+      await rootBundle.loadString('assets/images/flags/tw.svg'),
+      await rootBundle.loadString('assets/images/flags/cn.svg'),
+    );
   });
   testWidgets('TW uses the bundled Chinese flag', (tester) async {
     final semantics = tester.ensureSemantics();
