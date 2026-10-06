@@ -137,4 +137,20 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
+  testWidgets('TW uses the bundled Chinese flag', (tester) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        const TestApp(
+          child: NodeRegionFlag(regionCode: 'TW', fallback: SizedBox()),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('CN'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    } finally {
+      await tester.pumpWidget(const SizedBox.shrink());
+      semantics.dispose();
+    }
+  });
 }

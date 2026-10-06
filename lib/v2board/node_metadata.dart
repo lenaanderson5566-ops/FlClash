@@ -108,7 +108,8 @@ class NodeRegionFlag extends StatelessWidget {
   final Widget fallback;
   @override
   Widget build(BuildContext context) {
-    final code = regionCode?.toLowerCase();
+    final region = regionCode?.toLowerCase();
+    final code = region == 'tw' ? 'cn' : region;
     if (code == null || !RegExp(r'^[a-z]{2}$').hasMatch(code)) return fallback;
     return SvgPicture.asset(
       'assets/images/flags/$code.svg',
