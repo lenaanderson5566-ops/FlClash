@@ -96,6 +96,12 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           _origin.text = _api!.panel.origin;
           await _refresh();
           await _syncAvailable();
+          if (mounted &&
+              ref.read(appSettingProvider).autoRun &&
+              _account?.active == true &&
+              ref.read(fastaiReleaseProvider)?.required != true) {
+            await _profile.connect(_api!);
+          }
         } else if (mounted) {
           await _profile.clear();
         }

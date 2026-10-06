@@ -430,10 +430,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Minimize on exit`
+  /// `Keep running when the window is closed`
   String get minimizeOnExit {
     return Intl.message(
-      'Minimize on exit',
+      'Keep running when the window is closed',
       name: 'minimizeOnExit',
       desc: '',
       args: [],
@@ -455,35 +455,40 @@ class AppLocalizations {
     );
   }
 
-  /// `Silent launch`
+  /// `Start minimized`
   String get silentLaunch {
     return Intl.message(
-      'Silent launch',
+      'Start minimized',
       name: 'silentLaunch',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start without showing the window`
+  /// `Available when launch at startup is enabled`
   String get silentLaunchDesc {
     return Intl.message(
-      'Start without showing the window',
+      'Available when launch at startup is enabled',
       name: 'silentLaunchDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Auto run`
+  /// `Connect automatically on startup`
   String get autoRun {
-    return Intl.message('Auto run', name: 'autoRun', desc: '', args: []);
+    return Intl.message(
+      'Connect automatically on startup',
+      name: 'autoRun',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Run automatically when the app opens`
+  /// `Requires a signed-in account with an active plan`
   String get autoRunDesc {
     return Intl.message(
-      'Run automatically when the app opens',
+      'Requires a signed-in account with an active plan',
       name: 'autoRunDesc',
       desc: '',
       args: [],
@@ -535,20 +540,20 @@ class AppLocalizations {
     );
   }
 
-  /// `Access control`
+  /// `Which apps use the proxy`
   String get accessControl {
     return Intl.message(
-      'Access control',
+      'Which apps use the proxy',
       name: 'accessControl',
       desc: '',
       args: [],
     );
   }
 
-  /// `Control which apps use the proxy`
+  /// `Choose apps to include in or exclude from the VPN`
   String get accessControlDesc {
     return Intl.message(
-      'Control which apps use the proxy',
+      'Choose apps to include in or exclude from the VPN',
       name: 'accessControlDesc',
       desc: '',
       args: [],
@@ -1235,10 +1240,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Logs and diagnostics`
+  /// `Diagnostics and logs`
   String get logsAndDiagnostics {
     return Intl.message(
-      'Logs and diagnostics',
+      'Diagnostics and logs',
       name: 'logsAndDiagnostics',
       desc: '',
       args: [],
@@ -6516,6 +6521,16 @@ class AppLocalizations {
   /// `Connect`
   String get fdConnect {
     return Intl.message('Connect', name: 'fdConnect', desc: '', args: []);
+  }
+
+  /// `Background and notifications`
+  String get fdBackgroundNotifications {
+    return Intl.message(
+      'Background and notifications',
+      name: 'fdBackgroundNotifications',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Home`

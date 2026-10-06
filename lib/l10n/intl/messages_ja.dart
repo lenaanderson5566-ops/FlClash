@@ -139,12 +139,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("アプリについて"),
-    "accessControl": MessageLookupByLibrary.simpleMessage("アクセス制御"),
+    "accessControl": MessageLookupByLibrary.simpleMessage("プロキシを使用するアプリ"),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
       "選択したアプリのみVPNを経由します",
     ),
     "accessControlDesc": MessageLookupByLibrary.simpleMessage(
-      "プロキシを利用するアプリを設定します",
+      "VPNに含めるアプリまたは除外するアプリを選択",
     ),
     "accessControlDisabledDesc": MessageLookupByLibrary.simpleMessage(
       "アプリアクセス制御は無効です",
@@ -211,8 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "autoLaunch": MessageLookupByLibrary.simpleMessage("自動起動"),
     "autoLaunchDesc": MessageLookupByLibrary.simpleMessage("システム起動時に自動的に起動します"),
-    "autoRun": MessageLookupByLibrary.simpleMessage("自動実行"),
-    "autoRunDesc": MessageLookupByLibrary.simpleMessage("アプリを開いたときに自動的に実行します"),
+    "autoRun": MessageLookupByLibrary.simpleMessage("起動後に自動接続"),
+    "autoRunDesc": MessageLookupByLibrary.simpleMessage("ログイン済みで有効なプランが必要です"),
     "autoSetSystemDns": MessageLookupByLibrary.simpleMessage("システムDNSを自動設定"),
     "autoUpdate": MessageLookupByLibrary.simpleMessage("自動更新"),
     "autoUpdateInterval": MessageLookupByLibrary.simpleMessage("自動更新間隔（分）"),
@@ -526,6 +526,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAccountSubtitle": MessageLookupByLibrary.simpleMessage("接続を、あなたらしく。"),
     "fdActive": MessageLookupByLibrary.simpleMessage("接続可能"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("1年"),
+    "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
+      "バックグラウンドと通知",
+    ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("アカウント停止中"),
     "fdBiennial": MessageLookupByLibrary.simpleMessage("2年"),
     "fdBuy": MessageLookupByLibrary.simpleMessage("注文する"),
@@ -824,7 +827,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "logcat": MessageLookupByLibrary.simpleMessage("ログキャプチャ"),
     "logcatDesc": MessageLookupByLibrary.simpleMessage("無効にするとログの入り口が非表示になります"),
     "logs": MessageLookupByLibrary.simpleMessage("ログ"),
-    "logsAndDiagnostics": MessageLookupByLibrary.simpleMessage("ログと診断"),
+    "logsAndDiagnostics": MessageLookupByLibrary.simpleMessage("診断とログ"),
     "logsTest": MessageLookupByLibrary.simpleMessage("ログテスト"),
     "loopback": MessageLookupByLibrary.simpleMessage("UWP ループバック解除"),
     "loose": MessageLookupByLibrary.simpleMessage("ゆったり"),
@@ -855,7 +858,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "messageTestTip": MessageLookupByLibrary.simpleMessage("これはメッセージです。"),
     "min": MessageLookupByLibrary.simpleMessage("最小"),
     "minimize": MessageLookupByLibrary.simpleMessage("最小化"),
-    "minimizeOnExit": MessageLookupByLibrary.simpleMessage("終了時に最小化"),
+    "minimizeOnExit": MessageLookupByLibrary.simpleMessage("ウィンドウを閉じても実行を継続"),
     "minutesAgo": m25,
     "mixedPort": MessageLookupByLibrary.simpleMessage("Mixedポート"),
     "mode": MessageLookupByLibrary.simpleMessage("モード"),
@@ -1254,9 +1257,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sidebarBlurDesc": MessageLookupByLibrary.simpleMessage(
       "ウィンドウ背後のデスクトップをぼかしてサイドバーに透過します",
     ),
-    "silentLaunch": MessageLookupByLibrary.simpleMessage("サイレント起動"),
+    "silentLaunch": MessageLookupByLibrary.simpleMessage("最小化して起動"),
     "silentLaunchDesc": MessageLookupByLibrary.simpleMessage(
-      "起動時にウィンドウを表示しません",
+      "自動起動が有効な場合に利用できます",
     ),
     "singleAdd": MessageLookupByLibrary.simpleMessage("個別追加"),
     "singleValueTip": m51,

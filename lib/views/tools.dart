@@ -12,7 +12,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 
 import 'diagnostics.dart';
-import 'developer.dart';
 import 'disclaimer.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
@@ -45,13 +44,10 @@ class _ToolViewState extends ConsumerState<ToolsView> {
     );
   }
 
-  List<Widget> _getOtherList(bool enableDeveloperMode) {
+  List<Widget> _getOtherList() {
     return generateSection(
       title: context.appLocalizations.other,
-      items: [
-        if (!V2BoardConfig.enabled) const _DisclaimerItem(),
-        if (enableDeveloperMode) const _DeveloperItem(),
-      ],
+      items: [if (!V2BoardConfig.enabled) const _DisclaimerItem()],
     );
   }
 
@@ -62,7 +58,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
         const _LocaleItem(),
         ListItem.open(
           leading: const GlyphIcon(AppGlyphs.networkCheck),
-          title: Text(context.appLocalizations.networkDetection),
+          title: Text(context.appLocalizations.logsAndDiagnostics),
           subtitle: Text(context.appLocalizations.serviceStatus),
           widget: const DiagnosticsView(),
         ),
@@ -74,11 +70,6 @@ class _ToolViewState extends ConsumerState<ToolsView> {
 
   @override
   Widget build(BuildContext context) {
-    final appSetting = ref.watch(
-      appSettingProvider.select(
-        (state) => (locale: state.locale, developerMode: state.developerMode),
-      ),
-    );
     final items = [
       Consumer(
         builder: (_, ref, _) {
@@ -95,7 +86,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
         },
       ),
       ..._getSettingList(),
-      ..._getOtherList(appSetting.developerMode),
+      ..._getOtherList(),
     ];
     return CommonScaffold(
       title: context.appLocalizations.tools,
@@ -166,19 +157,6 @@ class _DisclaimerItem extends StatelessWidget {
       leading: const GlyphIcon(AppGlyphs.gavel),
       title: Text(context.appLocalizations.disclaimer),
       widget: const DisclaimerView(),
-    );
-  }
-}
-
-class _DeveloperItem extends StatelessWidget {
-  const _DeveloperItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.cpu),
-      title: Text(context.appLocalizations.developerMode),
-      widget: const DeveloperView(),
     );
   }
 }

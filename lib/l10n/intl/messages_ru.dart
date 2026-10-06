@@ -159,12 +159,14 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("О программе"),
-    "accessControl": MessageLookupByLibrary.simpleMessage("Контроль доступа"),
+    "accessControl": MessageLookupByLibrary.simpleMessage(
+      "Приложения, использующие прокси",
+    ),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
       "Через VPN проходят только выбранные приложения",
     ),
     "accessControlDesc": MessageLookupByLibrary.simpleMessage(
-      "Выбор приложений, использующих прокси",
+      "Выберите приложения для включения в VPN или исключения из него",
     ),
     "accessControlDisabledDesc": MessageLookupByLibrary.simpleMessage(
       "Контроль доступа приложений отключён",
@@ -263,9 +265,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoLaunchDesc": MessageLookupByLibrary.simpleMessage(
       "Запускаться автоматически при старте системы",
     ),
-    "autoRun": MessageLookupByLibrary.simpleMessage("Автовключение"),
+    "autoRun": MessageLookupByLibrary.simpleMessage("Подключаться при запуске"),
     "autoRunDesc": MessageLookupByLibrary.simpleMessage(
-      "Включаться автоматически при открытии приложения",
+      "Требуется вход и действующий тариф",
     ),
     "autoSetSystemDns": MessageLookupByLibrary.simpleMessage(
       "Автонастройка системного DNS",
@@ -654,6 +656,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdActive": MessageLookupByLibrary.simpleMessage("Готов к подключению"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("Год"),
+    "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
+      "Фоновая работа и уведомления",
+    ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("Аккаунт заблокирован"),
     "fdBiennial": MessageLookupByLibrary.simpleMessage("Два года"),
     "fdBuy": MessageLookupByLibrary.simpleMessage("Заказать"),
@@ -1009,7 +1014,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "logs": MessageLookupByLibrary.simpleMessage("Логи"),
     "logsAndDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Логи и диагностика",
+      "Диагностика и журналы",
     ),
     "logsTest": MessageLookupByLibrary.simpleMessage("Тест логов"),
     "loopback": MessageLookupByLibrary.simpleMessage(
@@ -1060,7 +1065,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "min": MessageLookupByLibrary.simpleMessage("Минимальный"),
     "minimize": MessageLookupByLibrary.simpleMessage("Свернуть"),
     "minimizeOnExit": MessageLookupByLibrary.simpleMessage(
-      "Сворачивать при выходе",
+      "Продолжать работу после закрытия окна",
     ),
     "minutesAgo": m25,
     "mixedPort": MessageLookupByLibrary.simpleMessage("Смешанный порт"),
@@ -1556,9 +1561,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sidebarBlurDesc": MessageLookupByLibrary.simpleMessage(
       "Показывать сквозь боковую панель размытый рабочий стол за окном",
     ),
-    "silentLaunch": MessageLookupByLibrary.simpleMessage("Тихий запуск"),
+    "silentLaunch": MessageLookupByLibrary.simpleMessage("Запускать свёрнутым"),
     "silentLaunchDesc": MessageLookupByLibrary.simpleMessage(
-      "Запускаться без показа окна",
+      "Доступно при включённом автозапуске",
     ),
     "singleAdd": MessageLookupByLibrary.simpleMessage("По одному"),
     "singleValueTip": m51,

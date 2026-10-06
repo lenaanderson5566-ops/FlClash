@@ -6,7 +6,6 @@ import 'package:fastai/providers/database.dart';
 import 'package:fastai/providers/state.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/config/general.dart';
-import 'package:fastai/views/config/on_demand.dart';
 import 'package:fastai/views/proxies/list.dart';
 import 'package:fastai/views/proxies/tab.dart';
 import 'package:fastai/views/proxies/setting.dart';
@@ -27,7 +26,6 @@ void main() {
     'profiles': const ProfilesView(),
     'logs': const LogsView(),
     'tools': const ToolsView(),
-    'on demand config': const OnDemandView(),
     'access control': const AccessView(),
     'proxy filtering': const Material(child: ProxiesSetting()),
   };
@@ -67,7 +65,7 @@ void main() {
         expect(find.text('Advanced configuration'), findsNothing);
         expect(find.text('DNS queries'), findsNothing);
         expect(find.text('Recent requests'), findsNothing);
-        expect(find.text('Network detection'), findsOneWidget);
+        expect(find.text('Diagnostics and logs'), findsOneWidget);
         expect(find.text('General'), findsNothing);
         expect(find.byType(GeneralSettings), findsOneWidget);
         expect(find.text('System proxy'), findsNothing);
@@ -91,7 +89,7 @@ void main() {
     });
   }
 
-  final toolDestinations = <String, Type>{'Network detection': DiagnosticsView};
+  final toolDestinations = <String, Type>{'Diagnostics and logs': DiagnosticsView};
 
   for (final entry in toolDestinations.entries) {
     testWidgets('tools opens ${entry.key}', (tester) async {

@@ -473,7 +473,7 @@ void main() {
       );
       await tester.pump();
 
-      final generalItem = find.text('Network detection');
+      final generalItem = find.text('Diagnostics and logs');
       await tester.scrollUntilVisible(
         generalItem,
         500,

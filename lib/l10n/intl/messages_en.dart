@@ -158,12 +158,14 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("About"),
-    "accessControl": MessageLookupByLibrary.simpleMessage("Access control"),
+    "accessControl": MessageLookupByLibrary.simpleMessage(
+      "Which apps use the proxy",
+    ),
     "accessControlAllowDesc": MessageLookupByLibrary.simpleMessage(
       "Only selected apps go through the VPN",
     ),
     "accessControlDesc": MessageLookupByLibrary.simpleMessage(
-      "Control which apps use the proxy",
+      "Choose apps to include in or exclude from the VPN",
     ),
     "accessControlDisabledDesc": MessageLookupByLibrary.simpleMessage(
       "App access control is disabled",
@@ -256,9 +258,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoLaunchDesc": MessageLookupByLibrary.simpleMessage(
       "Launch automatically at system startup",
     ),
-    "autoRun": MessageLookupByLibrary.simpleMessage("Auto run"),
+    "autoRun": MessageLookupByLibrary.simpleMessage(
+      "Connect automatically on startup",
+    ),
     "autoRunDesc": MessageLookupByLibrary.simpleMessage(
-      "Run automatically when the app opens",
+      "Requires a signed-in account with an active plan",
     ),
     "autoSetSystemDns": MessageLookupByLibrary.simpleMessage(
       "Auto-set system DNS",
@@ -629,6 +633,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdActive": MessageLookupByLibrary.simpleMessage("Ready to connect"),
     "fdAnnual": MessageLookupByLibrary.simpleMessage("Annual"),
+    "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage(
+      "Background and notifications",
+    ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("Account disabled"),
     "fdBiennial": MessageLookupByLibrary.simpleMessage("Two years"),
     "fdBuy": MessageLookupByLibrary.simpleMessage("Order"),
@@ -984,7 +991,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "logs": MessageLookupByLibrary.simpleMessage("Logs"),
     "logsAndDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Logs and diagnostics",
+      "Diagnostics and logs",
     ),
     "logsTest": MessageLookupByLibrary.simpleMessage("Logs test"),
     "loopback": MessageLookupByLibrary.simpleMessage("UWP loopback exemption"),
@@ -1022,7 +1029,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "min": MessageLookupByLibrary.simpleMessage("Minimal"),
     "minimize": MessageLookupByLibrary.simpleMessage("Minimize"),
-    "minimizeOnExit": MessageLookupByLibrary.simpleMessage("Minimize on exit"),
+    "minimizeOnExit": MessageLookupByLibrary.simpleMessage(
+      "Keep running when the window is closed",
+    ),
     "minutesAgo": m25,
     "mixedPort": MessageLookupByLibrary.simpleMessage("Mixed port"),
     "mode": MessageLookupByLibrary.simpleMessage("Mode"),
@@ -1485,9 +1494,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sidebarBlurDesc": MessageLookupByLibrary.simpleMessage(
       "Show the blurred desktop behind the window through the sidebar",
     ),
-    "silentLaunch": MessageLookupByLibrary.simpleMessage("Silent launch"),
+    "silentLaunch": MessageLookupByLibrary.simpleMessage("Start minimized"),
     "silentLaunchDesc": MessageLookupByLibrary.simpleMessage(
-      "Start without showing the window",
+      "Available when launch at startup is enabled",
     ),
     "singleAdd": MessageLookupByLibrary.simpleMessage("Single add"),
     "singleValueTip": m51,

@@ -19,8 +19,15 @@ Config managedNetworkConfig(Config saved) {
       routeMode: saved.networkProps.routeMode,
     ),
     vpnProps: VpnProps(accessControlProps: saved.vpnProps.accessControlProps),
+    excludeSSIDs: const [],
     overrideDns: false,
     overrideNtp: false,
-    appSettingProps: saved.appSettingProps.copyWith(checkCertificate: true),
+    appSettingProps: saved.appSettingProps.copyWith(
+      checkCertificate: true,
+      developerMode: false,
+      silentLaunch:
+          saved.appSettingProps.autoLaunch &&
+          saved.appSettingProps.silentLaunch,
+    ),
   );
 }

@@ -14,6 +14,11 @@ void main() {
     'loading old configuration retains supported preferences and resets advanced settings',
     () {
       final saved = Config.realFromJson(null).copyWith(
+        excludeSSIDs: ['old-network'],
+        appSettingProps: const AppSettingProps(
+          developerMode: true,
+          silentLaunch: true,
+        ),
         overrideDns: true,
         overrideNtp: true,
         patchClashConfig: const PatchClashConfig(
@@ -56,6 +61,9 @@ void main() {
       expect(network.appendSystemDns, isFalse);
       expect(network.authentication.credentials, isEmpty);
       expect(network.routeMode, RouteMode.bypassPrivate);
+      expect(container.read(excludeSSIDsProvider), isEmpty);
+      expect(container.read(appSettingProvider).developerMode, isFalse);
+      expect(container.read(appSettingProvider).silentLaunch, isFalse);
       expect(container.read(overrideDnsProvider), isFalse);
       expect(container.read(overrideNtpProvider), isFalse);
       expect(container.read(vpnSettingProvider).enable, isTrue);

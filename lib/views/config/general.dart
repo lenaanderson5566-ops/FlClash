@@ -1,8 +1,6 @@
 import 'package:fastai/common/common.dart';
-import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
-import 'package:fastai/views/config/on_demand.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,12 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ConfigToggleItem _appSettingToggle({
   required ConfigLabel title,
   ConfigLabel? subtitle,
+  bool enabled = true,
   required bool Function(AppSettingProps state) select,
   required AppSettingProps Function(AppSettingProps state, bool value) update,
 }) {
   return ConfigToggleItem(
     title: title,
     subtitle: subtitle,
+    enabled: enabled,
     selector: appSettingProvider.select(select),
     onChanged: (ref, value) => ref
         .read(appSettingProvider.notifier)
@@ -24,18 +24,25 @@ ConfigToggleItem _appSettingToggle({
 }
 
 class GeneralSettings extends ConsumerWidget {
-  const GeneralSettings({super.key});
+  const GeneralSettings({super.key, this.isDesktop, this.isAndroid});
 
-  List<Widget> _startupItems(AppLocalizations appLocalizations) {
+  final bool? isDesktop;
+  final bool? isAndroid;
+
+  List<Widget> _startupItems(WidgetRef ref) {
     return [
-      if (system.isDesktop) ...[
+      if (isDesktop ?? system.isDesktop) ...[
         _appSettingToggle(
           title: (l) => l.autoLaunch,
           subtitle: (l) => l.autoLaunchDesc,
           select: (state) => state.autoLaunch,
-          update: (state, value) => state.copyWith(autoLaunch: value),
+          update: (state, value) => state.copyWith(
+            autoLaunch: value,
+            silentLaunch: value && state.silentLaunch,
+          ),
         ),
         _appSettingToggle(
+          enabled: ref.watch(appSettingProvider.select((s) => s.autoLaunch)),
           title: (l) => l.silentLaunch,
           subtitle: (l) => l.silentLaunchDesc,
           select: (state) => state.silentLaunch,
@@ -48,30 +55,12 @@ class GeneralSettings extends ConsumerWidget {
         select: (state) => state.autoRun,
         update: (state, value) => state.copyWith(autoRun: value),
       ),
-      ListItem.open(
-        title: Text(appLocalizations.onDemand),
-        subtitle: Text(appLocalizations.onDemandDesc),
-        widget: const OnDemandView(),
-      ),
-      _appSettingToggle(
-        title: (l) => l.minimizeOnExit,
-        select: (state) => state.minimizeOnExit,
-        update: (state, value) => state.copyWith(minimizeOnExit: value),
-      ),
-      if (system.isAndroid) ...[
+      if (isDesktop ?? system.isDesktop)
         _appSettingToggle(
-          title: (l) => l.exclude,
-          subtitle: (l) => l.excludeDesc,
-          select: (state) => state.hidden,
-          update: (state, value) => state.copyWith(hidden: value),
+          title: (l) => l.minimizeOnExit,
+          select: (state) => state.minimizeOnExit,
+          update: (state, value) => state.copyWith(minimizeOnExit: value),
         ),
-        _appSettingToggle(
-          title: (l) => l.showNotificationStopAction,
-          select: (state) => state.showNotificationStopAction,
-          update: (state, value) =>
-              state.copyWith(showNotificationStopAction: value),
-        ),
-      ],
     ];
   }
 
@@ -86,14 +75,32 @@ class GeneralSettings extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
     return Column(
       children: [
         generateSectionV3(
           title: appLocalizations.startupAndBackground,
-          items: _startupItems(appLocalizations),
+          items: _startupItems(ref),
         ),
+        if (isAndroid ?? system.isAndroid)
+          generateSectionV3(
+            title: appLocalizations.fdBackgroundNotifications,
+            items: [
+              _appSettingToggle(
+                title: (l) => l.exclude,
+                subtitle: (l) => l.excludeDesc,
+                select: (state) => state.hidden,
+                update: (state, value) => state.copyWith(hidden: value),
+              ),
+              _appSettingToggle(
+                title: (l) => l.showNotificationStopAction,
+                select: (state) => state.showNotificationStopAction,
+                update: (state, value) =>
+                    state.copyWith(showNotificationStopAction: value),
+              ),
+            ],
+          ),
         generateSectionV3(
           title: appLocalizations.requestsAndUpdates,
           items: _requestItems(),

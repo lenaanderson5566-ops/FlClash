@@ -56,7 +56,10 @@ class ConfigToggleItem extends _ConfigItem<bool> {
     required super.onChanged,
     super.subtitle,
     super.leading,
+    this.enabled = true,
   });
+
+  final bool enabled;
 
   @override
   Widget buildItem(
@@ -70,7 +73,7 @@ class ConfigToggleItem extends _ConfigItem<bool> {
       title: Text(title(appLocalizations)),
       subtitle: buildSubtitle(appLocalizations),
       value: value,
-      onChanged: (value) => onChanged(ref, value),
+      onChanged: enabled ? (value) => onChanged(ref, value) : null,
     );
   }
 }

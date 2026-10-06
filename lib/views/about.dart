@@ -69,15 +69,6 @@ class AboutView extends ConsumerWidget {
             onCheckUpdate: () {
               _checkUpdate(context, ref);
             },
-            onEnterDeveloperMode: () {
-              ref
-                  .read(appSettingProvider.notifier)
-                  .update((state) => state.copyWith(developerMode: true));
-              context.showNotifier(
-                appLocalizations.developerModeEnableTip,
-                level: MessageLevel.success,
-              );
-            },
           ),
           const SizedBox(height: 8),
           generateSectionV3(
@@ -117,12 +108,10 @@ class AboutView extends ConsumerWidget {
 class _AboutHero extends StatelessWidget {
   final bool isCheckingUpdate;
   final VoidCallback onCheckUpdate;
-  final VoidCallback onEnterDeveloperMode;
 
   const _AboutHero({
     required this.isCheckingUpdate,
     required this.onCheckUpdate,
-    required this.onEnterDeveloperMode,
   });
 
   static const _logoSize = 96.0;
@@ -137,20 +126,17 @@ class _AboutHero extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
       child: Column(
         children: [
-          _DeveloperModeDetector(
-            onEnterDeveloperMode: onEnterDeveloperMode,
-            child: DecoratedBox(
-              decoration: ShapeDecoration(
-                color: colorScheme.surfaceContainerHigh,
-                shape: AppShape.all(AppCorner.fit(_logoSize)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(_logoInset),
-                child: Image.asset(
-                  'assets/images/icon.png',
-                  width: _logoSize - _logoInset * 2,
-                  height: _logoSize - _logoInset * 2,
-                ),
+          DecoratedBox(
+            decoration: ShapeDecoration(
+              color: colorScheme.surfaceContainerHigh,
+              shape: AppShape.all(AppCorner.fit(_logoSize)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(_logoInset),
+              child: Image.asset(
+                'assets/images/icon.png',
+                width: _logoSize - _logoInset * 2,
+                height: _logoSize - _logoInset * 2,
               ),
             ),
           ),
@@ -256,51 +242,5 @@ class _LinkBadge extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _DeveloperModeDetector extends StatefulWidget {
-  final Widget child;
-  final VoidCallback onEnterDeveloperMode;
-
-  const _DeveloperModeDetector({
-    required this.child,
-    required this.onEnterDeveloperMode,
-  });
-
-  @override
-  State<_DeveloperModeDetector> createState() => _DeveloperModeDetectorState();
-}
-
-class _DeveloperModeDetectorState extends State<_DeveloperModeDetector> {
-  int _counter = 0;
-  Timer? _timer;
-
-  void _handleTap() {
-    _counter++;
-    if (_counter >= 5) {
-      widget.onEnterDeveloperMode();
-      _resetCounter();
-    } else {
-      _timer?.cancel();
-      _timer = Timer(const Duration(seconds: 1), _resetCounter);
-    }
-  }
-
-  void _resetCounter() {
-    _counter = 0;
-    _timer?.cancel();
-    _timer = null;
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(onTap: _handleTap, child: widget.child);
   }
 }
