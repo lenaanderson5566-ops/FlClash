@@ -26,7 +26,7 @@ Android Firebase is disabled by default. An intentional opt-in requires
 is public and returns the normal V10 `data` envelope. Platforms: `windows`,
 `android`, `macos`, `linux`. Architectures: `x64`, `arm64`, `arm`, `x86`.
 
-The backend's System configuration / Site section exposes:
+The backend's System configuration / Client downloads section exposes:
 
 - `fastai_enabled`: independent FastAI configuration access switch.
 - `fastai_releases`: an array containing one stable release per platform/architecture.
