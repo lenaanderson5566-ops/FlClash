@@ -708,7 +708,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Отчёт диагностики подключения",
     ),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
-      "Скопируйте результаты запросов и время ответа для поддержки. Учётные данные и содержимое конфигурации не включаются.",
+      "При проблемах с подключением скопируйте отчёт для поддержки.",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "Диагностический отчёт скопирован",
@@ -739,6 +739,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
       "Установлена последняя версия",
+    ),
+    "fdLocalProxy": MessageLookupByLibrary.simpleMessage("Локальный прокси"),
+    "fdLocalProxyHint": MessageLookupByLibrary.simpleMessage(
+      "HTTP / SOCKS5 · Подключитесь перед использованием адреса.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),

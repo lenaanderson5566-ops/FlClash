@@ -863,7 +863,7 @@
   "fdReferenceId": "Reference ID",
   "fdAccountStale": "Account information could not be refreshed. Connect will check your account again.",
   "fdDiagnosticReport": "Connection diagnostic report",
-  "fdDiagnosticReportHint": "Copy request results and timings for support. Credentials and configuration contents are excluded.",
+  "fdDiagnosticReportHint": "Copy a report when you need help with a connection.",
   "fdCopyDiagnostics": "Copy report",
   "fdDiagnosticsCopied": "Diagnostic report copied",
   "fdCreditHelp": "Independent traffic has its own validity period and is not cleared by period resets. Access follows your account entitlement.",
@@ -880,5 +880,7 @@
   "fdResetEmpty": "No period usage needs to be reset.",
   "fdResetNoCredit": "No traffic resets are available.",
   "fdResetUnavailable": "Unable to check available resets. Refresh account information and retry.",
-  "fdRetryReset": "Check reset result"
+  "fdRetryReset": "Check reset result",
+  "fdLocalProxy": "Local proxy",
+  "fdLocalProxyHint": "HTTP / SOCKS5 · Connect before using this address."
 }

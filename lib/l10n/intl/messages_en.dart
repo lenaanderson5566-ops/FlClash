@@ -681,7 +681,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Connection diagnostic report",
     ),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
-      "Copy request results and timings for support. Credentials and configuration contents are excluded.",
+      "Copy a report when you need help with a connection.",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "Diagnostic report copied",
@@ -712,6 +712,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
       "Your app is up to date",
+    ),
+    "fdLocalProxy": MessageLookupByLibrary.simpleMessage("Local proxy"),
+    "fdLocalProxyHint": MessageLookupByLibrary.simpleMessage(
+      "HTTP / SOCKS5 · Connect before using this address.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("Sign in"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),

@@ -521,7 +521,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDevices": MessageLookupByLibrary.simpleMessage("在线设备 / 设备上限"),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("连接诊断报告"),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
-      "复制请求结果和耗时，便于支持人员排查；不包含登录凭据和配置内容。",
+      "遇到连接问题时，复制报告提供给支持人员。",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage("已复制诊断报告"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("断开连接"),
@@ -541,6 +541,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage("邮箱或密码错误"),
     "fdInvalidUrl": MessageLookupByLibrary.simpleMessage("请输入不含路径的 HTTPS 域名"),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage("当前已是最新版本"),
+    "fdLocalProxy": MessageLookupByLibrary.simpleMessage("本地代理"),
+    "fdLocalProxyHint": MessageLookupByLibrary.simpleMessage(
+      "HTTP / SOCKS5 · 连接后可供其他软件使用。",
+    ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("登录"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("退出登录"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("月付"),

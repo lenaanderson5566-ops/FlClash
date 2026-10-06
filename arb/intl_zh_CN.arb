@@ -863,7 +863,7 @@
   "fdReferenceId": "问题编号",
   "fdAccountStale": "账号信息暂未刷新，连接时将重新检查账号状态。",
   "fdDiagnosticReport": "连接诊断报告",
-  "fdDiagnosticReportHint": "复制请求结果和耗时，便于支持人员排查；不包含登录凭据和配置内容。",
+  "fdDiagnosticReportHint": "遇到连接问题时，复制报告提供给支持人员。",
   "fdCopyDiagnostics": "复制报告",
   "fdDiagnosticsCopied": "已复制诊断报告",
   "fdCreditHelp": "独立流量单独计量，有效期按购买记录为准，不随周期重置清除；可用线路由后台账号权益决定。",
@@ -880,5 +880,7 @@
   "fdResetEmpty": "当前没有需要重置的周期已用流量。",
   "fdResetNoCredit": "暂无可用流量重置次数。",
   "fdResetUnavailable": "暂时无法获取重置权益，请刷新账号信息后重试。",
-  "fdRetryReset": "确认重置结果"
+  "fdRetryReset": "确认重置结果",
+  "fdLocalProxy": "本地代理",
+  "fdLocalProxyHint": "HTTP / SOCKS5 · 连接后可供其他软件使用。"
 }

@@ -570,7 +570,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDevices": MessageLookupByLibrary.simpleMessage("オンライン端末 / 上限"),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("接続診断レポート"),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
-      "サポート用にリクエスト結果と所要時間をコピーします。認証情報や設定内容は含まれません。",
+      "接続に問題がある場合は、レポートをコピーしてサポートへ。",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "診断レポートをコピーしました",
@@ -596,6 +596,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdInvalidUrl": MessageLookupByLibrary.simpleMessage("パスを含まないHTTPSドメインを入力"),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage("最新バージョンです"),
+    "fdLocalProxy": MessageLookupByLibrary.simpleMessage("ローカルプロキシ"),
+    "fdLocalProxyHint": MessageLookupByLibrary.simpleMessage(
+      "HTTP / SOCKS5 · 接続後に他のアプリで使用できます。",
+    ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("ログイン"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("ログアウト"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("1か月"),

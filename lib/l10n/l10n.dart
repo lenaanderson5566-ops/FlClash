@@ -7168,10 +7168,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Copy request results and timings for support. Credentials and configuration contents are excluded.`
+  /// `Copy a report when you need help with a connection.`
   String get fdDiagnosticReportHint {
     return Intl.message(
-      'Copy request results and timings for support. Credentials and configuration contents are excluded.',
+      'Copy a report when you need help with a connection.',
       name: 'fdDiagnosticReportHint',
       desc: '',
       args: [],
@@ -7343,6 +7343,26 @@ class AppLocalizations {
     return Intl.message(
       'Check reset result',
       name: 'fdRetryReset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Local proxy`
+  String get fdLocalProxy {
+    return Intl.message(
+      'Local proxy',
+      name: 'fdLocalProxy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HTTP / SOCKS5 · Connect before using this address.`
+  String get fdLocalProxyHint {
+    return Intl.message(
+      'HTTP / SOCKS5 · Connect before using this address.',
+      name: 'fdLocalProxyHint',
       desc: '',
       args: [],
     );

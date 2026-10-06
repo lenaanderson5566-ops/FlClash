@@ -56,10 +56,11 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: context.appLocalizations.settings,
       items: [
         const _LocaleItem(),
+        if (system.isDesktop) const ProxyAddressItem(),
         ListItem.open(
           leading: const GlyphIcon(AppGlyphs.networkCheck),
           title: Text(context.appLocalizations.logsAndDiagnostics),
-          subtitle: Text(context.appLocalizations.serviceStatus),
+          subtitle: Text(context.appLocalizations.fdDiagnosticReportHint),
           widget: const DiagnosticsView(),
         ),
         if (system.isAndroid) const _AccessItem(),
@@ -157,6 +158,25 @@ class _DisclaimerItem extends StatelessWidget {
       leading: const GlyphIcon(AppGlyphs.gavel),
       title: Text(context.appLocalizations.disclaimer),
       widget: const DisclaimerView(),
+    );
+  }
+}
+
+class ProxyAddressItem extends ConsumerWidget {
+  const ProxyAddressItem({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.appLocalizations;
+    final port = ref.watch(
+      patchClashConfigProvider.select((state) => state.mixedPort),
+    );
+    return ListTile(
+      title: Text(l.fdLocalProxy),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [SelectableText('127.0.0.1:$port'), Text(l.fdLocalProxyHint)],
+      ),
     );
   }
 }

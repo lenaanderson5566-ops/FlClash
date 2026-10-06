@@ -1,3 +1,4 @@
+import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/app.dart';
@@ -67,7 +68,10 @@ void main() {
         expect(find.text('Recent requests'), findsNothing);
         expect(find.text('Diagnostics and logs'), findsOneWidget);
         expect(find.text('General'), findsNothing);
-        expect(find.byType(GeneralSettings), findsOneWidget);
+        expect(
+          find.byType(GeneralSettings),
+          system.isAndroid ? findsOneWidget : findsNothing,
+        );
         expect(find.text('System proxy'), findsNothing);
         expect(find.text('Auto check for updates'), findsNothing);
       }
@@ -89,7 +93,60 @@ void main() {
     });
   }
 
-  final toolDestinations = <String, Type>{'Diagnostics and logs': DiagnosticsView};
+  testWidgets('diagnostics only offers a sanitized support report', (
+    tester,
+  ) async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+    globalState.container = container;
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const TestApp(child: DiagnosticsView()),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('Copy report'), findsOneWidget);
+    expect(find.text('Log level'), findsNothing);
+    expect(find.text('Service status'), findsNothing);
+    expect(find.byType(Switch), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('local proxy displays the configured port without editing', (
+    tester,
+  ) async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+    globalState.container = container;
+    final subscription = container.listen(patchClashConfigProvider, (_, _) {});
+    addTearDown(subscription.close);
+    container
+        .read(patchClashConfigProvider.notifier)
+        .update((state) => state.copyWith(mixedPort: 18888));
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const TestApp(child: Material(child: ProxyAddressItem())),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('127.0.0.1:18888'), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
+    container
+        .read(patchClashConfigProvider.notifier)
+        .update((state) => state.copyWith(mixedPort: 19999));
+    await tester.pump();
+    expect(find.text('127.0.0.1:19999'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
+
+  final toolDestinations = <String, Type>{
+    'Diagnostics and logs': DiagnosticsView,
+  };
 
   for (final entry in toolDestinations.entries) {
     testWidgets('tools opens ${entry.key}', (tester) async {

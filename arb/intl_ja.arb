@@ -863,7 +863,7 @@
   "fdReferenceId": "問い合わせ番号",
   "fdAccountStale": "アカウント情報を更新できませんでした。接続時に再確認します。",
   "fdDiagnosticReport": "接続診断レポート",
-  "fdDiagnosticReportHint": "サポート用にリクエスト結果と所要時間をコピーします。認証情報や設定内容は含まれません。",
+  "fdDiagnosticReportHint": "接続に問題がある場合は、レポートをコピーしてサポートへ。",
   "fdCopyDiagnostics": "レポートをコピー",
   "fdDiagnosticsCopied": "診断レポートをコピーしました",
   "fdCreditHelp": "独立データには独自の有効期限があり、期間リセットでは消去されません。利用可能な回線はアカウントの権利に従います。",
@@ -880,5 +880,7 @@
   "fdResetEmpty": "リセットする期間使用量はありません。",
   "fdResetNoCredit": "利用可能なリセット権はありません。",
   "fdResetUnavailable": "リセット権を取得できません。アカウント情報を更新して再試行してください。",
-  "fdRetryReset": "リセット結果を確認"
+  "fdRetryReset": "リセット結果を確認",
+  "fdLocalProxy": "ローカルプロキシ",
+  "fdLocalProxyHint": "HTTP / SOCKS5 · 接続後に他のアプリで使用できます。"
 }
