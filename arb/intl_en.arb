@@ -788,6 +788,8 @@
   "fdCommerceFailed": "Unable to complete the request. Refresh orders before retrying a purchase or payment.",
   "fdCompleted": "Completed",
   "fdConnect": "Connect",
+  "fdHome": "Home",
+  "fdPersonalProfile": "Personal profile",
   "fdConnection": "Connection",
   "fdCreateOrder": "Confirm order",
   "fdCreditBalance": "Traffic credit balance",

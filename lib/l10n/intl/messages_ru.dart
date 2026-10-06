@@ -687,6 +687,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Быстрее. Свободнее.",
     ),
+    "fdHome": MessageLookupByLibrary.simpleMessage("Главная"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Неверная почта или пароль",
     ),
@@ -716,6 +717,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "Выберите способ оплаты. После оплаты обновите страницу для проверки статуса заказа на сервере.",
     ),
+    "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("Личный профиль"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("Предыдущая"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("Обработка"),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("Квартал"),

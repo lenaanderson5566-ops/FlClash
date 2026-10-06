@@ -553,6 +553,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("プラン期限切れ"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("もっと軽快に、もっと自由に。"),
+    "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "メールアドレスまたはパスワードが違います",
     ),
@@ -576,6 +577,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "支払い方法を選択してください。支払い後に更新して注文状態を確認してください。",
     ),
+    "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("プロフィール"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("前のページ"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("処理中"),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("3か月"),

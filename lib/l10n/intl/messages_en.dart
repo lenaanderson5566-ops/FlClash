@@ -660,6 +660,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "A little faster. A little freer.",
     ),
+    "fdHome": MessageLookupByLibrary.simpleMessage("Home"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Email or password is incorrect",
     ),
@@ -688,6 +689,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPay": MessageLookupByLibrary.simpleMessage("Pay"),
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "Pay with a method below. After completing payment, refresh to verify the server order status.",
+    ),
+    "fdPersonalProfile": MessageLookupByLibrary.simpleMessage(
+      "Personal profile",
     ),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("Previous page"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("Processing"),

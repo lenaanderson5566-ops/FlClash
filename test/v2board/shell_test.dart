@@ -143,6 +143,14 @@ void main() {
   ) async {
     await show(tester, null, desktopLayout: true);
     expect(find.byType(NavigationRail), findsOneWidget);
+    final rail = tester.widget<NavigationRail>(find.byType(NavigationRail));
+    expect(rail.destinations.map((item) => (item.label as Text).data), [
+      'Home',
+      'Connection',
+      'Settings',
+      'Personal profile',
+      'About',
+    ]);
     expect(
       tester.widget<NavigationRail>(find.byType(NavigationRail)).extended,
       isTrue,
@@ -163,13 +171,13 @@ void main() {
     expect(find.byType(TextFormField), findsNothing);
     expect(find.widgetWithText(FilledButton, 'Connect'), findsOneWidget);
     expect(find.text('System proxy'), findsOneWidget);
-    await tester.tap(find.text('Proxies'));
+    await tester.tap(find.text('Connection').first);
     await tester.pumpAndSettle();
     expect(find.byType(TextFormField), findsNothing);
     await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
     await tester.pumpAndSettle();
     expect(find.byType(TextFormField), findsNWidgets(2));
-    await tester.tap(find.text('Connection').first);
+    await tester.tap(find.text('Home').first);
     await tester.pumpAndSettle();
     expect(find.byType(TextFormField), findsNothing);
     await tester.tap(find.text('Settings'));
@@ -184,7 +192,7 @@ void main() {
     expect(find.text('FastAI'), findsWidgets);
     expect(find.text('Check for updates'), findsOneWidget);
     expect(find.byType(TextFormField), findsNothing);
-    await tester.tap(find.text('Connection').first);
+    await tester.tap(find.text('Home').first);
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
     await tester.pumpAndSettle();
@@ -245,7 +253,7 @@ void main() {
     tester,
   ) async {
     await show(tester, _Api(true));
-    await tester.tap(find.byType(NavigationDestination).at(2));
+    await tester.tap(find.byType(NavigationDestination).at(3));
     await tester.pumpAndSettle();
     expect(find.text('test@example.com'), findsOneWidget);
     expect(find.text('Manage on website'), findsOneWidget);

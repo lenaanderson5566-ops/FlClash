@@ -788,6 +788,8 @@
   "fdCommerceFailed": "请求未完成。购买或支付失败时，请先刷新订单，确认状态后再操作。",
   "fdCompleted": "已完成",
   "fdConnect": "连接",
+  "fdHome": "首页",
+  "fdPersonalProfile": "个人资料",
   "fdConnection": "连接",
   "fdCreateOrder": "确认下单",
   "fdCreditBalance": "流量包余额",

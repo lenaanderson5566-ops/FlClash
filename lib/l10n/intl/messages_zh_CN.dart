@@ -502,6 +502,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("周期到期时间"),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("轻快一点，自由一点。"),
+    "fdHome": MessageLookupByLibrary.simpleMessage("首页"),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage("邮箱或密码错误"),
     "fdInvalidUrl": MessageLookupByLibrary.simpleMessage("请输入不含路径的 HTTPS 域名"),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage("当前已是最新版本"),
@@ -521,6 +522,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPaymentNotice": MessageLookupByLibrary.simpleMessage(
       "选择下方支付方式。完成付款后，请刷新并以服务端订单状态为准。",
     ),
+    "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("个人资料"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("上一页"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("处理中"),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("季付"),

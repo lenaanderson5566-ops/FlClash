@@ -788,6 +788,8 @@
   "fdCommerceFailed": "Запрос не завершён. Обновите заказы перед повторной покупкой или оплатой.",
   "fdCompleted": "Завершён",
   "fdConnect": "Подключить",
+  "fdHome": "Главная",
+  "fdPersonalProfile": "Личный профиль",
   "fdConnection": "Подключение",
   "fdCreateOrder": "Подтвердить заказ",
   "fdCreditBalance": "Остаток пакета трафика",

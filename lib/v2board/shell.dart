@@ -793,8 +793,8 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             : _account?.active == true
             ? const ProxiesView()
             : Center(child: Text(context.appLocalizations.fdNodesUnavailable)),
-      2 => _api == null ? _loginView() : _myAccount(),
-      3 => const ToolsView(),
+      2 => const ToolsView(),
+      3 => _api == null ? _loginView() : _myAccount(),
       _ => const AboutView(),
     };
   }
@@ -819,20 +819,20 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             onDestinationSelected: _busy ? null : _selectPage,
             destinations: [
               NavigationRailDestination(
-                icon: const GlyphIcon(AppGlyphs.dashboard),
-                label: Text(l.fdConnection),
+                icon: const GlyphIcon(AppGlyphs.language),
+                label: Text(l.fdHome),
               ),
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.proxies),
-                label: Text(l.proxies),
-              ),
-              NavigationRailDestination(
-                icon: const GlyphIcon(AppGlyphs.account),
-                label: Text(l.account),
+                label: Text(l.fdConnection),
               ),
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.settings),
                 label: Text(l.settings),
+              ),
+              NavigationRailDestination(
+                icon: const GlyphIcon(AppGlyphs.account),
+                label: Text(l.fdPersonalProfile),
               ),
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.info),
@@ -868,7 +868,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         actions: [
           if (_showLogin)
             IconButton(
-              tooltip: l.fdConnection,
+              tooltip: l.fdHome,
               onPressed: () => _selectPage(0),
               icon: const GlyphIcon(AppGlyphs.dashboard),
             ),
@@ -934,20 +934,20 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               onDestinationSelected: _busy ? null : _selectPage,
               destinations: [
                 NavigationDestination(
-                  icon: const GlyphIcon(AppGlyphs.dashboard),
-                  label: l.fdConnection,
+                  icon: const GlyphIcon(AppGlyphs.language),
+                  label: l.fdHome,
                 ),
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.proxies),
-                  label: l.proxies,
-                ),
-                NavigationDestination(
-                  icon: const GlyphIcon(AppGlyphs.account),
-                  label: l.account,
+                  label: l.fdConnection,
                 ),
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.settings),
                   label: l.settings,
+                ),
+                NavigationDestination(
+                  icon: const GlyphIcon(AppGlyphs.account),
+                  label: l.fdPersonalProfile,
                 ),
                 NavigationDestination(
                   icon: const GlyphIcon(AppGlyphs.info),

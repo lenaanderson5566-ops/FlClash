@@ -788,6 +788,8 @@
   "fdCommerceFailed": "処理できませんでした。購入や支払いを再試行する前に注文を更新してください。",
   "fdCompleted": "完了",
   "fdConnect": "接続",
+  "fdHome": "ホーム",
+  "fdPersonalProfile": "プロフィール",
   "fdConnection": "接続",
   "fdCreateOrder": "注文を確認",
   "fdCreditBalance": "追加容量の残高",

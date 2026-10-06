@@ -6518,6 +6518,21 @@ class AppLocalizations {
     return Intl.message('Connect', name: 'fdConnect', desc: '', args: []);
   }
 
+  /// `Home`
+  String get fdHome {
+    return Intl.message('Home', name: 'fdHome', desc: '', args: []);
+  }
+
+  /// `Personal profile`
+  String get fdPersonalProfile {
+    return Intl.message(
+      'Personal profile',
+      name: 'fdPersonalProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Connection`
   String get fdConnection {
     return Intl.message('Connection', name: 'fdConnection', desc: '', args: []);
