@@ -114,6 +114,28 @@ void main() {
     },
   );
 
+  test('native configuration requests and accepts a JSON snapshot', () async {
+    final body = {
+      'data': {'configVersion': 'snapshot', 'yaml': 'proxies: []', 'nodes': []},
+    };
+    final adapter = _Adapter((_) => _json(body));
+    final api = V2BoardApi(
+      'https://panel.example',
+      dio: Dio()..httpClientAdapter = adapter,
+    );
+    addTearDown(api.close);
+    api.accessToken = 'session-secret';
+    final bytes = await api.clientConfig(
+      version: '0.8.99',
+      platform: 'windows',
+    );
+    expect(jsonDecode(utf8.decode(bytes)), body);
+    expect(
+      adapter.requests.single.headers['Accept'],
+      'application/json, application/yaml;q=0.9',
+    );
+  });
+
   test(
     'native entitlement denial preserves the session while revocation clears it',
     () async {

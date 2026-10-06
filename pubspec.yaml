@@ -114,6 +114,7 @@ flutter:
       platforms: [ macos ]
     - path: assets/images/tray/windows/
       platforms: [ windows ]
+    - assets/images/flags/
   fonts:
     - family: JetBrainsMono
       fonts:

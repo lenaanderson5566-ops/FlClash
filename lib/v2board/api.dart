@@ -136,7 +136,7 @@ class V2BoardApi {
         options: Options(
           responseType: ResponseType.bytes,
           headers: {
-            'Accept': 'application/yaml',
+            'Accept': 'application/json, application/yaml;q=0.9',
             'Accept-Language': language,
             'Authorization': 'Bearer $accessToken',
             'User-Agent': '${V2BoardConfig.appName}/$version',
@@ -155,7 +155,10 @@ class V2BoardApi {
       }
       await _checkStatus(status, problem);
       if (bytes.isEmpty ||
-          !(response.headers.value('content-type') ?? '').contains('yaml')) {
+          !const ['yaml', 'json'].any(
+            (type) =>
+                (response.headers.value('content-type') ?? '').contains(type),
+          )) {
         throw const V2BoardProblem('invalid_response');
       }
       return Uint8List.fromList(bytes);

@@ -1,3 +1,4 @@
+import 'package:fastai/v2board/node_metadata.dart';
 import 'package:fastai/v2board/routes.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/enum/enum.dart';
@@ -88,6 +89,51 @@ void main() {
     ]) {
       expect(find.text(label), findsNothing);
     }
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+  testWidgets('Route page displays translated names, bundled flags and tags', (
+    tester,
+  ) async {
+    const group = Group(
+      name: 'FastDog',
+      type: GroupType.Selector,
+      all: [Proxy(name: 'node_v2node_123', type: 'Vless')],
+    );
+    final container = ProviderContainer(
+      overrides: [
+        profilesProvider.overrideWith(() => TestProfiles([])),
+        groupsProvider.overrideWithBuild((_, _) => [group]),
+        fastaiNodeMetadataProvider.overrideWith(
+          (ref) async => {
+            'node_v2node_123': {
+              'name': 'Japan-A',
+              'regionCode': 'JP',
+              'tags': ['premium'],
+              'displayNames': {
+                'en-US': 'Japan · Tokyo · A',
+                'zh-CN': '日本 · 东京 · A',
+              },
+            },
+          },
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: TestApp(
+          locale: const Locale('zh', 'CN'),
+          child: Scaffold(body: FastaiRoutesView(onSync: () async {})),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('日本 · 东京 · A'), findsOneWidget);
+    expect(find.text('premium'), findsOneWidget);
+    expect(find.text('node_v2node_123'), findsNothing);
+    expect(find.byType(NodeRegionFlag), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

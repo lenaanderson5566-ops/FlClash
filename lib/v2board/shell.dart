@@ -1,3 +1,4 @@
+import 'node_metadata.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 
@@ -761,7 +762,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     title: Text(
                       _api == null || route == null || route.isEmpty
                           ? l.fdChooseRoute
-                          : route,
+                          : nodeDisplayName(
+                              ref
+                                  .watch(fastaiNodeMetadataProvider)
+                                  .asData
+                                  ?.value[route],
+                              route,
+                              Localizations.localeOf(context),
+                            ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

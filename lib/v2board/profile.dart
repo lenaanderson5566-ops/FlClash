@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:crypto/crypto.dart';
 import 'package:yaml/yaml.dart' show loadYaml;
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
@@ -8,6 +9,7 @@ import 'package:fastai/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'api.dart';
+import 'node_metadata.dart';
 import 'access.dart';
 import 'config.dart';
 import 'update.dart';
@@ -28,9 +30,35 @@ class V2BoardProfile {
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
     );
+    final responseText = utf8.decode(bytes);
+    Map<String, Map<String, dynamic>> metadata = {};
+    var yamlText = responseText;
+    if (responseText.trimLeft().startsWith('{')) {
+      try {
+        final payload =
+            (jsonDecode(responseText) as Map<String, dynamic>)['data']
+                as Map<String, dynamic>;
+        if (payload['configVersion'] is! String || payload['yaml'] is! String) {
+          throw const FormatException();
+        }
+        yamlText = payload['yaml'] as String;
+        metadata = decodeNodeMetadata(payload['nodes']);
+      } on FormatException {
+        throw const V2BoardProblem('invalid_response');
+      } on TypeError {
+        throw const V2BoardProblem('invalid_response');
+      }
+    }
     final config = Map<String, dynamic>.from(
-      json.decode(json.encode(loadYaml(utf8.decode(bytes)))) as Map,
+      json.decode(json.encode(loadYaml(yamlText))) as Map,
     );
+    final nodeNames = (config['proxies'] as List? ?? const [])
+        .whereType<Map>()
+        .map((node) => node['name'])
+        .toSet();
+    if (metadata.keys.any((name) => !nodeNames.contains(name))) {
+      throw const V2BoardProblem('invalid_response');
+    }
     final managedGroups = config['proxy-groups'] as List? ?? const [];
     final primary = managedGroups
         .where(
@@ -71,9 +99,25 @@ class V2BoardProfile {
                 }.contains(name.toUpperCase()),
               )
               .toList();
-    final previousChoice = primary == null
+    final oldChoice = primary == null
         ? null
         : previous?.selectedMap[primary['name']];
+    final previousChoice = migrateNodeChoice(oldChoice, metadata, choices);
+    final preservedSelections = <String, String>{};
+    for (final group in managedGroups.whereType<Map>()) {
+      final name = group['name'];
+      if (name is! String || name == 'GLOBAL' || name == primary?['name']) {
+        continue;
+      }
+      final migrated = migrateNodeChoice(
+        previous?.selectedMap[name],
+        metadata,
+        (group['proxies'] as List? ?? const []).whereType<String>().where(
+          (name) => !removed.contains(name),
+        ),
+      );
+      if (migrated != null) preservedSelections[name] = migrated;
+    }
     final profile = (previous ?? Profile.normal(label: label)).copyWith(
       label: label,
       autoUpdate: false,
@@ -83,19 +127,25 @@ class V2BoardProfile {
           primary['name'] as String: choices.contains(previousChoice)
               ? previousChoice!
               : choices.first,
-        for (final entry
-            in (previous?.selectedMap ?? <String, String>{}).entries)
-          if (!removed.contains(entry.value) &&
-              (primary == null ||
-                  (entry.key != 'GLOBAL' && entry.key != primary['name'])))
-            entry.key: entry.value,
+        ...preservedSelections,
       },
     );
     final updated = await profile.saveFile(
       bytes,
       validate: ref.read(coreHandlerProvider).validateConfig,
     );
+    final metadataPath = await nodeMetadataFile(updated.id);
+    await metadataPath.writeAsString(
+      jsonEncode({
+        'yamlHash': sha256.convert(bytes).toString(),
+        'nodes': metadata.values
+            .where((node) => !removed.contains(node['proxyName']))
+            .toList(),
+      }),
+      flush: true,
+    );
     if (!ref.context.mounted) return;
+    ref.invalidate(fastaiNodeMetadataProvider);
     ref.read(v2BoardAccessProvider.notifier)
       ..acceptVersion()
       ..setAvailable(true);
@@ -117,6 +167,8 @@ class V2BoardProfile {
     for (final profile in profiles) {
       if (!ref.context.mounted) return;
       await ref.read(profilesActionProvider.notifier).deleteProfile(profile.id);
+      final metadataPath = await nodeMetadataFile(profile.id);
+      if (await metadataPath.exists()) await metadataPath.delete();
     }
   }
 

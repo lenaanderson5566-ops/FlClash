@@ -1,3 +1,4 @@
+import 'node_metadata.dart';
 import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/icons/icons.dart';
@@ -64,6 +65,8 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
   @override
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
+    final metadata = ref.watch(fastaiNodeMetadataProvider).asData?.value ?? {};
+    final locale = Localizations.localeOf(context);
     final groups = ref.watch(groupsProvider);
     final group = primaryRouteGroup(groups);
     final nodes = group == null ? <Proxy>[] : selectableRoutes(group, groups);
@@ -100,10 +103,24 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
         delayProvider(proxyName: proxy.name, testUrl: group?.testUrl),
       );
       return ListTile(
-        leading: GlyphIcon(
-          selected == proxy.name ? AppGlyphs.check : AppGlyphs.proxies,
+        leading: NodeRegionFlag(
+          regionCode: metadata[proxy.name]?['regionCode'] as String?,
+          fallback: GlyphIcon(
+            selected == proxy.name ? AppGlyphs.check : AppGlyphs.proxies,
+          ),
         ),
         title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+        subtitle:
+            (metadata[proxy.name]?['tags'] as List?)
+                    ?.whereType<String>()
+                    .isNotEmpty ==
+                true
+            ? Text(
+                (metadata[proxy.name]!['tags'] as List)
+                    .whereType<String>()
+                    .join(' · '),
+              )
+            : null,
         trailing: delay == null
             ? null
             : Text(delay > 0 ? '$delay ms' : l.timeout),
@@ -143,7 +160,8 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
         if (_busy) const LinearProgressIndicator(),
         const SizedBox(height: 16),
         if (auto != null) row(auto, l.fdAutoRoute),
-        for (final node in nodes) row(node, node.name),
+        for (final node in nodes)
+          row(node, nodeDisplayName(metadata[node.name], node.name, locale)),
         if (nodes.isEmpty)
           Padding(
             padding: const EdgeInsets.all(24),
