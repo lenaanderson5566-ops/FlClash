@@ -894,6 +894,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Period traffic remaining",
     ),
+    "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
+      "Refresh configuration and connect",
+    ),
+    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
+      "The action could not be completed. Review the new results below; sign in and check account access if needed.",
+    ),
+    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
+      "This action may interrupt the connection or change the selected route. Checks run again afterwards. Route recovery tests up to five alternatives.",
+    ),
+    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("Reconnect"),
+    "fdRepairRoute": MessageLookupByLibrary.simpleMessage(
+      "Find and switch to a working route",
+    ),
+    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
+      "The action finished, but recovery is not verified. Follow the remaining guidance below.",
+    ),
+    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
+      "The proxy route passed verification. Review any remaining warnings below.",
+    ),
+    "fdRepairWorking": MessageLookupByLibrary.simpleMessage(
+      "Applying the fix and checking the connection…",
+    ),
     "fdReportCopy": MessageLookupByLibrary.simpleMessage("Copy report"),
     "fdReportCriteria": MessageLookupByLibrary.simpleMessage(
       "Assessment criteria",

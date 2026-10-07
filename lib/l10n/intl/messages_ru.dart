@@ -919,6 +919,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Остаток трафика за период",
     ),
+    "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
+      "Обновить конфигурацию и подключиться",
+    ),
+    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось завершить действие. Проверьте новые результаты и доступ учётной записи.",
+    ),
+    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
+      "Возможен краткий разрыв соединения или смена маршрута. Затем проверка повторится. Проверяются до пяти альтернативных маршрутов.",
+    ),
+    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage(
+      "Переподключиться",
+    ),
+    "fdRepairRoute": MessageLookupByLibrary.simpleMessage(
+      "Найти и выбрать рабочий маршрут",
+    ),
+    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
+      "Действие завершено, но восстановление не подтверждено. Следуйте указаниям ниже.",
+    ),
+    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
+      "Прокси-маршрут прошёл повторную проверку. Проверьте оставшиеся предупреждения.",
+    ),
+    "fdRepairWorking": MessageLookupByLibrary.simpleMessage(
+      "Выполняется исправление и повторная проверка…",
+    ),
     "fdReportCopy": MessageLookupByLibrary.simpleMessage("Копировать отчёт"),
     "fdReportCriteria": MessageLookupByLibrary.simpleMessage("Критерий оценки"),
     "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(

@@ -8162,6 +8162,86 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Refresh configuration and connect`
+  String get fdRepairConfig {
+    return Intl.message(
+      'Refresh configuration and connect',
+      name: 'fdRepairConfig',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reconnect`
+  String get fdRepairReconnect {
+    return Intl.message(
+      'Reconnect',
+      name: 'fdRepairReconnect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find and switch to a working route`
+  String get fdRepairRoute {
+    return Intl.message(
+      'Find and switch to a working route',
+      name: 'fdRepairRoute',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This action may interrupt the connection or change the selected route. Checks run again afterwards. Route recovery tests up to five alternatives.`
+  String get fdRepairHint {
+    return Intl.message(
+      'This action may interrupt the connection or change the selected route. Checks run again afterwards. Route recovery tests up to five alternatives.',
+      name: 'fdRepairHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Applying the fix and checking the connection…`
+  String get fdRepairWorking {
+    return Intl.message(
+      'Applying the fix and checking the connection…',
+      name: 'fdRepairWorking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The action could not be completed. Review the new results below; sign in and check account access if needed.`
+  String get fdRepairFailed {
+    return Intl.message(
+      'The action could not be completed. Review the new results below; sign in and check account access if needed.',
+      name: 'fdRepairFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The proxy route passed verification. Review any remaining warnings below.`
+  String get fdRepairVerified {
+    return Intl.message(
+      'The proxy route passed verification. Review any remaining warnings below.',
+      name: 'fdRepairVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The action finished, but recovery is not verified. Follow the remaining guidance below.`
+  String get fdRepairUnresolved {
+    return Intl.message(
+      'The action finished, but recovery is not verified. Follow the remaining guidance below.',
+      name: 'fdRepairUnresolved',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

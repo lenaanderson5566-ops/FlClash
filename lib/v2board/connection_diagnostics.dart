@@ -106,8 +106,7 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
       final ok =
           result != null &&
           (result.error == null || result.error!.isEmpty) &&
-          result.statusCode >= 200 &&
-          result.statusCode < 400;
+          result.statusCode == 204;
       return NetworkCheckResult(
         NetworkCheck.route,
         ok ? NetworkCheckStatus.passed : NetworkCheckStatus.failed,
@@ -211,4 +210,57 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
     ];
   }
   return results;
+}
+
+Future<void> repairSelectedRoute(WidgetRef ref) async {
+  if (ref.read(safeModeProvider) || !ref.read(isStartProvider)) {
+    throw StateError('repair_unavailable');
+  }
+  final groups = ref.read(groupsProvider);
+  final group = primaryRouteGroup(groups);
+  if (group == null) throw StateError('no_routes');
+  final profileId = ref.read(currentProfileProvider)?.id;
+  final selected = ref.read(selectedProxyNameProvider(group.name));
+  final core = ref.read(coreHandlerProvider);
+  for (final node in selectableRoutes(
+    group,
+    groups,
+  ).where((p) => p.name != selected).take(5)) {
+    if (!ref.context.mounted) return;
+    try {
+      final result = await core
+          .probe(
+            ProbeParams(
+              url: defaultTestUrl,
+              proxyName: node.name,
+              timeout: 8000,
+            ),
+          )
+          .timeout(NetworkProbe.timeout);
+      if (result == null ||
+          result.statusCode != 204 ||
+          (result.error?.isNotEmpty ?? false)) {
+        continue;
+      }
+      if (!ref.context.mounted) return;
+      if (!ref.read(isStartProvider) ||
+          profileId != ref.read(currentProfileProvider)?.id ||
+          selected != ref.read(selectedProxyNameProvider(group.name))) {
+        throw StateError('connection_changed');
+      }
+      final actions = ref.read(proxiesActionProvider.notifier);
+      await actions.changeProxy(groupName: group.name, proxyName: node.name);
+      if (groups.any(
+        (g) => g.name == 'GLOBAL' && g.all.any((p) => p.name == group.name),
+      )) {
+        await actions.changeProxy(groupName: 'GLOBAL', proxyName: group.name);
+      }
+      return;
+    } on StateError {
+      rethrow;
+    } catch (_) {
+      continue;
+    }
+  }
+  throw StateError('no_verified_route');
 }

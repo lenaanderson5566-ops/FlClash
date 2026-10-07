@@ -37,6 +37,119 @@ class _Probe extends NetworkProbe {
 }
 
 void main() {
+  const brokenRoute = [
+    NetworkCheckResult(
+      NetworkCheck.settings,
+      NetworkCheckStatus.passed,
+      parameters: {
+        'safeMode': 'false',
+        'connected': 'true',
+        'coreReady': 'true',
+        'routeGroupLoaded': 'true',
+        'TUN': 'false',
+      },
+    ),
+    NetworkCheckResult(NetworkCheck.route, NetworkCheckStatus.failed),
+  ];
+  test(
+    'repair only selects actionable failures and never runs in safe mode',
+    () {
+      expect(diagnosticRepairFor(brokenRoute), DiagnosticRepair.switchRoute);
+      expect(
+        diagnosticRepairFor([
+          const NetworkCheckResult(
+            NetworkCheck.settings,
+            NetworkCheckStatus.skipped,
+            parameters: {'safeMode': 'true'},
+          ),
+        ]),
+        isNull,
+      );
+      expect(diagnosticConnectionRestored(brokenRoute), isFalse);
+      expect(
+        diagnosticConnectionRestored([
+          const NetworkCheckResult(
+            NetworkCheck.route,
+            NetworkCheckStatus.unverified,
+          ),
+        ]),
+        isFalse,
+      );
+    },
+  );
+  testWidgets('repair executes once and verifies before reporting recovery', (
+    tester,
+  ) async {
+    var checks = 0;
+    var repairs = 0;
+    final pending = Completer<void>();
+    await tester.pumpWidget(
+      TestApp(
+        child: NetworkDiagnosticsDialog(
+          runChecks: () async => ++checks == 1
+              ? brokenRoute
+              : [
+                  brokenRoute.first,
+                  const NetworkCheckResult(
+                    NetworkCheck.route,
+                    NetworkCheckStatus.passed,
+                  ),
+                ],
+          onRepair: (repair) async {
+            repairs++;
+            expect(repair, DiagnosticRepair.switchRoute);
+            await pending.future;
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Find and switch to a working route'));
+    await tester.pump();
+    expect(repairs, 1);
+    expect(checks, 1);
+    expect(
+      find.text('Applying the fix and checking the connection…'),
+      findsOneWidget,
+    );
+    pending.complete();
+    await tester.pumpAndSettle();
+    expect(checks, 2);
+    expect(
+      find.text(
+        'The proxy route passed verification. Review any remaining warnings below.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Find and switch to a working route'), findsNothing);
+  });
+  testWidgets('failed repair still rechecks and never claims recovery', (
+    tester,
+  ) async {
+    var checks = 0;
+    await tester.pumpWidget(
+      TestApp(
+        child: NetworkDiagnosticsDialog(
+          runChecks: () async {
+            checks++;
+            return brokenRoute;
+          },
+          onRepair: (_) async => throw StateError('private data'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Find and switch to a working route'));
+    await tester.pumpAndSettle();
+    expect(checks, 2);
+    expect(
+      find.textContaining('The action could not be completed.'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('private data'), findsNothing);
+    expect(find.text('Find and switch to a working route'), findsOneWidget);
+  });
+
   test('path comparison requires matching targets and conclusive checks', () {
     String compare(
       NetworkCheckStatus a,

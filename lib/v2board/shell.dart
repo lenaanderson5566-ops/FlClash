@@ -1,3 +1,5 @@
+import 'network_diagnostics.dart';
+import 'connection_diagnostics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'node_metadata.dart';
 import 'dart:async';
@@ -558,6 +560,34 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
   }
 
+  Future<void> _repairConnection(DiagnosticRepair repair) async {
+    if (ref.read(safeModeProvider) || _api == null || _busy) {
+      throw StateError('repair_unavailable');
+    }
+    final api = _api!;
+    await _refresh();
+    if (!mounted ||
+        !identical(api, _api) ||
+        _account?.active != true ||
+        ref.read(fastaiReleaseProvider)?.required == true) {
+      throw StateError('account_unavailable');
+    }
+    if (repair == DiagnosticRepair.switchRoute) {
+      await repairSelectedRoute(ref);
+      return;
+    }
+    if (repair == DiagnosticRepair.refreshConfig) await _profile.sync(api);
+    if (!mounted || !identical(api, _api)) throw StateError('session_changed');
+    if (ref.read(isStartProvider)) {
+      final stopped = await ref
+          .read(setupActionProvider.notifier)
+          .setRunning(false);
+      if (!stopped) throw StateError('stop_failed');
+    }
+    if (!mounted || !identical(api, _api)) throw StateError('session_changed');
+    await _profile.connect(api);
+  }
+
   Future<void> _sync({bool connect = false}) async {
     _retryConnect = connect;
     if (_api == null) {
@@ -1024,7 +1054,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             : _account?.active == true
             ? FastaiRoutesView(onSync: () => _sync())
             : Center(child: Text(context.appLocalizations.fdNodesUnavailable)),
-      2 => const ToolsView(),
+      2 => ToolsView(
+        onRepair: _api != null && _account?.active == true
+            ? _repairConnection
+            : null,
+      ),
       3 => _api == null ? _loginView() : _myAccount(),
       _ => const AboutView(),
     };

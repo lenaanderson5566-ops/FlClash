@@ -676,6 +676,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRefresh": MessageLookupByLibrary.simpleMessage("刷新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("前往官网注册或找回密码"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("周期剩余流量"),
+    "fdRepairConfig": MessageLookupByLibrary.simpleMessage("重新获取配置并连接"),
+    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
+      "操作未能完成。请查看下方最新结果，必要时登录并检查账号使用权限。",
+    ),
+    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
+      "操作可能短暂中断连接或更换所选线路，完成后会自动复测。线路恢复最多检测 5 条其他线路。",
+    ),
+    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("重新连接"),
+    "fdRepairRoute": MessageLookupByLibrary.simpleMessage("检测并切换可用线路"),
+    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
+      "操作已执行，但尚未确认恢复，请按下方结果继续排查。",
+    ),
+    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
+      "代理线路已通过复测，请继续查看下方剩余提示。",
+    ),
+    "fdRepairWorking": MessageLookupByLibrary.simpleMessage("正在处理并重新验证连接…"),
     "fdReportCopy": MessageLookupByLibrary.simpleMessage("复制报告"),
     "fdReportCriteria": MessageLookupByLibrary.simpleMessage("判断依据"),
     "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(

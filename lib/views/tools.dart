@@ -14,7 +14,8 @@ import 'package:fastai/v2board/network_diagnostics.dart';
 import 'package:fastai/v2board/connection_diagnostics.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
-  const ToolsView({super.key});
+  const ToolsView({super.key, this.onRepair});
+  final Future<void> Function(DiagnosticRepair)? onRepair;
 
   @override
   ConsumerState<ToolsView> createState() => _ToolViewState();
@@ -41,6 +42,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
           onTap: () => showDialog<void>(
             context: context,
             builder: (_) => NetworkDiagnosticsDialog(
+              onRepair: widget.onRepair,
               runChecks: () =>
                   diagnoseConnection(ref, context.appLocalizations),
             ),

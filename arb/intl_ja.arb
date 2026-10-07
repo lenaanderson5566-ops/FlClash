@@ -963,5 +963,13 @@
   "fdCopyJson": "JSON をコピー",
   "fdPublicConnectivity": "パブリック HTTPS 接続",
   "fdNetworkChecks": "ネットワーク接続",
-  "fdClientChecks": "クライアント設定"
+  "fdClientChecks": "クライアント設定",
+  "fdRepairConfig": "設定を再取得して接続",
+  "fdRepairReconnect": "再接続",
+  "fdRepairRoute": "利用可能な経路に切り替え",
+  "fdRepairHint": "接続が一時中断されるか、経路が変わる場合があります。完了後に再検査します。代替経路は最大 5 件を検査します。",
+  "fdRepairWorking": "修復して接続を再確認しています…",
+  "fdRepairFailed": "操作を完了できませんでした。最新の結果とアカウントの利用権限を確認してください。",
+  "fdRepairVerified": "プロキシ経路の再検査に成功しました。残りの警告も確認してください。",
+  "fdRepairUnresolved": "操作は完了しましたが、復旧は未確認です。以下の案内に従ってください。"
 }

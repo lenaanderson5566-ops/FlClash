@@ -146,3 +146,68 @@ String diagnosticPathComparison(List<NetworkCheckResult> results) {
   }
   return 'not_comparable';
 }
+
+enum DiagnosticRepair { refreshConfig, reconnect, switchRoute }
+
+DiagnosticRepair? diagnosticRepairFor(List<NetworkCheckResult> results) {
+  final settings = results
+      .where((r) => r.check == NetworkCheck.settings)
+      .firstOrNull;
+  if (settings == null ||
+      settings.parameters['safeMode'] != 'false' ||
+      settings.status == NetworkCheckStatus.unverified) {
+    return null;
+  }
+  if (settings.parameters['TUN'] == 'true' &&
+      settings.parameters['tunAuthorization'] != 'authorized') {
+    return null;
+  }
+  if (settings.parameters['connected'] != 'true') {
+    return DiagnosticRepair.reconnect;
+  }
+  if (settings.parameters['coreReady'] != 'true') {
+    return DiagnosticRepair.reconnect;
+  }
+  if (settings.parameters['routeGroupLoaded'] != 'true') {
+    return DiagnosticRepair.refreshConfig;
+  }
+  if (results.any(
+    (r) =>
+        r.check == NetworkCheck.proxy && r.status == NetworkCheckStatus.failed,
+  )) {
+    return DiagnosticRepair.reconnect;
+  }
+  if (results.any(
+    (r) =>
+        r.check == NetworkCheck.systemProxy &&
+        r.status == NetworkCheckStatus.failed &&
+        r.parameters['PAC'] == 'false' &&
+        r.parameters['expectedProxy'] != 'disabled',
+  )) {
+    return DiagnosticRepair.reconnect;
+  }
+  if (results.any(
+    (r) =>
+        r.check == NetworkCheck.route && r.status == NetworkCheckStatus.failed,
+  )) {
+    return DiagnosticRepair.switchRoute;
+  }
+  return null;
+}
+
+bool diagnosticConnectionRestored(List<NetworkCheckResult> results) =>
+    results.any(
+      (r) =>
+          r.check == NetworkCheck.route &&
+          r.status == NetworkCheckStatus.passed,
+    ) &&
+    !results.any(
+      (r) =>
+          {
+            NetworkCheck.settings,
+            NetworkCheck.proxy,
+            NetworkCheck.systemProxy,
+          }.contains(r.check) &&
+          r.status != NetworkCheckStatus.passed &&
+          r.status != NetworkCheckStatus.unverified,
+    );

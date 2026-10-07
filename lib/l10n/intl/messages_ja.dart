@@ -737,6 +737,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRefresh": MessageLookupByLibrary.simpleMessage("更新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("公式サイトで登録・パスワード再設定"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("期間の残り通信量"),
+    "fdRepairConfig": MessageLookupByLibrary.simpleMessage("設定を再取得して接続"),
+    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
+      "操作を完了できませんでした。最新の結果とアカウントの利用権限を確認してください。",
+    ),
+    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
+      "接続が一時中断されるか、経路が変わる場合があります。完了後に再検査します。代替経路は最大 5 件を検査します。",
+    ),
+    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("再接続"),
+    "fdRepairRoute": MessageLookupByLibrary.simpleMessage("利用可能な経路に切り替え"),
+    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
+      "操作は完了しましたが、復旧は未確認です。以下の案内に従ってください。",
+    ),
+    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
+      "プロキシ経路の再検査に成功しました。残りの警告も確認してください。",
+    ),
+    "fdRepairWorking": MessageLookupByLibrary.simpleMessage("修復して接続を再確認しています…"),
     "fdReportCopy": MessageLookupByLibrary.simpleMessage("レポートをコピー"),
     "fdReportCriteria": MessageLookupByLibrary.simpleMessage("判定基準"),
     "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(

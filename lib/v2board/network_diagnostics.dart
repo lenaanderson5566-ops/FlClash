@@ -304,7 +304,12 @@ String diagnosticReport(
 ].join('\n');
 
 class NetworkDiagnosticsDialog extends StatefulWidget {
-  const NetworkDiagnosticsDialog({super.key, required this.runChecks});
+  const NetworkDiagnosticsDialog({
+    super.key,
+    required this.runChecks,
+    this.onRepair,
+  });
+  final Future<void> Function(DiagnosticRepair)? onRepair;
   final Future<List<NetworkCheckResult>> Function() runChecks;
 
   @override
@@ -314,6 +319,8 @@ class NetworkDiagnosticsDialog extends StatefulWidget {
 
 class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
   bool _busy = false;
+  bool _repairing = false;
+  String? _repairMessage;
   DateTime _at = DateTime.now();
   List<NetworkCheckResult> _results = [];
   DiagnosticSnapshot? _snapshot;
@@ -360,6 +367,33 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
         });
       }
     }
+  }
+
+  Future<void> _repair(DiagnosticRepair repair) async {
+    if (_busy || _repairing || widget.onRepair == null) return;
+    final l = context.appLocalizations;
+    setState(() {
+      _repairing = true;
+      _repairMessage = null;
+    });
+    var succeeded = false;
+    try {
+      await widget.onRepair!(repair);
+      succeeded = true;
+    } catch (_) {
+      if (mounted) setState(() => _repairMessage = l.fdRepairFailed);
+    }
+    if (!mounted) return;
+    await _run();
+    if (!mounted) return;
+    setState(() {
+      _repairing = false;
+      if (succeeded) {
+        _repairMessage = diagnosticConnectionRestored(_results)
+            ? l.fdRepairVerified
+            : l.fdRepairUnresolved;
+      }
+    });
   }
 
   Future<void> _copy({bool json = false}) async {
@@ -517,6 +551,7 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
     final l = context.appLocalizations;
     final scheme = context.colorScheme;
     final comparison = diagnosticPathComparison(_results);
+    final repair = diagnosticRepairFor(_results);
     final failed = _results
         .where((r) => r.status == NetworkCheckStatus.failed)
         .toList();
@@ -527,199 +562,234 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
               r.status == NetworkCheckStatus.skipped ||
               r.status == NetworkCheckStatus.unverified,
         );
-    return Dialog(
-      insetPadding: const EdgeInsets.all(16),
-      child: SizedBox(
-        width: 800,
-        height: math.min(720, MediaQuery.sizeOf(context).height - 32),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 22, 24, 16),
-              child: Row(
-                children: [
-                  const GlyphIcon(AppGlyphs.proxies),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      l.fdNetworkDiagnostics,
-                      style: context.textTheme.titleLarge,
+    return PopScope(
+      canPop: !_repairing,
+      child: Dialog(
+        insetPadding: const EdgeInsets.all(16),
+        child: SizedBox(
+          width: 800,
+          height: math.min(720, MediaQuery.sizeOf(context).height - 32),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 22, 24, 16),
+                child: Row(
+                  children: [
+                    const GlyphIcon(AppGlyphs.proxies),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        l.fdNetworkDiagnostics,
+                        style: context.textTheme.titleLarge,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    tooltip: l.close,
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const GlyphIcon(AppGlyphs.close),
-                  ),
-                ],
+                    IconButton(
+                      tooltip: l.close,
+                      onPressed: _repairing
+                          ? null
+                          : () => Navigator.of(context).pop(),
+                      icon: const GlyphIcon(AppGlyphs.close),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Divider(height: 1),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(20),
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: ShapeDecoration(
-                      color: scheme.surfaceContainerLow,
-                      shape: AppShape.lg,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _busy
-                              ? l.fdDiagnosticRunning
-                              : failed.isNotEmpty
-                              ? l.fdHealthIssues
-                              : incomplete
-                              ? l.fdHealthIncomplete
-                              : l.fdHealthPassed,
-                          style: context.textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          l.fdHealthScope,
-                          style: context.textTheme.bodySmall,
-                        ),
-                        const SizedBox(height: 16),
-                        if (_busy)
-                          const LinearProgressIndicator()
-                        else
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: [
-                              for (final status in NetworkCheckStatus.values)
-                                if (_results.any((r) => r.status == status))
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 7,
-                                    ),
-                                    decoration: ShapeDecoration(
-                                      color: scheme.surface,
-                                      shape: AppShape.sm,
-                                    ),
-                                    child: Text(
-                                      '${diagnosticStatus(l, status)} ${_results.where((r) => r.status == status).length}',
-                                      style: context.textTheme.labelMedium,
-                                    ),
-                                  ),
-                            ],
-                          ),
-                        if (!_busy) ...[
-                          const SizedBox(height: 12),
+              const Divider(height: 1),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: ShapeDecoration(
+                        color: scheme.surfaceContainerLow,
+                        shape: AppShape.lg,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            '${l.fdReportTime}: ${_at.toLocal().toString().split('.').first}',
-                            style: context.textTheme.labelSmall,
+                            _busy
+                                ? l.fdDiagnosticRunning
+                                : failed.isNotEmpty
+                                ? l.fdHealthIssues
+                                : incomplete
+                                ? l.fdHealthIncomplete
+                                : l.fdHealthPassed,
+                            style: context.textTheme.titleLarge,
                           ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  if (!_busy && comparison != 'not_comparable') ...[
-                    Card(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l.fdComparePaths,
-                              style: context.textTheme.titleMedium,
+                          const SizedBox(height: 8),
+                          Text(
+                            l.fdHealthScope,
+                            style: context.textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 16),
+                          if (_busy)
+                            const LinearProgressIndicator()
+                          else
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                for (final status in NetworkCheckStatus.values)
+                                  if (_results.any((r) => r.status == status))
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 7,
+                                      ),
+                                      decoration: ShapeDecoration(
+                                        color: scheme.surface,
+                                        shape: AppShape.sm,
+                                      ),
+                                      child: Text(
+                                        '${diagnosticStatus(l, status)} ${_results.where((r) => r.status == status).length}',
+                                        style: context.textTheme.labelMedium,
+                                      ),
+                                    ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(switch (comparison) {
-                              'both_passed' => l.fdCompareBothPassed,
-                              'route_failed' => l.fdCompareRouteFailed,
-                              'system_failed' => l.fdCompareSystemFailed,
-                              _ => l.fdCompareBothFailed,
-                            }),
-                            const SizedBox(height: 8),
+                          if (!_busy) ...[
+                            const SizedBox(height: 12),
                             Text(
-                              l.fdReferenceCriteria,
-                              style: context.textTheme.bodySmall,
+                              '${l.fdReportTime}: ${_at.toLocal().toString().split('.').first}',
+                              style: context.textTheme.labelSmall,
                             ),
                           ],
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                  if (!_busy) ...[
-                    for (final group in [
-                      (
-                        l.fdNetworkChecks,
-                        {
-                          NetworkCheck.dns,
-                          NetworkCheck.tcp,
-                          NetworkCheck.tls,
-                          NetworkCheck.website,
-                          NetworkCheck.reference,
-                          NetworkCheck.route,
-                        },
-                      ),
-                      (
-                        l.fdClientChecks,
-                        {
-                          NetworkCheck.settings,
-                          NetworkCheck.proxy,
-                          NetworkCheck.systemProxy,
-                        },
-                      ),
-                    ]) ...[
+                    const SizedBox(height: 20),
+                    if (_repairMessage != null)
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.only(bottom: 16),
                         child: Text(
-                          group.$1,
-                          style: context.textTheme.titleMedium,
+                          _repairMessage!,
+                          style: context.textTheme.titleSmall,
                         ),
                       ),
-                      for (final result in _results.where(
-                        (r) => group.$2.contains(r.check),
-                      ))
-                        _resultCard(result),
-                    ],
-                    const SizedBox(height: 8),
-                    Text(
-                      l.fdReportPrivacy,
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
+                    if (_repairing) ...[
+                      Text(l.fdRepairWorking),
+                      const SizedBox(height: 8),
+                      const LinearProgressIndicator(),
+                    ] else if (!_busy &&
+                        repair != null &&
+                        widget.onRepair != null) ...[
+                      Text(l.fdRepairHint, style: context.textTheme.bodyMedium),
+                      const SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: FilledButton(
+                          onPressed: () => _repair(repair),
+                          child: Text(switch (repair) {
+                            DiagnosticRepair.refreshConfig => l.fdRepairConfig,
+                            DiagnosticRepair.reconnect => l.fdRepairReconnect,
+                            DiagnosticRepair.switchRoute => l.fdRepairRoute,
+                          }),
+                        ),
                       ),
+                      const SizedBox(height: 20),
+                    ],
+                    if (!_busy && comparison != 'not_comparable') ...[
+                      Card(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l.fdComparePaths,
+                                style: context.textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(switch (comparison) {
+                                'both_passed' => l.fdCompareBothPassed,
+                                'route_failed' => l.fdCompareRouteFailed,
+                                'system_failed' => l.fdCompareSystemFailed,
+                                _ => l.fdCompareBothFailed,
+                              }),
+                              const SizedBox(height: 8),
+                              Text(
+                                l.fdReferenceCriteria,
+                                style: context.textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    if (!_busy) ...[
+                      for (final group in [
+                        (
+                          l.fdNetworkChecks,
+                          {
+                            NetworkCheck.dns,
+                            NetworkCheck.tcp,
+                            NetworkCheck.tls,
+                            NetworkCheck.website,
+                            NetworkCheck.reference,
+                            NetworkCheck.route,
+                          },
+                        ),
+                        (
+                          l.fdClientChecks,
+                          {
+                            NetworkCheck.settings,
+                            NetworkCheck.proxy,
+                            NetworkCheck.systemProxy,
+                          },
+                        ),
+                      ]) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            group.$1,
+                            style: context.textTheme.titleMedium,
+                          ),
+                        ),
+                        for (final result in _results.where(
+                          (r) => group.$2.contains(r.check),
+                        ))
+                          _resultCard(result),
+                      ],
+                      const SizedBox(height: 8),
+                      Text(
+                        l.fdReportPrivacy,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Wrap(
+                  alignment: WrapAlignment.end,
+                  spacing: 12,
+                  runSpacing: 8,
+                  children: [
+                    OutlinedButton(
+                      onPressed: _busy || _snapshot == null ? null : _copy,
+                      child: Text(l.fdReportCopy),
+                    ),
+                    TextButton(
+                      onPressed: _busy || _snapshot == null
+                          ? null
+                          : () => _copy(json: true),
+                      child: Text(l.fdCopyJson),
+                    ),
+                    FilledButton(
+                      onPressed: _busy || _repairing ? null : _run,
+                      child: Text(l.fdDiagnosticRetry),
                     ),
                   ],
-                ],
+                ),
               ),
-            ),
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Wrap(
-                alignment: WrapAlignment.end,
-                spacing: 12,
-                runSpacing: 8,
-                children: [
-                  OutlinedButton(
-                    onPressed: _busy || _snapshot == null ? null : _copy,
-                    child: Text(l.fdReportCopy),
-                  ),
-                  TextButton(
-                    onPressed: _busy || _snapshot == null
-                        ? null
-                        : () => _copy(json: true),
-                    child: Text(l.fdCopyJson),
-                  ),
-                  FilledButton(
-                    onPressed: _busy ? null : _run,
-                    child: Text(l.fdDiagnosticRetry),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
