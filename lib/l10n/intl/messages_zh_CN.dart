@@ -595,6 +595,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("周期到期时间"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("全局模式"),
+    "fdHealthDetails": MessageLookupByLibrary.simpleMessage("其他检查与证据"),
+    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("检查完成，部分项目尚未验证"),
+    "fdHealthIssues": MessageLookupByLibrary.simpleMessage("有检测项需要处理"),
+    "fdHealthPassed": MessageLookupByLibrary.simpleMessage("已执行的检查均通过"),
+    "fdHealthPriority": MessageLookupByLibrary.simpleMessage("建议优先处理"),
+    "fdHealthPriorityHint": MessageLookupByLibrary.simpleMessage(
+      "建议逐项处理后重新检查。检测失败是排查线索，不代表已确认根本原因。",
+    ),
+    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
+      "基于本次连接状态提供实测证据和处理步骤，不会自动修改设置。",
+    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("选择线路，一键连接。"),
     "fdHome": MessageLookupByLibrary.simpleMessage("首页"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(

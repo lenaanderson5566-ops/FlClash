@@ -102,6 +102,36 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  test('assistant snapshot is versioned, language-neutral and immutable', () {
+    final evidence = {'HTTP': '503'};
+    final report = DiagnosticSnapshot(
+      startedAt: DateTime.utc(2026),
+      finishedAt: DateTime.utc(2026, 1, 1, 0, 0, 2),
+      results: [
+        NetworkCheckResult(
+          NetworkCheck.website,
+          NetworkCheckStatus.failed,
+          detail: 'localized narrative',
+          parameters: evidence,
+        ),
+      ],
+    );
+    evidence['HTTP'] = '200';
+    final json = report.toJson();
+    expect(json['schemaVersion'], 1);
+    expect(json['automaticRepair'], isFalse);
+    expect(json.toString(), isNot(contains('localized narrative')));
+    expect(json.toString(), contains('503'));
+    expect(json.toString(), contains('check_clock'));
+    expect(json.toString(), contains('not_a_dns_leak_test'));
+    expect(() => report.results.clear(), throwsUnsupportedError);
+    expect(
+      diagnosticActionCodes(
+        const NetworkCheckResult(NetworkCheck.dns, NetworkCheckStatus.passed),
+      ),
+      isEmpty,
+    );
+  });
   test('connected desktop checks local proxy', () async {
     final probe = _Probe();
     final result = await runNetworkChecks(

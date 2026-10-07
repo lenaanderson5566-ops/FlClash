@@ -7897,6 +7897,76 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Some checks need attention`
+  String get fdHealthIssues {
+    return Intl.message(
+      'Some checks need attention',
+      name: 'fdHealthIssues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checks finished; some items could not be verified`
+  String get fdHealthIncomplete {
+    return Intl.message(
+      'Checks finished; some items could not be verified',
+      name: 'fdHealthIncomplete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed checks passed`
+  String get fdHealthPassed {
+    return Intl.message(
+      'Completed checks passed',
+      name: 'fdHealthPassed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A snapshot of your connection, with evidence and guided next steps. No settings are changed automatically.`
+  String get fdHealthScope {
+    return Intl.message(
+      'A snapshot of your connection, with evidence and guided next steps. No settings are changed automatically.',
+      name: 'fdHealthScope',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Needs attention`
+  String get fdHealthPriority {
+    return Intl.message(
+      'Needs attention',
+      name: 'fdHealthPriority',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Work through the findings, then check again. A failed test is evidence, not a confirmed root cause.`
+  String get fdHealthPriorityHint {
+    return Intl.message(
+      'Work through the findings, then check again. A failed test is evidence, not a confirmed root cause.',
+      name: 'fdHealthPriorityHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other checks and evidence`
+  String get fdHealthDetails {
+    return Intl.message(
+      'Other checks and evidence',
+      name: 'fdHealthDetails',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

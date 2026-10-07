@@ -794,6 +794,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("Подписка истекла"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Глобальный режим"),
+    "fdHealthDetails": MessageLookupByLibrary.simpleMessage(
+      "Другие проверки и данные",
+    ),
+    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
+      "Проверка завершена, часть пунктов не проверена",
+    ),
+    "fdHealthIssues": MessageLookupByLibrary.simpleMessage(
+      "Есть пункты, требующие внимания",
+    ),
+    "fdHealthPassed": MessageLookupByLibrary.simpleMessage(
+      "Выполненные проверки пройдены",
+    ),
+    "fdHealthPriority": MessageLookupByLibrary.simpleMessage(
+      "Требует внимания",
+    ),
+    "fdHealthPriorityHint": MessageLookupByLibrary.simpleMessage(
+      "Проверьте пункты и повторите диагностику. Сбой проверки — признак, а не доказанная причина.",
+    ),
+    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
+      "Снимок состояния соединения с данными и рекомендациями. Настройки автоматически не меняются.",
+    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Выберите сервер и подключитесь одним нажатием.",
     ),

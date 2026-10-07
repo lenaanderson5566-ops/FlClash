@@ -765,6 +765,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("Subscription expired"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Global mode"),
+    "fdHealthDetails": MessageLookupByLibrary.simpleMessage(
+      "Other checks and evidence",
+    ),
+    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
+      "Checks finished; some items could not be verified",
+    ),
+    "fdHealthIssues": MessageLookupByLibrary.simpleMessage(
+      "Some checks need attention",
+    ),
+    "fdHealthPassed": MessageLookupByLibrary.simpleMessage(
+      "Completed checks passed",
+    ),
+    "fdHealthPriority": MessageLookupByLibrary.simpleMessage("Needs attention"),
+    "fdHealthPriorityHint": MessageLookupByLibrary.simpleMessage(
+      "Work through the findings, then check again. A failed test is evidence, not a confirmed root cause.",
+    ),
+    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
+      "A snapshot of your connection, with evidence and guided next steps. No settings are changed automatically.",
+    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Choose a route. Connect in one click.",
     ),

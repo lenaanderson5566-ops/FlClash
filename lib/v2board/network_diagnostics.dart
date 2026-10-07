@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:fastai/common/common.dart';
 import 'package:fastai/icons/icons.dart';
@@ -8,23 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:fastai/l10n/l10n.dart';
 
 import 'config.dart';
-
-enum NetworkCheck { dns, website, proxy, settings, systemProxy, route }
-
-enum NetworkCheckStatus { passed, failed, skipped, unverified }
-
-class NetworkCheckResult {
-  const NetworkCheckResult(
-    this.check,
-    this.status, {
-    this.detail,
-    this.parameters = const {},
-  });
-  final Map<String, String> parameters;
-  final String? detail;
-  final NetworkCheck check;
-  final NetworkCheckStatus status;
-}
+import 'diagnostic_result.dart';
+export 'diagnostic_result.dart';
 
 class DiagnosticProbeFailure implements Exception {
   const DiagnosticProbeFailure(this.code, this.parameters);
@@ -209,8 +195,9 @@ String diagnosticCriteria(AppLocalizations l, NetworkCheck check) =>
 
 String diagnosticGuidance(AppLocalizations l, NetworkCheckResult result) {
   if (result.detail == l.fdDiagnosticChanged) return l.fdDiagnosticChanged;
-  if (result.status == NetworkCheckStatus.unverified)
+  if (result.status == NetworkCheckStatus.unverified) {
     return l.fdDiagnosticUnverified;
+  }
   if (result.status == NetworkCheckStatus.passed) return l.fdReportNoRepair;
   if (result.status == NetworkCheckStatus.skipped) return l.fdReportRunAgain;
   return switch (result.check) {
@@ -255,6 +242,7 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
   bool _busy = false;
   DateTime _at = DateTime.now();
   List<NetworkCheckResult> _results = [];
+  DiagnosticSnapshot? _snapshot;
 
   @override
   void initState() {
@@ -268,6 +256,7 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
       _busy = true;
       _at = DateTime.now();
       _results = [];
+      _snapshot = null;
     });
     try {
       final results = await widget.runChecks();
@@ -286,130 +275,298 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
         );
       }
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _snapshot = DiagnosticSnapshot(
+            startedAt: _at,
+            finishedAt: DateTime.now(),
+            results: _results,
+          );
+        });
+      }
     }
+  }
+
+  Future<void> _copy() async {
+    final l = context.appLocalizations;
+    try {
+      await Clipboard.setData(
+        ClipboardData(text: diagnosticReport(l, _snapshot!.results, _at)),
+      );
+      if (mounted) context.showNotifier(l.copySuccess);
+    } catch (_) {
+      if (mounted) context.showNotifier(l.fdRequestFailed);
+    }
+  }
+
+  Widget _section(String title, String text, {bool selectable = false}) =>
+      Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(title, style: context.textTheme.titleSmall),
+            const SizedBox(height: 6),
+            if (selectable)
+              SelectableText(text, style: context.textTheme.bodySmall)
+            else
+              Text(text, style: context.textTheme.bodyMedium),
+          ],
+        ),
+      );
+
+  Widget _resultCard(NetworkCheckResult result) {
+    final l = context.appLocalizations;
+    final scheme = context.colorScheme;
+    final failed = result.status == NetworkCheckStatus.failed;
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: AppShape.lg.copyWith(
+        side: BorderSide(
+          color: failed
+              ? scheme.error.withValues(alpha: 0.25)
+              : scheme.outlineVariant,
+        ),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        key: ValueKey('${_at.toIso8601String()}:${result.check}'),
+        initiallyExpanded: failed,
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        leading: GlyphIcon(
+          result.status == NetworkCheckStatus.passed
+              ? AppGlyphs.check
+              : AppGlyphs.info,
+          color: failed ? scheme.error : scheme.primary,
+        ),
+        title: Text(
+          '${diagnosticTitle(l, result.check)} · ${diagnosticStatus(l, result.status)}',
+          style: context.textTheme.titleSmall,
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text(
+            diagnosticDetail(l, result),
+            style: context.textTheme.bodySmall,
+          ),
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _section(
+                  l.fdReportRepair,
+                  diagnosticGuidance(l, result),
+                  selectable: true,
+                ),
+                const Divider(height: 24),
+                _section(
+                  l.fdReportCriteria,
+                  diagnosticCriteria(l, result.check),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: ShapeDecoration(
+                    color: scheme.surfaceContainerLow,
+                    shape: AppShape.md,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        l.fdReportParameters,
+                        style: context.textTheme.titleSmall,
+                      ),
+                      const SizedBox(height: 8),
+                      SelectableText(
+                        result.parameters.isEmpty
+                            ? l.fdReportNoData
+                            : result.parameters.entries
+                                  .map((e) => '${e.key}: ${e.value}')
+                                  .join('\n'),
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontFamily: 'monospace',
+                          height: 1.6,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
-    return AlertDialog(
-      title: Text(l.fdNetworkDiagnostics),
-      content: SizedBox(
-        width: 640,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l.fdDiagnosticScope, style: context.textTheme.bodySmall),
-              const SizedBox(height: 16),
-              if (_busy) ...[
-                const LinearProgressIndicator(),
-                const SizedBox(height: 12),
-                Text(l.fdDiagnosticRunning),
-              ],
-              if (!_busy && _results.isNotEmpty) ...[
-                Text(
-                  '${l.fdReportTime}: ${_at.toLocal().toString().split('.').first}',
-                  style: context.textTheme.bodySmall,
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 16,
-                  runSpacing: 8,
-                  children: [
-                    for (final status in NetworkCheckStatus.values)
-                      Text(
-                        '${diagnosticStatus(l, status)} ${_results.where((r) => r.status == status).length}',
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(l.fdReportPrivacy, style: context.textTheme.bodySmall),
-              ],
-              for (final result in _results)
-                ExpansionTile(
-                  key: ValueKey('${_at.toIso8601String()}:${result.check}'),
-                  initiallyExpanded: result.status == NetworkCheckStatus.failed,
-                  tilePadding: EdgeInsets.zero,
-                  leading: GlyphIcon(
-                    result.status == NetworkCheckStatus.passed
-                        ? AppGlyphs.check
-                        : AppGlyphs.info,
-                    color: result.status == NetworkCheckStatus.failed
-                        ? context.colorScheme.error
-                        : null,
+    final scheme = context.colorScheme;
+    final failed = _results
+        .where((r) => r.status == NetworkCheckStatus.failed)
+        .toList();
+    final incomplete =
+        _results.isEmpty ||
+        _results.any(
+          (r) =>
+              r.status == NetworkCheckStatus.skipped ||
+              r.status == NetworkCheckStatus.unverified,
+        );
+    return Dialog(
+      insetPadding: const EdgeInsets.all(16),
+      child: SizedBox(
+        width: 800,
+        height: math.min(720, MediaQuery.sizeOf(context).height - 32),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 22, 24, 16),
+              child: Row(
+                children: [
+                  const GlyphIcon(AppGlyphs.proxies),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      l.fdNetworkDiagnostics,
+                      style: context.textTheme.titleLarge,
+                    ),
                   ),
-                  title: Text(
-                    '${diagnosticTitle(l, result.check)} · ${diagnosticStatus(l, result.status)}',
+                  IconButton(
+                    tooltip: l.close,
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const GlyphIcon(AppGlyphs.close),
                   ),
-                  subtitle: Text(diagnosticDetail(l, result)),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            l.fdReportCriteria,
-                            style: context.textTheme.titleSmall,
+                ],
+              ),
+            ),
+            const Divider(height: 1),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: ShapeDecoration(
+                      color: scheme.primaryContainer.withValues(alpha: 0.45),
+                      shape: AppShape.lg,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _busy
+                              ? l.fdDiagnosticRunning
+                              : failed.isNotEmpty
+                              ? l.fdHealthIssues
+                              : incomplete
+                              ? l.fdHealthIncomplete
+                              : l.fdHealthPassed,
+                          style: context.textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          l.fdHealthScope,
+                          style: context.textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: 16),
+                        if (_busy)
+                          const LinearProgressIndicator()
+                        else
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              for (final status in NetworkCheckStatus.values)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 7,
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    color: scheme.surface,
+                                    shape: AppShape.sm,
+                                  ),
+                                  child: Text(
+                                    '${diagnosticStatus(l, status)} ${_results.where((r) => r.status == status).length}',
+                                    style: context.textTheme.labelMedium,
+                                  ),
+                                ),
+                            ],
                           ),
-                          Text(diagnosticCriteria(l, result.check)),
+                        if (!_busy) ...[
                           const SizedBox(height: 12),
                           Text(
-                            l.fdReportParameters,
-                            style: context.textTheme.titleSmall,
+                            '${l.fdReportTime}: ${_at.toLocal().toString().split('.').first}',
+                            style: context.textTheme.labelSmall,
                           ),
-                          SelectableText(
-                            result.parameters.isEmpty
-                                ? l.fdReportNoData
-                                : result.parameters.entries
-                                      .map((e) => '${e.key}: ${e.value}')
-                                      .join('\n'),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            l.fdReportRepair,
-                            style: context.textTheme.titleSmall,
-                          ),
-                          SelectableText(diagnosticGuidance(l, result)),
                         ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  if (failed.isNotEmpty) ...[
+                    Text(
+                      l.fdHealthPriority,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      l.fdHealthPriorityHint,
+                      style: context.textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 12),
+                    for (final result in failed) _resultCard(result),
+                    const SizedBox(height: 12),
+                  ],
+                  if (!_busy) ...[
+                    Text(
+                      l.fdHealthDetails,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 12),
+                    for (final result in _results.where(
+                      (r) => r.status != NetworkCheckStatus.failed,
+                    ))
+                      _resultCard(result),
+                    const SizedBox(height: 8),
+                    Text(
+                      l.fdReportPrivacy,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
                       ),
                     ),
                   ],
-                ),
-            ],
-          ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 12,
+                runSpacing: 8,
+                children: [
+                  OutlinedButton(
+                    onPressed: _busy || _snapshot == null ? null : _copy,
+                    child: Text(l.fdReportCopy),
+                  ),
+                  FilledButton(
+                    onPressed: _busy ? null : _run,
+                    child: Text(l.fdDiagnosticRetry),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: _busy || _results.isEmpty
-              ? null
-              : () async {
-                  try {
-                    await Clipboard.setData(
-                      ClipboardData(text: diagnosticReport(l, _results, _at)),
-                    );
-                    if (context.mounted) context.showNotifier(l.copySuccess);
-                  } catch (_) {
-                    if (context.mounted) {
-                      context.showNotifier(l.fdRequestFailed);
-                    }
-                  }
-                },
-          child: Text(l.fdReportCopy),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l.close),
-        ),
-        FilledButton(
-          onPressed: _busy ? null : _run,
-          child: Text(l.fdDiagnosticRetry),
-        ),
-      ],
     );
   }
 }

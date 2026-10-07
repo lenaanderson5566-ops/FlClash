@@ -936,5 +936,12 @@
   "fdReportPortSteps": "1. FastAI を再接続。\n2. 改善しない場合は再起動。\n3. レポートをサポートへ。ポート失敗だけでは他アプリの占有と断定できません。",
   "fdReportSettingsSteps": "1. ログインと利用権限を確認。\n2. 接続先を更新して再接続。\n3. TUN 権限を許可するかシステムプロキシへ切り替え。",
   "fdReportProxySteps": "1. Windows 設定 → ネットワーク → プロキシを確認。\n2. 他の VPN を終了し、自分のプロキシ/PAC 設定を確認。組織の設定は削除しないでください。\n3. FastAI を再接続して確認。",
-  "fdReportRouteSteps": "1. 別の接続先で再試行。\n2. すべて失敗する場合は DNS とローカルプロキシを確認。\n3. 検査先のみ失敗する場合は必要なサービスを確認し、レポートを送付。"
+  "fdReportRouteSteps": "1. 別の接続先で再試行。\n2. すべて失敗する場合は DNS とローカルプロキシを確認。\n3. 検査先のみ失敗する場合は必要なサービスを確認し、レポートを送付。",
+  "fdHealthIssues": "確認が必要な項目があります",
+  "fdHealthIncomplete": "確認完了・一部未検証",
+  "fdHealthPassed": "実行した確認は正常です",
+  "fdHealthScope": "今回の接続状態に基づく測定結果と対処手順です。設定は自動変更しません。",
+  "fdHealthPriority": "要確認",
+  "fdHealthPriorityHint": "各項目を確認後に再検査してください。失敗は手掛かりであり、原因の断定ではありません。",
+  "fdHealthDetails": "その他の確認と測定結果"
 }

@@ -936,5 +936,12 @@
   "fdReportPortSteps": "1. 在 FastAI 中断开后重新连接。\n2. 仍失败时重启 FastAI 后再检查。\n3. 将报告交给支持；端口连接失败本身不能证明端口被其他软件占用。",
   "fdReportSettingsSteps": "1. 确认已登录且账号具备连接权限。\n2. 刷新线路后重新连接。\n3. TUN 授权异常时完成权限授权，或切换为系统代理。",
   "fdReportProxySteps": "1. 打开 Windows 设置 → 网络和 Internet → 代理。\n2. 退出其他代理/VPN 软件，核对自己配置的手动代理或 PAC；不要擅自移除组织管理的设置。\n3. 重新连接 FastAI 后复查。",
-  "fdReportRouteSteps": "1. 切换其他线路后重试。\n2. 所有线路都失败时，结合 DNS 和本地代理结果排查。\n3. 若仅检测地址失败，请验证实际需要的服务，并将报告交给支持。"
+  "fdReportRouteSteps": "1. 切换其他线路后重试。\n2. 所有线路都失败时，结合 DNS 和本地代理结果排查。\n3. 若仅检测地址失败，请验证实际需要的服务，并将报告交给支持。",
+  "fdHealthIssues": "有检测项需要处理",
+  "fdHealthIncomplete": "检查完成，部分项目尚未验证",
+  "fdHealthPassed": "已执行的检查均通过",
+  "fdHealthScope": "基于本次连接状态提供实测证据和处理步骤，不会自动修改设置。",
+  "fdHealthPriority": "建议优先处理",
+  "fdHealthPriorityHint": "建议逐项处理后重新检查。检测失败是排查线索，不代表已确认根本原因。",
+  "fdHealthDetails": "其他检查与证据"
 }

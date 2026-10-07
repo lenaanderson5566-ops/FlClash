@@ -936,5 +936,12 @@
   "fdReportPortSteps": "1. Disconnect and reconnect in FastAI.\n2. If it fails again, restart FastAI and retry.\n3. Send the report to support; a failed port check alone does not prove another app occupies it.",
   "fdReportSettingsSteps": "1. Confirm that you are signed in and your account can connect.\n2. Refresh routes and reconnect.\n3. For TUN authorization problems, approve the permission request or choose system proxy.",
   "fdReportProxySteps": "1. Review Windows Settings → Network & Internet → Proxy.\n2. Exit other proxy/VPN apps and review your own manual proxy or PAC configuration. Do not remove organization-managed settings.\n3. Reconnect FastAI and repeat the check.",
-  "fdReportRouteSteps": "1. Select another route and retry.\n2. If every route fails, review the DNS and local proxy results.\n3. If only the test endpoint fails, check the service you need and send the report to support."
+  "fdReportRouteSteps": "1. Select another route and retry.\n2. If every route fails, review the DNS and local proxy results.\n3. If only the test endpoint fails, check the service you need and send the report to support.",
+  "fdHealthIssues": "Some checks need attention",
+  "fdHealthIncomplete": "Checks finished; some items could not be verified",
+  "fdHealthPassed": "Completed checks passed",
+  "fdHealthScope": "A snapshot of your connection, with evidence and guided next steps. No settings are changed automatically.",
+  "fdHealthPriority": "Needs attention",
+  "fdHealthPriorityHint": "Work through the findings, then check again. A failed test is evidence, not a confirmed root cause.",
+  "fdHealthDetails": "Other checks and evidence"
 }

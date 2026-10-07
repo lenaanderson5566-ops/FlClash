@@ -650,6 +650,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpired": MessageLookupByLibrary.simpleMessage("プラン期限切れ"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
+    "fdHealthDetails": MessageLookupByLibrary.simpleMessage("その他の確認と測定結果"),
+    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("確認完了・一部未検証"),
+    "fdHealthIssues": MessageLookupByLibrary.simpleMessage("確認が必要な項目があります"),
+    "fdHealthPassed": MessageLookupByLibrary.simpleMessage("実行した確認は正常です"),
+    "fdHealthPriority": MessageLookupByLibrary.simpleMessage("要確認"),
+    "fdHealthPriorityHint": MessageLookupByLibrary.simpleMessage(
+      "各項目を確認後に再検査してください。失敗は手掛かりであり、原因の断定ではありません。",
+    ),
+    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
+      "今回の接続状態に基づく測定結果と対処手順です。設定は自動変更しません。",
+    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("接続先を選び、ワンクリックで接続。"),
     "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
