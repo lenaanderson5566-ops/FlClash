@@ -519,9 +519,37 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("流量包"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("当前线路"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("在线设备 / 设备上限"),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("官网域名解析"),
+    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
+      "域名解析失败或超时，请检查网络或切换网络后重试。",
+    ),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("域名解析正常。"),
+    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("检查连通性并获取处理建议"),
+    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
+      "本地代理端口未响应，请断开后重新连接，再次检查。",
+    ),
+    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
+      "本地端口可达；此项不验证远端线路。",
+    ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("连接诊断报告"),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
       "遇到连接问题时，复制报告提供给支持人员。",
+    ),
+    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("重新检查"),
+    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
+      "正在检查，最多约 8 秒…",
+    ),
+    "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
+      "检查官网 DNS、HTTPS 和桌面端代理端口，不代表所有网站均可访问。不会修改网络设置。",
+    ),
+    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
+      "已跳过：未连接、移动端或安全模式下不检查本地端口。",
+    ),
+    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
+      "官网访问失败或受限，请检查系统时间及网络后重试。",
+    ),
+    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
+      "官网 HTTPS 已响应。",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage("已复制诊断报告"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("断开连接"),
@@ -548,6 +576,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("登录"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("退出登录"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("月付"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("一键网络诊断"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage("无法访问面板，请检查网络后重试。"),
     "fdNext": MessageLookupByLibrary.simpleMessage("下一页"),
     "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自动重置（本地时间）"),

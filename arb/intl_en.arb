@@ -887,5 +887,18 @@
   "fdRouteFailed": "Check failed",
   "fdRouteResponsive": "Low latency",
   "fdRouteSlow": "Higher latency",
-  "fdRouteLastCheck": "Last measurement"
+  "fdRouteLastCheck": "Last measurement",
+  "fdNetworkDiagnostics": "Network check",
+  "fdDiagnosticEntry": "Check connectivity and get troubleshooting tips",
+  "fdDiagnosticScope": "Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.",
+  "fdDiagnosticRunning": "Checking… This may take up to 8 seconds.",
+  "fdDiagnosticDns": "Website DNS",
+  "fdDiagnosticSkipped": "Skipped: disconnected, mobile device or safe mode.",
+  "fdDiagnosticDnsOk": "Domain resolved successfully.",
+  "fdDiagnosticWebsiteOk": "The website responded over HTTPS.",
+  "fdDiagnosticProxyOk": "Local port is reachable; this does not verify the remote route.",
+  "fdDiagnosticDnsFail": "DNS lookup failed or timed out. Check your network or try another network.",
+  "fdDiagnosticWebsiteFail": "The website is unavailable or access is restricted. Check the system clock and network, then retry.",
+  "fdDiagnosticProxyFail": "The local proxy port did not respond. Disconnect and reconnect, then retry.",
+  "fdDiagnosticRetry": "Check again"
 }

@@ -887,5 +887,18 @@
   "fdRouteFailed": "確認失敗",
   "fdRouteResponsive": "低遅延",
   "fdRouteSlow": "遅延大",
-  "fdRouteLastCheck": "前回の測定"
+  "fdRouteLastCheck": "前回の測定",
+  "fdNetworkDiagnostics": "ネットワーク診断",
+  "fdDiagnosticEntry": "接続状態と対処方法を確認",
+  "fdDiagnosticScope": "公式サイトの DNS、HTTPS、デスクトップのプロキシポートを確認します。全サイトへの接続を保証するものではありません。設定は変更しません。",
+  "fdDiagnosticRunning": "確認中…最大約8秒かかります。",
+  "fdDiagnosticDns": "公式サイトの DNS",
+  "fdDiagnosticSkipped": "スキップ：未接続、モバイル端末、またはセーフモードです。",
+  "fdDiagnosticDnsOk": "名前解決に成功しました。",
+  "fdDiagnosticWebsiteOk": "公式サイトから HTTPS 応答を受信しました。",
+  "fdDiagnosticProxyOk": "ローカルポートに接続できました。リモート経路は未検証です。",
+  "fdDiagnosticDnsFail": "名前解決が失敗またはタイムアウトしました。ネットワークを確認するか、別の回線でお試しください。",
+  "fdDiagnosticWebsiteFail": "公式サイトにアクセスできません。端末の日時とネットワークを確認して再試行してください。",
+  "fdDiagnosticProxyFail": "ローカルプロキシが応答しません。切断して再接続後、再試行してください。",
+  "fdDiagnosticRetry": "再確認"
 }

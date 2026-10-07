@@ -568,9 +568,37 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("追加通信容量"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("オンライン端末 / 上限"),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("公式サイトの DNS"),
+    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
+      "名前解決が失敗またはタイムアウトしました。ネットワークを確認するか、別の回線でお試しください。",
+    ),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("名前解決に成功しました。"),
+    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("接続状態と対処方法を確認"),
+    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
+      "ローカルプロキシが応答しません。切断して再接続後、再試行してください。",
+    ),
+    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
+      "ローカルポートに接続できました。リモート経路は未検証です。",
+    ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("接続診断レポート"),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
       "接続に問題がある場合は、レポートをコピーしてサポートへ。",
+    ),
+    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("再確認"),
+    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
+      "確認中…最大約8秒かかります。",
+    ),
+    "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
+      "公式サイトの DNS、HTTPS、デスクトップのプロキシポートを確認します。全サイトへの接続を保証するものではありません。設定は変更しません。",
+    ),
+    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
+      "スキップ：未接続、モバイル端末、またはセーフモードです。",
+    ),
+    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
+      "公式サイトにアクセスできません。端末の日時とネットワークを確認して再試行してください。",
+    ),
+    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
+      "公式サイトから HTTPS 応答を受信しました。",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "診断レポートをコピーしました",
@@ -603,6 +631,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("ログイン"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("ログアウト"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("1か月"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("ネットワーク診断"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "パネルに接続できません。ネットワークを確認してください。",
     ),

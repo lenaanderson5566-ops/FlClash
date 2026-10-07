@@ -704,11 +704,45 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDevices": MessageLookupByLibrary.simpleMessage(
       "Устройства онлайн / лимит",
     ),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("DNS сайта"),
+    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
+      "Ошибка DNS или тайм-аут. Проверьте сеть или попробуйте другую.",
+    ),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
+      "Домен успешно разрешён.",
+    ),
+    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
+      "Проверка соединения и рекомендации",
+    ),
+    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
+      "Локальный порт прокси не отвечает. Переподключитесь и повторите проверку.",
+    ),
+    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
+      "Локальный порт доступен; удалённый маршрут не проверен.",
+    ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage(
       "Отчёт диагностики подключения",
     ),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
       "При проблемах с подключением скопируйте отчёт для поддержки.",
+    ),
+    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage(
+      "Проверить снова",
+    ),
+    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
+      "Проверка… до 8 секунд.",
+    ),
+    "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
+      "Проверяются DNS сайта, HTTPS и порт прокси на компьютере. Результат не гарантирует доступ ко всем сайтам. Настройки не меняются.",
+    ),
+    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
+      "Пропущено: нет подключения, мобильное устройство или безопасный режим.",
+    ),
+    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
+      "Сайт недоступен или доступ ограничен. Проверьте системное время и сеть, затем повторите.",
+    ),
+    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
+      "Сайт ответил по HTTPS.",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "Диагностический отчёт скопирован",
@@ -747,6 +781,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("Месяц"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
+      "Диагностика сети",
+    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Панель недоступна. Проверьте сеть и повторите.",
     ),

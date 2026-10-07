@@ -887,5 +887,18 @@
   "fdRouteFailed": "检测失败",
   "fdRouteResponsive": "低延迟",
   "fdRouteSlow": "延迟较高",
-  "fdRouteLastCheck": "上次检测"
+  "fdRouteLastCheck": "上次检测",
+  "fdNetworkDiagnostics": "一键网络诊断",
+  "fdDiagnosticEntry": "检查连通性并获取处理建议",
+  "fdDiagnosticScope": "检查官网 DNS、HTTPS 和桌面端代理端口，不代表所有网站均可访问。不会修改网络设置。",
+  "fdDiagnosticRunning": "正在检查，最多约 8 秒…",
+  "fdDiagnosticDns": "官网域名解析",
+  "fdDiagnosticSkipped": "已跳过：未连接、移动端或安全模式下不检查本地端口。",
+  "fdDiagnosticDnsOk": "域名解析正常。",
+  "fdDiagnosticWebsiteOk": "官网 HTTPS 已响应。",
+  "fdDiagnosticProxyOk": "本地端口可达；此项不验证远端线路。",
+  "fdDiagnosticDnsFail": "域名解析失败或超时，请检查网络或切换网络后重试。",
+  "fdDiagnosticWebsiteFail": "官网访问失败或受限，请检查系统时间及网络后重试。",
+  "fdDiagnosticProxyFail": "本地代理端口未响应，请断开后重新连接，再次检查。",
+  "fdDiagnosticRetry": "重新检查"
 }

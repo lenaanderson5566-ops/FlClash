@@ -7417,6 +7417,136 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Network check`
+  String get fdNetworkDiagnostics {
+    return Intl.message(
+      'Network check',
+      name: 'fdNetworkDiagnostics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check connectivity and get troubleshooting tips`
+  String get fdDiagnosticEntry {
+    return Intl.message(
+      'Check connectivity and get troubleshooting tips',
+      name: 'fdDiagnosticEntry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.`
+  String get fdDiagnosticScope {
+    return Intl.message(
+      'Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.',
+      name: 'fdDiagnosticScope',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking… This may take up to 8 seconds.`
+  String get fdDiagnosticRunning {
+    return Intl.message(
+      'Checking… This may take up to 8 seconds.',
+      name: 'fdDiagnosticRunning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Website DNS`
+  String get fdDiagnosticDns {
+    return Intl.message(
+      'Website DNS',
+      name: 'fdDiagnosticDns',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skipped: disconnected, mobile device or safe mode.`
+  String get fdDiagnosticSkipped {
+    return Intl.message(
+      'Skipped: disconnected, mobile device or safe mode.',
+      name: 'fdDiagnosticSkipped',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Domain resolved successfully.`
+  String get fdDiagnosticDnsOk {
+    return Intl.message(
+      'Domain resolved successfully.',
+      name: 'fdDiagnosticDnsOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The website responded over HTTPS.`
+  String get fdDiagnosticWebsiteOk {
+    return Intl.message(
+      'The website responded over HTTPS.',
+      name: 'fdDiagnosticWebsiteOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Local port is reachable; this does not verify the remote route.`
+  String get fdDiagnosticProxyOk {
+    return Intl.message(
+      'Local port is reachable; this does not verify the remote route.',
+      name: 'fdDiagnosticProxyOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DNS lookup failed or timed out. Check your network or try another network.`
+  String get fdDiagnosticDnsFail {
+    return Intl.message(
+      'DNS lookup failed or timed out. Check your network or try another network.',
+      name: 'fdDiagnosticDnsFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The website is unavailable or access is restricted. Check the system clock and network, then retry.`
+  String get fdDiagnosticWebsiteFail {
+    return Intl.message(
+      'The website is unavailable or access is restricted. Check the system clock and network, then retry.',
+      name: 'fdDiagnosticWebsiteFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The local proxy port did not respond. Disconnect and reconnect, then retry.`
+  String get fdDiagnosticProxyFail {
+    return Intl.message(
+      'The local proxy port did not respond. Disconnect and reconnect, then retry.',
+      name: 'fdDiagnosticProxyFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check again`
+  String get fdDiagnosticRetry {
+    return Intl.message(
+      'Check again',
+      name: 'fdDiagnosticRetry',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

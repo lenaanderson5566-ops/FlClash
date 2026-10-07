@@ -677,11 +677,43 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("Traffic credits"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("Devices online / limit"),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("Website DNS"),
+    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
+      "DNS lookup failed or timed out. Check your network or try another network.",
+    ),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
+      "Domain resolved successfully.",
+    ),
+    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
+      "Check connectivity and get troubleshooting tips",
+    ),
+    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
+      "The local proxy port did not respond. Disconnect and reconnect, then retry.",
+    ),
+    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
+      "Local port is reachable; this does not verify the remote route.",
+    ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage(
       "Connection diagnostic report",
     ),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
       "Copy a report when you need help with a connection.",
+    ),
+    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("Check again"),
+    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
+      "Checking… This may take up to 8 seconds.",
+    ),
+    "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
+      "Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.",
+    ),
+    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
+      "Skipped: disconnected, mobile device or safe mode.",
+    ),
+    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
+      "The website is unavailable or access is restricted. Check the system clock and network, then retry.",
+    ),
+    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
+      "The website responded over HTTPS.",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "Diagnostic report copied",
@@ -720,6 +752,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Sign in"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("Monthly"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
+      "Network check",
+    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Unable to reach the panel. Check your network and try again.",
     ),

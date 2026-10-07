@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 
 import 'disclaimer.dart';
+import 'package:fastai/v2board/network_diagnostics.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
   const ToolsView({super.key});
@@ -31,6 +32,24 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: null,
       items: [
         const _LocaleItem(),
+        ListTile(
+          leading: const GlyphIcon(AppGlyphs.info),
+          title: Text(context.appLocalizations.fdNetworkDiagnostics),
+          subtitle: Text(context.appLocalizations.fdDiagnosticEntry),
+          trailing: const GlyphIcon(AppGlyphs.chevronForward),
+          onTap: () => showDialog<void>(
+            context: context,
+            builder: (_) => NetworkDiagnosticsDialog(
+              runChecks: () => runNetworkChecks(
+                checkProxy:
+                    system.isDesktop &&
+                    !safeModeBuild &&
+                    ref.read(isStartProvider),
+                port: ref.read(patchClashConfigProvider).mixedPort,
+              ),
+            ),
+          ),
+        ),
         if (system.isDesktop) const ProxyAddressItem(),
         if (system.isAndroid) const _AccessItem(),
         if (system.isAndroid) const GeneralSettings(),
