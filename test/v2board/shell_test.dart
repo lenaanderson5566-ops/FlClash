@@ -581,11 +581,11 @@ void main() {
       );
       expect(connect.onPressed, isNotNull);
       await tester.scrollUntilVisible(
-        find.byType(SegmentedButton<Mode>),
+        find.byType(DropdownButton<Mode>),
         120,
         scrollable: find.byType(Scrollable).first,
       );
-      expect(find.byType(SegmentedButton<Mode>), findsOneWidget);
+      expect(find.byType(DropdownButton<Mode>), findsOneWidget);
       expect(find.byType(NavigationDestination), findsNWidgets(5));
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());

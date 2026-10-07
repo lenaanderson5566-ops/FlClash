@@ -1,8 +1,6 @@
 import 'package:fastai/common/common.dart';
-import 'package:fastai/enum/enum.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/l10n/l10n.dart';
-import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/views/access.dart';
 import 'package:fastai/views/config/general.dart';
@@ -21,28 +19,6 @@ class ToolsView extends ConsumerStatefulWidget {
 }
 
 class _ToolViewState extends ConsumerState<ToolsView> {
-  Widget _buildNavigationMenuItem(NavigationItem navigationItem) {
-    return ListItem.open(
-      leading: GlyphIcon(navigationItem.glyph),
-      title: Text(navigationItem.label.label),
-      widget: navigationItem.builder(context),
-      forceFull: navigationItem.modes.contains(NavigationItemMode.moreFull),
-    );
-  }
-
-  Widget _buildNavigationMenu(List<NavigationItem> navigationItems) {
-    return Column(
-      children: [
-        for (final navigationItem in navigationItems) ...[
-          _buildNavigationMenuItem(navigationItem),
-          navigationItems.last != navigationItem
-              ? const Divider(height: 0)
-              : Container(),
-        ],
-      ],
-    );
-  }
-
   List<Widget> _getOtherList() {
     return generateSection(
       title: context.appLocalizations.other,
@@ -64,26 +40,9 @@ class _ToolViewState extends ConsumerState<ToolsView> {
 
   @override
   Widget build(BuildContext context) {
-    final items = [
-      Consumer(
-        builder: (_, ref, _) {
-          final state = ref.watch(moreToolsSelectorStateProvider);
-          if (state.navigationItems.isEmpty) {
-            return Container();
-          }
-          return Column(
-            children: [
-              ListHeader(title: context.appLocalizations.more),
-              _buildNavigationMenu(state.navigationItems),
-            ],
-          );
-        },
-      ),
-      ..._getSettingList(),
-      ..._getOtherList(),
-    ];
+    final items = [..._getSettingList(), ..._getOtherList()];
     return CommonScaffold(
-      title: context.appLocalizations.tools,
+      title: context.appLocalizations.settings,
       body: ListView.builder(
         key: toolsStoreKey,
         itemCount: items.length,
@@ -100,29 +59,26 @@ class _ToolViewState extends ConsumerState<ToolsView> {
 class _LocaleItem extends ConsumerWidget {
   const _LocaleItem();
 
-  String _getLocaleString(BuildContext context, Locale? locale) {
-    if (locale == null) return context.appLocalizations.defaultText;
-    return locale.label;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(
       appSettingProvider.select((state) => state.locale),
     );
-    final currentLocale = getLocaleForString(locale);
-    return ListItem<Locale?>.options(
+    final currentLocale =
+        getLocaleForString(locale) ?? Localizations.localeOf(context);
+    return ListItem<Locale>.options(
       leading: const GlyphIcon(AppGlyphs.language),
       title: Text(context.appLocalizations.language),
-      subtitle: Text(_getLocaleString(context, currentLocale)),
+      subtitle: Text(currentLocale.label),
       dialogTitle: context.appLocalizations.language,
-      options: [null, ...AppLocalizations.delegate.supportedLocales],
+      options: AppLocalizations.delegate.supportedLocales,
       onChanged: (Locale? locale) {
+        if (locale == null) return;
         ref
             .read(appSettingProvider.notifier)
-            .update((state) => state.copyWith(locale: locale?.toString()));
+            .update((state) => state.copyWith(locale: locale.toString()));
       },
-      textBuilder: (locale) => _getLocaleString(context, locale),
+      textBuilder: (locale) => locale.label,
       value: currentLocale,
     );
   }

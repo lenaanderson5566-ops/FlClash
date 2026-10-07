@@ -313,6 +313,15 @@ static FlMethodResponse* handle_is_position_supported([[maybe_unused]] WindowPlu
   return success_bool(supported);
 }
 
+static FlMethodResponse* handle_set_resizable(WindowPlugin* self, FlValue* args) {
+  bool value;
+  if (!arg_bool(args, "value", &value)) return bad_args_response("setResizable", "value");
+  GtkWindow* window = window_plugin_get_window(self);
+  if (window == nullptr) return not_ready_response();
+  gtk_window_set_resizable(window, value);
+  return success_response(nullptr);
+}
+
 static FlMethodResponse* handle_set_minimum_size(WindowPlugin* self,
                                                  FlValue* args) {
   double width, height;
@@ -452,6 +461,7 @@ static const MethodEntry kMethods[] = {
     {"getBounds", handle_get_bounds},
     {"setBounds", handle_set_bounds},
     {"isPositionSupported", handle_is_position_supported},
+    {"setResizable", handle_set_resizable},
     {"setMinimumSize", handle_set_minimum_size},
     {"isAlwaysOnTop", handle_is_always_on_top},
     {"setAlwaysOnTop", handle_set_always_on_top},

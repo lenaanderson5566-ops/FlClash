@@ -880,51 +880,68 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               ),
             ),
             const SizedBox(height: 12),
-            panel(
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(l.connection, style: context.textTheme.labelLarge),
-                    const SizedBox(height: 8),
-                    ConnectionSettings(
-                      isDesktop: widget.desktopLayout,
-                      segmented: true,
-                      enabled: !_busy,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(l.mode, style: context.textTheme.labelLarge),
-                    const SizedBox(height: 8),
-                    SegmentedButton<Mode>(
-                      showSelectedIcon: false,
-                      segments: [
-                        for (final value in [Mode.rule, Mode.global])
-                          ButtonSegment(
-                            value: value,
-                            label: Text(
-                              value == Mode.rule
-                                  ? l.fdSmartMode
-                                  : l.fdGlobalMode,
-                            ),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 20,
+              runSpacing: 4,
+              children: [
+                DropdownButtonHideUnderline(
+                  child: DropdownButton<Mode>(
+                    value: mode,
+                    isDense: true,
+                    style: context.textTheme.bodySmall,
+                    items: [
+                      for (final value in [Mode.rule, Mode.global])
+                        DropdownMenuItem(
+                          value: value,
+                          child: Text(
+                            value == Mode.rule ? l.fdSmartMode : l.fdGlobalMode,
                           ),
+                        ),
+                    ],
+                    onChanged: _busy
+                        ? null
+                        : (value) {
+                            if (value == null) return;
+                            if (_api == null) {
+                              _requestLogin();
+                              return;
+                            }
+                            ref
+                                .read(setupActionProvider.notifier)
+                                .changeMode(value);
+                          },
+                  ),
+                ),
+                if (widget.desktopLayout)
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<bool>(
+                      value: ref.watch(
+                        patchClashConfigProvider.select((s) => s.tun.enable),
+                      ),
+                      isDense: true,
+                      style: context.textTheme.bodySmall,
+                      items: [
+                        DropdownMenuItem(
+                          value: false,
+                          child: Text(l.systemProxy),
+                        ),
+                        DropdownMenuItem(value: true, child: Text(l.tun)),
                       ],
-                      selected: {mode},
-                      onSelectionChanged: _busy
+                      onChanged: _busy
                           ? null
-                          : (values) {
-                              if (_api == null) {
-                                _requestLogin();
-                                return;
+                          : (value) {
+                              if (value != null) {
+                                ref
+                                    .read(setupActionProvider.notifier)
+                                    .changeConnectionMode(value);
                               }
-                              ref
-                                  .read(setupActionProvider.notifier)
-                                  .changeMode(values.single);
                             },
                     ),
-                  ],
-                ),
-              ),
+                  )
+                else
+                  const ConnectionSettings(isDesktop: false),
+              ],
             ),
           ],
         ),

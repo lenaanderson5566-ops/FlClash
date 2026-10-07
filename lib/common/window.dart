@@ -55,9 +55,22 @@ class Window implements WindowPort {
     if (!system.isMacOS || version > 10) {
       await desktopWindow.setTitleBarStyle(TitleBarStyle.hidden);
     }
-    await desktopWindow.setSize(props.size);
-    await desktopWindow.setMinimumSize(const Size(380, 400));
-    await _windowPosition(props);
+    if (V2BoardConfig.enabled) {
+      final display = await screenRetriever.getPrimaryDisplay();
+      final available = display.visibleSize ?? display.size;
+      final scale = ((available.width - 32) / 960).clamp(0.0, 1.0);
+      final heightScale = ((available.height - 48) / 720).clamp(0.0, 1.0);
+      final fit = scale < heightScale ? scale : heightScale;
+      final size = Size(960 * fit, 720 * fit);
+      await desktopWindow.setSize(size);
+      await desktopWindow.setMinimumSize(size);
+      await desktopWindow.setResizable(false);
+      await desktopWindow.center();
+    } else {
+      await desktopWindow.setSize(props.size);
+      await desktopWindow.setMinimumSize(const Size(380, 400));
+      await _windowPosition(props);
+    }
     await desktopWindow.setPreventClose(true);
   }
 

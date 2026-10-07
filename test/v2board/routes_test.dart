@@ -104,6 +104,48 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+  testWidgets('route header stays fixed while the nodes scroll', (
+    tester,
+  ) async {
+    final container = ProviderContainer(
+      overrides: [
+        profilesProvider.overrideWith(() => TestProfiles([])),
+        groupsProvider.overrideWithBuild(
+          (_, _) => [
+            Group(
+              name: 'FastDog',
+              type: GroupType.Selector,
+              all: List.generate(
+                30,
+                (i) => Proxy(name: 'node_$i', type: 'Vless'),
+              ),
+            ),
+          ],
+        ),
+        fastaiNodeMetadataProvider.overrideWith((_) async => {}),
+      ],
+    );
+    addTearDown(container.dispose);
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: TestApp(
+          child: Scaffold(body: FastaiRoutesView(onSync: () async {})),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final title = find.text('Choose a route');
+    final before = tester.getTopLeft(title);
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, -500));
+    await tester.pumpAndSettle();
+    expect(tester.getTopLeft(title), before);
+    expect(find.byTooltip('Delay test'), findsOneWidget);
+    expect(find.text('node_0'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('route page shows nodes without engine labels', (tester) async {
     final container = ProviderContainer(
       overrides: [

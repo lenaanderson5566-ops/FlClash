@@ -133,6 +133,7 @@ void WindowPlugin::BuildHandlerTable() {
   handlers_["getBounds"] = &WindowPlugin::HandleGetBounds;
   handlers_["setBounds"] = &WindowPlugin::HandleSetBounds;
   handlers_["isPositionSupported"] = &WindowPlugin::HandleIsPositionSupported;
+  handlers_["setResizable"] = &WindowPlugin::HandleSetResizable;
   handlers_["setMinimumSize"] = &WindowPlugin::HandleSetMinimumSize;
   handlers_["isAlwaysOnTop"] = &WindowPlugin::HandleIsAlwaysOnTop;
   handlers_["setAlwaysOnTop"] = &WindowPlugin::HandleSetAlwaysOnTop;
@@ -269,6 +270,17 @@ void WindowPlugin::HandleSetBounds(const flutter::EncodableMap* args,
 void WindowPlugin::HandleIsPositionSupported(const flutter::EncodableMap*,
                                              std::unique_ptr<Result> result) {
   result->Success(flutter::EncodableValue(true));
+}
+
+void WindowPlugin::HandleSetResizable(const flutter::EncodableMap* args,
+                                      std::unique_ptr<Result> result) {
+  const auto value = GetBool(args, "value");
+  if (!value.has_value()) {
+    result->Error("bad_args", "setResizable: value");
+    return;
+  }
+  controller_.SetResizable(*value);
+  result->Success();
 }
 
 void WindowPlugin::HandleSetMinimumSize(const flutter::EncodableMap* args,

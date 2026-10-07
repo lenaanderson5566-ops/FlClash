@@ -58,6 +58,7 @@ class WindowPlugin : public flutter::Plugin {
   void HandleGetBounds(const flutter::EncodableMap* args, std::unique_ptr<Result> result);
   void HandleSetBounds(const flutter::EncodableMap* args, std::unique_ptr<Result> result);
   void HandleIsPositionSupported(const flutter::EncodableMap* args, std::unique_ptr<Result> result);
+  void HandleSetResizable(const flutter::EncodableMap* args, std::unique_ptr<Result> result);
   void HandleSetMinimumSize(const flutter::EncodableMap* args, std::unique_ptr<Result> result);
   void HandleIsAlwaysOnTop(const flutter::EncodableMap* args, std::unique_ptr<Result> result);
   void HandleSetAlwaysOnTop(const flutter::EncodableMap* args, std::unique_ptr<Result> result);

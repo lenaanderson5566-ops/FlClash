@@ -181,6 +181,9 @@ class DesktopWindow {
     });
   }
 
+  Future<void> setResizable(bool value) =>
+      _call('setResizable', {'value': value});
+
   Future<bool> isAlwaysOnTop() => _invoke<bool>('isAlwaysOnTop');
 
   Future<void> setAlwaysOnTop(bool value) {

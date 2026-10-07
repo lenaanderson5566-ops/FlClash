@@ -160,42 +160,63 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
       );
     }
 
-    return ListView(
-      padding: const EdgeInsets.all(24),
+    return Column(
       children: [
-        Text(l.fdChooseRoute, style: context.textTheme.headlineSmall),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              tooltip: l.delayTest,
-              onPressed: _busy || nodes.isEmpty
-                  ? null
-                  : () => _run(
-                      () => ref
-                          .read(proxiesActionProvider.notifier)
-                          .delayTest(nodes, group?.testUrl),
-                    ),
-              icon: const GlyphIcon(AppGlyphs.bolt),
-            ),
-            IconButton(
-              tooltip: l.fdSync,
-              onPressed: _busy ? null : () => _run(widget.onSync),
-              icon: const GlyphIcon(AppGlyphs.refresh),
-            ),
-          ],
-        ),
-        if (_busy) const LinearProgressIndicator(),
-        const SizedBox(height: 16),
-        if (auto != null) row(auto, l.fdAutoRoute),
-        for (final node in nodes)
-          row(node, nodeDisplayName(metadata[node.name], node.name, locale)),
-        if (nodes.isEmpty)
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(l.fdNodesUnavailable),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l.fdChooseRoute,
+                  style: context.textTheme.headlineSmall,
+                ),
+              ),
+              IconButton(
+                tooltip: l.delayTest,
+                onPressed: _busy || nodes.isEmpty
+                    ? null
+                    : () => _run(
+                        () => ref
+                            .read(proxiesActionProvider.notifier)
+                            .delayTest(nodes, group?.testUrl),
+                      ),
+                icon: const GlyphIcon(AppGlyphs.bolt),
+              ),
+              IconButton(
+                tooltip: l.fdSync,
+                onPressed: _busy ? null : () => _run(widget.onSync),
+                icon: const GlyphIcon(AppGlyphs.refresh),
+              ),
+            ],
           ),
+        ),
+        SizedBox(
+          height: 2,
+          child: _busy ? const LinearProgressIndicator() : null,
+        ),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+            itemCount:
+                (auto == null ? 0 : 1) + nodes.length + (nodes.isEmpty ? 1 : 0),
+            itemBuilder: (_, index) {
+              if (auto != null && index == 0) return row(auto, l.fdAutoRoute);
+              final nodeIndex = index - (auto == null ? 0 : 1);
+              if (nodeIndex >= nodes.length) {
+                return Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Text(l.fdNodesUnavailable),
+                );
+              }
+              final node = nodes[nodeIndex];
+              return row(
+                node,
+                nodeDisplayName(metadata[node.name], node.name, locale),
+              );
+            },
+          ),
+        ),
       ],
     );
   }

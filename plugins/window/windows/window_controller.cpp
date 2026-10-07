@@ -253,6 +253,15 @@ void WindowController::SetMinimumSize(double width, double height) {
                       : POINT{0, 0};
 }
 
+void WindowController::SetResizable(bool value) {
+  if (!hwnd_) return;
+  LONG_PTR style = ::GetWindowLongPtrW(hwnd_, GWL_STYLE);
+  const LONG_PTR flags = WS_THICKFRAME | WS_MAXIMIZEBOX;
+  ::SetWindowLongPtrW(hwnd_, GWL_STYLE, value ? style | flags : style & ~flags);
+  ::SetWindowPos(hwnd_, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+}
+
 bool WindowController::IsAlwaysOnTop() const {
   return hwnd_ != nullptr &&
         (::GetWindowLongW(hwnd_, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0;
@@ -385,6 +394,7 @@ std::optional<LRESULT> WindowController::HandleWindowMessage(
     ::EndPaint(hwnd, &paint);
     return 0;
   } else if (message == WM_NCHITTEST) {
+    if ((::GetWindowLongPtrW(hwnd, GWL_STYLE) & WS_THICKFRAME) == 0) return HTCLIENT;
     const LONG border = TopBorderHeight();
     if (border == 0) {
       return std::nullopt;

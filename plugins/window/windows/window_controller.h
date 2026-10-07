@@ -62,6 +62,7 @@ class WindowController {
   void SetBounds(std::optional<double> x, std::optional<double> y,
                  std::optional<double> width, std::optional<double> height);
   void SetMinimumSize(double width, double height);
+  void SetResizable(bool value);
 
   bool IsAlwaysOnTop() const;
   void SetAlwaysOnTop(bool value);

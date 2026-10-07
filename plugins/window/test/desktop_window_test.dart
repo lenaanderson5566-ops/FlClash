@@ -59,6 +59,12 @@ void main() {
         });
   });
 
+  test('resizing policy is sent to the native window', () async {
+    await desktopWindow.setResizable(false);
+    expect(calls.single.method, 'setResizable');
+    expect(calls.single.arguments, {'value': false});
+  });
+
   tearDown(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, null);

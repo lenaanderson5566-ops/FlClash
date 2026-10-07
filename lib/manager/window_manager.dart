@@ -1,3 +1,4 @@
+import 'package:fastai/v2board/config.dart';
 import 'dart:async';
 
 import 'package:fastai/common/common.dart';
@@ -355,6 +356,7 @@ class WindowCaptionController extends ValueNotifier<WindowCaptionState>
   }
 
   Future<void> toggleMaximized() async {
+    if (V2BoardConfig.enabled) return;
     if (await desktopWindow.isFullScreen()) {
       await desktopWindow.setFullScreen(false);
     } else if (await desktopWindow.isMaximized()) {
@@ -561,11 +563,12 @@ class WindowHeaderActions extends StatelessWidget {
               onPressed: onMinimize,
               icon: const CaptionIcon(CaptionGlyph.minimize),
             ),
-            IconButton(
-              tooltip: maximizeTooltip,
-              onPressed: onMaximize,
-              icon: CaptionIcon(maximizeGlyph),
-            ),
+            if (!V2BoardConfig.enabled)
+              IconButton(
+                tooltip: maximizeTooltip,
+                onPressed: onMaximize,
+                icon: CaptionIcon(maximizeGlyph),
+              ),
             IconButton(
               tooltip: appLocalizations.close,
               style: ButtonStyle(

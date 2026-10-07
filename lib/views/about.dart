@@ -73,6 +73,7 @@ class AboutView extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           ConfigToggleItem(
+            leading: const GlyphIcon(AppGlyphs.sync),
             title: (l) => l.autoCheckUpdate,
             subtitle: (l) => l.fdAutoCheckUpdateDesc,
             selector: appSettingProvider.select((s) => s.autoCheckUpdate),
@@ -124,7 +125,7 @@ class _AboutHero extends StatelessWidget {
     required this.onCheckUpdate,
   });
 
-  static const _logoSize = 96.0;
+  static const _logoSize = 80.0;
   static const _logoInset = 14.0;
 
   @override
@@ -158,28 +159,17 @@ class _AboutHero extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            alignment: WrapAlignment.center,
-            children: [
-              _Pill(
-                label: 'v${globalState.packageInfo.version}',
-                color: colorScheme.primary,
-                foregroundColor: colorScheme.onPrimary,
-              ),
-              _Pill(
-                label: 'GPL-3.0',
-                color: colorScheme.surfaceContainerHighest,
-                foregroundColor: colorScheme.onSurfaceVariant,
-              ),
-            ],
+          Text(
+            'v${globalState.packageInfo.version} · ${globalState.packageInfo.buildNumber}',
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 16),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 420),
             child: Text(
-              appLocalizations.desc,
+              appLocalizations.fdHeroSubtitle,
               textAlign: TextAlign.center,
               style: textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,
@@ -194,35 +184,6 @@ class _AboutHero extends StatelessWidget {
             label: Text(appLocalizations.checkUpdate),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Pill extends StatelessWidget {
-  final String label;
-  final Color color;
-  final Color foregroundColor;
-
-  const _Pill({
-    required this.label,
-    required this.color,
-    required this.foregroundColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: ShapeDecoration(color: color, shape: AppShape.full),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        child: Text(
-          label,
-          style: context.textTheme.labelMedium?.copyWith(
-            color: foregroundColor,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
       ),
     );
   }

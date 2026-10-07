@@ -141,6 +141,7 @@ public class WindowPlugin: NSObject, FlutterPlugin {
                 return nil
             },
             "isPositionSupported": { _ in try controller.isPositionSupported() },
+            "setResizable": { args in try controller.setResizable(args.bool("value")); return nil },
             "setMinimumSize": { args in
                 try controller.setMinimumSize(width: args.double("width"), height: args.double("height"))
                 return nil

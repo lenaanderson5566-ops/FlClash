@@ -153,6 +153,13 @@ final class WindowController: NSObject, NSWindowDelegate {
         return true
     }
 
+    func setResizable(_ value: Bool) throws {
+        let window = try requireWindow()
+        if value { window.styleMask.insert(.resizable) }
+        else { window.styleMask.remove(.resizable) }
+        window.standardWindowButton(.zoomButton)?.isEnabled = value
+    }
+
     func setMinimumSize(width: Double, height: Double) throws {
         let window = try requireWindow()
         window.minSize = NSSize(width: width, height: height)
