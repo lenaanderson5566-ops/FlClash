@@ -721,5 +721,10 @@
   "fdRepairVerified": "مسیر پروکسی تأیید شد. هشدارهای باقی‌مانده را در زیر بررسی کنید.",
   "fdRepairUnresolved": "عملیات پایان یافت، اما بازیابی تأیید نشد. راهنمای باقی‌مانده زیر را دنبال کنید.",
   "fdRouteChecking": "در حال بررسی…",
-  "fdPlan": "طرح"
+  "fdPlan": "طرح",
+  "fdLoginTitle": "ورود به حساب",
+  "fdShowPassword": "نمایش گذرواژه",
+  "fdHidePassword": "پنهان کردن گذرواژه",
+  "fdInvalidEmail": "نشانی ایمیل معتبر وارد کنید",
+  "fdSigningIn": "در حال ورود…"
 }

@@ -721,5 +721,10 @@
   "fdRepairVerified": "プロキシ経路の再検査に成功しました。残りの警告も確認してください。",
   "fdRepairUnresolved": "操作は完了しましたが、復旧は未確認です。以下の案内に従ってください。",
   "fdRouteChecking": "確認中…",
-  "fdPlan": "プラン"
+  "fdPlan": "プラン",
+  "fdLoginTitle": "アカウントにログイン",
+  "fdShowPassword": "パスワードを表示",
+  "fdHidePassword": "パスワードを非表示",
+  "fdInvalidEmail": "有効なメールアドレスを入力してください",
+  "fdSigningIn": "ログイン中…"
 }

@@ -5962,6 +5962,51 @@ class AppLocalizations {
   String get fdPlan {
     return Intl.message('Plan', name: 'fdPlan', desc: '', args: []);
   }
+
+  /// `Sign in to your account`
+  String get fdLoginTitle {
+    return Intl.message(
+      'Sign in to your account',
+      name: 'fdLoginTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show password`
+  String get fdShowPassword {
+    return Intl.message(
+      'Show password',
+      name: 'fdShowPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hide password`
+  String get fdHidePassword {
+    return Intl.message(
+      'Hide password',
+      name: 'fdHidePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid email address`
+  String get fdInvalidEmail {
+    return Intl.message(
+      'Enter a valid email address',
+      name: 'fdInvalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Signing in…`
+  String get fdSigningIn {
+    return Intl.message('Signing in…', name: 'fdSigningIn', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

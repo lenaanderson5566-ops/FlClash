@@ -451,6 +451,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "以下の結果を確認してください。修復は選択した場合のみ実行します。",
     ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("接続先を選び、ワンクリックで接続。"),
+    "fdHidePassword": MessageLookupByLibrary.simpleMessage("パスワードを非表示"),
     "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
       "サーバーから無効な設定が返されました。再同期するかサポートにお問い合わせください。",
@@ -458,12 +459,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "メールアドレスまたはパスワードが違います",
     ),
+    "fdInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "有効なメールアドレスを入力してください",
+    ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage("最新バージョンです"),
     "fdLocalProxy": MessageLookupByLibrary.simpleMessage("ローカルプロキシ"),
     "fdLocalProxyHint": MessageLookupByLibrary.simpleMessage(
       "HTTP / SOCKS5 · 接続後に他のアプリで使用できます。",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("ログイン"),
+    "fdLoginTitle": MessageLookupByLibrary.simpleMessage("アカウントにログイン"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("ログアウト"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("ネットワーク接続"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("ネットワーク診断"),
@@ -599,6 +604,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "セッションが切れました。再ログインしてください。",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("プラン"),
+    "fdShowPassword": MessageLookupByLibrary.simpleMessage("パスワードを表示"),
+    "fdSigningIn": MessageLookupByLibrary.simpleMessage("ログイン中…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("スマートモード"),
     "fdSync": MessageLookupByLibrary.simpleMessage("経路を更新"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

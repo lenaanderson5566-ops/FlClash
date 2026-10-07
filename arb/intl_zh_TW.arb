@@ -721,5 +721,10 @@
   "fdRepairVerified": "代理線路已透過複測，請繼續檢視下方剩餘提示。",
   "fdRepairUnresolved": "操作已執行，但尚未確認恢復，請按下方結果繼續排查。",
   "fdRouteChecking": "檢測中…",
-  "fdPlan": "方案"
+  "fdPlan": "方案",
+  "fdLoginTitle": "登入帳號",
+  "fdShowPassword": "顯示密碼",
+  "fdHidePassword": "隱藏密碼",
+  "fdInvalidEmail": "請輸入有效的電子郵件地址",
+  "fdSigningIn": "正在登入…"
 }

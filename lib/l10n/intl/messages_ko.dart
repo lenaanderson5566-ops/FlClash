@@ -443,6 +443,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "경로를 선택하고 한 번에 연결하세요.",
     ),
+    "fdHidePassword": MessageLookupByLibrary.simpleMessage("비밀번호 숨기기"),
     "fdHome": MessageLookupByLibrary.simpleMessage("홈"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
       "서버 설정에 문제가 있습니다. 다시 동기화하거나 고객 지원에 문의하세요.",
@@ -450,12 +451,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "이메일 또는 비밀번호가 올바르지 않습니다",
     ),
+    "fdInvalidEmail": MessageLookupByLibrary.simpleMessage("올바른 이메일 주소를 입력하세요"),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage("최신 버전입니다"),
     "fdLocalProxy": MessageLookupByLibrary.simpleMessage("로컬 프록시"),
     "fdLocalProxyHint": MessageLookupByLibrary.simpleMessage(
       "HTTP / SOCKS5 · 연결한 후 이 주소를 사용하세요.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("로그인"),
+    "fdLoginTitle": MessageLookupByLibrary.simpleMessage("계정 로그인"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("로그아웃"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("네트워크 연결"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("네트워크 진단"),
@@ -593,6 +596,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "로그인이 만료되었습니다. 다시 로그인하세요.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("요금제"),
+    "fdShowPassword": MessageLookupByLibrary.simpleMessage("비밀번호 표시"),
+    "fdSigningIn": MessageLookupByLibrary.simpleMessage("로그인 중…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("스마트 모드"),
     "fdSync": MessageLookupByLibrary.simpleMessage("연결 경로 새로고침"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

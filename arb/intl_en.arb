@@ -721,5 +721,10 @@
   "fdRepairVerified": "The proxy route passed verification. Review any remaining warnings below.",
   "fdRepairUnresolved": "The action finished, but recovery is not verified. Follow the remaining guidance below.",
   "fdRouteChecking": "Checking…",
-  "fdPlan": "Plan"
+  "fdPlan": "Plan",
+  "fdLoginTitle": "Sign in to your account",
+  "fdShowPassword": "Show password",
+  "fdHidePassword": "Hide password",
+  "fdInvalidEmail": "Enter a valid email address",
+  "fdSigningIn": "Signing in…"
 }

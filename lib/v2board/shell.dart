@@ -73,6 +73,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   V2BoardSession get _session => widget.session;
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _passwordFocus = FocusNode();
+  bool _passwordVisible = false;
+  bool _authenticating = false;
   final _form = GlobalKey<FormState>();
   V2BoardApi? _api;
   V2BoardAccount? _account;
@@ -200,6 +203,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _passwordFocus.dispose();
     _accountTimer?.cancel();
     _delayTimer?.cancel();
     _api?.close();
@@ -504,43 +508,48 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Future<void> _login() async {
-    if (!_form.currentState!.validate()) return;
-    await _run(() async {
-      final api = V2BoardApi(V2BoardConfig.panelUrl)
-        ..version = globalState.packageInfo.version;
-      api.language = Localizations.localeOf(context).toLanguageTag();
-      try {
-        _observeRequests(api);
-        await api.login(_email.text, _password.text);
-        if (!mounted) {
-          api.close();
-          return;
+    if (_busy || !_form.currentState!.validate()) return;
+    setState(() => _authenticating = true);
+    try {
+      await _run(() async {
+        final api = V2BoardApi(V2BoardConfig.panelUrl)
+          ..version = globalState.packageInfo.version;
+        api.language = Localizations.localeOf(context).toLanguageTag();
+        try {
+          _observeRequests(api);
+          await api.login(_email.text, _password.text);
+          if (!mounted) {
+            api.close();
+            return;
+          }
+          _api?.close();
+          _api = api;
+          _bindSession(api);
+          _password.clear();
+          await _refresh();
+          if (!mounted) return;
+          await _session.save(api);
+          if (!mounted) return;
+          if (mounted) setState(() => _showLogin = false);
+          if (_connectAfterLogin &&
+              _account?.active == true &&
+              ref.read(fastaiReleaseProvider)?.required != true) {
+            _connectAfterLogin = false;
+            _retryConnect = true;
+            _setActivity(context.appLocalizations.fdSyncingRoutes);
+            await _profile.connect(api, onConnecting: _connecting);
+          } else {
+            _connectAfterLogin = false;
+            await _syncAvailable();
+          }
+        } catch (_) {
+          if (_api != api) api.close();
+          rethrow;
         }
-        _api?.close();
-        _api = api;
-        _bindSession(api);
-        _password.clear();
-        await _refresh();
-        if (!mounted) return;
-        await _session.save(api);
-        if (!mounted) return;
-        if (mounted) setState(() => _showLogin = false);
-        if (_connectAfterLogin &&
-            _account?.active == true &&
-            ref.read(fastaiReleaseProvider)?.required != true) {
-          _connectAfterLogin = false;
-          _retryConnect = true;
-          _setActivity(context.appLocalizations.fdSyncingRoutes);
-          await _profile.connect(api, onConnecting: _connecting);
-        } else {
-          _connectAfterLogin = false;
-          await _syncAvailable();
-        }
-      } catch (_) {
-        if (_api != api) api.close();
-        rethrow;
-      }
-    });
+      });
+    } finally {
+      if (mounted) setState(() => _authenticating = false);
+    }
   }
 
   void _observeRequests(V2BoardApi api) {
@@ -680,7 +689,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       child: TextFormField(
         controller: controller,
         enabled: !_busy,
-        obscureText: password,
+        focusNode: password ? _passwordFocus : null,
+        textDirection: ui.TextDirection.ltr,
+        textInputAction: password ? TextInputAction.done : TextInputAction.next,
+        obscureText: password && !_passwordVisible,
         autocorrect: false,
         enableSuggestions: false,
         keyboardType: password
@@ -689,12 +701,40 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         autofillHints: [
           password ? AutofillHints.password : AutofillHints.username,
         ],
-        decoration: InputDecoration(labelText: label),
-        validator: (value) => (value ?? '').trim().isEmpty
-            ? context.appLocalizations.fdRequired
-            : null,
+        decoration: InputDecoration(
+          labelText: label,
+          suffixIcon: password
+              ? IconButton(
+                  tooltip: _passwordVisible
+                      ? context.appLocalizations.fdHidePassword
+                      : context.appLocalizations.fdShowPassword,
+                  onPressed: _busy
+                      ? null
+                      : () => setState(
+                          () => _passwordVisible = !_passwordVisible,
+                        ),
+                  icon: GlyphIcon(
+                    _passwordVisible ? AppGlyphs.eyeOff : AppGlyphs.eye,
+                  ),
+                )
+              : null,
+        ),
+        validator: (value) {
+          final text = (value ?? '').trim();
+          if (text.isEmpty) return context.appLocalizations.fdRequired;
+          if (!password &&
+              !RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(text)) {
+            return context.appLocalizations.fdInvalidEmail;
+          }
+          return null;
+        },
         onFieldSubmitted: (_) {
-          if (!_busy) unawaited(_login());
+          if (_busy) return;
+          if (password) {
+            unawaited(_login());
+          } else {
+            _passwordFocus.requestFocus();
+          }
         },
       ),
     );
@@ -713,15 +753,66 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _brandHeader(V2BoardConfig.appName, l.fdWelcome),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/fastai-mark.svg',
+                        width: 40,
+                        height: 40,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        V2BoardConfig.appName,
+                        style: context.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    l.fdLoginTitle,
+                    style: context.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    l.fdWelcome,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: context.colorScheme.onSurfaceVariant,
+                      height: 1.5,
+                    ),
+                  ),
                   const SizedBox(height: 24),
                   _field(_email, l.fdEmail),
                   _field(_password, l.password, password: true),
                   const SizedBox(height: 16),
                   FilledButton(
                     onPressed: _busy ? null : _login,
-                    child: Text(l.fdLogin),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (_busy) ...[
+                            const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                          Flexible(
+                            child: Text(
+                              _authenticating ? l.fdSigningIn : l.fdLogin,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
+                  const SizedBox(height: 16),
                   TextButton(
                     onPressed: _busy ? null : () => _run(_portal),
                     child: Text(l.fdRegisterHelp),
@@ -756,25 +847,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               value,
               textAlign: TextAlign.end,
               style: context.textTheme.titleSmall,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _brandHeader(String title, String subtitle) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: context.textTheme.headlineMedium),
-          const SizedBox(height: 8),
-          Text(
-            subtitle,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colorScheme.onSurfaceVariant,
             ),
           ),
         ],

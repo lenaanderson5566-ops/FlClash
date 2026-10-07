@@ -514,12 +514,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "مسیر را انتخاب کنید و با یک کلیک متصل شوید.",
     ),
+    "fdHidePassword": MessageLookupByLibrary.simpleMessage(
+      "پنهان کردن گذرواژه",
+    ),
     "fdHome": MessageLookupByLibrary.simpleMessage("خانه"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
       "پیکربندی سرور نامعتبر است. دوباره همگام‌سازی کنید یا با پشتیبانی تماس بگیرید.",
     ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "ایمیل یا گذرواژه نادرست است",
+    ),
+    "fdInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "نشانی ایمیل معتبر وارد کنید",
     ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
       "برنامه به‌روز است",
@@ -529,6 +535,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "HTTP / SOCKS5 · پیش از استفاده از این نشانی متصل شوید.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("ورود"),
+    "fdLoginTitle": MessageLookupByLibrary.simpleMessage("ورود به حساب"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("خروج از حساب"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("اتصال شبکه"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
@@ -692,6 +699,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "نشست منقضی شده است. دوباره وارد شوید.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("طرح‌ها"),
+    "fdShowPassword": MessageLookupByLibrary.simpleMessage("نمایش گذرواژه"),
+    "fdSigningIn": MessageLookupByLibrary.simpleMessage("در حال ورود…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("حالت هوشمند"),
     "fdSync": MessageLookupByLibrary.simpleMessage("تازه‌سازی مسیرها"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

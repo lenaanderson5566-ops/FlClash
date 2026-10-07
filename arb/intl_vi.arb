@@ -721,5 +721,10 @@
   "fdRepairVerified": "Tuyến proxy đã được xác minh. Xem các cảnh báo còn lại bên dưới.",
   "fdRepairUnresolved": "Thao tác đã xong nhưng chưa xác minh được khôi phục. Làm theo hướng dẫn còn lại bên dưới.",
   "fdRouteChecking": "Đang kiểm tra…",
-  "fdPlan": "Gói dịch vụ"
+  "fdPlan": "Gói dịch vụ",
+  "fdLoginTitle": "Đăng nhập tài khoản",
+  "fdShowPassword": "Hiện mật khẩu",
+  "fdHidePassword": "Ẩn mật khẩu",
+  "fdInvalidEmail": "Nhập địa chỉ email hợp lệ",
+  "fdSigningIn": "Đang đăng nhập…"
 }

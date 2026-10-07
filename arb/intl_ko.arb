@@ -721,5 +721,10 @@
   "fdRepairVerified": "프록시 경로 확인에 성공했습니다. 아래 남은 경고를 확인하세요.",
   "fdRepairUnresolved": "작업은 완료되었지만 복구는 확인되지 않았습니다. 아래 남은 안내를 따르세요.",
   "fdRouteChecking": "확인 중…",
-  "fdPlan": "요금제"
+  "fdPlan": "요금제",
+  "fdLoginTitle": "계정 로그인",
+  "fdShowPassword": "비밀번호 표시",
+  "fdHidePassword": "비밀번호 숨기기",
+  "fdInvalidEmail": "올바른 이메일 주소를 입력하세요",
+  "fdSigningIn": "로그인 중…"
 }

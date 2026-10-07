@@ -531,12 +531,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Chọn tuyến. Kết nối chỉ với một chạm.",
     ),
+    "fdHidePassword": MessageLookupByLibrary.simpleMessage("Ẩn mật khẩu"),
     "fdHome": MessageLookupByLibrary.simpleMessage("Trang chủ"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
       "Cấu hình từ máy chủ không hợp lệ. Đồng bộ lại hoặc liên hệ hỗ trợ.",
     ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Email hoặc mật khẩu không đúng",
+    ),
+    "fdInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "Nhập địa chỉ email hợp lệ",
     ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
       "Ứng dụng đã được cập nhật",
@@ -546,6 +550,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "HTTP / SOCKS5 · Kết nối trước khi dùng địa chỉ này.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
+    "fdLoginTitle": MessageLookupByLibrary.simpleMessage("Đăng nhập tài khoản"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("Kết nối mạng"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
@@ -715,6 +720,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Phiên đã hết hạn. Vui lòng đăng nhập lại.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Gói dịch vụ"),
+    "fdShowPassword": MessageLookupByLibrary.simpleMessage("Hiện mật khẩu"),
+    "fdSigningIn": MessageLookupByLibrary.simpleMessage("Đang đăng nhập…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Chế độ thông minh"),
     "fdSync": MessageLookupByLibrary.simpleMessage("Làm mới tuyến"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

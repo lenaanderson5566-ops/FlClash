@@ -544,12 +544,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Выберите сервер и подключитесь одним нажатием.",
     ),
+    "fdHidePassword": MessageLookupByLibrary.simpleMessage("Скрыть пароль"),
     "fdHome": MessageLookupByLibrary.simpleMessage("Главная"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
       "Сервер вернул некорректную конфигурацию. Повторите синхронизацию или обратитесь в поддержку.",
     ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Неверная почта или пароль",
+    ),
+    "fdInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "Введите действительный адрес электронной почты",
     ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
       "Установлена последняя версия",
@@ -559,6 +563,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "HTTP / SOCKS5 · Подключитесь перед использованием адреса.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
+    "fdLoginTitle": MessageLookupByLibrary.simpleMessage("Вход в аккаунт"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage(
       "Сетевое соединение",
@@ -732,6 +737,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Сессия истекла. Войдите снова.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Тарифы"),
+    "fdShowPassword": MessageLookupByLibrary.simpleMessage("Показать пароль"),
+    "fdSigningIn": MessageLookupByLibrary.simpleMessage("Вход…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Умный режим"),
     "fdSync": MessageLookupByLibrary.simpleMessage("Обновить маршруты"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

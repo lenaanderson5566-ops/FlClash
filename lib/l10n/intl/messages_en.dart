@@ -529,12 +529,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Choose a route. Connect in one click.",
     ),
+    "fdHidePassword": MessageLookupByLibrary.simpleMessage("Hide password"),
     "fdHome": MessageLookupByLibrary.simpleMessage("Home"),
     "fdInvalidConfig": MessageLookupByLibrary.simpleMessage(
       "The server returned an invalid configuration. Sync again or contact support.",
     ),
     "fdInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Email or password is incorrect",
+    ),
+    "fdInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "Enter a valid email address",
     ),
     "fdLatestVersion": MessageLookupByLibrary.simpleMessage(
       "Your app is up to date",
@@ -544,6 +548,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "HTTP / SOCKS5 · Connect before using this address.",
     ),
     "fdLogin": MessageLookupByLibrary.simpleMessage("Sign in"),
+    "fdLoginTitle": MessageLookupByLibrary.simpleMessage(
+      "Sign in to your account",
+    ),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage(
       "Network connectivity",
@@ -715,6 +722,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Your session expired. Please sign in again.",
     ),
     "fdShop": MessageLookupByLibrary.simpleMessage("Plans"),
+    "fdShowPassword": MessageLookupByLibrary.simpleMessage("Show password"),
+    "fdSigningIn": MessageLookupByLibrary.simpleMessage("Signing in…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Smart mode"),
     "fdSync": MessageLookupByLibrary.simpleMessage("Refresh routes"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(

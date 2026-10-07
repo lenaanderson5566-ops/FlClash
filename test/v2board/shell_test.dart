@@ -550,6 +550,44 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
+  testWidgets(
+    'login supports password visibility, next focus and email validation',
+    (tester) async {
+      await show(tester, null);
+      await tester.tap(find.widgetWithText(FilledButton, 'Connect'));
+      await tester.pumpAndSettle();
+      final fields = find.byType(TextFormField);
+      await tester.enterText(fields.first, 'invalid-email');
+      await tester.testTextInput.receiveAction(TextInputAction.next);
+      await tester.pump();
+      expect(
+        tester
+            .widget<EditableText>(find.byType(EditableText).last)
+            .focusNode
+            .hasFocus,
+        isTrue,
+      );
+      await tester.enterText(fields.last, 'example-password');
+      expect(
+        tester.widget<EditableText>(find.byType(EditableText).last).obscureText,
+        isTrue,
+      );
+      await tester.tap(find.byTooltip('Show password'));
+      await tester.pump();
+      expect(
+        tester.widget<EditableText>(find.byType(EditableText).last).obscureText,
+        isFalse,
+      );
+      await tester.tap(find.byTooltip('Hide password'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
+      await tester.pumpAndSettle();
+      expect(find.text('Enter a valid email address'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
   testWidgets('desktop guests browse navigation and sign in only to connect', (
     tester,
   ) async {
@@ -642,6 +680,32 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+
+  for (final locale in const [
+    Locale('zh', 'CN'),
+    Locale('zh', 'TW'),
+    Locale('en'),
+    Locale('ja'),
+    Locale('ko'),
+    Locale('vi'),
+    Locale('ru'),
+    Locale('fa'),
+  ]) {
+    testWidgets('login fits a narrow window in $locale', (tester) async {
+      tester.view.physicalSize = const Size(360, 700);
+      tester.view.devicePixelRatio = 1;
+      tester.platformDispatcher.textScaleFactorTestValue = 1.4;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await show(tester, null, locale: locale);
+      await tester.tap(find.byType(NavigationDestination).at(3));
+      await tester.pumpAndSettle();
+      expect(find.byType(TextFormField), findsNWidgets(2));
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+  }
 
   testWidgets('branded login fits a narrow window with larger text', (
     tester,
