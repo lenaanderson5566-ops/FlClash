@@ -582,6 +582,8 @@ void main() {
         tester.widget<EditableText>(find.byType(EditableText).last).obscureText,
         isTrue,
       );
+      await tester.ensureVisible(find.byTooltip('Show password'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Show password'));
       await tester.pump();
       expect(
@@ -590,6 +592,8 @@ void main() {
       );
       await tester.tap(find.byTooltip('Hide password'));
       await tester.pump();
+      await tester.ensureVisible(find.widgetWithText(FilledButton, 'Sign in'));
+      await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
       await tester.pumpAndSettle();
       expect(find.text('Enter a valid email address'), findsOneWidget);

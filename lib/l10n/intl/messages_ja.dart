@@ -337,6 +337,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "バックグラウンドと通知",
     ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("アカウント停止中"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "認証を受け取りました。FastAI に戻ってログインを完了してください。",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "認証の有効期限が切れました。もう一度ログインしてください。",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "ブラウザーでのログインを完了できませんでした。再試行するかメールでログインしてください。",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage("ブラウザーでログイン"),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage(
+      "ブラウザーでの確認を待っています…",
+    ),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "サーバー証明書を確認できません。システム時刻を確認するかサポートにお問い合わせください。",
     ),
@@ -438,6 +451,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未接続"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("切断中…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("メールアドレス"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage("またはメールでログイン"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
       "通信量を使い切りました。更新または追加容量を購入してください。",
     ),

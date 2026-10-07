@@ -7,6 +7,11 @@ String clientProblemMessage(
   AppLocalizations l, {
   required bool hadSession,
 }) => switch (problem.code) {
+  'CLIENT_AUTH_EXPIRED' => l.fdBrowserExpired,
+  'CLIENT_AUTH_INVALID' ||
+  'CLIENT_AUTH_UNAVAILABLE' ||
+  'INVALID_CLIENT_REDIRECT' ||
+  'client_auth_unavailable' => l.fdBrowserFailed,
   'reset_inactive' => l.fdResetInactive,
   'reset_empty' => l.fdResetEmpty,
   'reset_no_credit' => l.fdResetNoCredit,

@@ -726,5 +726,11 @@
   "fdShowPassword": "비밀번호 표시",
   "fdHidePassword": "비밀번호 숨기기",
   "fdInvalidEmail": "올바른 이메일 주소를 입력하세요",
-  "fdSigningIn": "로그인 중…"
+  "fdSigningIn": "로그인 중…",
+  "fdBrowserLogin": "브라우저로 로그인",
+  "fdBrowserWaiting": "브라우저 확인 대기 중…",
+  "fdEmailLogin": "또는 이메일로 로그인",
+  "fdBrowserComplete": "인증을 받았습니다. FastAI로 돌아가 로그인을 완료하세요.",
+  "fdBrowserExpired": "인증이 만료되었습니다. 브라우저 로그인을 다시 시작하세요.",
+  "fdBrowserFailed": "브라우저 로그인을 완료할 수 없습니다. 다시 시도하거나 이메일로 로그인하세요."
 }

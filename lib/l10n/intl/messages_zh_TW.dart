@@ -313,6 +313,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAutoRoute": MessageLookupByLibrary.simpleMessage("自動選擇"),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage("後臺與通知"),
     "fdBanned": MessageLookupByLibrary.simpleMessage("賬戶已停用"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "已收到授權，請返回 FastAI 完成登入。",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "授權已過期，請重新發起瀏覽器登入。",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "瀏覽器登入未完成，請重試或使用電子郵件登入。",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage("透過瀏覽器登入"),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage("等待瀏覽器確認…"),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "無法驗證伺服器證書，請檢查系統時間或聯絡支援。",
     ),
@@ -410,6 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未連線"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("正在斷開…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("郵箱"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage("或使用電子郵件登入"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage("流量已用盡，請續費或購買流量包。"),
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("週期到期時間"),

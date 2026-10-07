@@ -397,6 +397,21 @@ class MessageLookup extends MessageLookupByLibrary {
       "Background and notifications",
     ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("Account disabled"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "Authorization received. Return to FastAI to complete sign-in.",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "Authorization expired. Start browser sign-in again.",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "Browser sign-in could not be completed. Please try again or sign in with email.",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage(
+      "Continue in browser",
+    ),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage(
+      "Waiting for browser confirmation…",
+    ),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Unable to verify the server certificate. Check your system clock or contact support.",
     ),
@@ -508,6 +523,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Disconnecting…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("Email"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage(
+      "Or sign in with email",
+    ),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
       "Traffic exhausted. Renew or buy credits.",
     ),

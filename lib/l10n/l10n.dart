@@ -6007,6 +6007,66 @@ class AppLocalizations {
   String get fdSigningIn {
     return Intl.message('Signing in…', name: 'fdSigningIn', desc: '', args: []);
   }
+
+  /// `Continue in browser`
+  String get fdBrowserLogin {
+    return Intl.message(
+      'Continue in browser',
+      name: 'fdBrowserLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting for browser confirmation…`
+  String get fdBrowserWaiting {
+    return Intl.message(
+      'Waiting for browser confirmation…',
+      name: 'fdBrowserWaiting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Or sign in with email`
+  String get fdEmailLogin {
+    return Intl.message(
+      'Or sign in with email',
+      name: 'fdEmailLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorization received. Return to FastAI to complete sign-in.`
+  String get fdBrowserComplete {
+    return Intl.message(
+      'Authorization received. Return to FastAI to complete sign-in.',
+      name: 'fdBrowserComplete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorization expired. Start browser sign-in again.`
+  String get fdBrowserExpired {
+    return Intl.message(
+      'Authorization expired. Start browser sign-in again.',
+      name: 'fdBrowserExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browser sign-in could not be completed. Please try again or sign in with email.`
+  String get fdBrowserFailed {
+    return Intl.message(
+      'Browser sign-in could not be completed. Please try again or sign in with email.',
+      name: 'fdBrowserFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

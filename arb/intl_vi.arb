@@ -726,5 +726,11 @@
   "fdShowPassword": "Hiện mật khẩu",
   "fdHidePassword": "Ẩn mật khẩu",
   "fdInvalidEmail": "Nhập địa chỉ email hợp lệ",
-  "fdSigningIn": "Đang đăng nhập…"
+  "fdSigningIn": "Đang đăng nhập…",
+  "fdBrowserLogin": "Đăng nhập qua trình duyệt",
+  "fdBrowserWaiting": "Đang chờ xác nhận trên trình duyệt…",
+  "fdEmailLogin": "Hoặc đăng nhập bằng email",
+  "fdBrowserComplete": "Đã nhận ủy quyền. Quay lại FastAI để hoàn tất đăng nhập.",
+  "fdBrowserExpired": "Ủy quyền đã hết hạn. Hãy đăng nhập lại qua trình duyệt.",
+  "fdBrowserFailed": "Không thể hoàn tất đăng nhập qua trình duyệt. Hãy thử lại hoặc dùng email."
 }

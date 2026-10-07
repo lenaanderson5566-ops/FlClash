@@ -726,5 +726,11 @@
   "fdShowPassword": "パスワードを表示",
   "fdHidePassword": "パスワードを非表示",
   "fdInvalidEmail": "有効なメールアドレスを入力してください",
-  "fdSigningIn": "ログイン中…"
+  "fdSigningIn": "ログイン中…",
+  "fdBrowserLogin": "ブラウザーでログイン",
+  "fdBrowserWaiting": "ブラウザーでの確認を待っています…",
+  "fdEmailLogin": "またはメールでログイン",
+  "fdBrowserComplete": "認証を受け取りました。FastAI に戻ってログインを完了してください。",
+  "fdBrowserExpired": "認証の有効期限が切れました。もう一度ログインしてください。",
+  "fdBrowserFailed": "ブラウザーでのログインを完了できませんでした。再試行するかメールでログインしてください。"
 }

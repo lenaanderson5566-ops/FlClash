@@ -726,5 +726,11 @@
   "fdShowPassword": "Show password",
   "fdHidePassword": "Hide password",
   "fdInvalidEmail": "Enter a valid email address",
-  "fdSigningIn": "Signing in…"
+  "fdSigningIn": "Signing in…",
+  "fdBrowserLogin": "Continue in browser",
+  "fdBrowserWaiting": "Waiting for browser confirmation…",
+  "fdEmailLogin": "Or sign in with email",
+  "fdBrowserComplete": "Authorization received. Return to FastAI to complete sign-in.",
+  "fdBrowserExpired": "Authorization expired. Start browser sign-in again.",
+  "fdBrowserFailed": "Browser sign-in could not be completed. Please try again or sign in with email."
 }

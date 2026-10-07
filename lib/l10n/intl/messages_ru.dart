@@ -408,6 +408,21 @@ class MessageLookup extends MessageLookupByLibrary {
       "Фоновая работа и уведомления",
     ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("Аккаунт заблокирован"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "Авторизация получена. Вернитесь в FastAI для завершения входа.",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "Срок авторизации истёк. Начните вход через браузер заново.",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось завершить вход через браузер. Повторите попытку или войдите по электронной почте.",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage(
+      "Войти через браузер",
+    ),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage(
+      "Ожидание подтверждения в браузере…",
+    ),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Не удалось проверить сертификат сервера. Проверьте системное время или обратитесь в поддержку.",
     ),
@@ -523,6 +538,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Не подключено"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Отключение…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("Электронная почта"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage(
+      "Или войти по электронной почте",
+    ),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
       "Трафик исчерпан. Продлите тариф или купите пакет.",
     ),

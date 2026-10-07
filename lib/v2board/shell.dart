@@ -1,5 +1,6 @@
 import 'dart:ui' as ui show TextDirection;
 import 'account_avatar.dart';
+import 'browser_login.dart';
 import 'network_diagnostics.dart';
 import 'connection_diagnostics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -76,6 +77,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   final _passwordFocus = FocusNode();
   bool _passwordVisible = false;
   bool _authenticating = false;
+  BrowserLogin? _browserLogin;
   final _form = GlobalKey<FormState>();
   V2BoardApi? _api;
   V2BoardAccount? _account;
@@ -204,6 +206,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _email.dispose();
     _password.dispose();
     _passwordFocus.dispose();
+    _browserLogin?.cancel();
     _accountTimer?.cancel();
     _delayTimer?.cancel();
     _api?.close();
@@ -222,7 +225,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     try {
       await action();
     } on V2BoardProblem catch (error) {
-      if (!mounted) return;
+      if (!mounted || error.code == 'client_auth_cancelled') return;
       final hadSession = _api != null;
       if (_api != null && error.sessionRejected) {
         await _forget();
@@ -509,6 +512,34 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
 
   Future<void> _login() async {
     if (_busy || !_form.currentState!.validate()) return;
+    await _authenticate((api) => api.login(_email.text, _password.text));
+  }
+
+  Future<void> _loginWithBrowser() async {
+    if (_busy) return;
+    final login = BrowserLogin(
+      platform: defaultTargetPlatform == TargetPlatform.macOS
+          ? 'macos'
+          : defaultTargetPlatform.name,
+      completedMessage: context.appLocalizations.fdBrowserComplete,
+    );
+    setState(() => _browserLogin = login);
+    try {
+      await _authenticate(
+        (api) => login.authenticate(
+          api,
+          Uri.parse(V2BoardConfig.websiteUrl),
+          (url) => launchUrl(url, mode: LaunchMode.externalApplication),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _browserLogin = null);
+    }
+  }
+
+  Future<void> _authenticate(
+    Future<void> Function(V2BoardApi) authorize,
+  ) async {
     setState(() => _authenticating = true);
     try {
       await _run(() async {
@@ -517,7 +548,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         api.language = Localizations.localeOf(context).toLanguageTag();
         try {
           _observeRequests(api);
-          await api.login(_email.text, _password.text);
+          await authorize(api);
           if (!mounted) {
             api.close();
             return;
@@ -785,6 +816,44 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     ),
                   ),
                   const SizedBox(height: 24),
+                  if (defaultTargetPlatform == TargetPlatform.windows ||
+                      defaultTargetPlatform == TargetPlatform.macOS ||
+                      defaultTargetPlatform == TargetPlatform.linux ||
+                      defaultTargetPlatform == TargetPlatform.android) ...[
+                    FilledButton.icon(
+                      onPressed: _busy ? null : _loginWithBrowser,
+                      icon: const GlyphIcon(AppGlyphs.openExternal, fill: 1),
+                      label: Text(
+                        _browserLogin == null
+                            ? l.fdBrowserLogin
+                            : l.fdBrowserWaiting,
+                      ),
+                    ),
+                    if (_browserLogin != null)
+                      TextButton(
+                        onPressed: _browserLogin!.cancel,
+                        child: Text(l.cancel),
+                      ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        Flexible(
+                          flex: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              l.fdEmailLogin,
+                              textAlign: TextAlign.center,
+                              style: context.textTheme.bodySmall,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                   _field(_email, l.fdEmail),
                   _field(_password, l.password, password: true),
                   const SizedBox(height: 16),

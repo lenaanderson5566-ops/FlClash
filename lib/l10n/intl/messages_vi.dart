@@ -399,6 +399,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdBanned": MessageLookupByLibrary.simpleMessage(
       "Tài khoản bị vô hiệu hóa",
     ),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "Đã nhận ủy quyền. Quay lại FastAI để hoàn tất đăng nhập.",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "Ủy quyền đã hết hạn. Hãy đăng nhập lại qua trình duyệt.",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "Không thể hoàn tất đăng nhập qua trình duyệt. Hãy thử lại hoặc dùng email.",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập qua trình duyệt",
+    ),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage(
+      "Đang chờ xác nhận trên trình duyệt…",
+    ),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Không thể xác minh chứng chỉ máy chủ. Kiểm tra giờ hệ thống hoặc liên hệ hỗ trợ.",
     ),
@@ -510,6 +525,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đang ngắt kết nối…",
     ),
     "fdEmail": MessageLookupByLibrary.simpleMessage("Email"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage(
+      "Hoặc đăng nhập bằng email",
+    ),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
       "Đã hết lưu lượng. Hãy gia hạn hoặc mua thêm.",
     ),

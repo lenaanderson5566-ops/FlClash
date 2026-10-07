@@ -108,8 +108,16 @@ void main() {
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
     final macos = File('macos/Runner/Info.plist').readAsStringSync();
-    expect(android, isNot(contains('android.intent.action.VIEW')));
-    expect(android, isNot(contains('android.intent.category.BROWSABLE')));
+    final callbacks = RegExp(r'<intent-filter>[\s\S]*?</intent-filter>')
+        .allMatches(android)
+        .map((match) => match.group(0)!)
+        .where((filter) => filter.contains('android.intent.action.VIEW'))
+        .toList();
+    expect(callbacks, hasLength(1));
+    expect(callbacks.single, contains('android:scheme="ws.fastdog.fastai"'));
+    expect(callbacks.single, contains('android:host="oauth"'));
+    expect(callbacks.single, contains('android:path="/callback"'));
+    expect(callbacks.single, isNot(contains('install-config')));
     expect(macos, isNot(contains('CFBundleURLTypes')));
     for (final platform in ['appimage', 'deb', 'rpm']) {
       final config = File(

@@ -726,5 +726,11 @@
   "fdShowPassword": "顯示密碼",
   "fdHidePassword": "隱藏密碼",
   "fdInvalidEmail": "請輸入有效的電子郵件地址",
-  "fdSigningIn": "正在登入…"
+  "fdSigningIn": "正在登入…",
+  "fdBrowserLogin": "透過瀏覽器登入",
+  "fdBrowserWaiting": "等待瀏覽器確認…",
+  "fdEmailLogin": "或使用電子郵件登入",
+  "fdBrowserComplete": "已收到授權，請返回 FastAI 完成登入。",
+  "fdBrowserExpired": "授權已過期，請重新發起瀏覽器登入。",
+  "fdBrowserFailed": "瀏覽器登入未完成，請重試或使用電子郵件登入。"
 }

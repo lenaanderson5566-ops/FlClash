@@ -288,6 +288,27 @@ class V2BoardApi {
       '/auth/sessions',
       body: {'email': email.trim(), 'password': password, 'language': language},
     );
+    _acceptSession(result);
+  }
+
+  Future<void> exchangeClientCode(
+    String code,
+    String verifier,
+    String redirectUri,
+  ) async {
+    final result = await object(
+      'POST',
+      '/auth/client-session-exchanges',
+      body: {
+        'authorizationCode': code,
+        'codeVerifier': verifier,
+        'redirectUri': redirectUri,
+      },
+    );
+    _acceptSession(result);
+  }
+
+  void _acceptSession(V10Object result) {
     final token = result['accessToken'];
     if (token is! String || token.isEmpty || result['tokenType'] != 'Bearer') {
       throw const V2BoardProblem('invalid_response');

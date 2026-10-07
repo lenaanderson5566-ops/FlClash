@@ -14,7 +14,11 @@ window title are fastai; this also gives Windows a distinct app data directory.
 
 ## User flow
 
-Login accepts email and password. The panel origin is fixed by build configuration.
+Login offers system-browser authorization with email/password as a fallback.
+Windows/macOS/Linux use a temporary IPv4 loopback listener; Android accepts only
+`ws.fastdog.fastai://oauth/callback` during an active attempt. Authorization uses
+S256 PKCE, a random state, five-minute requests and one-minute single-use codes.
+No subscription import routes are enabled. The panel origin is fixed by build configuration.
 Home focuses on connecting and the selected route. Connection lists available
 routes. Account shows period traffic, independent traffic and reset entitlements.
 Settings contains client preferences and network troubleshooting. About owns
@@ -39,8 +43,8 @@ and revokes the remote session when reachable. Credentials must never be logged.
 The inherited disclaimer and developer test screens have been removed.
 Consumer builds disable manual file, URL and QR profile import, backup restoration,
 and generic profile refresh at their action boundaries as well as in navigation.
-They do not subscribe to AppLinks and do not register URL protocols. Android has no
-VIEW/BROWSABLE import filter, macOS has no CFBundleURLTypes, and Linux packages
+They do not subscribe to generic AppLinks or register import protocols. Android has
+one VIEW/BROWSABLE filter for the dedicated authorization callback, macOS has no CFBundleURLTypes, and Linux packages
 advertise no scheme handlers. Windows and Linux reject URL-shaped startup arguments
 before forwarding them to an existing application. These checks also prevent stale
 OS registrations from activating the new executable with import URLs.

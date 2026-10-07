@@ -726,5 +726,11 @@
   "fdShowPassword": "نمایش گذرواژه",
   "fdHidePassword": "پنهان کردن گذرواژه",
   "fdInvalidEmail": "نشانی ایمیل معتبر وارد کنید",
-  "fdSigningIn": "در حال ورود…"
+  "fdSigningIn": "در حال ورود…",
+  "fdBrowserLogin": "ورود از طریق مرورگر",
+  "fdBrowserWaiting": "در انتظار تأیید مرورگر…",
+  "fdEmailLogin": "یا ورود با ایمیل",
+  "fdBrowserComplete": "مجوز دریافت شد. برای تکمیل ورود به FastAI برگردید.",
+  "fdBrowserExpired": "مجوز منقضی شده است. ورود از طریق مرورگر را دوباره آغاز کنید.",
+  "fdBrowserFailed": "ورود از طریق مرورگر تکمیل نشد. دوباره تلاش کنید یا با ایمیل وارد شوید."
 }

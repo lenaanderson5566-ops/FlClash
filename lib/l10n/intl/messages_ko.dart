@@ -325,6 +325,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "백그라운드 및 알림",
     ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("계정 사용 중지"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "인증을 받았습니다. FastAI로 돌아가 로그인을 완료하세요.",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "인증이 만료되었습니다. 브라우저 로그인을 다시 시작하세요.",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "브라우저 로그인을 완료할 수 없습니다. 다시 시도하거나 이메일로 로그인하세요.",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage("브라우저로 로그인"),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage("브라우저 확인 대기 중…"),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "서버 인증서를 확인할 수 없습니다. 시스템 시간 확인 또는 고객 지원 문의가 필요합니다.",
     ),
@@ -426,6 +437,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("연결되지 않음"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("연결 끊는 중…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("이메일"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage("또는 이메일로 로그인"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
       "데이터가 소진되었습니다. 갱신하거나 데이터를 구매하세요.",
     ),

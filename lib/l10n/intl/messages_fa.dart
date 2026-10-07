@@ -384,6 +384,21 @@ class MessageLookup extends MessageLookupByLibrary {
       "پس‌زمینه و اعلان‌ها",
     ),
     "fdBanned": MessageLookupByLibrary.simpleMessage("حساب غیرفعال شده"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "مجوز دریافت شد. برای تکمیل ورود به FastAI برگردید.",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "مجوز منقضی شده است. ورود از طریق مرورگر را دوباره آغاز کنید.",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "ورود از طریق مرورگر تکمیل نشد. دوباره تلاش کنید یا با ایمیل وارد شوید.",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage(
+      "ورود از طریق مرورگر",
+    ),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage(
+      "در انتظار تأیید مرورگر…",
+    ),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "گواهی سرور تأیید نشد. ساعت سیستم را بررسی کنید یا با پشتیبانی تماس بگیرید.",
     ),
@@ -493,6 +508,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "در حال قطع اتصال…",
     ),
     "fdEmail": MessageLookupByLibrary.simpleMessage("ایمیل"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage("یا ورود با ایمیل"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage(
       "داده تمام شده است. تمدید کنید یا داده بخرید.",
     ),

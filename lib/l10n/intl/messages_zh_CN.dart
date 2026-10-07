@@ -313,6 +313,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdAutoRoute": MessageLookupByLibrary.simpleMessage("自动选择"),
     "fdBackgroundNotifications": MessageLookupByLibrary.simpleMessage("后台与通知"),
     "fdBanned": MessageLookupByLibrary.simpleMessage("账户已停用"),
+    "fdBrowserComplete": MessageLookupByLibrary.simpleMessage(
+      "已收到授权，请返回 FastAI 完成登录。",
+    ),
+    "fdBrowserExpired": MessageLookupByLibrary.simpleMessage(
+      "授权已过期，请重新发起浏览器登录。",
+    ),
+    "fdBrowserFailed": MessageLookupByLibrary.simpleMessage(
+      "浏览器登录未完成，请重试或使用邮箱登录。",
+    ),
+    "fdBrowserLogin": MessageLookupByLibrary.simpleMessage("通过浏览器登录"),
+    "fdBrowserWaiting": MessageLookupByLibrary.simpleMessage("等待浏览器确认…"),
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "无法验证服务器证书，请检查系统时间或联系支持。",
     ),
@@ -410,6 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未连接"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("正在断开…"),
     "fdEmail": MessageLookupByLibrary.simpleMessage("邮箱"),
+    "fdEmailLogin": MessageLookupByLibrary.simpleMessage("或使用邮箱登录"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage("流量已用尽，请续费或购买流量包。"),
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("周期到期时间"),

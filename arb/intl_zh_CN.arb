@@ -726,5 +726,11 @@
   "fdShowPassword": "显示密码",
   "fdHidePassword": "隐藏密码",
   "fdInvalidEmail": "请输入有效的邮箱地址",
-  "fdSigningIn": "正在登录…"
+  "fdSigningIn": "正在登录…",
+  "fdBrowserLogin": "通过浏览器登录",
+  "fdBrowserWaiting": "等待浏览器确认…",
+  "fdEmailLogin": "或使用邮箱登录",
+  "fdBrowserComplete": "已收到授权，请返回 FastAI 完成登录。",
+  "fdBrowserExpired": "授权已过期，请重新发起浏览器登录。",
+  "fdBrowserFailed": "浏览器登录未完成，请重试或使用邮箱登录。"
 }
