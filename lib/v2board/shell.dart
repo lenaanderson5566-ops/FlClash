@@ -525,13 +525,22 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     );
     setState(() => _browserLogin = login);
     try {
-      await _authenticate(
-        (api) => login.authenticate(
+      await _authenticate((api) async {
+        await login.authenticate(
           api,
           Uri.parse(V2BoardConfig.websiteUrl),
           (url) => launchUrl(url, mode: LaunchMode.externalApplication),
-        ),
-      );
+        );
+        if (!mounted) return;
+        try {
+          await windowPort?.show();
+        } catch (error) {
+          commonPrint.log(
+            'Browser sign-in window activation failed: ${compactError(error)}',
+            logLevel: LogLevel.warning,
+          );
+        }
+      });
     } finally {
       if (mounted) setState(() => _browserLogin = null);
     }

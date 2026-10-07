@@ -57,6 +57,21 @@ void main() {
     expect(Window(), same(Window()));
   });
 
+  test('show restores a minimized window before activating it', () async {
+    isMinimized = true;
+    await Window().show();
+    expect(
+      calls,
+      containsAllInOrder(['isMinimized', 'restore', 'show', 'focus']),
+    );
+  });
+
+  test('show preserves an unminimized window state', () async {
+    await Window().show();
+    expect(calls, containsAllInOrder(['isMinimized', 'show', 'focus']));
+    expect(calls, isNot(contains('restore')));
+  });
+
   testWidgets('show raises the window and puts it back on the taskbar', (
     tester,
   ) async {

@@ -205,6 +205,9 @@ class Window implements WindowPort {
   Future<void> toggle() => _visibility.toggle();
 
   Future<void> _showWindow() async {
+    if (await desktopWindow.isMinimized()) {
+      await desktopWindow.restore();
+    }
     await desktopWindow.show();
     await desktopWindow.focus();
   }
