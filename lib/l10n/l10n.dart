@@ -7478,20 +7478,20 @@ class AppLocalizations {
     );
   }
 
-  /// `Website and test domain resolved successfully.`
+  /// `Public test domains resolved successfully.`
   String get fdDiagnosticDnsOk {
     return Intl.message(
-      'Website and test domain resolved successfully.',
+      'Public test domains resolved successfully.',
       name: 'fdDiagnosticDnsOk',
       desc: '',
       args: [],
     );
   }
 
-  /// `The website responded over HTTPS.`
+  /// `The public test endpoint returned the expected response.`
   String get fdDiagnosticWebsiteOk {
     return Intl.message(
-      'The website responded over HTTPS.',
+      'The public test endpoint returned the expected response.',
       name: 'fdDiagnosticWebsiteOk',
       desc: '',
       args: [],
@@ -7518,10 +7518,10 @@ class AppLocalizations {
     );
   }
 
-  /// `The website is unavailable or access is restricted. Check the system clock and network, then retry.`
+  /// `The public test endpoint could not be verified. This alone does not mean all Internet access is unavailable.`
   String get fdDiagnosticWebsiteFail {
     return Intl.message(
-      'The website is unavailable or access is restricted. Check the system clock and network, then retry.',
+      'The public test endpoint could not be verified. This alone does not mean all Internet access is unavailable.',
       name: 'fdDiagnosticWebsiteFail',
       desc: '',
       args: [],
@@ -7798,10 +7798,10 @@ class AppLocalizations {
     );
   }
 
-  /// `HTTPS certificate validation stays enabled. HTTP 200–399 is accepted within 8 seconds; redirects are not followed.`
+  /// `Certificate validation is enabled. The public test endpoint must return HTTP 204 within 8 seconds; redirects are not followed.`
   String get fdReportWebCriteria {
     return Intl.message(
-      'HTTPS certificate validation stays enabled. HTTP 200–399 is accepted within 8 seconds; redirects are not followed.',
+      'Certificate validation is enabled. The public test endpoint must return HTTP 204 within 8 seconds; redirects are not followed.',
       name: 'fdReportWebCriteria',
       desc: '',
       args: [],
@@ -7848,10 +7848,10 @@ class AppLocalizations {
     );
   }
 
-  /// `1. Check the system date and time.\n2. Open the official website in a browser and complete any network sign-in.\n3. For HTTP errors or persistent TLS errors, contact support. Do not disable certificate validation.`
+  /// `1. Check the system date and time.\n2. Complete any Wi-Fi sign-in and try another network.\n3. Compare the other test endpoint and proxy path. Do not disable certificate validation.`
   String get fdReportWebSteps {
     return Intl.message(
-      '1. Check the system date and time.\n2. Open the official website in a browser and complete any network sign-in.\n3. For HTTP errors or persistent TLS errors, contact support. Do not disable certificate validation.',
+      '1. Check the system date and time.\n2. Complete any Wi-Fi sign-in and try another network.\n3. Compare the other test endpoint and proxy path. Do not disable certificate validation.',
       name: 'fdReportWebSteps',
       desc: '',
       args: [],
@@ -8131,6 +8131,36 @@ class AppLocalizations {
   /// `Copy JSON`
   String get fdCopyJson {
     return Intl.message('Copy JSON', name: 'fdCopyJson', desc: '', args: []);
+  }
+
+  /// `Public HTTPS connectivity`
+  String get fdPublicConnectivity {
+    return Intl.message(
+      'Public HTTPS connectivity',
+      name: 'fdPublicConnectivity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Network connectivity`
+  String get fdNetworkChecks {
+    return Intl.message(
+      'Network connectivity',
+      name: 'fdNetworkChecks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client configuration`
+  String get fdClientChecks {
+    return Intl.message(
+      'Client configuration',
+      name: 'fdClientChecks',
+      desc: '',
+      args: [],
+    );
   }
 }
 

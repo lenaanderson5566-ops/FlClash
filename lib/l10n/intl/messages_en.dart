@@ -662,6 +662,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Website TLS certificate",
     ),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Choose a route"),
+    "fdClientChecks": MessageLookupByLibrary.simpleMessage(
+      "Client configuration",
+    ),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI is temporarily unavailable. Contact support on the website.",
     ),
@@ -716,7 +719,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "DNS lookup failed or timed out. Check your network or try another network.",
     ),
     "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Website and test domain resolved successfully.",
+      "Public test domains resolved successfully.",
     ),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
       "Check connectivity and get troubleshooting tips",
@@ -771,10 +774,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Not verified on this platform. Check system proxy, other VPN apps and firewall settings if connection fails.",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "The website is unavailable or access is restricted. Check the system clock and network, then retry.",
+      "The public test endpoint could not be verified. This alone does not mean all Internet access is unavailable.",
     ),
     "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "The website responded over HTTPS.",
+      "The public test endpoint returned the expected response.",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "Diagnostic report copied",
@@ -832,6 +835,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Sign in"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("Monthly"),
+    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage(
+      "Network connectivity",
+    ),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
       "Network check",
     ),
@@ -870,6 +876,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("Previous page"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("Processing"),
+    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
+      "Public HTTPS connectivity",
+    ),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("Quarterly"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Try again later.",
@@ -938,10 +947,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdReportTime": MessageLookupByLibrary.simpleMessage("Check started"),
     "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Not verified"),
     "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "HTTPS certificate validation stays enabled. HTTP 200–399 is accepted within 8 seconds; redirects are not followed.",
+      "Certificate validation is enabled. The public test endpoint must return HTTP 204 within 8 seconds; redirects are not followed.",
     ),
     "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Check the system date and time.\n2. Open the official website in a browser and complete any network sign-in.\n3. For HTTP errors or persistent TLS errors, contact support. Do not disable certificate validation.",
+      "1. Check the system date and time.\n2. Complete any Wi-Fi sign-in and try another network.\n3. Compare the other test endpoint and proxy path. Do not disable certificate validation.",
     ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "The operation failed. Please retry.",

@@ -9,7 +9,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:fastai/l10n/l10n.dart';
 
-import 'config.dart';
 import 'diagnostic_result.dart';
 export 'diagnostic_result.dart';
 
@@ -30,10 +29,13 @@ String diagnosticErrorCode(Object error) => switch (error) {
 class NetworkProbe {
   const NetworkProbe();
   static const timeout = Duration(seconds: 8);
+  static final connectivityTarget = Uri.parse(
+    'https://cp.cloudflare.com/generate_204',
+  );
 
   Future<Map<String, String>> dns() async {
     final hosts = {
-      V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
+      NetworkProbe.connectivityTarget.host,
       Uri.parse(defaultTestUrl).host,
     };
     final values = await Future.wait([
@@ -60,8 +62,8 @@ class NetworkProbe {
   }
 
   Future<Map<String, String>> tcp() async {
-    final host = V2BoardConfig.origin(V2BoardConfig.websiteUrl).host;
-    final port = V2BoardConfig.origin(V2BoardConfig.websiteUrl).port;
+    final host = NetworkProbe.connectivityTarget.host;
+    final port = NetworkProbe.connectivityTarget.port;
     final socket = await Socket.connect(host, port, timeout: timeout);
     try {
       return {
@@ -76,7 +78,7 @@ class NetworkProbe {
   }
 
   Future<Map<String, String>> tls() async {
-    final origin = V2BoardConfig.origin(V2BoardConfig.websiteUrl);
+    final origin = NetworkProbe.connectivityTarget;
     final socket = await SecureSocket.connect(
       origin.host,
       origin.port,
@@ -103,7 +105,7 @@ class NetworkProbe {
   }
 
   Future<Map<String, String>> website() =>
-      _https(V2BoardConfig.origin(V2BoardConfig.websiteUrl));
+      _https(NetworkProbe.connectivityTarget);
   Future<Map<String, String>> reference() => _https(Uri.parse(defaultTestUrl));
 
   Future<Map<String, String>> _https(Uri target) async {
@@ -114,6 +116,7 @@ class NetworkProbe {
       'path': 'system-no-explicit-proxy',
       'redirects': 'false',
       'tlsValidation': 'true',
+      'expectedHTTP': '204',
     };
     try {
       return await (() async {
@@ -121,7 +124,7 @@ class NetworkProbe {
         request.followRedirects = false;
         final response = await request.close();
         parameters['HTTP'] = '${response.statusCode}';
-        if (response.statusCode < 200 || response.statusCode >= 400) {
+        if (response.statusCode != 204) {
           throw DiagnosticProbeFailure('http_status', parameters);
         }
         return parameters;
@@ -182,12 +185,12 @@ Future<List<NetworkCheckResult>> runNetworkChecks({
     check(NetworkCheck.dns, probe.dns, const {}),
     check(NetworkCheck.website, probe.website, const {}),
     check(NetworkCheck.tcp, probe.tcp, {
-      'target': V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
-      'port': '${V2BoardConfig.origin(V2BoardConfig.websiteUrl).port}',
+      'target': NetworkProbe.connectivityTarget.host,
+      'port': '${NetworkProbe.connectivityTarget.port}',
     }),
     check(NetworkCheck.tls, probe.tls, {
-      'target': V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
-      'port': '${V2BoardConfig.origin(V2BoardConfig.websiteUrl).port}',
+      'target': NetworkProbe.connectivityTarget.host,
+      'port': '${NetworkProbe.connectivityTarget.port}',
     }),
     check(NetworkCheck.reference, probe.reference, {'target': defaultTestUrl}),
     if (checkProxy)
@@ -209,7 +212,7 @@ Future<List<NetworkCheckResult>> runNetworkChecks({
 String diagnosticTitle(AppLocalizations l, NetworkCheck check) =>
     switch (check) {
       NetworkCheck.dns => l.fdDiagnosticDns,
-      NetworkCheck.website => l.fdOfficialWebsite,
+      NetworkCheck.website => l.fdPublicConnectivity,
       NetworkCheck.proxy => l.fdLocalProxy,
       NetworkCheck.settings => l.settings,
       NetworkCheck.systemProxy => l.systemProxy,
@@ -396,7 +399,9 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
     final scheme = context.colorScheme;
     final failed = result.status == NetworkCheckStatus.failed;
     return Card(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 6),
+      elevation: 0,
+      color: scheme.surface,
       shape: AppShape.lg.copyWith(
         side: BorderSide(
           color: failed
@@ -408,21 +413,25 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
       child: ExpansionTile(
         key: ValueKey('${_at.toIso8601String()}:${result.check}'),
         initiallyExpanded: failed,
-        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
         leading: GlyphIcon(
           result.status == NetworkCheckStatus.passed
               ? AppGlyphs.check
               : AppGlyphs.info,
-          color: failed ? scheme.error : scheme.primary,
+          color: switch (result.status) {
+            NetworkCheckStatus.passed => const Color(0xFF23865A),
+            NetworkCheckStatus.failed => scheme.error,
+            _ => scheme.onSurfaceVariant,
+          },
         ),
         title: Text(
-          '${diagnosticTitle(l, result.check)} · ${diagnosticStatus(l, result.status)}',
+          diagnosticTitle(l, result.check),
           style: context.textTheme.titleSmall,
         ),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            diagnosticDetail(l, result),
+            '${diagnosticStatus(l, result.status)}${result.parameters.containsKey('elapsedMs') ? ' · ${result.parameters['elapsedMs']} ms' : ''}',
             style: context.textTheme.bodySmall,
           ),
         ),
@@ -433,10 +442,15 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _section(
-                  l.fdReportRepair,
-                  diagnosticGuidance(l, result),
-                  selectable: true,
+                  diagnosticStatus(l, result.status),
+                  diagnosticDetail(l, result),
                 ),
+                if (result.status != NetworkCheckStatus.passed)
+                  _section(
+                    l.fdReportRepair,
+                    diagnosticGuidance(l, result),
+                    selectable: true,
+                  ),
                 const Divider(height: 24),
                 _section(
                   l.fdReportCriteria,
@@ -457,17 +471,36 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                         style: context.textTheme.titleSmall,
                       ),
                       const SizedBox(height: 8),
-                      SelectableText(
-                        result.parameters.isEmpty
-                            ? l.fdReportNoData
-                            : result.parameters.entries
-                                  .map((e) => '${e.key}: ${e.value}')
-                                  .join('\n'),
-                        style: context.textTheme.bodySmall?.copyWith(
-                          fontFamily: 'monospace',
-                          height: 1.6,
-                        ),
-                      ),
+                      if (result.parameters.isEmpty)
+                        Text(l.fdReportNoData)
+                      else
+                        for (final entry in result.parameters.entries)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    entry.key,
+                                    style: context.textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: scheme.onSurfaceVariant,
+                                        ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  flex: 3,
+                                  child: SelectableText(
+                                    entry.value,
+                                    style: context.textTheme.bodySmall,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                     ],
                   ),
                 ),
@@ -529,7 +562,7 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: ShapeDecoration(
-                      color: scheme.primaryContainer.withValues(alpha: 0.45),
+                      color: scheme.surfaceContainerLow,
                       shape: AppShape.lg,
                     ),
                     child: Column(
@@ -559,20 +592,21 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                             runSpacing: 8,
                             children: [
                               for (final status in NetworkCheckStatus.values)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 7,
+                                if (_results.any((r) => r.status == status))
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 7,
+                                    ),
+                                    decoration: ShapeDecoration(
+                                      color: scheme.surface,
+                                      shape: AppShape.sm,
+                                    ),
+                                    child: Text(
+                                      '${diagnosticStatus(l, status)} ${_results.where((r) => r.status == status).length}',
+                                      style: context.textTheme.labelMedium,
+                                    ),
                                   ),
-                                  decoration: ShapeDecoration(
-                                    color: scheme.surface,
-                                    shape: AppShape.sm,
-                                  ),
-                                  child: Text(
-                                    '${diagnosticStatus(l, status)} ${_results.where((r) => r.status == status).length}',
-                                    style: context.textTheme.labelMedium,
-                                  ),
-                                ),
                             ],
                           ),
                         if (!_busy) ...[
@@ -615,30 +649,40 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                       ),
                     ),
                   ],
-                  if (failed.isNotEmpty) ...[
-                    Text(
-                      l.fdHealthPriority,
-                      style: context.textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      l.fdHealthPriorityHint,
-                      style: context.textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 12),
-                    for (final result in failed) _resultCard(result),
-                    const SizedBox(height: 12),
-                  ],
                   if (!_busy) ...[
-                    Text(
-                      l.fdHealthDetails,
-                      style: context.textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 12),
-                    for (final result in _results.where(
-                      (r) => r.status != NetworkCheckStatus.failed,
-                    ))
-                      _resultCard(result),
+                    for (final group in [
+                      (
+                        l.fdNetworkChecks,
+                        {
+                          NetworkCheck.dns,
+                          NetworkCheck.tcp,
+                          NetworkCheck.tls,
+                          NetworkCheck.website,
+                          NetworkCheck.reference,
+                          NetworkCheck.route,
+                        },
+                      ),
+                      (
+                        l.fdClientChecks,
+                        {
+                          NetworkCheck.settings,
+                          NetworkCheck.proxy,
+                          NetworkCheck.systemProxy,
+                        },
+                      ),
+                    ]) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          group.$1,
+                          style: context.textTheme.titleMedium,
+                        ),
+                      ),
+                      for (final result in _results.where(
+                        (r) => group.$2.contains(r.check),
+                      ))
+                        _resultCard(result),
+                    ],
                     const SizedBox(height: 8),
                     Text(
                       l.fdReportPrivacy,

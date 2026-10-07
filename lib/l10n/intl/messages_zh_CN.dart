@@ -500,6 +500,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("官网 TCP 连接"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("官网 TLS 证书"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("选择线路"),
+    "fdClientChecks": MessageLookupByLibrary.simpleMessage("客户端配置"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI 暂时不可用，请前往官网联系支持。",
     ),
@@ -549,7 +550,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
       "域名解析失败或超时，请检查网络或切换网络后重试。",
     ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("官网和检测域名解析正常。"),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("公共检测域名解析成功。"),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("检查连通性并获取处理建议"),
     "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
       "Windows 代理或 PAC 与当前模式不一致，请检查其他 VPN/代理软件及系统代理设置，再重新连接。",
@@ -597,10 +598,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "此平台暂未核实，请在连接异常时检查系统代理、其他 VPN 和防火墙设置。",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "官网访问失败或受限，请检查系统时间及网络后重试。",
+      "公共检测端点未通过检查，不能仅凭此结果判断整个互联网不可用。",
     ),
     "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "官网 HTTPS 已响应。",
+      "公共检测端点返回了预期响应。",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage("已复制诊断报告"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("断开连接"),
@@ -638,6 +639,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("登录"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("退出登录"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("月付"),
+    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("网络连通性"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("一键网络诊断"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage("无法访问面板，请检查网络后重试。"),
     "fdNext": MessageLookupByLibrary.simpleMessage("下一页"),
@@ -662,6 +664,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("个人资料"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("上一页"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("处理中"),
+    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
+      "公共 HTTPS 连通性",
+    ),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("季付"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作过于频繁，请稍后重试。"),
     "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
@@ -718,10 +723,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdReportTime": MessageLookupByLibrary.simpleMessage("检查开始时间"),
     "fdReportUnverified": MessageLookupByLibrary.simpleMessage("未验证"),
     "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "保持 HTTPS 证书校验，8 秒内收到 HTTP 200–399 视为响应成功，不跟随重定向。",
+      "保持证书验证开启。公共检测端点须在 8 秒内返回 HTTP 204，不跟随重定向。",
     ),
     "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 检查系统日期和时间是否正确。\n2. 用浏览器访问官网，并完成可能存在的网络登录认证。\n3. HTTP 错误或 TLS 持续失败时联系支持，不要关闭证书校验。",
+      "1. 检查系统日期和时间。\n2. 完成 Wi-Fi 联网认证，或尝试其他网络。\n3. 对照另一检测端点和代理路径结果，不要关闭证书验证。",
     ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage("操作失败，请重试。"),
     "fdRequestTimeout": MessageLookupByLibrary.simpleMessage("请求超时，请检查网络后重试。"),

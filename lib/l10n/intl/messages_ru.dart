@@ -683,6 +683,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("TLS-сертификат сайта"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
+    "fdClientChecks": MessageLookupByLibrary.simpleMessage("Настройки клиента"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI временно недоступен. Обратитесь в поддержку на сайте.",
     ),
@@ -741,7 +742,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ошибка DNS или тайм-аут. Проверьте сеть или попробуйте другую.",
     ),
     "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Домены сайта и тестового адреса разрешены.",
+      "Публичные тестовые домены успешно разрешены.",
     ),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
       "Проверка соединения и рекомендации",
@@ -798,10 +799,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "На этой платформе не проверено. При сбое проверьте системный прокси, другие VPN и брандмауэр.",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "Сайт недоступен или доступ ограничен. Проверьте системное время и сеть, затем повторите.",
+      "Не удалось проверить тестовый адрес. Это само по себе не означает недоступность всего Интернета.",
     ),
     "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "Сайт ответил по HTTPS.",
+      "Публичный тестовый адрес вернул ожидаемый ответ.",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "Диагностический отчёт скопирован",
@@ -861,6 +862,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("Месяц"),
+    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage(
+      "Сетевое соединение",
+    ),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
       "Диагностика сети",
     ),
@@ -897,6 +901,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("Личный профиль"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("Предыдущая"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("Обработка"),
+    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
+      "Публичное HTTPS-соединение",
+    ),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("Квартал"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Слишком много запросов. Повторите позже.",
@@ -963,10 +970,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdReportTime": MessageLookupByLibrary.simpleMessage("Начало проверки"),
     "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Не проверено"),
     "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "Проверка сертификата включена. HTTP 200–399 за 8 секунд считается ответом; перенаправления не выполняются.",
+      "Проверка сертификата включена. Ожидается HTTP 204 за 8 секунд, без перехода по перенаправлениям.",
     ),
     "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Проверьте дату и время.\n2. Откройте сайт в браузере и войдите в сеть.\n3. При ошибках HTTP/TLS обратитесь в поддержку, не отключая проверку сертификата.",
+      "1. Проверьте дату и время.\n2. Завершите авторизацию Wi-Fi или попробуйте другую сеть.\n3. Сравните результаты другого адреса и прокси. Не отключайте проверку сертификата.",
     ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "Операция не выполнена. Повторите попытку.",

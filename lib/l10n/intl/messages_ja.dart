@@ -549,6 +549,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("公式サイト TCP 接続"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("公式サイト TLS 証明書"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("接続先を選ぶ"),
+    "fdClientChecks": MessageLookupByLibrary.simpleMessage("クライアント設定"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI は一時的に利用できません。公式サイトからサポートにお問い合わせください。",
     ),
@@ -599,7 +600,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "名前解決が失敗またはタイムアウトしました。ネットワークを確認するか、別の回線でお試しください。",
     ),
     "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "公式サイトと検査先の名前解決に成功しました。",
+      "公開テストドメインを正常に名前解決しました。",
     ),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("接続状態と対処方法を確認"),
     "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
@@ -648,10 +649,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "この環境では未検証です。接続に失敗する場合はシステムプロキシ、他の VPN、ファイアウォールを確認してください。",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "公式サイトにアクセスできません。端末の日時とネットワークを確認して再試行してください。",
+      "公開テスト先を確認できませんでした。この結果だけではインターネット全体の障害とは判断できません。",
     ),
     "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "公式サイトから HTTPS 応答を受信しました。",
+      "公開テスト先から期待した応答を受信しました。",
     ),
     "fdDiagnosticsCopied": MessageLookupByLibrary.simpleMessage(
       "診断レポートをコピーしました",
@@ -695,6 +696,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("ログイン"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("ログアウト"),
     "fdMonthly": MessageLookupByLibrary.simpleMessage("1か月"),
+    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("ネットワーク接続"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("ネットワーク診断"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "パネルに接続できません。ネットワークを確認してください。",
@@ -721,6 +723,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPersonalProfile": MessageLookupByLibrary.simpleMessage("プロフィール"),
     "fdPrevious": MessageLookupByLibrary.simpleMessage("前のページ"),
     "fdProcessing": MessageLookupByLibrary.simpleMessage("処理中"),
+    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
+      "パブリック HTTPS 接続",
+    ),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("3か月"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。しばらくお待ちください。",
@@ -781,10 +786,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdReportTime": MessageLookupByLibrary.simpleMessage("確認開始時刻"),
     "fdReportUnverified": MessageLookupByLibrary.simpleMessage("未検証"),
     "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "証明書を検証し、8秒以内の HTTP 200–399 を成功とします。リダイレクトは追跡しません。",
+      "証明書を検証し、8 秒以内の HTTP 204 応答を確認します。リダイレクトには追従しません。",
     ),
     "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 日時を確認。\n2. ブラウザーで公式サイトとネットワーク認証を確認。\n3. HTTP/TLS エラーが続く場合はサポートへ。証明書検証は無効にしないでください。",
+      "1. システム日時を確認します。\n2. Wi-Fi 認証を完了するか、別のネットワークを試します。\n3. 別のテスト先とプロキシ経路の結果を比較します。証明書検証を無効にしないでください。",
     ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "操作に失敗しました。再試行してください。",

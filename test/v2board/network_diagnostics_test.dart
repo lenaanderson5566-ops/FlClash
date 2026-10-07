@@ -136,7 +136,10 @@ void main() {
       expect(report, contains('What to do next'));
       expect(report, contains('2026-10-07T00:00:00.000Z'));
       expect(find.text('Copy report'), findsOneWidget);
-      expect(find.textContaining('HTTP: 503'), findsOneWidget);
+      expect(find.text('HTTP'), findsOneWidget);
+      expect(find.text('503'), findsOneWidget);
+      expect(find.text('Public HTTPS connectivity'), findsOneWidget);
+      expect(find.text('Network connectivity'), findsOneWidget);
       expect(find.text('Not verified 1'), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
@@ -205,8 +208,10 @@ void main() {
       const NetworkCheckResult(NetworkCheck.dns, NetworkCheckStatus.passed),
     ]);
     await tester.pumpAndSettle();
+    await tester.tap(find.byType(ExpansionTile).first);
+    await tester.pumpAndSettle();
     expect(
-      find.text('Website and test domain resolved successfully.'),
+      find.text('Public test domains resolved successfully.'),
       findsOneWidget,
     );
     pending = Completer<List<NetworkCheckResult>>();
