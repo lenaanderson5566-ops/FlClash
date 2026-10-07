@@ -11,6 +11,32 @@ import '../helpers/test_app.dart';
 import '../helpers/test_profiles.dart';
 
 void main() {
+  testWidgets(
+    'route health distinguishes unknown, failure and measured latency',
+    (tester) async {
+      for (final entry in <int?, String>{
+        null: 'Not checked',
+        0: 'Check failed',
+        -1: 'Check failed',
+        120: 'Low latency',
+        450: 'Higher latency',
+      }.entries) {
+        await tester.pumpWidget(
+          TestApp(
+            child: Scaffold(body: RouteHealthIndicator(delay: entry.key)),
+          ),
+        );
+        expect(find.text(entry.value), findsOneWidget);
+        if (entry.key != null && entry.key! > 0) {
+          expect(
+            find.byTooltip('Last measurement: ${entry.key} ms'),
+            findsOneWidget,
+          );
+        }
+        expect(tester.takeException(), isNull);
+      }
+    },
+  );
   test('route selection exposes real nodes while retaining engine groups', () {
     const root = Group(
       name: 'FastDog',
@@ -99,7 +125,7 @@ void main() {
         tester.getTopLeft(find.text('United States · San Jose')).dy,
         lessThan(tester.getTopLeft(find.text('Japan · Tokyo')).dy),
       );
-      expect(find.byTooltip('Delay test'), findsOneWidget);
+      expect(find.byTooltip('Delay test'), findsNothing);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     },
@@ -140,7 +166,7 @@ void main() {
     await tester.drag(find.byType(Scrollable).first, const Offset(0, -500));
     await tester.pumpAndSettle();
     expect(tester.getTopLeft(title), before);
-    expect(find.byTooltip('Delay test'), findsOneWidget);
+    expect(find.byTooltip('Delay test'), findsNothing);
     expect(find.text('node_0'), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());

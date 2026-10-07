@@ -804,6 +804,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unable to check available resets. Refresh account information and retry.",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("Check reset result"),
+    "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Check failed"),
+    "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage(
+      "Last measurement",
+    ),
+    "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("Low latency"),
+    "fdRouteSlow": MessageLookupByLibrary.simpleMessage("Higher latency"),
+    "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("Not checked"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Semiannual"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Your session expired. Please sign in again.",

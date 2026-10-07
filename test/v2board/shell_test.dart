@@ -195,12 +195,12 @@ void main() {
       );
       api.pendingAccount = null;
       await tester.scrollUntilVisible(
-        find.widgetWithText(TextButton, 'Refresh'),
-        180,
+        find.byTooltip('Refresh'),
+        -180,
         scrollable: find.byType(Scrollable).first,
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.widgetWithText(TextButton, 'Refresh'));
+      await tester.tap(find.byTooltip('Refresh'));
       await tester.pumpAndSettle();
       expect(
         find.text(

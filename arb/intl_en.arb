@@ -882,5 +882,10 @@
   "fdResetUnavailable": "Unable to check available resets. Refresh account information and retry.",
   "fdRetryReset": "Check reset result",
   "fdLocalProxy": "Local proxy",
-  "fdLocalProxyHint": "HTTP / SOCKS5 · Connect before using this address."
+  "fdLocalProxyHint": "HTTP / SOCKS5 · Connect before using this address.",
+  "fdRouteUnmeasured": "Not checked",
+  "fdRouteFailed": "Check failed",
+  "fdRouteResponsive": "Low latency",
+  "fdRouteSlow": "Higher latency",
+  "fdRouteLastCheck": "Last measurement"
 }

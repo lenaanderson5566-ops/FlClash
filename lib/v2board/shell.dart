@@ -679,14 +679,23 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
 
   String _bytes(int value) => '${(value / 1073741824).toStringAsFixed(2)} GB';
 
-  Widget _overview() => _desktopHome();
-
   Widget _myAccount() {
     final l = context.appLocalizations;
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
-        _brandHeader(l.account, l.fdAccountSubtitle),
+        Row(
+          children: [
+            Expanded(
+              child: Text(l.account, style: context.textTheme.headlineSmall),
+            ),
+            IconButton(
+              tooltip: l.fdRefresh,
+              onPressed: _busy ? null : () => _run(_refresh),
+              icon: const GlyphIcon(AppGlyphs.refresh),
+            ),
+          ],
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 0,
@@ -722,11 +731,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             padding: const EdgeInsets.all(16),
             child: Text(l.fdAccountStale),
           ),
-        TextButton.icon(
-          onPressed: _busy ? null : () => _run(_refresh),
-          icon: const GlyphIcon(AppGlyphs.refresh),
-          label: Text(l.fdRefresh),
-        ),
         const SizedBox(height: 16),
         OutlinedButton(
           onPressed: _busy ? null : _logout,
@@ -959,7 +963,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Widget _page() {
     if (_showLogin) return _loginView();
     return switch (_tab) {
-      0 => _overview(),
+      0 => _desktopHome(),
       1 =>
         _api == null
             ? Center(

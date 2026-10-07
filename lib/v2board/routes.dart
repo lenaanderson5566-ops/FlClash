@@ -141,12 +141,17 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
                     (metadata[proxy.name]!['tags'] as List)
                         .whereType<String>()
                         .join(' · '),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: context.colorScheme.onSurfaceVariant,
+                    ),
                   )
                 : null,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (delay != null) Text(delay > 0 ? '$delay ms' : l.timeout),
+                RouteHealthIndicator(delay: delay),
                 if (selected == proxy.name) ...[
                   const SizedBox(width: 8),
                   const GlyphIcon(AppGlyphs.check, size: 18),
@@ -171,17 +176,6 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
                   l.fdChooseRoute,
                   style: context.textTheme.headlineSmall,
                 ),
-              ),
-              IconButton(
-                tooltip: l.delayTest,
-                onPressed: _busy || nodes.isEmpty
-                    ? null
-                    : () => _run(
-                        () => ref
-                            .read(proxiesActionProvider.notifier)
-                            .delayTest(nodes, group?.testUrl),
-                      ),
-                icon: const GlyphIcon(AppGlyphs.bolt),
               ),
               IconButton(
                 tooltip: l.fdSync,
@@ -218,6 +212,40 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class RouteHealthIndicator extends StatelessWidget {
+  const RouteHealthIndicator({super.key, required this.delay});
+  final int? delay;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.appLocalizations;
+    final (color, label) = switch (delay) {
+      null => (context.colorScheme.onSurfaceVariant, l.fdRouteUnmeasured),
+      <= 0 => (const Color(0xFFBA1A1A), l.fdRouteFailed),
+      < 300 => (const Color(0xFF16804A), l.fdRouteResponsive),
+      _ => (const Color(0xFFAD6200), l.fdRouteSlow),
+    };
+    return Tooltip(
+      message: delay != null && delay! > 0
+          ? '${l.fdRouteLastCheck}: $delay ms'
+          : label,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ExcludeSemantics(
+            child: DecoratedBox(
+              decoration: ShapeDecoration(color: color, shape: AppShape.circle),
+              child: const SizedBox.square(dimension: 7),
+            ),
+          ),
+          const SizedBox(width: 6),
+          Text(label, style: context.textTheme.labelSmall),
+        ],
+      ),
     );
   }
 }

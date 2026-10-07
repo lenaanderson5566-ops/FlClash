@@ -7367,6 +7367,56 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Not checked`
+  String get fdRouteUnmeasured {
+    return Intl.message(
+      'Not checked',
+      name: 'fdRouteUnmeasured',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check failed`
+  String get fdRouteFailed {
+    return Intl.message(
+      'Check failed',
+      name: 'fdRouteFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Low latency`
+  String get fdRouteResponsive {
+    return Intl.message(
+      'Low latency',
+      name: 'fdRouteResponsive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Higher latency`
+  String get fdRouteSlow {
+    return Intl.message(
+      'Higher latency',
+      name: 'fdRouteSlow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last measurement`
+  String get fdRouteLastCheck {
+    return Intl.message(
+      'Last measurement',
+      name: 'fdRouteLastCheck',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

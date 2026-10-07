@@ -882,5 +882,10 @@
   "fdResetUnavailable": "リセット権を取得できません。アカウント情報を更新して再試行してください。",
   "fdRetryReset": "リセット結果を確認",
   "fdLocalProxy": "ローカルプロキシ",
-  "fdLocalProxyHint": "HTTP / SOCKS5 · 接続後に他のアプリで使用できます。"
+  "fdLocalProxyHint": "HTTP / SOCKS5 · 接続後に他のアプリで使用できます。",
+  "fdRouteUnmeasured": "未確認",
+  "fdRouteFailed": "確認失敗",
+  "fdRouteResponsive": "低遅延",
+  "fdRouteSlow": "遅延大",
+  "fdRouteLastCheck": "前回の測定"
 }

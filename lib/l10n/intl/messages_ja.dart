@@ -665,6 +665,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "リセット権を取得できません。アカウント情報を更新して再試行してください。",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("リセット結果を確認"),
+    "fdRouteFailed": MessageLookupByLibrary.simpleMessage("確認失敗"),
+    "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("前回の測定"),
+    "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("低遅延"),
+    "fdRouteSlow": MessageLookupByLibrary.simpleMessage("遅延大"),
+    "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("未確認"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("6か月"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "セッションが切れました。再ログインしてください。",

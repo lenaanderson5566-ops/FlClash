@@ -882,5 +882,10 @@
   "fdResetUnavailable": "Не удалось проверить доступные сбросы. Обновите данные аккаунта и повторите попытку.",
   "fdRetryReset": "Проверить результат сброса",
   "fdLocalProxy": "Локальный прокси",
-  "fdLocalProxyHint": "HTTP / SOCKS5 · Подключитесь перед использованием адреса."
+  "fdLocalProxyHint": "HTTP / SOCKS5 · Подключитесь перед использованием адреса.",
+  "fdRouteUnmeasured": "Не проверено",
+  "fdRouteFailed": "Сбой проверки",
+  "fdRouteResponsive": "Низкая задержка",
+  "fdRouteSlow": "Высокая задержка",
+  "fdRouteLastCheck": "Последний замер"
 }

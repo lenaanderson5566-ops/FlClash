@@ -882,5 +882,10 @@
   "fdResetUnavailable": "暂时无法获取重置权益，请刷新账号信息后重试。",
   "fdRetryReset": "确认重置结果",
   "fdLocalProxy": "本地代理",
-  "fdLocalProxyHint": "HTTP / SOCKS5 · 连接后可供其他软件使用。"
+  "fdLocalProxyHint": "HTTP / SOCKS5 · 连接后可供其他软件使用。",
+  "fdRouteUnmeasured": "未检测",
+  "fdRouteFailed": "检测失败",
+  "fdRouteResponsive": "低延迟",
+  "fdRouteSlow": "延迟较高",
+  "fdRouteLastCheck": "上次检测"
 }

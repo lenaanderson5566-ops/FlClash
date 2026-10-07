@@ -35,20 +35,15 @@ class AboutView extends ConsumerWidget {
   Widget _buildLinkItem({
     required Glyph glyph,
     required String title,
-    required String url,
     required String label,
-    VoidCallback? onTap,
+    required VoidCallback onTap,
   }) {
     return ListItem(
       leading: _LinkBadge(glyph: glyph),
       title: Text(title),
       subtitle: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
       trailing: const GlyphIcon(AppGlyphs.openExternal),
-      onTap:
-          onTap ??
-          () {
-            dialogs.openUrl(url);
-          },
+      onTap: onTap,
     );
   }
 
@@ -128,7 +123,6 @@ class AboutView extends ConsumerWidget {
                   child: _buildLinkItem(
                     glyph: AppGlyphs.send,
                     title: appLocalizations.fdOfficialWebsite,
-                    url: V2BoardConfig.websiteUrl,
                     label:
                         Uri.tryParse(V2BoardConfig.websiteUrl)?.host ??
                         V2BoardConfig.websiteUrl,

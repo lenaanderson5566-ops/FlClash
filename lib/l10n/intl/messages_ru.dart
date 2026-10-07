@@ -829,6 +829,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRetryReset": MessageLookupByLibrary.simpleMessage(
       "Проверить результат сброса",
     ),
+    "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Сбой проверки"),
+    "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("Последний замер"),
+    "fdRouteResponsive": MessageLookupByLibrary.simpleMessage(
+      "Низкая задержка",
+    ),
+    "fdRouteSlow": MessageLookupByLibrary.simpleMessage("Высокая задержка"),
+    "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("Не проверено"),
     "fdSemiannual": MessageLookupByLibrary.simpleMessage("Полгода"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Сессия истекла. Войдите снова.",
