@@ -1,3 +1,4 @@
+import 'language.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -52,20 +53,8 @@ String nodeDisplayName(
 ) {
   final names = node?['displayNames'];
   if (names is Map) {
-    final language = locale.languageCode;
     final full = locale.toLanguageTag();
-    final normalized = switch (language) {
-      'zh' =>
-        locale.countryCode == 'TW' || locale.scriptCode == 'Hant'
-            ? 'zh-TW'
-            : 'zh-CN',
-      'ja' => 'ja-JP',
-      'ko' => 'ko-KR',
-      'ru' => 'ru-RU',
-      'vi' => 'vi-VN',
-      'fa' => 'fa-IR',
-      _ => 'en-US',
-    };
+    final normalized = clientLanguage(full);
     for (final key in [full, normalized, 'en-US']) {
       final value = names[key];
       if (value is String && value.isNotEmpty) return value;

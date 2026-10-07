@@ -369,6 +369,7 @@ void main() {
         dio: Dio()..httpClientAdapter = adapter,
       );
       addTearDown(api.close);
+      api.language = 'ja';
       await api.login(' user@example.com ', 'password');
       await api.object('GET', '/me');
       expect(adapter.requests[0].uri.path, '/api/v10/auth/sessions');
@@ -378,7 +379,8 @@ void main() {
         adapter.requests[1].headers['Authorization'],
         'Bearer session-secret',
       );
-      expect(adapter.requests[1].headers['Accept-Language'], 'zh-CN');
+      expect(adapter.requests[1].headers['Accept-Language'], 'ja-JP');
+      expect(adapter.requests[0].data['language'], 'ja-JP');
       expect(adapter.requests[1].followRedirects, isFalse);
     },
   );

@@ -190,6 +190,7 @@ class ApplicationState extends ConsumerState<Application> {
           title: V2BoardConfig.enabled ? V2BoardConfig.appName : appName,
           locale: getLocaleForString(locale),
           supportedLocales: AppLocalizations.delegate.supportedLocales,
+          localeListResolutionCallback: resolveAppLocale,
           themeMode: V2BoardConfig.enabled
               ? ThemeMode.light
               : themeProps.themeMode,

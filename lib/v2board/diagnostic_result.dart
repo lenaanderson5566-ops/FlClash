@@ -86,7 +86,7 @@ List<String> diagnosticActionCodes(NetworkCheckResult result) {
     ],
     NetworkCheck.website || NetworkCheck.tls => const [
       'check_clock',
-      'open_official_website',
+      'check_network_sign_in',
       'contact_support',
     ],
     NetworkCheck.tcp => const [

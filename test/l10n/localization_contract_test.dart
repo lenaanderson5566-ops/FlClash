@@ -1,3 +1,7 @@
+import 'package:fastai/l10n/intl/messages_zh_TW.dart' as messages_zh_tw;
+import 'package:fastai/l10n/intl/messages_vi.dart' as messages_vi;
+import 'package:fastai/l10n/intl/messages_ko.dart' as messages_ko;
+import 'package:fastai/l10n/intl/messages_fa.dart' as messages_fa;
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,6 +15,10 @@ import 'package:intl/message_lookup_by_library.dart';
 void main() {
   final lookups = <String, MessageLookupByLibrary>{
     'en': messages_en.messages,
+    'zh_TW': messages_zh_tw.messages,
+    'vi': messages_vi.messages,
+    'ko': messages_ko.messages,
+    'fa': messages_fa.messages,
     'ja': messages_ja.messages,
     'ru': messages_ru.messages,
     'zh_CN': messages_zh_cn.messages,
@@ -37,11 +45,24 @@ void main() {
         reason: '$locale generated messages must match the English contract',
       );
 
+      expect(
+        arbByLocale[locale]!.keys.where((key) => !key.startsWith('@')).toSet(),
+        expectedKeys,
+      );
+
       for (final key in expectedKeys) {
         final template = arbByLocale['en']![key] as String;
         final placeholderNames = RegExp(
           r'\{([A-Za-z_][A-Za-z0-9_]*)\b',
         ).allMatches(template).map((match) => match.group(1)).toSet();
+        expect(
+          RegExp(r'\{([A-Za-z_][A-Za-z0-9_]*)\b')
+              .allMatches(arbByLocale[locale]![key] as String)
+              .map((match) => match.group(1))
+              .toSet(),
+          placeholderNames,
+          reason: '$locale.$key must preserve every placeholder',
+        );
         final argumentCount = placeholderNames.length;
         final arguments = List<dynamic>.filled(argumentCount, 2);
         late final dynamic translated;

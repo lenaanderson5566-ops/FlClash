@@ -147,6 +147,11 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('private data'), findsNothing);
+    await tester.scrollUntilVisible(
+      find.text('Find and switch to a working route'),
+      150,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Find and switch to a working route'), findsOneWidget);
   });
 
@@ -251,7 +256,7 @@ void main() {
       expect(find.text('Copy report'), findsOneWidget);
       expect(find.text('HTTP'), findsOneWidget);
       expect(find.text('503'), findsOneWidget);
-      expect(find.text('Public HTTPS connectivity'), findsOneWidget);
+      expect(find.text('Internet connectivity'), findsOneWidget);
       expect(find.text('Network connectivity'), findsOneWidget);
       expect(find.text('Not verified 1'), findsOneWidget);
       expect(tester.takeException(), isNull);
@@ -336,33 +341,45 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
   });
-  testWidgets('expanded report fits a narrow window and remains scrollable', (
-    tester,
-  ) async {
-    tester.view.physicalSize = const Size(380, 640);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.pumpWidget(
-      TestApp(
-        child: NetworkDiagnosticsDialog(
-          runChecks: () async => [
-            for (final check in NetworkCheck.values)
-              NetworkCheckResult(
-                check,
-                NetworkCheckStatus.failed,
-                parameters: const {'timeoutMs': '8000'},
-              ),
-          ],
+  for (final locale in AppLocalizations.delegate.supportedLocales) {
+    testWidgets('expanded report fits a narrow window in $locale', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(380, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        TestApp(
+          locale: locale,
+          child: NetworkDiagnosticsDialog(
+            runChecks: () async => [
+              for (final check in NetworkCheck.values)
+                NetworkCheckResult(
+                  check,
+                  NetworkCheckStatus.failed,
+                  parameters: const {'timeoutMs': '8000'},
+                ),
+            ],
+          ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('Check again'), findsOneWidget);
-    await tester.drag(find.byType(Scrollable).first, const Offset(0, -400));
-    await tester.pumpAndSettle();
-    expect(tester.takeException(), isNull);
-  });
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text(AppLocalizations.current.fdDiagnosticRetry),
+        findsOneWidget,
+      );
+      expect(
+        Directionality.of(
+          tester.element(find.byType(NetworkDiagnosticsDialog)),
+        ),
+        locale.languageCode == 'fa' ? TextDirection.rtl : TextDirection.ltr,
+      );
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -400));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    });
+  }
   testWidgets('unexpected check failure restores retry control', (
     tester,
   ) async {

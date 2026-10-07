@@ -7,9 +7,7 @@ import 'package:fastai/views/config/general.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fastai/v2board/config.dart';
 
-import 'disclaimer.dart';
 import 'package:fastai/v2board/network_diagnostics.dart';
 import 'package:fastai/v2board/connection_diagnostics.dart';
 
@@ -22,13 +20,6 @@ class ToolsView extends ConsumerStatefulWidget {
 }
 
 class _ToolViewState extends ConsumerState<ToolsView> {
-  List<Widget> _getOtherList() {
-    return generateSection(
-      title: context.appLocalizations.other,
-      items: [if (!V2BoardConfig.enabled) const _DisclaimerItem()],
-    );
-  }
-
   List<Widget> _getSettingList() {
     return generateSection(
       title: null,
@@ -57,7 +48,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
 
   @override
   Widget build(BuildContext context) {
-    final items = [..._getSettingList(), ..._getOtherList()];
+    final items = _getSettingList();
     return Material(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -126,19 +117,6 @@ class _AccessItem extends StatelessWidget {
       title: Text(context.appLocalizations.accessControl),
       subtitle: Text(context.appLocalizations.accessControlDesc),
       widget: const AccessView(),
-    );
-  }
-}
-
-class _DisclaimerItem extends StatelessWidget {
-  const _DisclaimerItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListItem.open(
-      leading: const GlyphIcon(AppGlyphs.gavel),
-      title: Text(context.appLocalizations.disclaimer),
-      widget: const DisclaimerView(),
     );
   }
 }

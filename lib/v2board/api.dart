@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 import 'config.dart';
+import 'language.dart';
 import 'diagnostics.dart';
 
 typedef V10Object = Map<String, dynamic>;
@@ -66,7 +67,9 @@ class V2BoardApi {
   String? accessToken;
   Future<void> Function()? onSessionRejected;
   String? version;
-  String language = 'zh-CN';
+  String _language = 'en-US';
+  String get language => _language;
+  set language(String value) => _language = clientLanguage(value);
   void Function(ClientRequestDiagnostic event)? onDiagnostic;
 
   Future<T> _perform<T>(

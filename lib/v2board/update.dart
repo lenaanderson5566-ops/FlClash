@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:fastai/common/common.dart';
 import 'package:fastai/state.dart';
+import 'package:fastai/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,7 +78,8 @@ class FastaiReleaseState extends Notifier<FastaiRelease?> {
       return state;
     }
     final api = V2BoardApi(V2BoardConfig.panelUrl)
-      ..version = globalState.packageInfo.version;
+      ..version = globalState.packageInfo.version
+      ..language = ref.read(appSettingProvider).locale ?? Platform.localeName;
     try {
       final data = await api.request(
         'GET',

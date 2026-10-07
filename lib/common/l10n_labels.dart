@@ -123,14 +123,14 @@ extension DynamicSchemeVariantL10n on DynamicSchemeVariant {
 }
 
 extension LocaleL10n on Locale {
-  String get label {
-    final appLocalizations = currentAppLocalizations;
-    return switch (toString()) {
-      'en' => appLocalizations.en,
-      'ja' => appLocalizations.ja,
-      'ru' => appLocalizations.ru,
-      'zh_CN' => appLocalizations.zhCN,
-      final code => code,
-    };
-  }
+  String get label => switch (languageCode) {
+    'en' => 'English',
+    'ja' => '日本語',
+    'ru' => 'Русский',
+    'ko' => '한국어',
+    'vi' => 'Tiếng Việt',
+    'fa' => 'فارسی',
+    'zh' => countryCode == 'TW' || scriptCode == 'Hant' ? '繁體中文' : '简体中文',
+    _ => toLanguageTag(),
+  };
 }

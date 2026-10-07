@@ -16,8 +16,6 @@ import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/v2board/config.dart';
-import 'package:fastai/views/disclaimer.dart';
 import 'package:fastai/views/navigation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
@@ -162,7 +160,6 @@ class Bootstrap {
       unawaited(window?.hide());
     }
     await _handleFailedPreference();
-    await _handlerDisclaimer();
     await _showCrashRecoveryTip();
     await _showCrashlyticsTip();
     await _container.read(coreActionProvider.notifier).startCore();
@@ -235,22 +232,6 @@ class Bootstrap {
     _container
         .read(appSettingProvider.notifier)
         .update((state) => state.copyWith(crashlyticsTip: true));
-  }
-
-  Future<void> _handlerDisclaimer() async {
-    if (V2BoardConfig.enabled) return;
-    if (_container.read(
-      appSettingProvider.select((state) => state.disclaimerAccepted),
-    )) {
-      return;
-    }
-    final isDisclaimerAccepted = await requestDisclaimerConsent();
-    if (!isDisclaimerAccepted) {
-      await _container.read(systemActionProvider.notifier).handleExit();
-    }
-    _container
-        .read(appSettingProvider.notifier)
-        .update((state) => state.copyWith(disclaimerAccepted: true));
   }
 }
 

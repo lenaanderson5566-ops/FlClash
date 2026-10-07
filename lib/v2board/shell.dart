@@ -69,7 +69,6 @@ class _V2BoardContent extends ConsumerStatefulWidget {
 
 class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   V2BoardSession get _session => widget.session;
-  final _origin = TextEditingController(text: V2BoardConfig.panelUrl);
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _form = GlobalKey<FormState>();
@@ -135,7 +134,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         _api = await _session.restore();
         if (_api != null) {
           _bindSession(_api!);
-          _origin.text = _api!.panel.origin;
           await _refresh();
           await _syncAvailable();
         } else if (mounted) {
@@ -160,9 +158,31 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
   }
 
+  String? _displayLanguage;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final language = Localizations.localeOf(context).toLanguageTag();
+    final previous = _displayLanguage;
+    _displayLanguage = language;
+    _api?.language = language;
+    if (previous != null && previous != language) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        try {
+          await _refreshing;
+        } catch (_) {
+          // Retry in the new language even if an earlier refresh failed.
+        }
+        if (mounted && _api != null && _displayLanguage == language) {
+          await _refreshInBackground();
+        }
+      });
+    }
+  }
+
   @override
   void dispose() {
-    _origin.dispose();
     _email.dispose();
     _password.dispose();
     _accountTimer?.cancel();
@@ -220,7 +240,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       });
     } on FormatException {
       if (mounted) {
-        setState(() => _error = context.appLocalizations.fdInvalidUrl);
+        setState(() => _error = context.appLocalizations.fdInvalidConfig);
       }
     } catch (_) {
       if (mounted) {
@@ -462,7 +482,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Future<void> _login() async {
     if (!_form.currentState!.validate()) return;
     await _run(() async {
-      final api = V2BoardApi(_origin.text)
+      final api = V2BoardApi(V2BoardConfig.panelUrl)
         ..version = globalState.packageInfo.version;
       api.language = Localizations.localeOf(context).toLanguageTag();
       try {
@@ -630,24 +650,21 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     TextEditingController controller,
     String label, {
     bool password = false,
-    bool origin = false,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         controller: controller,
-        enabled: !_busy && !(origin && V2BoardConfig.panelUrl.isNotEmpty),
+        enabled: !_busy,
         obscureText: password,
         autocorrect: false,
         enableSuggestions: false,
         keyboardType: password
             ? TextInputType.visiblePassword
-            : origin
-            ? TextInputType.url
             : TextInputType.emailAddress,
-        autofillHints: origin
-            ? null
-            : [password ? AutofillHints.password : AutofillHints.username],
+        autofillHints: [
+          password ? AutofillHints.password : AutofillHints.username,
+        ],
         decoration: InputDecoration(labelText: label),
         validator: (value) => (value ?? '').trim().isEmpty
             ? context.appLocalizations.fdRequired
@@ -674,8 +691,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 children: [
                   _brandHeader(V2BoardConfig.appName, l.fdWelcome),
                   const SizedBox(height: 24),
-                  if (V2BoardConfig.panelUrl.isEmpty)
-                    _field(_origin, l.fdPanelUrl, origin: true),
                   _field(_email, l.fdEmail),
                   _field(_password, l.password, password: true),
                   const SizedBox(height: 16),

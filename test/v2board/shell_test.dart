@@ -564,7 +564,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(
       find.text(
-        'No available subscription. Manage your account on the website.',
+        'No routes are available. Check your account on the website.',
       ),
       findsOneWidget,
     );

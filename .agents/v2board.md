@@ -4,21 +4,20 @@
 
 The client lives in `v3/FlClash`, alongside the customized backend in `v3/v2board`.
 The old Desktop client is reference material; do not reuse its legacy transports.
-The brand is `fastai`, and the default panel and website are `https://fastdog.ws`.
-Its FastDog visual identity uses a native dog glyph, warm orange accent and tonal
-surfaces that follow the existing light/dark preference. Do not add simulated AI
-chat, connection checks or activity feeds: only render actual provider state.
+The brand is `FastAI`, and the default panel and website are `https://fastdog.ws`.
+Use the blue-and-white client theme and the website's shared mark. The desktop
+sidebar contains Home, Connection, Settings, Account and About. Do not add
+simulated AI chat, connection checks or activity feeds: render real state.
 Keep Core, Helper, channel and package identifiers stable. Windows executable and
 window title are fastai; this also gives Windows a distinct app data directory.
 
 ## User flow
 
 Login accepts email and password. The panel origin is fixed by build configuration.
-The three tabs are Connection, Nodes and Account. Connection shows availability,
-period allowance, independent credit balance, expiry and device counts. It exposes
-connect/disconnect, subscription refresh and rule/global/direct mode selection.
-Nodes use the existing proxy groups, selection and latency testing. Account exposes
-website account services, support, settings and logout. Purchases, renewals and
+Home focuses on connecting and the selected route. Connection lists available
+routes. Account shows period traffic, independent traffic and reset entitlements.
+Settings contains client preferences and network troubleshooting. About owns
+version information, update preferences and the public website link. Purchases, renewals and
 orders belong on the website; there is no native payment or commerce screen.
 
 Restore the encrypted session and refresh server state before enabling connection.
@@ -36,7 +35,7 @@ and revokes the remote session when reachable. Credentials must never be logged.
 
 ## Import and activation policy
 
-Consumer builds skip the inherited first-launch disclaimer and hide its settings entry.
+The inherited disclaimer and developer test screens have been removed.
 Consumer builds disable manual file, URL and QR profile import, backup restoration,
 and generic profile refresh at their action boundaries as well as in navigation.
 They do not subscribe to AppLinks and do not register URL protocols. Android has no
@@ -73,23 +72,11 @@ Use `fastai.env.example.json` and Flutter 3.47.4 / Dart 3.13.3 at
 `../tools/flutter-3.47.4/flutter`. Native hooks remain enabled. Launch development
 builds only with --dart-define=SAFE_MODE=true as required by repository instructions.
 
-Verified on Windows:
-- Dependency resolution, official localization and provider generation succeed.
-- Whole-project flutter analyze reports no issues.
-- 32 focused API, account, client-policy, widget and localization tests pass.
-- 552 upstream widget/action/link regressions pass with V2BOARD_ENABLED=false.
-- Windows safe-mode Debug build produces build/windows/x64/runner/Debug/fastai.exe.
-- Actual executable exits successfully for clash, clashmeta, flclash and fastai URI
-  startup arguments without opening the import path.
-- Live V10 login, account and subscription resources classify the provided paid
-  account as available and the corrected unpaid account as unavailable. Test
-  sessions were revoked; no credentials or tokens are stored in repository files.
+Run `flutter analyze`, `flutter test test/v2board test/l10n` and the relevant
+regression suites after changes. Legacy configuration/link tests require
+`--dart-define=V2BOARD_ENABLED=false`. Localization catalogs must cover all eight
+backend languages and preserve message placeholders; use intl_utils to regenerate.
 
-Brand previews are ../fastdog-style-login.png, ../fastdog-style-connection.png,
-../fastdog-style-account.png and ../fastdog-style-login-dark.png. Actual paid login
-and account refresh were verified before this API change. The production endpoint
-must be deployed before live configuration download can be verified. Proxy traffic
-is not verified in safe mode. Android SDK is absent;
-Android, macOS and Linux native builds and release signing remain unverified.
-Five pre-existing lint tests have Windows path separator allowlist failures; do
-not confuse these with the focused client tests or clean static analysis.
+Safe-mode builds do not verify live proxy traffic. Do not remove a build directory
+while an executable inside it is running. Android, macOS and Linux native builds
+and release signing require separate platform validation.

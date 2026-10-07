@@ -2,8 +2,6 @@ export 'about.dart';
 export 'access.dart';
 export 'connection/connections.dart';
 export 'dashboard/dashboard.dart';
-export 'developer.dart';
-export 'disclaimer.dart';
 export 'logs.dart';
 export 'profiles/profiles.dart';
 export 'proxies/proxies.dart';
