@@ -1,3 +1,4 @@
+import 'package:fastai/v2board/config.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -180,7 +181,10 @@ void main() {
     final labels = _labels(showCall());
     final l10n = currentAppLocalizations;
     expect(labels, contains(l10n.show));
-    expect(labels, contains(l10n.start));
+    expect(
+      labels,
+      contains(V2BoardConfig.enabled ? l10n.fdConnect : l10n.start),
+    );
     expect(labels, isNot(contains(l10n.autoLaunch)));
     expect(labels, contains(l10n.copyEnvVar));
     expect(labels, contains(l10n.exit));
@@ -193,7 +197,11 @@ void main() {
 
     final labels = _labels(showCall());
     final l10n = currentAppLocalizations;
-    expect(labels, contains(l10n.stop), reason: 'start flips to stop');
+    expect(
+      labels,
+      contains(V2BoardConfig.enabled ? l10n.fdDisconnect : l10n.stop),
+      reason: 'start flips to stop',
+    );
     expect(labels, contains(l10n.tun));
     expect(labels, contains(l10n.systemProxy));
   });
@@ -204,7 +212,10 @@ void main() {
 
       final labels = _labels(showCall());
       final l10n = currentAppLocalizations;
-      expect(labels, contains(l10n.stop));
+      expect(
+        labels,
+        contains(V2BoardConfig.enabled ? l10n.fdDisconnect : l10n.stop),
+      );
       expect(labels, contains(l10n.tun));
       expect(labels, contains(l10n.systemProxy));
       expect(labels, contains(l10n.copyEnvVar));
@@ -234,7 +245,14 @@ void main() {
         .where((item) => item['checked'] == true)
         .map((item) => item['label'])
         .toList();
-    expect(checkedModes, contains(Intl.message(Mode.global.name)));
+    expect(
+      checkedModes,
+      contains(
+        V2BoardConfig.enabled
+            ? currentAppLocalizations.fdGlobalMode
+            : Intl.message(Mode.global.name),
+      ),
+    );
   });
 
   test('sends icon, tooltip and menu in a single show call', () async {
@@ -312,10 +330,19 @@ void main() {
     final l10n = currentAppLocalizations;
     final call = showCall();
     expect(_item(call, l10n.show)['detail'], '⌃⇧V');
-    expect(_item(call, Mode.global.label)['detail'], '⌃⇧G');
+    expect(
+      _item(
+        call,
+        V2BoardConfig.enabled ? l10n.fdGlobalMode : Mode.global.label,
+      )['detail'],
+      '⌃⇧G',
+    );
     expect(_item(call, l10n.tun)['detail'], '⌃⇧T');
     expect(_item(call, l10n.exit), isNot(contains('detail')));
-    expect(_item(call, Mode.rule.label), isNot(contains('detail')));
+    expect(
+      _item(call, V2BoardConfig.enabled ? l10n.fdSmartMode : Mode.rule.label),
+      isNot(contains('detail')),
+    );
   });
 
   test(

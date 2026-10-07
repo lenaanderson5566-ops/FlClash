@@ -11,7 +11,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 
-import 'diagnostics.dart';
 import 'disclaimer.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
@@ -57,12 +56,6 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       items: [
         const _LocaleItem(),
         if (system.isDesktop) const ProxyAddressItem(),
-        ListItem.open(
-          leading: const GlyphIcon(AppGlyphs.networkCheck),
-          title: Text(context.appLocalizations.logsAndDiagnostics),
-          subtitle: Text(context.appLocalizations.fdDiagnosticReportHint),
-          widget: const DiagnosticsView(),
-        ),
         if (system.isAndroid) const _AccessItem(),
         if (system.isAndroid) const GeneralSettings(),
       ],
@@ -172,6 +165,7 @@ class ProxyAddressItem extends ConsumerWidget {
       patchClashConfigProvider.select((state) => state.mixedPort),
     );
     return ListTile(
+      leading: const GlyphIcon(AppGlyphs.proxies),
       title: Text(l.fdLocalProxy),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

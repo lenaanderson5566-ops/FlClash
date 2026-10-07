@@ -11,7 +11,6 @@ import 'package:fastai/views/proxies/list.dart';
 import 'package:fastai/views/proxies/tab.dart';
 import 'package:fastai/views/proxies/setting.dart';
 import 'package:fastai/views/views.dart';
-import 'package:fastai/views/diagnostics.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -66,7 +65,7 @@ void main() {
         expect(find.text('Advanced configuration'), findsNothing);
         expect(find.text('DNS queries'), findsNothing);
         expect(find.text('Recent requests'), findsNothing);
-        expect(find.text('Diagnostics and logs'), findsOneWidget);
+        expect(find.text('Diagnostics and logs'), findsNothing);
         expect(find.text('General'), findsNothing);
         expect(
           find.byType(GeneralSettings),
@@ -92,27 +91,6 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     });
   }
-
-  testWidgets('diagnostics only offers a sanitized support report', (
-    tester,
-  ) async {
-    final container = ProviderContainer();
-    addTearDown(container.dispose);
-    globalState.container = container;
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: const TestApp(child: DiagnosticsView()),
-      ),
-    );
-    await tester.pump();
-    expect(find.text('Copy report'), findsOneWidget);
-    expect(find.text('Log level'), findsNothing);
-    expect(find.text('Service status'), findsNothing);
-    expect(find.byType(Switch), findsNothing);
-    expect(tester.takeException(), isNull);
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
 
   testWidgets('local proxy displays the configured port without editing', (
     tester,
@@ -143,49 +121,6 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   });
-
-  final toolDestinations = <String, Type>{
-    'Diagnostics and logs': DiagnosticsView,
-  };
-
-  for (final entry in toolDestinations.entries) {
-    testWidgets('tools opens ${entry.key}', (tester) async {
-      tester.view.physicalSize = const Size(1400, 1000);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
-
-      final container = ProviderContainer(
-        overrides: [profilesProvider.overrideWith(TestProfiles.new)],
-      );
-      addTearDown(container.dispose);
-      globalState.container = container;
-      container
-          .read(viewSizeProvider.notifier)
-          .update((_) => const Size(1400, 1000));
-
-      await tester.pumpWidget(
-        UncontrolledProviderScope(
-          container: container,
-          child: const TestApp(child: ToolsView()),
-        ),
-      );
-      await tester.pump();
-
-      expect(find.text('Theme'), findsNothing);
-      final target = find.text(entry.key);
-      await tester.scrollUntilVisible(
-        target,
-        500,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.tap(target);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(entry.value), findsOneWidget);
-      expect(tester.takeException(), null);
-    });
-  }
 
   testWidgets('proxies renders populated tab and list layouts', (tester) async {
     tester.view.physicalSize = const Size(1400, 1000);

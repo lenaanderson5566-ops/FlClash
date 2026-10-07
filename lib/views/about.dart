@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 
 import 'package:fastai/common/common.dart';
@@ -142,8 +143,8 @@ class _AboutHero extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(_logoInset),
-              child: Image.asset(
-                'assets/images/icon.png',
+              child: SvgPicture.asset(
+                'assets/images/fastai-mark.svg',
                 width: _logoSize - _logoInset * 2,
                 height: _logoSize - _logoInset * 2,
               ),

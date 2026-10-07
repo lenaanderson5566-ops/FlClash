@@ -45,63 +45,65 @@ void main() {
       isNull,
     );
   });
-  testWidgets('country filters keep the current route pinned without search', (
-    tester,
-  ) async {
-    final container = ProviderContainer(
-      overrides: [
-        profilesProvider.overrideWith(() => TestProfiles([])),
-        groupsProvider.overrideWithBuild(
-          (_, _) => const [
-            Group(
-              name: 'FastDog',
-              type: GroupType.Selector,
-              now: 'node_1',
-              all: [
-                Proxy(name: 'node_1', type: 'Vless'),
-                Proxy(name: 'node_2', type: 'AnyTLS'),
-              ],
-            ),
-          ],
-        ),
-        fastaiNodeMetadataProvider.overrideWith(
-          (ref) async => {
-            'node_1': {
-              'regionCode': 'US',
-              'displayNames': {'en-US': 'United States · San Jose'},
-              'tags': ['Streaming'],
+  testWidgets(
+    'nodes retain subscription order without region filters or pinning',
+    (tester) async {
+      final container = ProviderContainer(
+        overrides: [
+          profilesProvider.overrideWith(() => TestProfiles([])),
+          groupsProvider.overrideWithBuild(
+            (_, _) => const [
+              Group(
+                name: 'FastDog',
+                type: GroupType.Selector,
+                now: 'node_2',
+                all: [
+                  Proxy(name: 'node_1', type: 'Vless'),
+                  Proxy(name: 'node_2', type: 'AnyTLS'),
+                ],
+              ),
+            ],
+          ),
+          fastaiNodeMetadataProvider.overrideWith(
+            (ref) async => {
+              'node_1': {
+                'regionCode': 'US',
+                'displayNames': {'en-US': 'United States · San Jose'},
+                'tags': ['Streaming'],
+              },
+              'node_2': {
+                'regionCode': 'JP',
+                'displayNames': {'en-US': 'Japan · Tokyo'},
+                'tags': ['Low latency'],
+              },
             },
-            'node_2': {
-              'regionCode': 'JP',
-              'displayNames': {'en-US': 'Japan · Tokyo'},
-              'tags': ['Low latency'],
-            },
-          },
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: TestApp(
+            child: Scaffold(body: FastaiRoutesView(onSync: () async {})),
+          ),
         ),
-      ],
-    );
-    addTearDown(container.dispose);
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: TestApp(
-          child: Scaffold(body: FastaiRoutesView(onSync: () async {})),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('Current route'), findsOneWidget);
-    expect(find.byType(TextField), findsNothing);
-    await tester.tap(find.widgetWithText(ChoiceChip, 'United States'));
-    await tester.pump();
-    expect(find.text('Japan · Tokyo'), findsNothing);
-    expect(find.text('United States · San Jose'), findsOneWidget);
-    await tester.tap(find.widgetWithText(ChoiceChip, 'All regions'));
-    await tester.pump();
-    expect(find.text('Japan · Tokyo'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Current route'), findsNothing);
+      expect(find.byType(TextField), findsNothing);
+      expect(find.byType(ChoiceChip), findsNothing);
+      expect(find.text('Japan · Tokyo'), findsOneWidget);
+      expect(find.text('United States · San Jose'), findsOneWidget);
+      expect(
+        tester.getTopLeft(find.text('United States · San Jose')).dy,
+        lessThan(tester.getTopLeft(find.text('Japan · Tokyo')).dy),
+      );
+      expect(find.byTooltip('Delay test'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
   testWidgets('route page shows nodes without engine labels', (tester) async {
     final container = ProviderContainer(
       overrides: [

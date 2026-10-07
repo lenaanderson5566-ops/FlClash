@@ -49,7 +49,7 @@ class Navigation implements NavigationPort {
         glyph: AppGlyphs.logs,
         label: PageLabel.logs,
         builder: (_) => const LogsView(key: GlobalObjectKey(PageLabel.logs)),
-        modes: openLogs
+        modes: openLogs && !V2BoardConfig.enabled
             ? [NavigationItemMode.desktop, NavigationItemMode.more]
             : [],
       ),

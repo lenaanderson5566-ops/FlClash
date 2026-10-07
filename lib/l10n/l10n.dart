@@ -375,19 +375,19 @@ class AppLocalizations {
     return Intl.message('English', name: 'en', desc: '', args: []);
   }
 
-  /// `Japanese`
+  /// `日本語`
   String get ja {
-    return Intl.message('Japanese', name: 'ja', desc: '', args: []);
+    return Intl.message('日本語', name: 'ja', desc: '', args: []);
   }
 
-  /// `Russian`
+  /// `Русский`
   String get ru {
-    return Intl.message('Russian', name: 'ru', desc: '', args: []);
+    return Intl.message('Русский', name: 'ru', desc: '', args: []);
   }
 
-  /// `Simplified Chinese`
+  /// `简体中文`
   String get zhCN {
-    return Intl.message('Simplified Chinese', name: 'zhCN', desc: '', args: []);
+    return Intl.message('简体中文', name: 'zhCN', desc: '', args: []);
   }
 
   /// `Theme`

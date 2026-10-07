@@ -138,8 +138,12 @@ class AppTray implements TrayPort {
       showItem,
       TrayMenuCheckbox(
         label: trayState.isStart
-            ? appLocalizations.stop
-            : appLocalizations.start,
+            ? (V2BoardConfig.enabled
+                  ? appLocalizations.fdDisconnect
+                  : appLocalizations.stop)
+            : (V2BoardConfig.enabled
+                  ? appLocalizations.fdConnect
+                  : appLocalizations.start),
         checked: false,
         detail: shortcut(HotAction.start),
         onSelected: commonAction.toggleRunning,
@@ -151,9 +155,14 @@ class AppTray implements TrayPort {
           onSelected: commonAction.updateSpeedStatistics,
         ),
       const TrayMenuSeparator(),
-      for (final mode in Mode.values)
+      for (final mode
+          in V2BoardConfig.enabled ? [Mode.rule, Mode.global] : Mode.values)
         TrayMenuCheckbox(
-          label: mode.label,
+          label: V2BoardConfig.enabled
+              ? (mode == Mode.rule
+                    ? appLocalizations.fdSmartMode
+                    : appLocalizations.fdGlobalMode)
+              : mode.label,
           checked: mode == trayState.mode,
           detail: shortcut(switch (mode) {
             Mode.rule => HotAction.ruleMode,

@@ -601,7 +601,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Редактор недоступен",
     ),
     "emptyTip": m8,
-    "en": MessageLookupByLibrary.simpleMessage("Английский"),
+    "en": MessageLookupByLibrary.simpleMessage("English"),
     "enabled": MessageLookupByLibrary.simpleMessage("Включено"),
     "entries": MessageLookupByLibrary.simpleMessage(" записей"),
     "error": MessageLookupByLibrary.simpleMessage("Ошибка"),
@@ -1051,7 +1051,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Разрешить входящий IPv6",
     ),
     "ipv6Timeout": MessageLookupByLibrary.simpleMessage("Тайм-аут IPv6 (мс)"),
-    "ja": MessageLookupByLibrary.simpleMessage("Японский"),
+    "ja": MessageLookupByLibrary.simpleMessage("日本語"),
     "justNow": MessageLookupByLibrary.simpleMessage("Только что"),
     "keepAliveIntervalDesc": MessageLookupByLibrary.simpleMessage(
       "Интервал TCP keep-alive",
@@ -1802,6 +1802,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearsAgo": m53,
     "yes": MessageLookupByLibrary.simpleMessage("Да"),
-    "zhCN": MessageLookupByLibrary.simpleMessage("Упрощённый китайский"),
+    "zhCN": MessageLookupByLibrary.simpleMessage("简体中文"),
   };
 }

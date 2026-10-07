@@ -39,19 +39,6 @@ List<Proxy> selectableRoutes(Group group, List<Group> groups) {
       .toList();
 }
 
-List<Proxy> filterRoutes(
-  List<Proxy> nodes,
-  Map<String, Map<String, dynamic>> metadata,
-  String? region,
-) {
-  return nodes.where((node) {
-    final info = metadata[node.name];
-    final country = (info?['regionCode'] as String?)?.toUpperCase();
-    if (region != null && country != region) return false;
-    return true;
-  }).toList();
-}
-
 class FastaiRoutesView extends ConsumerStatefulWidget {
   const FastaiRoutesView({super.key, required this.onSync});
   final Future<void> Function() onSync;
@@ -61,7 +48,6 @@ class FastaiRoutesView extends ConsumerStatefulWidget {
 
 class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
   bool _busy = false;
-  String? _region;
 
   Future<void> _run(Future<void> Function() action) async {
     if (_busy) return;
@@ -95,20 +81,6 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
     final selected = group == null
         ? null
         : ref.watch(selectedProxyNameProvider(group.name));
-    final countries = <String, String>{};
-    for (final node in nodes) {
-      final code = (metadata[node.name]?['regionCode'] as String?)
-          ?.toUpperCase();
-      if (code == null || !RegExp(r'^[A-Z]{2}$').hasMatch(code)) continue;
-      countries[code] = nodeDisplayName(
-        metadata[node.name],
-        code,
-        locale,
-      ).split(' · ').first;
-    }
-    final region = countries.containsKey(_region) ? _region : null;
-    final matches = filterRoutes(nodes, metadata, region);
-    final current = nodes.where((node) => node.name == selected).firstOrNull;
     Future<void> choose(String name) async {
       if (group == null) {
         return;
@@ -194,21 +166,19 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
         Text(l.fdChooseRoute, style: context.textTheme.headlineSmall),
         const SizedBox(height: 16),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: _busy || matches.isEmpty
-                    ? null
-                    : () => _run(
-                        () => ref
-                            .read(proxiesActionProvider.notifier)
-                            .delayTest(matches, group?.testUrl),
-                      ),
-                icon: const GlyphIcon(AppGlyphs.bolt),
-                label: Text(l.delayTest),
-              ),
+            IconButton(
+              tooltip: l.delayTest,
+              onPressed: _busy || nodes.isEmpty
+                  ? null
+                  : () => _run(
+                      () => ref
+                          .read(proxiesActionProvider.notifier)
+                          .delayTest(nodes, group?.testUrl),
+                    ),
+              icon: const GlyphIcon(AppGlyphs.bolt),
             ),
-            const SizedBox(width: 12),
             IconButton(
               tooltip: l.fdSync,
               onPressed: _busy ? null : () => _run(widget.onSync),
@@ -218,52 +188,9 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
         ),
         if (_busy) const LinearProgressIndicator(),
         const SizedBox(height: 16),
-        if (countries.isNotEmpty)
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ChoiceChip(
-                  label: Text(l.fdAllRegions),
-                  selected: region == null,
-                  shape: AppShape.md,
-                  onSelected: (_) => setState(() => _region = null),
-                ),
-                for (final code in countries.keys.toList()..sort())
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 8),
-                    child: ChoiceChip(
-                      avatar: NodeRegionFlag(
-                        regionCode: code,
-                        fallback: const SizedBox(),
-                      ),
-                      label: Text(countries[code]!),
-                      selected: region == code,
-                      shape: AppShape.md,
-                      onSelected: (_) => setState(() => _region = code),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        const SizedBox(height: 16),
         if (auto != null) row(auto, l.fdAutoRoute),
-        if (current != null) ...[
-          const SizedBox(height: 8),
-          Text(l.fdCurrentRoute, style: context.textTheme.labelLarge),
-          row(
-            current,
-            nodeDisplayName(metadata[current.name], current.name, locale),
-          ),
-          const Divider(),
-        ],
-        for (final node in matches.where((node) => node.name != current?.name))
+        for (final node in nodes)
           row(node, nodeDisplayName(metadata[node.name], node.name, locale)),
-        if (nodes.isNotEmpty && matches.isEmpty)
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(l.fdNoMatchingRoutes),
-          ),
         if (nodes.isEmpty)
           Padding(
             padding: const EdgeInsets.all(24),

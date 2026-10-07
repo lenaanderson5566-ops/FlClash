@@ -9,7 +9,6 @@ import 'package:fastai/models/models.dart';
 import 'package:fastai/pages/home.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/views/diagnostics.dart';
 import 'package:fastai/views/tools.dart';
 import 'package:fastai/widgets/widgets.dart';
 import 'package:fastai/views/navigation.dart';
@@ -473,32 +472,8 @@ void main() {
       );
       await tester.pump();
 
-      final generalItem = find.text('Diagnostics and logs');
-      await tester.scrollUntilVisible(
-        generalItem,
-        500,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.tap(generalItem);
-      await tester.pumpAndSettle();
-      expect(find.byType(DiagnosticsView), findsOneWidget);
-
-      final logItem = find.text('Logcat');
-      await tester.scrollUntilVisible(
-        logItem,
-        500,
-        scrollable: find
-            .descendant(
-              of: find.byType(DiagnosticsView),
-              matching: find.byType(Scrollable),
-            )
-            .first,
-      );
-      await tester.tap(logItem);
-      await tester.pumpAndSettle();
-
-      expect(container.read(appSettingProvider).openLogs, isTrue);
-      expect(find.byType(DiagnosticsView), findsOneWidget);
+      expect(find.text('Diagnostics and logs'), findsNothing);
+      expect(find.text('Logcat'), findsNothing);
       expect(tester.takeException(), isNull);
     },
   );

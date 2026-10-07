@@ -1024,7 +1024,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Allow IPv6 inbound",
     ),
     "ipv6Timeout": MessageLookupByLibrary.simpleMessage("IPv6 timeout (ms)"),
-    "ja": MessageLookupByLibrary.simpleMessage("Japanese"),
+    "ja": MessageLookupByLibrary.simpleMessage("日本語"),
     "justNow": MessageLookupByLibrary.simpleMessage("Just now"),
     "keepAliveIntervalDesc": MessageLookupByLibrary.simpleMessage(
       "TCP keep-alive interval",
@@ -1381,7 +1381,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Bypass private addresses",
     ),
     "routeModeConfig": MessageLookupByLibrary.simpleMessage("Use config"),
-    "ru": MessageLookupByLibrary.simpleMessage("Russian"),
+    "ru": MessageLookupByLibrary.simpleMessage("Русский"),
     "rule": MessageLookupByLibrary.simpleMessage("Rule"),
     "ruleActionAndDesc": MessageLookupByLibrary.simpleMessage(
       "Logical rule AND",
@@ -1713,6 +1713,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearsAgo": m53,
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-    "zhCN": MessageLookupByLibrary.simpleMessage("Simplified Chinese"),
+    "zhCN": MessageLookupByLibrary.simpleMessage("简体中文"),
   };
 }

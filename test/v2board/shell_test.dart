@@ -547,6 +547,8 @@ void main() {
       find.widgetWithText(FilledButton, 'Connect'),
     );
     expect(connect.onPressed, isNull);
+    await tester.tap(find.byType(NavigationDestination).at(3));
+    await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
       find.text('Manage on website'),
       160,

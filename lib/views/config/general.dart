@@ -1,3 +1,4 @@
+import 'package:fastai/icons/icons.dart';
 import 'package:fastai/common/common.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 ConfigToggleItem _appSettingToggle({
   required ConfigLabel title,
+  required Glyph glyph,
   ConfigLabel? subtitle,
   bool enabled = true,
   required bool Function(AppSettingProps state) select,
@@ -14,6 +16,7 @@ ConfigToggleItem _appSettingToggle({
 }) {
   return ConfigToggleItem(
     title: title,
+    leading: GlyphIcon(glyph),
     subtitle: subtitle,
     enabled: enabled,
     selector: appSettingProvider.select(select),
@@ -40,12 +43,14 @@ class GeneralSettings extends ConsumerWidget {
             items: [
               _appSettingToggle(
                 title: (l) => l.exclude,
+                glyph: AppGlyphs.info,
                 subtitle: (l) => l.excludeDesc,
                 select: (state) => state.hidden,
                 update: (state, value) => state.copyWith(hidden: value),
               ),
               _appSettingToggle(
                 title: (l) => l.showNotificationStopAction,
+                glyph: AppGlyphs.close,
                 select: (state) => state.showNotificationStopAction,
                 update: (state, value) =>
                     state.copyWith(showNotificationStopAction: value),

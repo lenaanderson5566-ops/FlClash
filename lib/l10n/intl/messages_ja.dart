@@ -483,7 +483,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "editSsid": MessageLookupByLibrary.simpleMessage("SSIDを編集"),
     "editorUnavailable": MessageLookupByLibrary.simpleMessage("エディターを利用できません"),
     "emptyTip": m8,
-    "en": MessageLookupByLibrary.simpleMessage("英語"),
+    "en": MessageLookupByLibrary.simpleMessage("English"),
     "enabled": MessageLookupByLibrary.simpleMessage("有効"),
     "entries": MessageLookupByLibrary.simpleMessage(" 件"),
     "error": MessageLookupByLibrary.simpleMessage("エラー"),
@@ -1154,7 +1154,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "プライベートアドレスをバイパス",
     ),
     "routeModeConfig": MessageLookupByLibrary.simpleMessage("設定を使用"),
-    "ru": MessageLookupByLibrary.simpleMessage("ロシア語"),
+    "ru": MessageLookupByLibrary.simpleMessage("Русский"),
     "rule": MessageLookupByLibrary.simpleMessage("ルール"),
     "ruleActionAndDesc": MessageLookupByLibrary.simpleMessage("論理ルール AND"),
     "ruleActionDomainDesc": MessageLookupByLibrary.simpleMessage("完全なドメインにマッチ"),
@@ -1442,6 +1442,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearsAgo": m53,
     "yes": MessageLookupByLibrary.simpleMessage("はい"),
-    "zhCN": MessageLookupByLibrary.simpleMessage("簡体字中国語"),
+    "zhCN": MessageLookupByLibrary.simpleMessage("简体中文"),
   };
 }

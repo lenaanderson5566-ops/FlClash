@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'node_metadata.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
@@ -678,186 +679,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
 
   String _bytes(int value) => '${(value / 1073741824).toStringAsFixed(2)} GB';
 
-  Widget _overview() {
-    if (widget.desktopLayout) return _desktopHome();
-    final l = context.appLocalizations;
-    final account = _account;
-    final status = switch (account?.status) {
-      null => l.fdWelcome,
-      'active' => l.fdActive,
-      'banned' => l.fdBanned,
-      'noPlan' => l.fdNoPlan,
-      'exhausted' => l.fdExhausted,
-      _ => l.fdExpired,
-    };
-    final canConnect =
-        account?.active == true &&
-        ref.watch(fastaiReleaseProvider)?.required != true;
-    final running = ref.watch(isStartProvider);
-    final mode = ref.watch(patchClashConfigProvider.select((s) => s.mode));
-    return ListView(
-      padding: const EdgeInsets.all(24),
-      children: [
-        _brandHeader(l.fdConnection, l.fdHeroSubtitle),
-        const SizedBox(height: 16),
-        Card(
-          elevation: 0,
-          color: context.colorScheme.surfaceContainerLowest,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: ShapeDecoration(
-                        color: running
-                            ? context.colorScheme.primary
-                            : context.colorScheme.outline,
-                        shape: AppShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: Text(
-                        _activity ??
-                            (running ? l.fdConnected : l.fdDisconnected),
-                        style: context.textTheme.headlineSmall,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(status, textAlign: TextAlign.center),
-                const SizedBox(height: 12),
-                TextButton.icon(
-                  onPressed: _busy ? null : () => setState(() => _tab = 1),
-                  icon: const GlyphIcon(AppGlyphs.proxies),
-                  label: Text(l.fdChooseRoute),
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: SizedBox(
-                    width: 168,
-                    height: 168,
-                    child: FilledButton(
-                      style: FilledButton.styleFrom(shape: AppShape.circle),
-                      onPressed: _busy
-                          ? null
-                          : _api == null
-                          ? () => _requestLogin(connect: true)
-                          : running
-                          ? _disconnect
-                          : canConnect
-                          ? () => _sync(connect: true)
-                          : null,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const GlyphIcon(AppGlyphs.bolt, size: 48, fill: 1),
-                          const SizedBox(height: 12),
-                          Text(
-                            _activity ??
-                                (running ? l.fdDisconnect : l.fdConnect),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const ConnectionSettings(isDesktop: false),
-                TextButton(
-                  onPressed: _busy || (_api != null && !canConnect)
-                      ? null
-                      : () => _sync(),
-                  child: Text(l.fdSync),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Card(
-          elevation: 0,
-          color: context.colorScheme.surfaceContainerLowest,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    const GlyphIcon(AppGlyphs.proxies),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        l.outboundMode,
-                        style: context.textTheme.titleSmall,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                SegmentedButton<Mode>(
-                  segments: [
-                    for (final value in [Mode.rule, Mode.global])
-                      ButtonSegment(
-                        value: value,
-                        label: Text(
-                          value == Mode.rule ? l.fdSmartMode : l.fdGlobalMode,
-                        ),
-                      ),
-                  ],
-                  selected: {mode},
-                  onSelectionChanged: _busy
-                      ? null
-                      : (values) {
-                          if (_api == null) {
-                            _requestLogin();
-                            return;
-                          }
-                          ref
-                              .read(setupActionProvider.notifier)
-                              .changeMode(values.single);
-                        },
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        if (account != null)
-          Card(
-            elevation: 0,
-            color: context.colorScheme.surfaceContainerLowest,
-            child: Column(
-              children: [
-                _metric(l.fdRemaining, _bytes(account.remainingBytes)),
-                _metric(l.fdCreditBalance, _bytes(account.creditBytes)),
-                _metric(
-                  l.fdExpiry,
-                  account.expiresAt?.toLocal().toString().split(' ').first ??
-                      l.fdNoExpiry,
-                ),
-                _metric(
-                  l.fdDevices,
-                  '${account.subscription['onlineDevices'] ?? 0} / ${account.subscription['deviceLimit'] ?? '—'}',
-                ),
-              ],
-            ),
-          ),
-        if (account != null && !account.active)
-          TextButton(
-            onPressed: _busy ? null : () => _run(_portal),
-            child: Text(l.fdWebAccount),
-          ),
-      ],
-    );
-  }
+  Widget _overview() => _desktopHome();
 
   Widget _myAccount() {
     final l = context.appLocalizations;
@@ -954,7 +776,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         (_account?.active == true &&
             ref.watch(fastaiReleaseProvider)?.required != true);
     final metadata = ref.watch(fastaiNodeMetadataProvider).asData?.value[route];
-    final color = context.colorScheme.primary;
     Widget panel(Widget child) => Material(
       color: Colors.white,
       shape: AppShape.lg.copyWith(
@@ -992,66 +813,36 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               ),
             ),
             const SizedBox(height: 28),
+            SvgPicture.asset(
+              'assets/images/fastai-network.svg',
+              height: 180,
+              excludeFromSemantics: true,
+            ),
+            const SizedBox(height: 24),
             Center(
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 240),
-                padding: const EdgeInsets.all(14),
-                decoration: ShapeDecoration(
-                  color: color.withValues(alpha: running ? 0.08 : 0.035),
-                  shape: AppShape.circle.copyWith(
-                    side: BorderSide(color: color.withValues(alpha: 0.10)),
-                  ),
-                ),
-                child: SizedBox(
-                  width: 172,
-                  height: 172,
-                  child: FilledButton(
-                    key: const ValueKey('home-connect'),
-                    onPressed: _busy || (!running && !allowed)
-                        ? null
-                        : () {
-                            if (_api == null) {
-                              _requestLogin(connect: true);
-                            } else if (running) {
-                              unawaited(_disconnect());
-                            } else {
-                              unawaited(_sync(connect: true));
-                            }
-                          },
-                    style: FilledButton.styleFrom(
-                      shape: AppShape.circle,
-                      padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                width: 240,
+                child: FilledButton(
+                  key: const ValueKey('home-connect'),
+                  onPressed: _busy || (!running && !allowed)
+                      ? null
+                      : () {
+                          if (_api == null) {
+                            _requestLogin(connect: true);
+                          } else if (running) {
+                            unawaited(_disconnect());
+                          } else {
+                            unawaited(_sync(connect: true));
+                          }
+                        },
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (_busy)
-                          const SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        else
-                          GlyphIcon(
-                            running ? AppGlyphs.check : AppGlyphs.bolt,
-                            size: 48,
-                          ),
-                        const SizedBox(height: 12),
-                        Text(
-                          _busy
-                              ? _activity ?? l.loading
-                              : running
-                              ? l.fdDisconnect
-                              : l.fdConnect,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+                    shape: AppShape.full,
                   ),
+                  child: Text(running ? l.fdDisconnect : l.fdConnect),
                 ),
               ),
             ),
@@ -1098,7 +889,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     Text(l.connection, style: context.textTheme.labelLarge),
                     const SizedBox(height: 8),
                     ConnectionSettings(
-                      isDesktop: true,
+                      isDesktop: widget.desktopLayout,
                       segmented: true,
                       enabled: !_busy,
                     ),
@@ -1192,28 +983,49 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             minWidth: 80,
             groupAlignment: -1,
             backgroundColor: context.colorScheme.surfaceContainerLow,
-            leading: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Text(
-                    V2BoardConfig.appName,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5,
-                      color: Color(0xFF153B70),
-                    ),
-                  ),
+            leading: SizedBox(
+              width: _sidebarExpanded && constraints.maxWidth >= 520 ? 200 : 80,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 20,
                 ),
-                IconButton(
-                  tooltip: _sidebarExpanded ? l.shrink : l.expand,
-                  onPressed: () =>
-                      setState(() => _sidebarExpanded = !_sidebarExpanded),
-                  icon: GlyphIcon(AppGlyphs.sidebar(_sidebarExpanded ? 1 : 0)),
-                  key: const ValueKey('sidebar-toggle'),
-                ),
-              ],
+                child: _sidebarExpanded && constraints.maxWidth >= 520
+                    ? Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/fastai-mark.svg',
+                            width: 30,
+                            height: 30,
+                          ),
+                          const SizedBox(width: 8),
+                          const Expanded(
+                            child: Text(
+                              V2BoardConfig.appName,
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: l.shrink,
+                            key: const ValueKey('sidebar-toggle'),
+                            onPressed: () =>
+                                setState(() => _sidebarExpanded = false),
+                            icon: GlyphIcon(AppGlyphs.sidebar(1)),
+                          ),
+                        ],
+                      )
+                    : IconButton(
+                        tooltip: l.expand,
+                        key: const ValueKey('sidebar-toggle'),
+                        onPressed: () =>
+                            setState(() => _sidebarExpanded = true),
+                        icon: SvgPicture.asset(
+                          'assets/images/fastai-mark.svg',
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
+              ),
             ),
             selectedIndex: _tab,
             onDestinationSelected: _busy ? null : _selectPage,
