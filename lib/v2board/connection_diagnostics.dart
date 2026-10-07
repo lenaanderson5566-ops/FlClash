@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fastai/state.dart';
 import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
@@ -53,6 +54,19 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
           : tunDenied || !ready || group == null
           ? NetworkCheckStatus.failed
           : NetworkCheckStatus.passed,
+      parameters: {
+        'platform': Platform.operatingSystem,
+        'version': globalState.packageInfo.version,
+        'build': globalState.packageInfo.buildNumber,
+        'safeMode': '$safe',
+        'connected': '$running',
+        'coreReady': '$ready',
+        'mode': patch.mode.name,
+        'TUN': '${patch.tun.enable}',
+        'tunAuthorization': ref.read(authorizedTunEnableProvider).name,
+        'routeGroupLoaded': '${group != null}',
+        'mixedPort': '${patch.mixedPort}',
+      },
       detail: safe
           ? l.fdDiagnosticSafe
           : !running
@@ -65,11 +79,18 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
     ),
   ];
   Future<NetworkCheckResult> route() async {
+    final watch = Stopwatch()..start();
+    final parameters = {
+      'target': defaultTestUrl,
+      'timeoutMs': '8000',
+      'path': 'selected-route',
+    };
     if (!usable || group == null) {
       return NetworkCheckResult(
         NetworkCheck.route,
-        NetworkCheckStatus.skipped,
+        safe ? NetworkCheckStatus.skipped : NetworkCheckStatus.unverified,
         detail: safe ? l.fdDiagnosticSafe : l.fdDiagnosticDisconnected,
+        parameters: parameters,
       );
     }
     try {
@@ -91,12 +112,24 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
         NetworkCheck.route,
         ok ? NetworkCheckStatus.passed : NetworkCheckStatus.failed,
         detail: ok ? l.fdDiagnosticRouteOk : l.fdDiagnosticRouteFail,
+        parameters: {
+          ...parameters,
+          'elapsedMs': '${watch.elapsedMilliseconds}',
+          if (result != null) 'HTTP': '${result.statusCode}',
+          if (result != null) 'coreDelayMs': '${result.delay}',
+          if (!ok) 'error': result == null ? 'no_result' : 'route_failed',
+        },
       );
-    } catch (_) {
+    } catch (error) {
       return NetworkCheckResult(
         NetworkCheck.route,
         NetworkCheckStatus.failed,
         detail: l.fdDiagnosticRouteFail,
+        parameters: {
+          ...parameters,
+          'elapsedMs': '${watch.elapsedMilliseconds}',
+          'error': diagnosticErrorCode(error),
+        },
       );
     }
   }
@@ -125,6 +158,16 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
           NetworkCheckResult(
             NetworkCheck.systemProxy,
             mismatch ? NetworkCheckStatus.failed : NetworkCheckStatus.passed,
+            parameters: {
+              'ProxyEnable': '$enabled',
+              'PAC': '$pac',
+              'expectedProxy': expected
+                  ? '127.0.0.1:${patch.mixedPort}'
+                  : 'disabled',
+              'endpointMatches':
+                  '${systemProxyMatches(server, patch.mixedPort)}',
+              'registryScope': 'HKCU / Internet Settings',
+            },
             detail: mismatch
                 ? l.fdDiagnosticProxyConflict
                 : l.fdDiagnosticProxySettingsOk,
@@ -137,7 +180,7 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
       results.add(
         NetworkCheckResult(
           NetworkCheck.systemProxy,
-          NetworkCheckStatus.skipped,
+          NetworkCheckStatus.unverified,
           detail: l.fdDiagnosticUnverified,
         ),
       );
@@ -146,7 +189,7 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
     results.add(
       NetworkCheckResult(
         NetworkCheck.systemProxy,
-        NetworkCheckStatus.skipped,
+        safe ? NetworkCheckStatus.skipped : NetworkCheckStatus.unverified,
         detail: safe ? l.fdDiagnosticSafe : l.fdDiagnosticUnverified,
       ),
     );
@@ -158,11 +201,13 @@ Future<List<NetworkCheckResult>> diagnoseConnection(
       profileId != ref.read(currentProfileProvider)?.id ||
       patch.tun.enable != ref.read(patchClashConfigProvider).tun.enable) {
     return [
-      NetworkCheckResult(
-        NetworkCheck.settings,
-        NetworkCheckStatus.skipped,
-        detail: l.fdDiagnosticChanged,
-      ),
+      for (final result in results)
+        NetworkCheckResult(
+          result.check,
+          NetworkCheckStatus.unverified,
+          detail: l.fdDiagnosticChanged,
+          parameters: result.parameters,
+        ),
     ];
   }
   return results;

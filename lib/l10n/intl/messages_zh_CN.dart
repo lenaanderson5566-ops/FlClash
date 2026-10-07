@@ -640,6 +640,58 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRefresh": MessageLookupByLibrary.simpleMessage("刷新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("前往官网注册或找回密码"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("周期剩余流量"),
+    "fdReportCopy": MessageLookupByLibrary.simpleMessage("复制报告"),
+    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("判断依据"),
+    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
+      "两个检测域名均需在 8 秒内返回至少一个地址。此项检查系统解析器，不检测 DNS 泄漏，也不验证具体上游 DNS 服务器。",
+    ),
+    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 检查 Wi-Fi/网线，并完成公共网络登录认证。\n2. 切换网络后重新检查，判断是否为当前网络的 DNS 问题。\n3. 仍然失败时，将报告交给客服或网络管理员。",
+    ),
+    "fdReportFailed": MessageLookupByLibrary.simpleMessage("异常"),
+    "fdReportNoData": MessageLookupByLibrary.simpleMessage("未采集到实测参数。"),
+    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
+      "此项无需修复。结果仅代表本次检测，不保证所有服务均可访问。",
+    ),
+    "fdReportParameters": MessageLookupByLibrary.simpleMessage("技术参数（ms 为毫秒）"),
+    "fdReportPassed": MessageLookupByLibrary.simpleMessage("通过"),
+    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
+      "8 秒内成功连接配置的本机回环 TCP 端口。此项不确认监听进程身份，也不验证远端线路。",
+    ),
+    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 在 FastAI 中断开后重新连接。\n2. 仍失败时重启 FastAI 后再检查。\n3. 将报告交给支持；端口连接失败本身不能证明端口被其他软件占用。",
+    ),
+    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
+      "复制报告包含检测地址和 DNS 解析结果，不包含账号、令牌、订阅内容或 PAC 地址。",
+    ),
+    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
+      "核对 Windows 当前用户的手动 HTTP/HTTPS 代理与所选模式，启用 PAC 时提示潜在冲突。不检查防火墙、WinHTTP 和组织策略。",
+    ),
+    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
+      "1. 打开 Windows 设置 → 网络和 Internet → 代理。\n2. 退出其他代理/VPN 软件，核对自己配置的手动代理或 PAC；不要擅自移除组织管理的设置。\n3. 重新连接 FastAI 后复查。",
+    ),
+    "fdReportRepair": MessageLookupByLibrary.simpleMessage("修复与后续操作"),
+    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
+      "通过内核当前选择的线路组发起 HTTPS，8 秒内收到 HTTP 200–399 且内核无错误视为通过。",
+    ),
+    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 切换其他线路后重试。\n2. 所有线路都失败时，结合 DNS 和本地代理结果排查。\n3. 若仅检测地址失败，请验证实际需要的服务，并将报告交给支持。",
+    ),
+    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
+      "请使用正常模式客户端并连接后重新检查。移动端不执行桌面代理端口检查。",
+    ),
+    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 确认已登录且账号具备连接权限。\n2. 刷新线路后重新连接。\n3. TUN 授权异常时完成权限授权，或切换为系统代理。",
+    ),
+    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("未执行"),
+    "fdReportTime": MessageLookupByLibrary.simpleMessage("检查开始时间"),
+    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("未验证"),
+    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
+      "保持 HTTPS 证书校验，8 秒内收到 HTTP 200–399 视为响应成功，不跟随重定向。",
+    ),
+    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 检查系统日期和时间是否正确。\n2. 用浏览器访问官网，并完成可能存在的网络登录认证。\n3. HTTP 错误或 TLS 持续失败时联系支持，不要关闭证书校验。",
+    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage("操作失败，请重试。"),
     "fdRequestTimeout": MessageLookupByLibrary.simpleMessage("请求超时，请检查网络后重试。"),
     "fdRequired": MessageLookupByLibrary.simpleMessage("请填写此项"),

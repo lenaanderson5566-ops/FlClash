@@ -838,6 +838,64 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Period traffic remaining",
     ),
+    "fdReportCopy": MessageLookupByLibrary.simpleMessage("Copy report"),
+    "fdReportCriteria": MessageLookupByLibrary.simpleMessage(
+      "Assessment criteria",
+    ),
+    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
+      "Both test domains must return at least one address within 8 seconds. This checks the system resolver, not DNS leaks or the configured upstream DNS server.",
+    ),
+    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Check Wi-Fi/Ethernet and complete any network sign-in.\n2. Retry on another network to isolate a local DNS problem.\n3. If it persists, send this report to support or your network administrator.",
+    ),
+    "fdReportFailed": MessageLookupByLibrary.simpleMessage("Issue found"),
+    "fdReportNoData": MessageLookupByLibrary.simpleMessage(
+      "No measurement was collected.",
+    ),
+    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
+      "No repair is needed for this check. This is a snapshot, not a guarantee of access to every service.",
+    ),
+    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
+      "Technical parameters (ms = milliseconds)",
+    ),
+    "fdReportPassed": MessageLookupByLibrary.simpleMessage("Passed"),
+    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
+      "A TCP connection to the configured loopback port must complete within 8 seconds. It does not identify the listening process or verify the remote route.",
+    ),
+    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Disconnect and reconnect in FastAI.\n2. If it fails again, restart FastAI and retry.\n3. Send the report to support; a failed port check alone does not prove another app occupies it.",
+    ),
+    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
+      "The copied report includes test destinations and DNS answers, but no account, token, subscription or PAC URL.",
+    ),
+    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
+      "Windows user-level manual HTTP/HTTPS proxy must match the selected mode; an active PAC is reported as a potential conflict. Firewall, WinHTTP and organization policies are not inspected.",
+    ),
+    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
+      "1. Review Windows Settings → Network & Internet → Proxy.\n2. Exit other proxy/VPN apps and review your own manual proxy or PAC configuration. Do not remove organization-managed settings.\n3. Reconnect FastAI and repeat the check.",
+    ),
+    "fdReportRepair": MessageLookupByLibrary.simpleMessage("What to do next"),
+    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
+      "The core sends HTTPS through the selected route group. HTTP 200–399 without a core error is accepted within 8 seconds.",
+    ),
+    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Select another route and retry.\n2. If every route fails, review the DNS and local proxy results.\n3. If only the test endpoint fails, check the service you need and send the report to support.",
+    ),
+    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
+      "Use the normal app build, connect, then run the check again. Mobile devices do not run the desktop port check.",
+    ),
+    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Confirm that you are signed in and your account can connect.\n2. Refresh routes and reconnect.\n3. For TUN authorization problems, approve the permission request or choose system proxy.",
+    ),
+    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("Not run"),
+    "fdReportTime": MessageLookupByLibrary.simpleMessage("Check started"),
+    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Not verified"),
+    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
+      "HTTPS certificate validation stays enabled. HTTP 200–399 is accepted within 8 seconds; redirects are not followed.",
+    ),
+    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Check the system date and time.\n2. Open the official website in a browser and complete any network sign-in.\n3. For HTTP errors or persistent TLS errors, contact support. Do not disable certificate validation.",
+    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "The operation failed. Please retry.",
     ),

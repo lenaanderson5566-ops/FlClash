@@ -865,6 +865,62 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Остаток трафика за период",
     ),
+    "fdReportCopy": MessageLookupByLibrary.simpleMessage("Копировать отчёт"),
+    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("Критерий оценки"),
+    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
+      "Оба домена должны вернуть адрес за 8 секунд. Проверяется системный DNS, а не утечки или конкретный вышестоящий сервер DNS.",
+    ),
+    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Проверьте Wi-Fi/кабель и вход в сеть.\n2. Повторите в другой сети.\n3. Передайте отчёт поддержке или администратору.",
+    ),
+    "fdReportFailed": MessageLookupByLibrary.simpleMessage("Проблема"),
+    "fdReportNoData": MessageLookupByLibrary.simpleMessage(
+      "Измерения отсутствуют.",
+    ),
+    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
+      "Исправление не требуется. Это результат текущей проверки, а не гарантия доступа ко всем сервисам.",
+    ),
+    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
+      "Параметры (ms = миллисекунды)",
+    ),
+    "fdReportPassed": MessageLookupByLibrary.simpleMessage("Успешно"),
+    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
+      "TCP-соединение с локальным портом за 8 секунд. Процесс-владелец порта и удалённый маршрут не проверяются.",
+    ),
+    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Переподключите FastAI.\n2. Перезапустите приложение.\n3. Отправьте отчёт: сбой порта сам по себе не доказывает конфликт с другим приложением.",
+    ),
+    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
+      "Отчёт содержит тестовые адреса и ответы DNS, но не аккаунт, токен, подписку или URL PAC.",
+    ),
+    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
+      "Проверяется пользовательский прокси Windows; PAC отмечается как возможный конфликт. Брандмауэр, WinHTTP и политики организации не проверяются.",
+    ),
+    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
+      "1. Откройте настройки прокси Windows.\n2. Закройте другие VPN и проверьте собственные настройки прокси/PAC. Не удаляйте политики организации.\n3. Переподключите FastAI и повторите.",
+    ),
+    "fdReportRepair": MessageLookupByLibrary.simpleMessage("Рекомендации"),
+    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
+      "HTTPS через выбранную группу маршрутов: HTTP 200–399 без ошибки ядра за 8 секунд.",
+    ),
+    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Смените сервер и повторите.\n2. Если все серверы недоступны, проверьте DNS и локальный прокси.\n3. Если не работает только тестовый адрес, проверьте нужный сервис и отправьте отчёт.",
+    ),
+    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
+      "Запустите обычную версию, подключитесь и повторите. На мобильных устройствах проверка локального порта не выполняется.",
+    ),
+    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Проверьте вход и доступ аккаунта.\n2. Обновите серверы и подключитесь.\n3. Разрешите TUN или выберите системный прокси.",
+    ),
+    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("Не выполнено"),
+    "fdReportTime": MessageLookupByLibrary.simpleMessage("Начало проверки"),
+    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Не проверено"),
+    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
+      "Проверка сертификата включена. HTTP 200–399 за 8 секунд считается ответом; перенаправления не выполняются.",
+    ),
+    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Проверьте дату и время.\n2. Откройте сайт в браузере и войдите в сеть.\n3. При ошибках HTTP/TLS обратитесь в поддержку, не отключая проверку сертификата.",
+    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "Операция не выполнена. Повторите попытку.",
     ),

@@ -7667,6 +7667,236 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Passed`
+  String get fdReportPassed {
+    return Intl.message('Passed', name: 'fdReportPassed', desc: '', args: []);
+  }
+
+  /// `Issue found`
+  String get fdReportFailed {
+    return Intl.message(
+      'Issue found',
+      name: 'fdReportFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not run`
+  String get fdReportSkipped {
+    return Intl.message('Not run', name: 'fdReportSkipped', desc: '', args: []);
+  }
+
+  /// `Not verified`
+  String get fdReportUnverified {
+    return Intl.message(
+      'Not verified',
+      name: 'fdReportUnverified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check started`
+  String get fdReportTime {
+    return Intl.message(
+      'Check started',
+      name: 'fdReportTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The copied report includes test destinations and DNS answers, but no account, token, subscription or PAC URL.`
+  String get fdReportPrivacy {
+    return Intl.message(
+      'The copied report includes test destinations and DNS answers, but no account, token, subscription or PAC URL.',
+      name: 'fdReportPrivacy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assessment criteria`
+  String get fdReportCriteria {
+    return Intl.message(
+      'Assessment criteria',
+      name: 'fdReportCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Technical parameters (ms = milliseconds)`
+  String get fdReportParameters {
+    return Intl.message(
+      'Technical parameters (ms = milliseconds)',
+      name: 'fdReportParameters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No measurement was collected.`
+  String get fdReportNoData {
+    return Intl.message(
+      'No measurement was collected.',
+      name: 'fdReportNoData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What to do next`
+  String get fdReportRepair {
+    return Intl.message(
+      'What to do next',
+      name: 'fdReportRepair',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy report`
+  String get fdReportCopy {
+    return Intl.message(
+      'Copy report',
+      name: 'fdReportCopy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No repair is needed for this check. This is a snapshot, not a guarantee of access to every service.`
+  String get fdReportNoRepair {
+    return Intl.message(
+      'No repair is needed for this check. This is a snapshot, not a guarantee of access to every service.',
+      name: 'fdReportNoRepair',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use the normal app build, connect, then run the check again. Mobile devices do not run the desktop port check.`
+  String get fdReportRunAgain {
+    return Intl.message(
+      'Use the normal app build, connect, then run the check again. Mobile devices do not run the desktop port check.',
+      name: 'fdReportRunAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Both test domains must return at least one address within 8 seconds. This checks the system resolver, not DNS leaks or the configured upstream DNS server.`
+  String get fdReportDnsCriteria {
+    return Intl.message(
+      'Both test domains must return at least one address within 8 seconds. This checks the system resolver, not DNS leaks or the configured upstream DNS server.',
+      name: 'fdReportDnsCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HTTPS certificate validation stays enabled. HTTP 200–399 is accepted within 8 seconds; redirects are not followed.`
+  String get fdReportWebCriteria {
+    return Intl.message(
+      'HTTPS certificate validation stays enabled. HTTP 200–399 is accepted within 8 seconds; redirects are not followed.',
+      name: 'fdReportWebCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A TCP connection to the configured loopback port must complete within 8 seconds. It does not identify the listening process or verify the remote route.`
+  String get fdReportPortCriteria {
+    return Intl.message(
+      'A TCP connection to the configured loopback port must complete within 8 seconds. It does not identify the listening process or verify the remote route.',
+      name: 'fdReportPortCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Windows user-level manual HTTP/HTTPS proxy must match the selected mode; an active PAC is reported as a potential conflict. Firewall, WinHTTP and organization policies are not inspected.`
+  String get fdReportProxyCriteria {
+    return Intl.message(
+      'Windows user-level manual HTTP/HTTPS proxy must match the selected mode; an active PAC is reported as a potential conflict. Firewall, WinHTTP and organization policies are not inspected.',
+      name: 'fdReportProxyCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The core sends HTTPS through the selected route group. HTTP 200–399 without a core error is accepted within 8 seconds.`
+  String get fdReportRouteCriteria {
+    return Intl.message(
+      'The core sends HTTPS through the selected route group. HTTP 200–399 without a core error is accepted within 8 seconds.',
+      name: 'fdReportRouteCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Check Wi-Fi/Ethernet and complete any network sign-in.\n2. Retry on another network to isolate a local DNS problem.\n3. If it persists, send this report to support or your network administrator.`
+  String get fdReportDnsSteps {
+    return Intl.message(
+      '1. Check Wi-Fi/Ethernet and complete any network sign-in.\n2. Retry on another network to isolate a local DNS problem.\n3. If it persists, send this report to support or your network administrator.',
+      name: 'fdReportDnsSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Check the system date and time.\n2. Open the official website in a browser and complete any network sign-in.\n3. For HTTP errors or persistent TLS errors, contact support. Do not disable certificate validation.`
+  String get fdReportWebSteps {
+    return Intl.message(
+      '1. Check the system date and time.\n2. Open the official website in a browser and complete any network sign-in.\n3. For HTTP errors or persistent TLS errors, contact support. Do not disable certificate validation.',
+      name: 'fdReportWebSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Disconnect and reconnect in FastAI.\n2. If it fails again, restart FastAI and retry.\n3. Send the report to support; a failed port check alone does not prove another app occupies it.`
+  String get fdReportPortSteps {
+    return Intl.message(
+      '1. Disconnect and reconnect in FastAI.\n2. If it fails again, restart FastAI and retry.\n3. Send the report to support; a failed port check alone does not prove another app occupies it.',
+      name: 'fdReportPortSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Confirm that you are signed in and your account can connect.\n2. Refresh routes and reconnect.\n3. For TUN authorization problems, approve the permission request or choose system proxy.`
+  String get fdReportSettingsSteps {
+    return Intl.message(
+      '1. Confirm that you are signed in and your account can connect.\n2. Refresh routes and reconnect.\n3. For TUN authorization problems, approve the permission request or choose system proxy.',
+      name: 'fdReportSettingsSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Review Windows Settings → Network & Internet → Proxy.\n2. Exit other proxy/VPN apps and review your own manual proxy or PAC configuration. Do not remove organization-managed settings.\n3. Reconnect FastAI and repeat the check.`
+  String get fdReportProxySteps {
+    return Intl.message(
+      '1. Review Windows Settings → Network & Internet → Proxy.\n2. Exit other proxy/VPN apps and review your own manual proxy or PAC configuration. Do not remove organization-managed settings.\n3. Reconnect FastAI and repeat the check.',
+      name: 'fdReportProxySteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Select another route and retry.\n2. If every route fails, review the DNS and local proxy results.\n3. If only the test endpoint fails, check the service you need and send the report to support.`
+  String get fdReportRouteSteps {
+    return Intl.message(
+      '1. Select another route and retry.\n2. If every route fails, review the DNS and local proxy results.\n3. If only the test endpoint fails, check the service you need and send the report to support.',
+      name: 'fdReportRouteSteps',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

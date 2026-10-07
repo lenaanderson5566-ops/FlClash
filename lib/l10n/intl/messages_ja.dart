@@ -701,6 +701,60 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRefresh": MessageLookupByLibrary.simpleMessage("更新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("公式サイトで登録・パスワード再設定"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("期間の残り通信量"),
+    "fdReportCopy": MessageLookupByLibrary.simpleMessage("レポートをコピー"),
+    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("判定基準"),
+    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
+      "両方のドメインが8秒以内にアドレスを返すこと。システムの名前解決を確認し、DNS リークや上流 DNS サーバーは検証しません。",
+    ),
+    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Wi-Fi/有線とネットワーク認証を確認。\n2. 別の回線で再確認。\n3. 改善しない場合はレポートをサポートへ。",
+    ),
+    "fdReportFailed": MessageLookupByLibrary.simpleMessage("問題あり"),
+    "fdReportNoData": MessageLookupByLibrary.simpleMessage("測定データがありません。"),
+    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
+      "この項目の修復は不要です。結果は今回の測定のみで、すべてのサービスへの接続を保証しません。",
+    ),
+    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
+      "技術情報（ms = ミリ秒）",
+    ),
+    "fdReportPassed": MessageLookupByLibrary.simpleMessage("正常"),
+    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
+      "8秒以内にローカル TCP ポートへ接続すること。待受プロセスやリモート経路は確認しません。",
+    ),
+    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
+      "1. FastAI を再接続。\n2. 改善しない場合は再起動。\n3. レポートをサポートへ。ポート失敗だけでは他アプリの占有と断定できません。",
+    ),
+    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
+      "コピーには検査先と DNS 応答が含まれますが、アカウント、トークン、サブスクリプション、PAC URL は含みません。",
+    ),
+    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
+      "Windows ユーザーの手動プロキシを確認し、PAC 有効時は競合の可能性を示します。ファイアウォール、WinHTTP、組織ポリシーは対象外です。",
+    ),
+    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
+      "1. Windows 設定 → ネットワーク → プロキシを確認。\n2. 他の VPN を終了し、自分のプロキシ/PAC 設定を確認。組織の設定は削除しないでください。\n3. FastAI を再接続して確認。",
+    ),
+    "fdReportRepair": MessageLookupByLibrary.simpleMessage("対処手順"),
+    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
+      "コアの選択中の経路で HTTPS を実行し、8秒以内にエラーなしで HTTP 200–399 を受信すること。",
+    ),
+    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 別の接続先で再試行。\n2. すべて失敗する場合は DNS とローカルプロキシを確認。\n3. 検査先のみ失敗する場合は必要なサービスを確認し、レポートを送付。",
+    ),
+    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
+      "通常モードで接続後、再確認してください。モバイルではデスクトップのポート確認は行いません。",
+    ),
+    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
+      "1. ログインと利用権限を確認。\n2. 接続先を更新して再接続。\n3. TUN 権限を許可するかシステムプロキシへ切り替え。",
+    ),
+    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("未実行"),
+    "fdReportTime": MessageLookupByLibrary.simpleMessage("確認開始時刻"),
+    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("未検証"),
+    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
+      "証明書を検証し、8秒以内の HTTP 200–399 を成功とします。リダイレクトは追跡しません。",
+    ),
+    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 日時を確認。\n2. ブラウザーで公式サイトとネットワーク認証を確認。\n3. HTTP/TLS エラーが続く場合はサポートへ。証明書検証は無効にしないでください。",
+    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "操作に失敗しました。再試行してください。",
     ),
