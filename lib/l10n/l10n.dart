@@ -5158,10 +5158,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Network check`
+  /// `Network diagnostics`
   String get fdNetworkDiagnostics {
     return Intl.message(
-      'Network check',
+      'Network diagnostics',
       name: 'fdNetworkDiagnostics',
       desc: '',
       args: [],

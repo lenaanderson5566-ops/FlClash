@@ -640,7 +640,7 @@
   "fdRouteResponsive": "تأخیر کم",
   "fdRouteSlow": "تأخیر بیشتر",
   "fdRouteLastCheck": "آخرین اندازه‌گیری",
-  "fdNetworkDiagnostics": "بررسی شبکه",
+  "fdNetworkDiagnostics": "عیب‌یابی شبکه",
   "fdDiagnosticEntry": "مشکلات اتصال را پیدا کنید و مراحل رفع مشکل را دنبال کنید",
   "fdDiagnosticRunning": "در حال بررسی اتصال…",
   "fdDiagnosticDns": "DNS سیستم",

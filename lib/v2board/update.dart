@@ -67,6 +67,7 @@ class FastaiRelease {
 
 class FastaiReleaseState extends Notifier<FastaiRelease?> {
   DateTime? _lastCheck;
+  DateTime? _lastAttempt;
 
   @override
   FastaiRelease? build() => null;
@@ -77,6 +78,13 @@ class FastaiReleaseState extends Notifier<FastaiRelease?> {
         DateTime.now().difference(_lastCheck!) < const Duration(hours: 6)) {
       return state;
     }
+    if (!force &&
+        _lastAttempt != null &&
+        DateTime.now().difference(_lastAttempt!) <
+            const Duration(minutes: 15)) {
+      return state;
+    }
+    _lastAttempt = DateTime.now();
     final api = V2BoardApi(V2BoardConfig.panelUrl)
       ..version = globalState.packageInfo.version
       ..language = ref.read(appSettingProvider).locale ?? Platform.localeName;

@@ -549,7 +549,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Network connectivity",
     ),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Network check",
+      "Network diagnostics",
     ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Unable to reach the service. Check your network and try again.",

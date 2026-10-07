@@ -640,7 +640,7 @@
   "fdRouteResponsive": "低延遲",
   "fdRouteSlow": "延遲較高",
   "fdRouteLastCheck": "上次檢測",
-  "fdNetworkDiagnostics": "一鍵網路診斷",
+  "fdNetworkDiagnostics": "網路診斷",
   "fdDiagnosticEntry": "查詢連線問題並按指引恢復",
   "fdDiagnosticRunning": "正在檢查網路連線…",
   "fdDiagnosticDns": "系統 DNS",

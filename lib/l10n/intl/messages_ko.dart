@@ -458,7 +458,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("로그인"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("로그아웃"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("네트워크 연결"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("네트워크 점검"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("네트워크 진단"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "서비스에 연결할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.",
     ),

@@ -640,7 +640,7 @@
   "fdRouteResponsive": "Low latency",
   "fdRouteSlow": "Higher latency",
   "fdRouteLastCheck": "Last measurement",
-  "fdNetworkDiagnostics": "Network check",
+  "fdNetworkDiagnostics": "Network diagnostics",
   "fdDiagnosticEntry": "Find connection problems and follow the recovery steps",
   "fdDiagnosticRunning": "Checking your connection…",
   "fdDiagnosticDns": "System DNS",

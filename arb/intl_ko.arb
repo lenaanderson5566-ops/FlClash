@@ -640,7 +640,7 @@
   "fdRouteResponsive": "낮은 지연 시간",
   "fdRouteSlow": "높은 지연 시간",
   "fdRouteLastCheck": "마지막 확인",
-  "fdNetworkDiagnostics": "네트워크 점검",
+  "fdNetworkDiagnostics": "네트워크 진단",
   "fdDiagnosticEntry": "연결 문제를 찾고 복구 안내를 따르세요",
   "fdDiagnosticRunning": "연결 확인 중…",
   "fdDiagnosticDns": "시스템 DNS",

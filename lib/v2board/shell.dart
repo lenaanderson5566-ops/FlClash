@@ -94,11 +94,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   final _autoDelay = AutoDelayGate();
   Timer? _delayTimer;
 
-  void _scheduleDelay() {
+  void _scheduleDelay({Duration wait = const Duration(milliseconds: 600)}) {
     _delayTimer?.cancel();
-    _delayTimer = Timer(const Duration(milliseconds: 600), () async {
+    _delayTimer = Timer(wait, () async {
       if (!mounted ||
-          ref.read(safeModeProvider) ||
           !ref.read(appVisibleProvider) ||
           ref.read(coreStatusProvider) != CoreStatus.connected) {
         return;
@@ -110,7 +109,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       if (nodes.isEmpty) return;
       final key =
           '${ref.read(currentProfileProvider)?.id}:${ref.read(currentProfileProvider)?.lastUpdateDate}:${group.testUrl}:${nodes.map((node) => node.name).join('|')}';
-      if (!_autoDelay.begin(key, DateTime.now())) return;
+      final now = DateTime.now();
+      final retryAfter = _autoDelay.retryAfter(key, now);
+      if (retryAfter == null) return;
+      if (retryAfter > Duration.zero) {
+        _scheduleDelay(wait: retryAfter);
+        return;
+      }
+      if (!_autoDelay.begin(key, now)) return;
       try {
         await ref
             .read(proxiesActionProvider.notifier)
@@ -150,9 +156,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         unawaited(_checkRelease());
       }
     });
-    _accountTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+    _accountTimer = Timer.periodic(const Duration(minutes: 5), (_) {
       if (mounted && _api != null && !_busy && ref.read(appVisibleProvider)) {
-        unawaited(_refreshInBackground());
+        unawaited(_refreshInBackground(force: true));
         unawaited(_checkRelease());
       }
     });
@@ -175,7 +181,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           // Retry in the new language even if an earlier refresh failed.
         }
         if (mounted && _api != null && _displayLanguage == language) {
-          await _refreshInBackground();
+          await _refreshInBackground(force: true);
         }
       });
     }
@@ -280,7 +286,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     return _refreshing = task;
   }
 
-  Future<void> _refreshInBackground() async {
+  DateTime? _lastAccountRefreshAttempt;
+
+  Future<void> _refreshInBackground({bool force = false}) async {
+    if (!force &&
+        _lastAccountRefreshAttempt != null &&
+        DateTime.now().difference(_lastAccountRefreshAttempt!) <
+            const Duration(minutes: 5)) {
+      return;
+    }
     final client = _api;
     try {
       await _refresh();
@@ -293,6 +307,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   Future<void> _refreshAccount() async {
+    _lastAccountRefreshAttempt = DateTime.now();
     final api = _api!;
     api.language = Localizations.localeOf(context).toLanguageTag();
     final data = await Future.wait([

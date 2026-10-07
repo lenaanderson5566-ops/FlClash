@@ -549,7 +549,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogout": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("Kết nối mạng"),
     "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Kiểm tra mạng",
+      "Chẩn đoán mạng",
     ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối dịch vụ. Kiểm tra mạng rồi thử lại.",

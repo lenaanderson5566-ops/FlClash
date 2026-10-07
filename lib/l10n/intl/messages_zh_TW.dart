@@ -434,7 +434,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("登入"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("退出登入"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("網路連通性"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("一鍵網路診斷"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("網路診斷"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage("無法連線服務，請檢查網路後重試。"),
     "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自動重置（本地時間）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("無週期到期時間"),

@@ -8,6 +8,7 @@ import 'package:fastai/v2board/update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:typed_data';
 import 'package:fastai/enum/enum.dart';
+import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/v2board/api.dart';
 import 'package:fastai/v2board/access.dart';
@@ -39,6 +40,7 @@ class _Api extends V2BoardApi {
     'disabledReason': 'reset_no_credit',
   };
   int resetPosts = 0;
+  int accountGets = 0;
 
   @override
   Future<Uint8List> clientConfig({
@@ -56,6 +58,7 @@ class _Api extends V2BoardApi {
     String path, {
     V10Object? body,
   }) async {
+    if (path == '/me') accountGets++;
     if (path == '/me' && pendingAccount != null) return pendingAccount!.future;
     if (path == '/me/usage-resets') return resets;
     if (path == '/me/usage-resets/consumptions') {
@@ -85,6 +88,16 @@ class _Api extends V2BoardApi {
             'plan': {'name': 'Test plan'},
             ...subscription,
           };
+  }
+}
+
+class _Probes extends ProxiesAction {
+  int calls = 0;
+  @override
+  void build() {}
+  @override
+  Future<void> delayTest(List<Proxy> proxies, [String? testUrl]) async {
+    calls++;
   }
 }
 
@@ -121,10 +134,28 @@ void main() {
     V2BoardApi? api, {
     FastaiRelease? release,
     bool desktopLayout = false,
+    _Probes? probes,
   }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          if (probes != null) ...[
+            proxiesActionProvider.overrideWith(() => probes),
+            safeModeProvider.overrideWithValue(true),
+            coreStatusProvider.overrideWithBuild(
+              (_, _) => CoreStatus.connected,
+            ),
+            appVisibleProvider.overrideWithBuild((_, _) => true),
+            groupsProvider.overrideWithBuild(
+              (_, _) => const [
+                Group(
+                  name: 'FastAI',
+                  type: GroupType.Selector,
+                  all: [Proxy(name: 'node_1', type: 'Vless')],
+                ),
+              ],
+            ),
+          ],
           setupActionProvider.overrideWith(_Setup.new),
           fastaiReleaseProvider.overrideWith(() => _Release(release)),
           profilesProvider.overrideWith(() => TestProfiles([])),
@@ -157,12 +188,41 @@ void main() {
   }
 
   testWidgets(
+    'safe-mode routes probe automatically without one-minute repeats',
+    (tester) async {
+      final probes = _Probes();
+      await show(tester, null, probes: probes);
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+      expect(probes.calls, 1);
+      await tester.pump(const Duration(minutes: 1));
+      expect(probes.calls, 1);
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+
+  testWidgets('account polling waits five minutes instead of one', (
+    tester,
+  ) async {
+    final api = _Api(false);
+    await show(tester, api);
+    expect(api.accountGets, 1);
+    await tester.pump(const Duration(minutes: 1));
+    await tester.pumpAndSettle();
+    expect(api.accountGets, 1);
+    await tester.pump(const Duration(minutes: 4));
+    await tester.pumpAndSettle();
+    expect(api.accountGets, 2);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets(
     'background account refresh does not block navigation or show global errors',
     (tester) async {
       final api = _Api(false);
       await show(tester, api, desktopLayout: true);
       api.pendingAccount = Completer<V10Object>();
-      await tester.pump(const Duration(minutes: 1));
+      await tester.pump(const Duration(minutes: 5));
       expect(find.byType(LinearProgressIndicator), findsNothing);
       expect(
         tester
@@ -563,9 +623,7 @@ void main() {
     await tester.tap(find.byType(NavigationDestination).at(1));
     await tester.pumpAndSettle();
     expect(
-      find.text(
-        'No routes are available. Check your account on the website.',
-      ),
+      find.text('No routes are available. Check your account on the website.'),
       findsOneWidget,
     );
     expect(tester.takeException(), isNull);

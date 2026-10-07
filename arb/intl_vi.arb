@@ -640,7 +640,7 @@
   "fdRouteResponsive": "Độ trễ thấp",
   "fdRouteSlow": "Độ trễ cao",
   "fdRouteLastCheck": "Lần đo gần nhất",
-  "fdNetworkDiagnostics": "Kiểm tra mạng",
+  "fdNetworkDiagnostics": "Chẩn đoán mạng",
   "fdDiagnosticEntry": "Tìm lỗi kết nối và làm theo hướng dẫn khắc phục",
   "fdDiagnosticRunning": "Đang kiểm tra kết nối…",
   "fdDiagnosticDns": "DNS hệ thống",

@@ -531,7 +531,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("ورود"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("خروج از حساب"),
     "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("اتصال شبکه"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("بررسی شبکه"),
+    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
+      "عیب‌یابی شبکه",
+    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "اتصال به سرویس ممکن نیست. شبکه را بررسی و دوباره تلاش کنید.",
     ),
