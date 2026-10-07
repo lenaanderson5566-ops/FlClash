@@ -28,7 +28,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
 
   List<Widget> _getSettingList() {
     return generateSection(
-      title: context.appLocalizations.settings,
+      title: null,
       items: [
         const _LocaleItem(),
         if (system.isDesktop) const ProxyAddressItem(),
@@ -41,16 +41,31 @@ class _ToolViewState extends ConsumerState<ToolsView> {
   @override
   Widget build(BuildContext context) {
     final items = [..._getSettingList(), ..._getOtherList()];
-    return CommonScaffold(
-      title: context.appLocalizations.settings,
-      body: ListView.builder(
-        key: toolsStoreKey,
-        itemCount: items.length,
-        itemBuilder: (_, index) => items[index],
-        padding: EdgeInsets.only(
-          top: context.appBarInset,
-          bottom: 20 + BottomInsetScope.of(context),
-        ),
+    return Material(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+            child: Text(
+              context.appLocalizations.settings,
+              style: context.textTheme.headlineSmall,
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              key: toolsStoreKey,
+              itemCount: items.length,
+              itemBuilder: (_, index) => items[index],
+              padding: EdgeInsets.fromLTRB(
+                8,
+                0,
+                8,
+                24 + BottomInsetScope.of(context),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

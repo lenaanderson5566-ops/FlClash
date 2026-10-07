@@ -8,7 +8,6 @@ import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/widgets/list.dart';
 import 'package:fastai/widgets/config_item.dart';
-import 'package:fastai/widgets/scaffold.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
@@ -57,58 +56,103 @@ class AboutView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
     final isLoading = ref.watch(loadingProvider(LoadingTag.checkUpdate));
-    return CommonScaffold(
-      isLoading: isLoading,
-      title: appLocalizations.about,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ).copyWith(top: context.contentTopPadding, bottom: 32),
+    return Material(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _AboutHero(
-            isCheckingUpdate: isLoading,
-            onCheckUpdate: () {
-              _checkUpdate(context, ref);
-            },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+            child: Text(
+              appLocalizations.about,
+              style: context.textTheme.headlineSmall,
+            ),
           ),
-          const SizedBox(height: 16),
-          ConfigToggleItem(
-            leading: const GlyphIcon(AppGlyphs.sync),
-            title: (l) => l.autoCheckUpdate,
-            subtitle: (l) => l.fdAutoCheckUpdateDesc,
-            selector: appSettingProvider.select((s) => s.autoCheckUpdate),
-            onChanged: (ref, enabled) => ref
-                .read(appSettingProvider.notifier)
-                .update((s) => s.copyWith(autoCheckUpdate: enabled)),
-          ),
-          const SizedBox(height: 8),
-          generateSectionV3(
-            title: appLocalizations.more,
-            items: [
-              _buildLinkItem(
-                glyph: AppGlyphs.send,
-                title: appLocalizations.fdOfficialWebsite,
-                url: V2BoardConfig.websiteUrl,
-                label:
-                    Uri.tryParse(V2BoardConfig.websiteUrl)?.host ??
-                    V2BoardConfig.websiteUrl,
-                onTap: () async {
-                  try {
-                    final url = Uri.parse(V2BoardConfig.websiteUrl);
-                    if (!await launchUrl(
-                      url,
-                      mode: LaunchMode.externalApplication,
-                    )) {
-                      throw StateError('Website launch failed');
-                    }
-                  } catch (_) {
-                    if (context.mounted) {
-                      context.showNotifier(appLocalizations.fdRequestFailed);
-                    }
-                  }
-                },
-              ),
-            ],
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+              children: [
+                const _AboutHero(),
+                const SizedBox(height: 24),
+                Card(
+                  margin: EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Wrap(
+                          spacing: 20,
+                          runSpacing: 12,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              'v${globalState.packageInfo.version} · ${globalState.packageInfo.buildNumber}',
+                              style: context.textTheme.titleMedium,
+                            ),
+                            OutlinedButton.icon(
+                              onPressed: isLoading
+                                  ? null
+                                  : () => _checkUpdate(context, ref),
+                              icon: isLoading
+                                  ? const SizedBox.square(
+                                      dimension: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const GlyphIcon(AppGlyphs.sync, size: 18),
+                              label: Text(appLocalizations.checkUpdate),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(height: 1),
+                      ConfigToggleItem(
+                        leading: const GlyphIcon(AppGlyphs.sync),
+                        title: (l) => l.autoCheckUpdate,
+                        subtitle: (l) => l.fdAutoCheckUpdateDesc,
+                        selector: appSettingProvider.select(
+                          (s) => s.autoCheckUpdate,
+                        ),
+                        onChanged: (ref, enabled) => ref
+                            .read(appSettingProvider.notifier)
+                            .update(
+                              (s) => s.copyWith(autoCheckUpdate: enabled),
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  margin: EdgeInsets.zero,
+                  child: _buildLinkItem(
+                    glyph: AppGlyphs.send,
+                    title: appLocalizations.fdOfficialWebsite,
+                    url: V2BoardConfig.websiteUrl,
+                    label:
+                        Uri.tryParse(V2BoardConfig.websiteUrl)?.host ??
+                        V2BoardConfig.websiteUrl,
+                    onTap: () async {
+                      try {
+                        final url = Uri.parse(V2BoardConfig.websiteUrl);
+                        if (!await launchUrl(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        )) {
+                          throw StateError('Website launch failed');
+                        }
+                      } catch (_) {
+                        if (context.mounted) {
+                          context.showNotifier(
+                            appLocalizations.fdRequestFailed,
+                          );
+                        }
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -117,13 +161,7 @@ class AboutView extends ConsumerWidget {
 }
 
 class _AboutHero extends StatelessWidget {
-  final bool isCheckingUpdate;
-  final VoidCallback onCheckUpdate;
-
-  const _AboutHero({
-    required this.isCheckingUpdate,
-    required this.onCheckUpdate,
-  });
+  const _AboutHero();
 
   static const _logoSize = 80.0;
   static const _logoInset = 14.0;
@@ -158,13 +196,6 @@ class _AboutHero extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            'v${globalState.packageInfo.version} · ${globalState.packageInfo.buildNumber}',
-            style: textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
           const SizedBox(height: 16),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 420),
@@ -176,12 +207,6 @@ class _AboutHero extends StatelessWidget {
                 height: 1.5,
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          FilledButton.tonalIcon(
-            onPressed: isCheckingUpdate ? null : onCheckUpdate,
-            icon: const GlyphIcon(AppGlyphs.sync, fill: 1),
-            label: Text(appLocalizations.checkUpdate),
           ),
         ],
       ),

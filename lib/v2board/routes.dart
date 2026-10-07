@@ -98,7 +98,6 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
       }
       if (mounted && context.mounted) {
         action.updateGroupsDebounce();
-        context.showNotifier(context.appLocalizations.selected);
       }
     }
 
@@ -121,15 +120,16 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
           ),
           clipBehavior: Clip.antiAlias,
           child: ListTile(
+            minTileHeight: 56,
+            minVerticalPadding: 8,
+            horizontalTitleGap: 12,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 6,
+              horizontal: 16,
+              vertical: 0,
             ),
             leading: NodeRegionFlag(
               regionCode: metadata[proxy.name]?['regionCode'] as String?,
-              fallback: GlyphIcon(
-                selected == proxy.name ? AppGlyphs.check : AppGlyphs.proxies,
-              ),
+              fallback: const GlyphIcon(AppGlyphs.proxies),
             ),
             title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
             subtitle:
@@ -149,7 +149,7 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
                 if (delay != null) Text(delay > 0 ? '$delay ms' : l.timeout),
                 if (selected == proxy.name) ...[
                   const SizedBox(width: 8),
-                  const GlyphIcon(AppGlyphs.check),
+                  const GlyphIcon(AppGlyphs.check, size: 18),
                 ],
               ],
             ),
