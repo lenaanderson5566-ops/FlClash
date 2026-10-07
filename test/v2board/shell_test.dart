@@ -250,6 +250,16 @@ void main() {
       );
       expect(find.text('T'), findsOneWidget);
       expect(
+        find.descendant(of: entry, matching: find.text('te***@example.com')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: entry, matching: find.text('test@example.com')),
+        findsNothing,
+      );
+      expect(find.byTooltip('test@example.com'), findsNothing);
+
+      expect(
         tester.getCenter(entry).dy,
         greaterThan(
           tester.view.physicalSize.height / tester.view.devicePixelRatio * 0.7,

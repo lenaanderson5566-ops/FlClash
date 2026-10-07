@@ -968,7 +968,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       child: SizedBox(
         width: expanded ? 176 : 56,
         child: Tooltip(
-          message: _account?.email ?? l.account,
+          message: _account == null
+              ? l.account
+              : maskedAccountEmail(_account!.email),
           child: Material(
             color: _tab == 3
                 ? context.colorScheme.primaryContainer
@@ -1001,7 +1003,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                               ),
                               if (_account != null)
                                 Text(
-                                  _account!.email,
+                                  maskedAccountEmail(_account!.email),
                                   textDirection: ui.TextDirection.ltr,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

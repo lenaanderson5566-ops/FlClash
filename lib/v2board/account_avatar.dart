@@ -2,6 +2,16 @@ import 'package:fastai/common/common.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:material_ui/material_ui.dart';
 
+/// Compact identity for navigation; full email remains on the account page.
+String maskedAccountEmail(String email) {
+  final value = email.trim();
+  final separator = value.lastIndexOf('@');
+  if (separator <= 0 || separator == value.length - 1) return '***';
+  final local = value.substring(0, separator).characters;
+  final visible = local.take(local.length > 2 ? 2 : 1).join();
+  return '$visible***${value.substring(separator)}';
+}
+
 class AccountAvatar extends StatelessWidget {
   const AccountAvatar({super.key, this.email, this.size = 36});
 
