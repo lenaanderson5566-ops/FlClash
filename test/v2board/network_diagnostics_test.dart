@@ -69,7 +69,10 @@ void main() {
       const NetworkCheckResult(NetworkCheck.dns, NetworkCheckStatus.passed),
     ]);
     await tester.pumpAndSettle();
-    expect(find.text('Domain resolved successfully.'), findsOneWidget);
+    expect(
+      find.text('Website and test domain resolved successfully.'),
+      findsOneWidget,
+    );
     pending = Completer<List<NetworkCheckResult>>();
     await tester.tap(find.text('Check again'));
     await tester.pump();

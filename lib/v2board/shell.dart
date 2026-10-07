@@ -27,6 +27,7 @@ import 'session.dart';
 import 'update.dart';
 import 'theme.dart';
 import 'routes.dart';
+import 'auto_delay.dart';
 
 class V2BoardShell extends StatelessWidget {
   const V2BoardShell({
@@ -89,6 +90,38 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Future<void>? _refreshing;
   V2BoardApi? _refreshClient;
   bool _accountStale = false;
+  final _autoDelay = AutoDelayGate();
+  Timer? _delayTimer;
+
+  void _scheduleDelay() {
+    _delayTimer?.cancel();
+    _delayTimer = Timer(const Duration(milliseconds: 600), () async {
+      if (!mounted ||
+          ref.read(safeModeProvider) ||
+          !ref.read(appVisibleProvider) ||
+          ref.read(coreStatusProvider) != CoreStatus.connected) {
+        return;
+      }
+      final groups = ref.read(groupsProvider);
+      final group = primaryRouteGroup(groups);
+      if (group == null) return;
+      final nodes = selectableRoutes(group, groups);
+      if (nodes.isEmpty) return;
+      final key =
+          '${ref.read(currentProfileProvider)?.id}:${ref.read(currentProfileProvider)?.lastUpdateDate}:${group.testUrl}:${nodes.map((node) => node.name).join('|')}';
+      if (!_autoDelay.begin(key, DateTime.now())) return;
+      try {
+        await ref
+            .read(proxiesActionProvider.notifier)
+            .delayTest(nodes, group.testUrl);
+      } catch (_) {
+        // Background checks must not interrupt connection or navigation.
+      } finally {
+        _autoDelay.finish();
+        if (mounted) _scheduleDelay();
+      }
+    });
+  }
 
   late final V2BoardProfile _profile = V2BoardProfile(ref);
 
@@ -108,8 +141,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         }
       }),
     );
+    _scheduleDelay();
     unawaited(_checkRelease());
     ref.listenManual(appVisibleProvider, (previous, visible) {
+      if (visible && previous == false) _scheduleDelay();
       if (visible && previous == false && _api != null && !_busy) {
         unawaited(_refreshInBackground());
         unawaited(_checkRelease());
@@ -129,6 +164,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _email.dispose();
     _password.dispose();
     _accountTimer?.cancel();
+    _delayTimer?.cancel();
     _api?.close();
     super.dispose();
   }
@@ -954,6 +990,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   }
 
   void _selectPage(int index) => setState(() {
+    if (index == 1) _scheduleDelay();
     _tab = index;
     _showLogin = false;
     _connectAfterLogin = false;
@@ -1091,6 +1128,11 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
     final release = ref.watch(fastaiReleaseProvider);
+    ref.listen(coreStatusProvider, (_, next) {
+      if (next != CoreStatus.connected) _autoDelay.reset();
+      _scheduleDelay();
+    });
+    ref.listen(groupsProvider, (_, _) => _scheduleDelay());
     ref.listen(fastaiReleaseProvider, (previous, next) {
       if (next?.required == true) {
         ref.read(v2BoardAccessProvider.notifier).setAvailable(false);

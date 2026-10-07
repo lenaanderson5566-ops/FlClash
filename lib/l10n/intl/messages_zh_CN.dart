@@ -519,31 +519,65 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("流量包"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("当前线路"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("在线设备 / 设备上限"),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("官网域名解析"),
+    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
+      "检查期间连接设置发生变化，请重新检查。",
+    ),
+    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
+      "内核或线路列表未就绪，请刷新线路后重新连接。",
+    ),
+    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
+      "尚未连接，请连接后检查代理线路。",
+    ),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("系统 DNS"),
     "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
       "域名解析失败或超时，请检查网络或切换网络后重试。",
     ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("域名解析正常。"),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("官网和检测域名解析正常。"),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("检查连通性并获取处理建议"),
+    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
+      "Windows 代理或 PAC 与当前模式不一致，请检查其他 VPN/代理软件及系统代理设置，再重新连接。",
+    ),
     "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
       "本地代理端口未响应，请断开后重新连接，再次检查。",
     ),
     "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
       "本地端口可达；此项不验证远端线路。",
     ),
+    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
+      "Windows 手动代理和 PAC 设置与当前模式一致。",
+    ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("连接诊断报告"),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
       "遇到连接问题时，复制报告提供给支持人员。",
     ),
     "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("重新检查"),
+    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("当前线路 HTTPS"),
+    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
+      "当前线路未能访问检测地址，请切换线路；全部失败时检查 DNS 和本地网络。",
+    ),
+    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
+      "当前所选线路已访问 HTTPS 检测地址；不代表所有服务均可访问。",
+    ),
     "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
       "正在检查，最多约 8 秒…",
     ),
+    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
+      "安全模式下跳过：不启用代理内核和系统设置。",
+    ),
     "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
-      "检查官网 DNS、HTTPS 和桌面端代理端口，不代表所有网站均可访问。不会修改网络设置。",
+      "检查系统 DNS、官网访问、本地代理、所选线路及支持核实的设置；不会自动修改设置。",
+    ),
+    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
+      "内核、线路和连接权限已就绪；此项不代表所有系统设置均无冲突。",
     ),
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "已跳过：未连接、移动端或安全模式下不检查本地端口。",
+    ),
+    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
+      "TUN 权限未就绪，请重新连接并完成授权，或切换系统代理。",
+    ),
+    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
+      "此平台暂未核实，请在连接异常时检查系统代理、其他 VPN 和防火墙设置。",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
       "官网访问失败或受限，请检查系统时间及网络后重试。",

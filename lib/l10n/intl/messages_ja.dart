@@ -568,31 +568,67 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("追加通信容量"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("オンライン端末 / 上限"),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("公式サイトの DNS"),
+    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
+      "確認中に接続設定が変更されました。再確認してください。",
+    ),
+    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
+      "コアまたは接続先が未準備です。接続先を更新して再接続してください。",
+    ),
+    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
+      "未接続です。接続してから経路を確認してください。",
+    ),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("システム DNS"),
     "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
       "名前解決が失敗またはタイムアウトしました。ネットワークを確認するか、別の回線でお試しください。",
     ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("名前解決に成功しました。"),
+    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
+      "公式サイトと検査先の名前解決に成功しました。",
+    ),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("接続状態と対処方法を確認"),
+    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
+      "Windows プロキシ/PAC が現在のモードと一致しません。他の VPN とシステム設定を確認して再接続してください。",
+    ),
     "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
       "ローカルプロキシが応答しません。切断して再接続後、再試行してください。",
     ),
     "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
       "ローカルポートに接続できました。リモート経路は未検証です。",
     ),
+    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
+      "Windows の手動プロキシと PAC 設定が現在のモードに一致しています。",
+    ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage("接続診断レポート"),
     "fdDiagnosticReportHint": MessageLookupByLibrary.simpleMessage(
       "接続に問題がある場合は、レポートをコピーしてサポートへ。",
     ),
     "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("再確認"),
+    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("現在の接続先 HTTPS"),
+    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
+      "検査先に接続できません。接続先を切り替え、すべて失敗する場合は DNS とネットワークを確認してください。",
+    ),
+    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
+      "選択中の経路で HTTPS 検査先に接続できました。他のサービスは結果が異なる場合があります。",
+    ),
     "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
       "確認中…最大約8秒かかります。",
     ),
+    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
+      "セーフモードではプロキシとシステム設定の確認をスキップします。",
+    ),
     "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
-      "公式サイトの DNS、HTTPS、デスクトップのプロキシポートを確認します。全サイトへの接続を保証するものではありません。設定は変更しません。",
+      "システム DNS、公式サイト、ローカルプロキシ、選択中の経路、対応する設定を確認します。設定は変更しません。",
+    ),
+    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
+      "コア、接続先、権限は準備済みです。すべてのシステム設定を検証するものではありません。",
     ),
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "スキップ：未接続、モバイル端末、またはセーフモードです。",
+    ),
+    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
+      "TUN 権限がありません。再接続して許可するか、システムプロキシを選択してください。",
+    ),
+    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
+      "この環境では未検証です。接続に失敗する場合はシステムプロキシ、他の VPN、ファイアウォールを確認してください。",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
       "公式サイトにアクセスできません。端末の日時とネットワークを確認して再試行してください。",

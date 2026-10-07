@@ -7438,10 +7438,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.`
+  /// `Checks system DNS, website access, local proxy, selected route and supported settings. No settings are changed.`
   String get fdDiagnosticScope {
     return Intl.message(
-      'Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.',
+      'Checks system DNS, website access, local proxy, selected route and supported settings. No settings are changed.',
       name: 'fdDiagnosticScope',
       desc: '',
       args: [],
@@ -7458,10 +7458,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Website DNS`
+  /// `System DNS`
   String get fdDiagnosticDns {
     return Intl.message(
-      'Website DNS',
+      'System DNS',
       name: 'fdDiagnosticDns',
       desc: '',
       args: [],
@@ -7478,10 +7478,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Domain resolved successfully.`
+  /// `Website and test domain resolved successfully.`
   String get fdDiagnosticDnsOk {
     return Intl.message(
-      'Domain resolved successfully.',
+      'Website and test domain resolved successfully.',
       name: 'fdDiagnosticDnsOk',
       desc: '',
       args: [],
@@ -7543,6 +7543,126 @@ class AppLocalizations {
     return Intl.message(
       'Check again',
       name: 'fdDiagnosticRetry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current route HTTPS`
+  String get fdDiagnosticRoute {
+    return Intl.message(
+      'Current route HTTPS',
+      name: 'fdDiagnosticRoute',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skipped in safe mode: the proxy core and system settings are not used.`
+  String get fdDiagnosticSafe {
+    return Intl.message(
+      'Skipped in safe mode: the proxy core and system settings are not used.',
+      name: 'fdDiagnosticSafe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not connected. Connect first to verify the proxy route.`
+  String get fdDiagnosticDisconnected {
+    return Intl.message(
+      'Not connected. Connect first to verify the proxy route.',
+      name: 'fdDiagnosticDisconnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `TUN permission is not ready. Reconnect and approve permission, or choose system proxy.`
+  String get fdDiagnosticTunDenied {
+    return Intl.message(
+      'TUN permission is not ready. Reconnect and approve permission, or choose system proxy.',
+      name: 'fdDiagnosticTunDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The core or route list is not ready. Refresh routes and reconnect.`
+  String get fdDiagnosticCoreFail {
+    return Intl.message(
+      'The core or route list is not ready. Refresh routes and reconnect.',
+      name: 'fdDiagnosticCoreFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Core, routes and connection permissions are ready. This does not verify every system setting.`
+  String get fdDiagnosticSettingsOk {
+    return Intl.message(
+      'Core, routes and connection permissions are ready. This does not verify every system setting.',
+      name: 'fdDiagnosticSettingsOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The selected route reached the HTTPS test endpoint. Other services may differ.`
+  String get fdDiagnosticRouteOk {
+    return Intl.message(
+      'The selected route reached the HTTPS test endpoint. Other services may differ.',
+      name: 'fdDiagnosticRouteOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The selected route could not reach the test endpoint. Try another route; check DNS and local network if all routes fail.`
+  String get fdDiagnosticRouteFail {
+    return Intl.message(
+      'The selected route could not reach the test endpoint. Try another route; check DNS and local network if all routes fail.',
+      name: 'fdDiagnosticRouteFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Windows proxy/PAC differs from the selected mode. Check other VPN or proxy apps and Windows proxy settings, then reconnect.`
+  String get fdDiagnosticProxyConflict {
+    return Intl.message(
+      'Windows proxy/PAC differs from the selected mode. Check other VPN or proxy apps and Windows proxy settings, then reconnect.',
+      name: 'fdDiagnosticProxyConflict',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Windows manual proxy and PAC settings match the current mode.`
+  String get fdDiagnosticProxySettingsOk {
+    return Intl.message(
+      'Windows manual proxy and PAC settings match the current mode.',
+      name: 'fdDiagnosticProxySettingsOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not verified on this platform. Check system proxy, other VPN apps and firewall settings if connection fails.`
+  String get fdDiagnosticUnverified {
+    return Intl.message(
+      'Not verified on this platform. Check system proxy, other VPN apps and firewall settings if connection fails.',
+      name: 'fdDiagnosticUnverified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection settings changed during the check. Run it again for current results.`
+  String get fdDiagnosticChanged {
+    return Intl.message(
+      'Connection settings changed during the check. Run it again for current results.',
+      name: 'fdDiagnosticChanged',
       desc: '',
       args: [],
     );

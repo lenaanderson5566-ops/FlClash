@@ -704,21 +704,36 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDevices": MessageLookupByLibrary.simpleMessage(
       "Устройства онлайн / лимит",
     ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("DNS сайта"),
+    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
+      "Настройки изменились во время проверки. Повторите диагностику.",
+    ),
+    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
+      "Ядро или список серверов не готовы. Обновите серверы и переподключитесь.",
+    ),
+    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
+      "Нет подключения. Подключитесь для проверки маршрута.",
+    ),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("Системный DNS"),
     "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
       "Ошибка DNS или тайм-аут. Проверьте сеть или попробуйте другую.",
     ),
     "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Домен успешно разрешён.",
+      "Домены сайта и тестового адреса разрешены.",
     ),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
       "Проверка соединения и рекомендации",
+    ),
+    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
+      "Прокси/PAC Windows не соответствует режиму. Проверьте другие VPN и настройки прокси, затем переподключитесь.",
     ),
     "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
       "Локальный порт прокси не отвечает. Переподключитесь и повторите проверку.",
     ),
     "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
       "Локальный порт доступен; удалённый маршрут не проверен.",
+    ),
+    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
+      "Ручной прокси и PAC Windows соответствуют текущему режиму.",
     ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage(
       "Отчёт диагностики подключения",
@@ -729,14 +744,35 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage(
       "Проверить снова",
     ),
+    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage(
+      "HTTPS текущего маршрута",
+    ),
+    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
+      "Тестовый адрес недоступен через выбранный маршрут. Смените сервер; если не помогает, проверьте DNS и сеть.",
+    ),
+    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
+      "Выбранный маршрут достиг тестового HTTPS-адреса. Другие сервисы могут работать иначе.",
+    ),
     "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
       "Проверка… до 8 секунд.",
     ),
+    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
+      "В безопасном режиме проверка прокси и системных настроек пропущена.",
+    ),
     "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
-      "Проверяются DNS сайта, HTTPS и порт прокси на компьютере. Результат не гарантирует доступ ко всем сайтам. Настройки не меняются.",
+      "Проверяет DNS, сайт, локальный прокси, выбранный маршрут и поддерживаемые настройки. Настройки не меняются.",
+    ),
+    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
+      "Ядро, серверы и разрешения готовы. Не все системные настройки проверены.",
     ),
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "Пропущено: нет подключения, мобильное устройство или безопасный режим.",
+    ),
+    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
+      "Нет разрешения TUN. Переподключитесь и разрешите доступ или выберите системный прокси.",
+    ),
+    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
+      "На этой платформе не проверено. При сбое проверьте системный прокси, другие VPN и брандмауэр.",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
       "Сайт недоступен или доступ ограничен. Проверьте системное время и сеть, затем повторите.",

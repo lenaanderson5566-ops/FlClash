@@ -11,6 +11,7 @@ import 'package:fastai/v2board/config.dart';
 
 import 'disclaimer.dart';
 import 'package:fastai/v2board/network_diagnostics.dart';
+import 'package:fastai/v2board/connection_diagnostics.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
   const ToolsView({super.key});
@@ -40,13 +41,8 @@ class _ToolViewState extends ConsumerState<ToolsView> {
           onTap: () => showDialog<void>(
             context: context,
             builder: (_) => NetworkDiagnosticsDialog(
-              runChecks: () => runNetworkChecks(
-                checkProxy:
-                    system.isDesktop &&
-                    !safeModeBuild &&
-                    ref.read(isStartProvider),
-                port: ref.read(patchClashConfigProvider).mixedPort,
-              ),
+              runChecks: () =>
+                  diagnoseConnection(ref, context.appLocalizations),
             ),
           ),
         ),

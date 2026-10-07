@@ -7,12 +7,13 @@ import 'package:material_ui/material_ui.dart';
 
 import 'config.dart';
 
-enum NetworkCheck { dns, website, proxy }
+enum NetworkCheck { dns, website, proxy, settings, systemProxy, route }
 
 enum NetworkCheckStatus { passed, failed, skipped }
 
 class NetworkCheckResult {
-  const NetworkCheckResult(this.check, this.status);
+  const NetworkCheckResult(this.check, this.status, {this.detail});
+  final String? detail;
   final NetworkCheck check;
   final NetworkCheckStatus status;
 }
@@ -22,10 +23,15 @@ class NetworkProbe {
   static const timeout = Duration(seconds: 8);
 
   Future<void> dns() async {
-    final addresses = await InternetAddress.lookup(
-      V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
-    ).timeout(timeout);
-    if (addresses.isEmpty) throw const SocketException('No DNS result');
+    await Future.wait([
+      for (final host in {
+        V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
+        Uri.parse(defaultTestUrl).host,
+      })
+        InternetAddress.lookup(host).timeout(timeout).then((addresses) {
+          if (addresses.isEmpty) throw const SocketException('No DNS result');
+        }),
+    ]);
   }
 
   Future<void> website() async {
@@ -157,22 +163,34 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                     NetworkCheck.dns => l.fdDiagnosticDns,
                     NetworkCheck.website => l.fdOfficialWebsite,
                     NetworkCheck.proxy => l.fdLocalProxy,
+                    NetworkCheck.settings => l.settings,
+                    NetworkCheck.systemProxy => l.systemProxy,
+                    NetworkCheck.route => l.fdDiagnosticRoute,
                   }),
                   subtitle: Text(
-                    result.status == NetworkCheckStatus.skipped
-                        ? l.fdDiagnosticSkipped
-                        : switch ((result.check, result.status)) {
-                            (NetworkCheck.dns, NetworkCheckStatus.passed) =>
-                              l.fdDiagnosticDnsOk,
-                            (NetworkCheck.website, NetworkCheckStatus.passed) =>
-                              l.fdDiagnosticWebsiteOk,
-                            (NetworkCheck.proxy, NetworkCheckStatus.passed) =>
-                              l.fdDiagnosticProxyOk,
-                            (NetworkCheck.dns, _) => l.fdDiagnosticDnsFail,
-                            (NetworkCheck.website, _) =>
-                              l.fdDiagnosticWebsiteFail,
-                            (NetworkCheck.proxy, _) => l.fdDiagnosticProxyFail,
-                          },
+                    result.detail ??
+                        (result.status == NetworkCheckStatus.skipped
+                            ? l.fdDiagnosticSkipped
+                            : switch ((result.check, result.status)) {
+                                (NetworkCheck.dns, NetworkCheckStatus.passed) =>
+                                  l.fdDiagnosticDnsOk,
+                                (
+                                  NetworkCheck.website,
+                                  NetworkCheckStatus.passed,
+                                ) =>
+                                  l.fdDiagnosticWebsiteOk,
+                                (
+                                  NetworkCheck.proxy,
+                                  NetworkCheckStatus.passed,
+                                ) =>
+                                  l.fdDiagnosticProxyOk,
+                                (NetworkCheck.dns, _) => l.fdDiagnosticDnsFail,
+                                (NetworkCheck.website, _) =>
+                                  l.fdDiagnosticWebsiteFail,
+                                (NetworkCheck.proxy, _) =>
+                                  l.fdDiagnosticProxyFail,
+                                _ => l.fdDiagnosticUnverified,
+                              }),
                   ),
                 ),
             ],

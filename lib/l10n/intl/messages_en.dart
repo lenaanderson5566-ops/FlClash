@@ -677,21 +677,36 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCredits": MessageLookupByLibrary.simpleMessage("Traffic credits"),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
     "fdDevices": MessageLookupByLibrary.simpleMessage("Devices online / limit"),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("Website DNS"),
+    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
+      "Connection settings changed during the check. Run it again for current results.",
+    ),
+    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
+      "The core or route list is not ready. Refresh routes and reconnect.",
+    ),
+    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
+      "Not connected. Connect first to verify the proxy route.",
+    ),
+    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("System DNS"),
     "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
       "DNS lookup failed or timed out. Check your network or try another network.",
     ),
     "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Domain resolved successfully.",
+      "Website and test domain resolved successfully.",
     ),
     "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
       "Check connectivity and get troubleshooting tips",
+    ),
+    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
+      "Windows proxy/PAC differs from the selected mode. Check other VPN or proxy apps and Windows proxy settings, then reconnect.",
     ),
     "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
       "The local proxy port did not respond. Disconnect and reconnect, then retry.",
     ),
     "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
       "Local port is reachable; this does not verify the remote route.",
+    ),
+    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
+      "Windows manual proxy and PAC settings match the current mode.",
     ),
     "fdDiagnosticReport": MessageLookupByLibrary.simpleMessage(
       "Connection diagnostic report",
@@ -700,14 +715,35 @@ class MessageLookup extends MessageLookupByLibrary {
       "Copy a report when you need help with a connection.",
     ),
     "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("Check again"),
+    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage(
+      "Current route HTTPS",
+    ),
+    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
+      "The selected route could not reach the test endpoint. Try another route; check DNS and local network if all routes fail.",
+    ),
+    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
+      "The selected route reached the HTTPS test endpoint. Other services may differ.",
+    ),
     "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
       "Checking… This may take up to 8 seconds.",
     ),
+    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
+      "Skipped in safe mode: the proxy core and system settings are not used.",
+    ),
     "fdDiagnosticScope": MessageLookupByLibrary.simpleMessage(
-      "Checks website DNS, HTTPS and the desktop proxy port. Results do not guarantee access to every website. No settings are changed.",
+      "Checks system DNS, website access, local proxy, selected route and supported settings. No settings are changed.",
+    ),
+    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
+      "Core, routes and connection permissions are ready. This does not verify every system setting.",
     ),
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "Skipped: disconnected, mobile device or safe mode.",
+    ),
+    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
+      "TUN permission is not ready. Reconnect and approve permission, or choose system proxy.",
+    ),
+    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
+      "Not verified on this platform. Check system proxy, other VPN apps and firewall settings if connection fails.",
     ),
     "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
       "The website is unavailable or access is restricted. Check the system clock and network, then retry.",
