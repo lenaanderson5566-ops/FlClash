@@ -7,6 +7,15 @@ import '../helpers/test_app.dart';
 
 class _Probe extends NetworkProbe {
   bool failDns = false;
+  @override
+  Future<Map<String, String>> tcp() async => {'protocol': 'TCP'};
+  @override
+  Future<Map<String, String>> tls() async => {'certificateVerified': 'true'};
+  @override
+  Future<Map<String, String>> reference() async => {
+    'target': 'https://example.test',
+    'HTTP': '204',
+  };
   int proxyCalls = 0;
   @override
   Future<Map<String, String>> dns() async {
@@ -28,6 +37,33 @@ class _Probe extends NetworkProbe {
 }
 
 void main() {
+  test('path comparison requires matching targets and conclusive checks', () {
+    String compare(
+      NetworkCheckStatus a,
+      NetworkCheckStatus b, {
+      String target = 'https://example.test',
+    }) => diagnosticPathComparison([
+      NetworkCheckResult(
+        NetworkCheck.reference,
+        a,
+        parameters: const {'target': 'https://example.test'},
+      ),
+      NetworkCheckResult(NetworkCheck.route, b, parameters: {'target': target}),
+    ]);
+    const passed = NetworkCheckStatus.passed;
+    const failed = NetworkCheckStatus.failed;
+    expect(compare(passed, passed), 'both_passed');
+    expect(compare(passed, failed), 'route_failed');
+    expect(compare(failed, passed), 'system_failed');
+    expect(compare(failed, failed), 'both_failed');
+    expect(
+      compare(passed, passed, target: 'https://other.test'),
+      'not_comparable',
+    );
+    expect(compare(NetworkCheckStatus.skipped, passed), 'not_comparable');
+    expect(compare(passed, NetworkCheckStatus.unverified), 'not_comparable');
+    expect(diagnosticPathComparison([]), 'not_comparable');
+  });
   test('independent checks preserve success and skip inactive proxy', () async {
     final probe = _Probe()..failDns = true;
     final result = await runNetworkChecks(
@@ -37,6 +73,9 @@ void main() {
     );
     expect(result.map((r) => r.status), [
       NetworkCheckStatus.failed,
+      NetworkCheckStatus.passed,
+      NetworkCheckStatus.passed,
+      NetworkCheckStatus.passed,
       NetworkCheckStatus.passed,
       NetworkCheckStatus.skipped,
     ]);

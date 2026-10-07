@@ -496,12 +496,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "无法验证服务器证书，请检查系统时间或联系支持。",
     ),
+    "fdCheckReference": MessageLookupByLibrary.simpleMessage("系统路径 HTTPS 基准"),
+    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("官网 TCP 连接"),
+    "fdCheckTls": MessageLookupByLibrary.simpleMessage("官网 TLS 证书"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("选择线路"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI 暂时不可用，请前往官网联系支持。",
     ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "请求未完成。购买或支付失败时，请先刷新订单，确认状态后再操作。",
+    ),
+    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
+      "两条路径均未通过。可能是共有网络问题，也可能是目标地址受限，请结合分层结果判断。",
+    ),
+    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
+      "本次两条路径均访问到检测地址。",
+    ),
+    "fdComparePaths": MessageLookupByLibrary.simpleMessage("同一目标路径对照"),
+    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
+      "系统路径通过，所选线路失败。建议先排查线路，尚不能确认根因。",
+    ),
+    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
+      "所选线路通过，系统路径失败。建议检查系统 DNS、路由及本地网络限制。",
     ),
     "fdCompleted": MessageLookupByLibrary.simpleMessage("已完成"),
     "fdConnect": MessageLookupByLibrary.simpleMessage("连接"),
@@ -511,6 +527,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "连接失败，请重试或切换线路。",
     ),
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("复制报告"),
+    "fdCopyJson": MessageLookupByLibrary.simpleMessage("复制 JSON"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("确认下单"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("独立流量剩余"),
     "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
@@ -647,6 +664,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdProcessing": MessageLookupByLibrary.simpleMessage("处理中"),
     "fdQuarterly": MessageLookupByLibrary.simpleMessage("季付"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作过于频繁，请稍后重试。"),
+    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
+      "与所选线路使用同一 HTTPS 检测地址，不显式指定应用代理。TUN 或系统路由仍可能影响此路径，不保证绕过 VPN。",
+    ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("问题编号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("刷新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("前往官网注册或找回密码"),
@@ -734,6 +754,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSync": MessageLookupByLibrary.simpleMessage("同步订阅"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage("订阅同步失败，请重新同步后再连接。"),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("正在同步线路…"),
+    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
+      "8 秒内连接官网 TCP 端口；总耗时包含域名解析，不是单独的 TCP 延迟。",
+    ),
+    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
+      "TCP 连接失败，请结合 DNS、网络接入及过滤规则排查，不能仅凭此项断定防火墙故障。",
+    ),
+    "fdTcpPassed": MessageLookupByLibrary.simpleMessage("官网 TCP 端口连接成功。"),
+    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
+      "1. 先查看 DNS 检测结果。\n2. 切换网络，或完成网络登录认证后重试。\n3. 与管理员核对防火墙/VPN 规则，不要直接关闭防火墙。",
+    ),
+    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
+      "8 秒内使用系统信任库完成 TLS；耗时包含 DNS 和 TCP，成功时记录证书有效期。",
+    ),
+    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
+      "TLS 未完成，请检查系统时间、网络拦截及证书信任，不要关闭证书校验。",
+    ),
+    "fdTlsPassed": MessageLookupByLibrary.simpleMessage("TLS 握手和证书校验通过。"),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("三年付"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("未知"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("待支付"),

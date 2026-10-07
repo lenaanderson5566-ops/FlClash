@@ -675,12 +675,34 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Не удалось проверить сертификат сервера. Проверьте системное время или обратитесь в поддержку.",
     ),
+    "fdCheckReference": MessageLookupByLibrary.simpleMessage(
+      "Базовая проверка HTTPS через систему",
+    ),
+    "fdCheckTcp": MessageLookupByLibrary.simpleMessage(
+      "TCP-соединение с сайтом",
+    ),
+    "fdCheckTls": MessageLookupByLibrary.simpleMessage("TLS-сертификат сайта"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI временно недоступен. Обратитесь в поддержку на сайте.",
     ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "Запрос не завершён. Обновите заказы перед повторной покупкой или оплатой.",
+    ),
+    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
+      "Оба пути не прошли проверку. Возможна общая проблема сети или ограничение адреса; сопоставьте результаты по слоям.",
+    ),
+    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
+      "Оба пути достигли тестового адреса.",
+    ),
+    "fdComparePaths": MessageLookupByLibrary.simpleMessage(
+      "Сравнение путей к одному адресу",
+    ),
+    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
+      "Системный путь работает, выбранный маршрут — нет. Начните с маршрута; причина ещё не установлена.",
+    ),
+    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
+      "Выбранный маршрут работает, системный — нет. Проверьте DNS, маршрутизацию и ограничения сети.",
     ),
     "fdCompleted": MessageLookupByLibrary.simpleMessage("Завершён"),
     "fdConnect": MessageLookupByLibrary.simpleMessage("Подключить"),
@@ -692,6 +714,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage(
       "Копировать отчёт",
     ),
+    "fdCopyJson": MessageLookupByLibrary.simpleMessage("Копировать JSON"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Подтвердить заказ"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Остаток независимого трафика",
@@ -878,6 +901,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Слишком много запросов. Повторите позже.",
     ),
+    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
+      "Тот же HTTPS-адрес без явного прокси приложения. TUN и системные маршруты могут влиять на путь; обход VPN не гарантирован.",
+    ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Номер обращения"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Обновить"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
@@ -998,6 +1024,27 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage(
       "Синхронизация серверов…",
+    ),
+    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
+      "TCP-соединение за 8 секунд. Время включает DNS и не является чистой задержкой TCP.",
+    ),
+    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
+      "Сбой TCP. Проверьте DNS, сеть и фильтрацию; это не доказывает проблему брандмауэра.",
+    ),
+    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
+      "TCP-порт сайта доступен.",
+    ),
+    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Проверьте DNS.\n2. Попробуйте другую сеть или войдите в сеть.\n3. Проверьте правила с администратором, не отключая брандмауэр целиком.",
+    ),
+    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
+      "TLS через системное хранилище доверия за 8 секунд. Время включает DNS/TCP; срок сертификата записывается при наличии.",
+    ),
+    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
+      "Сбой TLS. Проверьте время, перехват трафика и доверие сертификату, не отключая проверку.",
+    ),
+    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
+      "TLS-рукопожатие и проверка сертификата успешны.",
     ),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("Три года"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("Неизвестно"),

@@ -943,5 +943,22 @@
   "fdHealthScope": "A snapshot of your connection, with evidence and guided next steps. No settings are changed automatically.",
   "fdHealthPriority": "Needs attention",
   "fdHealthPriorityHint": "Work through the findings, then check again. A failed test is evidence, not a confirmed root cause.",
-  "fdHealthDetails": "Other checks and evidence"
+  "fdHealthDetails": "Other checks and evidence",
+  "fdCheckTcp": "Website TCP connection",
+  "fdCheckTls": "Website TLS certificate",
+  "fdCheckReference": "System-path HTTPS baseline",
+  "fdTcpPassed": "The website TCP port accepted a connection.",
+  "fdTlsPassed": "TLS handshake and certificate validation succeeded.",
+  "fdTcpFailed": "TCP connection failed. Review DNS, network access and filtering; this alone does not prove a firewall issue.",
+  "fdTlsFailed": "TLS could not complete. Check the clock, network interception and certificate trust without disabling validation.",
+  "fdTcpCriteria": "Connect to the website TCP port within 8 seconds. Total time includes DNS resolution; it is not an isolated TCP latency measurement.",
+  "fdTlsCriteria": "Complete TLS using the system trust store within 8 seconds. Time includes DNS and TCP. Certificate validity dates are recorded when available.",
+  "fdReferenceCriteria": "Uses the same HTTPS test URL as the selected route without an explicit application proxy. TUN or OS routing may still affect this path; it is not guaranteed to bypass the VPN.",
+  "fdTcpSteps": "1. Review the DNS result first.\n2. Try another network or complete network sign-in.\n3. Review firewall/VPN rules with your administrator; do not turn off the firewall as a blanket fix.",
+  "fdComparePaths": "Same-destination path comparison",
+  "fdCompareBothPassed": "Both paths reached the test endpoint in this run.",
+  "fdCompareRouteFailed": "The system path passed while the selected route failed. Investigate the route first; the cause is not yet confirmed.",
+  "fdCompareSystemFailed": "The selected route passed while the system path failed. Review system DNS, routing and local network restrictions.",
+  "fdCompareBothFailed": "Both paths failed for this endpoint. This can be a shared network problem or an endpoint restriction; review the layer checks before deciding.",
+  "fdCopyJson": "Copy JSON"
 }

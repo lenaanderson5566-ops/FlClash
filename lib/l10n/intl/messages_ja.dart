@@ -545,12 +545,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "サーバー証明書を確認できません。システム時刻を確認するかサポートにお問い合わせください。",
     ),
+    "fdCheckReference": MessageLookupByLibrary.simpleMessage("システム経路 HTTPS 基準"),
+    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("公式サイト TCP 接続"),
+    "fdCheckTls": MessageLookupByLibrary.simpleMessage("公式サイト TLS 証明書"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("接続先を選ぶ"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI は一時的に利用できません。公式サイトからサポートにお問い合わせください。",
     ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "処理できませんでした。購入や支払いを再試行する前に注文を更新してください。",
+    ),
+    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
+      "両経路とも失敗。共通のネットワーク問題または検査先の制限の可能性があります。各層の結果を確認してください。",
+    ),
+    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
+      "今回、両方の経路で検査先に到達しました。",
+    ),
+    "fdComparePaths": MessageLookupByLibrary.simpleMessage("同一宛先の経路比較"),
+    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
+      "システム経路は成功し、選択中の経路は失敗。接続先から確認してください。原因は未確定です。",
+    ),
+    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
+      "選択中の経路は成功し、システム経路は失敗。DNS、経路、回線制限を確認してください。",
     ),
     "fdCompleted": MessageLookupByLibrary.simpleMessage("完了"),
     "fdConnect": MessageLookupByLibrary.simpleMessage("接続"),
@@ -560,6 +576,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "接続できませんでした。再試行するか接続先を変更してください。",
     ),
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("レポートをコピー"),
+    "fdCopyJson": MessageLookupByLibrary.simpleMessage("JSON をコピー"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("注文を確認"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("独立データ残量"),
     "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
@@ -708,6 +725,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。しばらくお待ちください。",
     ),
+    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
+      "選択中の経路と同じ URL を使用し、アプリのプロキシを明示しません。TUN/OS 経路の影響は残るため VPN を迂回する保証はありません。",
+    ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("問い合わせ番号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("更新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("公式サイトで登録・パスワード再設定"),
@@ -811,6 +831,27 @@ class MessageLookup extends MessageLookupByLibrary {
       "サブスクリプションを同期できませんでした。接続前に再度同期してください。",
     ),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("接続先を同期中…"),
+    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
+      "8秒以内に TCP 接続。所要時間は DNS を含み、純粋な TCP 遅延ではありません。",
+    ),
+    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
+      "TCP 接続に失敗しました。DNS、回線、フィルタリングを確認してください。原因は断定できません。",
+    ),
+    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
+      "公式サイトの TCP ポートへ接続できました。",
+    ),
+    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
+      "1. DNS 結果を確認。\n2. 別の回線やネットワーク認証を試す。\n3. 管理者と VPN/ファイアウォール規則を確認。全体を無効にしないでください。",
+    ),
+    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
+      "システムの信頼ストアで8秒以内に TLS を完了。DNS/TCP を含み、取得できた証明書の有効期間を記録します。",
+    ),
+    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
+      "TLS に失敗しました。日時、通信の介入、証明書の信頼を確認し、検証は無効にしないでください。",
+    ),
+    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
+      "TLS ハンドシェイクと証明書検証に成功しました。",
+    ),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("3年"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("不明"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("支払い待ち"),

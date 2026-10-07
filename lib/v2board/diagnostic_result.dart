@@ -1,4 +1,14 @@
-enum NetworkCheck { dns, website, proxy, settings, systemProxy, route }
+enum NetworkCheck {
+  dns,
+  website,
+  proxy,
+  settings,
+  systemProxy,
+  route,
+  tcp,
+  tls,
+  reference,
+}
 
 enum NetworkCheckStatus { passed, failed, skipped, unverified }
 
@@ -51,6 +61,7 @@ class DiagnosticSnapshot {
     ],
     'automaticRepair': false,
     'scope': 'client_connection_snapshot',
+    'pathComparison': diagnosticPathComparison(results),
     'limitations': [
       'not_all_services_tested',
       'not_a_dns_leak_test',
@@ -73,10 +84,19 @@ List<String> diagnosticActionCodes(NetworkCheckResult result) {
       'try_another_network',
       'contact_support',
     ],
-    NetworkCheck.website => const [
+    NetworkCheck.website || NetworkCheck.tls => const [
       'check_clock',
       'open_official_website',
       'contact_support',
+    ],
+    NetworkCheck.tcp => const [
+      'review_dns',
+      'try_another_network',
+      'review_firewall',
+    ],
+    NetworkCheck.reference => const [
+      'check_network_sign_in',
+      'try_another_network',
     ],
     NetworkCheck.proxy => const ['reconnect', 'restart_app', 'contact_support'],
     NetworkCheck.settings => const [
@@ -95,4 +115,34 @@ List<String> diagnosticActionCodes(NetworkCheckResult result) {
       'contact_support',
     ],
   };
+}
+
+String diagnosticPathComparison(List<NetworkCheckResult> results) {
+  final system = results
+      .where((r) => r.check == NetworkCheck.reference)
+      .firstOrNull;
+  final route = results.where((r) => r.check == NetworkCheck.route).firstOrNull;
+  if (system == null ||
+      route == null ||
+      system.parameters['target'] == null ||
+      system.parameters['target'] != route.parameters['target']) {
+    return 'not_comparable';
+  }
+  if (system.status == NetworkCheckStatus.passed &&
+      route.status == NetworkCheckStatus.passed) {
+    return 'both_passed';
+  }
+  if (system.status == NetworkCheckStatus.passed &&
+      route.status == NetworkCheckStatus.failed) {
+    return 'route_failed';
+  }
+  if (system.status == NetworkCheckStatus.failed &&
+      route.status == NetworkCheckStatus.passed) {
+    return 'system_failed';
+  }
+  if (system.status == NetworkCheckStatus.failed &&
+      route.status == NetworkCheckStatus.failed) {
+    return 'both_failed';
+  }
+  return 'not_comparable';
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:fastai/common/common.dart';
@@ -58,19 +59,65 @@ class NetworkProbe {
     return parameters;
   }
 
-  Future<Map<String, String>> website() async {
+  Future<Map<String, String>> tcp() async {
+    final host = V2BoardConfig.origin(V2BoardConfig.websiteUrl).host;
+    final port = V2BoardConfig.origin(V2BoardConfig.websiteUrl).port;
+    final socket = await Socket.connect(host, port, timeout: timeout);
+    try {
+      return {
+        'target': host,
+        'port': '$port',
+        'remoteAddress': socket.remoteAddress.address,
+        'protocol': 'TCP',
+      };
+    } finally {
+      socket.destroy();
+    }
+  }
+
+  Future<Map<String, String>> tls() async {
+    final origin = V2BoardConfig.origin(V2BoardConfig.websiteUrl);
+    final socket = await SecureSocket.connect(
+      origin.host,
+      origin.port,
+      timeout: timeout,
+    );
+    try {
+      final certificate = socket.peerCertificate;
+      return {
+        'target': origin.host,
+        'port': '${origin.port}',
+        'certificateVerified': 'true',
+        if (certificate != null)
+          'certificateValidFrom': certificate.startValidity
+              .toUtc()
+              .toIso8601String(),
+        if (certificate != null)
+          'certificateValidUntil': certificate.endValidity
+              .toUtc()
+              .toIso8601String(),
+      };
+    } finally {
+      socket.destroy();
+    }
+  }
+
+  Future<Map<String, String>> website() =>
+      _https(V2BoardConfig.origin(V2BoardConfig.websiteUrl));
+  Future<Map<String, String>> reference() => _https(Uri.parse(defaultTestUrl));
+
+  Future<Map<String, String>> _https(Uri target) async {
     final client = HttpClient()..connectionTimeout = timeout;
     client.findProxy = (_) => 'DIRECT';
     final parameters = {
-      'target': V2BoardConfig.origin(V2BoardConfig.websiteUrl).toString(),
+      'target': target.toString(),
+      'path': 'system-no-explicit-proxy',
       'redirects': 'false',
       'tlsValidation': 'true',
     };
     try {
       return await (() async {
-        final request = await client.getUrl(
-          V2BoardConfig.origin(V2BoardConfig.websiteUrl),
-        );
+        final request = await client.getUrl(target);
         request.followRedirects = false;
         final response = await request.close();
         parameters['HTTP'] = '${response.statusCode}';
@@ -134,6 +181,15 @@ Future<List<NetworkCheckResult>> runNetworkChecks({
   return Future.wait([
     check(NetworkCheck.dns, probe.dns, const {}),
     check(NetworkCheck.website, probe.website, const {}),
+    check(NetworkCheck.tcp, probe.tcp, {
+      'target': V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
+      'port': '${V2BoardConfig.origin(V2BoardConfig.websiteUrl).port}',
+    }),
+    check(NetworkCheck.tls, probe.tls, {
+      'target': V2BoardConfig.origin(V2BoardConfig.websiteUrl).host,
+      'port': '${V2BoardConfig.origin(V2BoardConfig.websiteUrl).port}',
+    }),
+    check(NetworkCheck.reference, probe.reference, {'target': defaultTestUrl}),
     if (checkProxy)
       check(NetworkCheck.proxy, () => probe.proxy(port), {
         'endpoint': '127.0.0.1:$port',
@@ -158,6 +214,9 @@ String diagnosticTitle(AppLocalizations l, NetworkCheck check) =>
       NetworkCheck.settings => l.settings,
       NetworkCheck.systemProxy => l.systemProxy,
       NetworkCheck.route => l.fdDiagnosticRoute,
+      NetworkCheck.tcp => l.fdCheckTcp,
+      NetworkCheck.tls => l.fdCheckTls,
+      NetworkCheck.reference => l.fdCheckReference,
     };
 
 String diagnosticStatus(AppLocalizations l, NetworkCheckStatus status) =>
@@ -180,6 +239,13 @@ String diagnosticDetail(AppLocalizations l, NetworkCheckResult result) =>
       (NetworkCheck.dns, _) => l.fdDiagnosticDnsFail,
       (NetworkCheck.website, _) => l.fdDiagnosticWebsiteFail,
       (NetworkCheck.proxy, _) => l.fdDiagnosticProxyFail,
+      (NetworkCheck.tcp, NetworkCheckStatus.passed) => l.fdTcpPassed,
+      (NetworkCheck.tls, NetworkCheckStatus.passed) => l.fdTlsPassed,
+      (NetworkCheck.reference, NetworkCheckStatus.passed) =>
+        l.fdDiagnosticWebsiteOk,
+      (NetworkCheck.tcp, _) => l.fdTcpFailed,
+      (NetworkCheck.tls, _) => l.fdTlsFailed,
+      (NetworkCheck.reference, _) => l.fdDiagnosticWebsiteFail,
       _ => l.fdDiagnosticUnverified,
     };
 
@@ -191,6 +257,9 @@ String diagnosticCriteria(AppLocalizations l, NetworkCheck check) =>
       NetworkCheck.settings => l.fdDiagnosticSettingsOk,
       NetworkCheck.systemProxy => l.fdReportProxyCriteria,
       NetworkCheck.route => l.fdReportRouteCriteria,
+      NetworkCheck.tcp => l.fdTcpCriteria,
+      NetworkCheck.tls => l.fdTlsCriteria,
+      NetworkCheck.reference => l.fdReferenceCriteria,
     };
 
 String diagnosticGuidance(AppLocalizations l, NetworkCheckResult result) {
@@ -202,7 +271,9 @@ String diagnosticGuidance(AppLocalizations l, NetworkCheckResult result) {
   if (result.status == NetworkCheckStatus.skipped) return l.fdReportRunAgain;
   return switch (result.check) {
     NetworkCheck.dns => l.fdReportDnsSteps,
-    NetworkCheck.website => l.fdReportWebSteps,
+    NetworkCheck.website || NetworkCheck.tls => l.fdReportWebSteps,
+    NetworkCheck.tcp => l.fdTcpSteps,
+    NetworkCheck.reference => l.fdReportDnsSteps,
     NetworkCheck.proxy => l.fdReportPortSteps,
     NetworkCheck.settings => l.fdReportSettingsSteps,
     NetworkCheck.systemProxy => l.fdReportProxySteps,
@@ -288,11 +359,15 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
     }
   }
 
-  Future<void> _copy() async {
+  Future<void> _copy({bool json = false}) async {
     final l = context.appLocalizations;
     try {
       await Clipboard.setData(
-        ClipboardData(text: diagnosticReport(l, _snapshot!.results, _at)),
+        ClipboardData(
+          text: json
+              ? const JsonEncoder.withIndent('  ').convert(_snapshot!.toJson())
+              : diagnosticReport(l, _snapshot!.results, _at),
+        ),
       );
       if (mounted) context.showNotifier(l.copySuccess);
     } catch (_) {
@@ -408,6 +483,7 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
   Widget build(BuildContext context) {
     final l = context.appLocalizations;
     final scheme = context.colorScheme;
+    final comparison = diagnosticPathComparison(_results);
     final failed = _results
         .where((r) => r.status == NetworkCheckStatus.failed)
         .toList();
@@ -510,6 +586,35 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  if (!_busy && comparison != 'not_comparable') ...[
+                    Card(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l.fdComparePaths,
+                              style: context.textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(switch (comparison) {
+                              'both_passed' => l.fdCompareBothPassed,
+                              'route_failed' => l.fdCompareRouteFailed,
+                              'system_failed' => l.fdCompareSystemFailed,
+                              _ => l.fdCompareBothFailed,
+                            }),
+                            const SizedBox(height: 8),
+                            Text(
+                              l.fdReferenceCriteria,
+                              style: context.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                   if (failed.isNotEmpty) ...[
                     Text(
                       l.fdHealthPriority,
@@ -556,6 +661,12 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                   OutlinedButton(
                     onPressed: _busy || _snapshot == null ? null : _copy,
                     child: Text(l.fdReportCopy),
+                  ),
+                  TextButton(
+                    onPressed: _busy || _snapshot == null
+                        ? null
+                        : () => _copy(json: true),
+                    child: Text(l.fdCopyJson),
                   ),
                   FilledButton(
                     onPressed: _busy ? null : _run,

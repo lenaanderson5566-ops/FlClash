@@ -652,12 +652,36 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Unable to verify the server certificate. Check your system clock or contact support.",
     ),
+    "fdCheckReference": MessageLookupByLibrary.simpleMessage(
+      "System-path HTTPS baseline",
+    ),
+    "fdCheckTcp": MessageLookupByLibrary.simpleMessage(
+      "Website TCP connection",
+    ),
+    "fdCheckTls": MessageLookupByLibrary.simpleMessage(
+      "Website TLS certificate",
+    ),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Choose a route"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "FastAI is temporarily unavailable. Contact support on the website.",
     ),
     "fdCommerceFailed": MessageLookupByLibrary.simpleMessage(
       "Unable to complete the request. Refresh orders before retrying a purchase or payment.",
+    ),
+    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
+      "Both paths failed for this endpoint. This can be a shared network problem or an endpoint restriction; review the layer checks before deciding.",
+    ),
+    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
+      "Both paths reached the test endpoint in this run.",
+    ),
+    "fdComparePaths": MessageLookupByLibrary.simpleMessage(
+      "Same-destination path comparison",
+    ),
+    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
+      "The system path passed while the selected route failed. Investigate the route first; the cause is not yet confirmed.",
+    ),
+    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
+      "The selected route passed while the system path failed. Review system DNS, routing and local network restrictions.",
     ),
     "fdCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
     "fdConnect": MessageLookupByLibrary.simpleMessage("Connect"),
@@ -667,6 +691,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Connection failed. Retry or choose another route.",
     ),
     "fdCopyDiagnostics": MessageLookupByLibrary.simpleMessage("Copy report"),
+    "fdCopyJson": MessageLookupByLibrary.simpleMessage("Copy JSON"),
     "fdCreateOrder": MessageLookupByLibrary.simpleMessage("Confirm order"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Independent traffic remaining",
@@ -849,6 +874,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Try again later.",
     ),
+    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
+      "Uses the same HTTPS test URL as the selected route without an explicit application proxy. TUN or OS routing may still affect this path; it is not guaranteed to bypass the VPN.",
+    ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Reference ID"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Refresh"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
@@ -970,6 +998,27 @@ class MessageLookup extends MessageLookupByLibrary {
       "Subscription sync failed. Try syncing again before connecting.",
     ),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("Syncing routes…"),
+    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
+      "Connect to the website TCP port within 8 seconds. Total time includes DNS resolution; it is not an isolated TCP latency measurement.",
+    ),
+    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
+      "TCP connection failed. Review DNS, network access and filtering; this alone does not prove a firewall issue.",
+    ),
+    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
+      "The website TCP port accepted a connection.",
+    ),
+    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
+      "1. Review the DNS result first.\n2. Try another network or complete network sign-in.\n3. Review firewall/VPN rules with your administrator; do not turn off the firewall as a blanket fix.",
+    ),
+    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
+      "Complete TLS using the system trust store within 8 seconds. Time includes DNS and TCP. Certificate validity dates are recorded when available.",
+    ),
+    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
+      "TLS could not complete. Check the clock, network interception and certificate trust without disabling validation.",
+    ),
+    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
+      "TLS handshake and certificate validation succeeded.",
+    ),
     "fdTriennial": MessageLookupByLibrary.simpleMessage("Three years"),
     "fdUnknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "fdUnpaid": MessageLookupByLibrary.simpleMessage("Awaiting payment"),

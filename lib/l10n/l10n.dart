@@ -7967,6 +7967,171 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Website TCP connection`
+  String get fdCheckTcp {
+    return Intl.message(
+      'Website TCP connection',
+      name: 'fdCheckTcp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Website TLS certificate`
+  String get fdCheckTls {
+    return Intl.message(
+      'Website TLS certificate',
+      name: 'fdCheckTls',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System-path HTTPS baseline`
+  String get fdCheckReference {
+    return Intl.message(
+      'System-path HTTPS baseline',
+      name: 'fdCheckReference',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The website TCP port accepted a connection.`
+  String get fdTcpPassed {
+    return Intl.message(
+      'The website TCP port accepted a connection.',
+      name: 'fdTcpPassed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `TLS handshake and certificate validation succeeded.`
+  String get fdTlsPassed {
+    return Intl.message(
+      'TLS handshake and certificate validation succeeded.',
+      name: 'fdTlsPassed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `TCP connection failed. Review DNS, network access and filtering; this alone does not prove a firewall issue.`
+  String get fdTcpFailed {
+    return Intl.message(
+      'TCP connection failed. Review DNS, network access and filtering; this alone does not prove a firewall issue.',
+      name: 'fdTcpFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `TLS could not complete. Check the clock, network interception and certificate trust without disabling validation.`
+  String get fdTlsFailed {
+    return Intl.message(
+      'TLS could not complete. Check the clock, network interception and certificate trust without disabling validation.',
+      name: 'fdTlsFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect to the website TCP port within 8 seconds. Total time includes DNS resolution; it is not an isolated TCP latency measurement.`
+  String get fdTcpCriteria {
+    return Intl.message(
+      'Connect to the website TCP port within 8 seconds. Total time includes DNS resolution; it is not an isolated TCP latency measurement.',
+      name: 'fdTcpCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete TLS using the system trust store within 8 seconds. Time includes DNS and TCP. Certificate validity dates are recorded when available.`
+  String get fdTlsCriteria {
+    return Intl.message(
+      'Complete TLS using the system trust store within 8 seconds. Time includes DNS and TCP. Certificate validity dates are recorded when available.',
+      name: 'fdTlsCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uses the same HTTPS test URL as the selected route without an explicit application proxy. TUN or OS routing may still affect this path; it is not guaranteed to bypass the VPN.`
+  String get fdReferenceCriteria {
+    return Intl.message(
+      'Uses the same HTTPS test URL as the selected route without an explicit application proxy. TUN or OS routing may still affect this path; it is not guaranteed to bypass the VPN.',
+      name: 'fdReferenceCriteria',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Review the DNS result first.\n2. Try another network or complete network sign-in.\n3. Review firewall/VPN rules with your administrator; do not turn off the firewall as a blanket fix.`
+  String get fdTcpSteps {
+    return Intl.message(
+      '1. Review the DNS result first.\n2. Try another network or complete network sign-in.\n3. Review firewall/VPN rules with your administrator; do not turn off the firewall as a blanket fix.',
+      name: 'fdTcpSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Same-destination path comparison`
+  String get fdComparePaths {
+    return Intl.message(
+      'Same-destination path comparison',
+      name: 'fdComparePaths',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Both paths reached the test endpoint in this run.`
+  String get fdCompareBothPassed {
+    return Intl.message(
+      'Both paths reached the test endpoint in this run.',
+      name: 'fdCompareBothPassed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The system path passed while the selected route failed. Investigate the route first; the cause is not yet confirmed.`
+  String get fdCompareRouteFailed {
+    return Intl.message(
+      'The system path passed while the selected route failed. Investigate the route first; the cause is not yet confirmed.',
+      name: 'fdCompareRouteFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The selected route passed while the system path failed. Review system DNS, routing and local network restrictions.`
+  String get fdCompareSystemFailed {
+    return Intl.message(
+      'The selected route passed while the system path failed. Review system DNS, routing and local network restrictions.',
+      name: 'fdCompareSystemFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Both paths failed for this endpoint. This can be a shared network problem or an endpoint restriction; review the layer checks before deciding.`
+  String get fdCompareBothFailed {
+    return Intl.message(
+      'Both paths failed for this endpoint. This can be a shared network problem or an endpoint restriction; review the layer checks before deciding.',
+      name: 'fdCompareBothFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy JSON`
+  String get fdCopyJson {
+    return Intl.message('Copy JSON', name: 'fdCopyJson', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
