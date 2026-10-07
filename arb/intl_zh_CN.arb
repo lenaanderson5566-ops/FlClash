@@ -719,5 +719,7 @@
   "fdRepairWorking": "正在处理并重新验证连接…",
   "fdRepairFailed": "操作未能完成。请查看下方最新结果，必要时登录并检查账号使用权限。",
   "fdRepairVerified": "代理线路已通过复测，请继续查看下方剩余提示。",
-  "fdRepairUnresolved": "操作已执行，但尚未确认恢复，请按下方结果继续排查。"
+  "fdRepairUnresolved": "操作已执行，但尚未确认恢复，请按下方结果继续排查。",
+  "fdRouteChecking": "检测中…",
+  "fdPlan": "套餐"
 }

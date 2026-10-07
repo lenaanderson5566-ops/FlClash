@@ -71,6 +71,21 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
     final groups = ref.watch(groupsProvider);
     final group = primaryRouteGroup(groups);
     final nodes = group == null ? <Proxy>[] : selectableRoutes(group, groups);
+    final testing = nodes.any(
+      (node) =>
+          ref.watch(
+            delayTestPhaseProvider(
+              proxyName: node.name,
+              testUrl: group?.testUrl,
+            ),
+          ) !=
+          null,
+    );
+    final canTest =
+        nodes.isNotEmpty &&
+        !testing &&
+        !_busy &&
+        ref.watch(coreStatusProvider) == CoreStatus.connected;
     final auto = group?.all
         .where(
           (p) => groups.any(
@@ -105,6 +120,14 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
       final delay = ref.watch(
         delayProvider(proxyName: proxy.name, testUrl: group?.testUrl),
       );
+      final checking =
+          ref.watch(
+            delayTestPhaseProvider(
+              proxyName: proxy.name,
+              testUrl: group?.testUrl,
+            ),
+          ) !=
+          null;
       return Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Material(
@@ -151,7 +174,7 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                RouteHealthIndicator(delay: delay),
+                RouteHealthIndicator(delay: delay, checking: checking),
                 if (selected == proxy.name) ...[
                   const SizedBox(width: 8),
                   const GlyphIcon(AppGlyphs.check, size: 18),
@@ -176,6 +199,17 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
                   l.fdChooseRoute,
                   style: context.textTheme.headlineSmall,
                 ),
+              ),
+              IconButton(
+                tooltip: l.delayTest,
+                onPressed: canTest
+                    ? () => _run(
+                        () => ref
+                            .read(proxiesActionProvider.notifier)
+                            .delayTest(nodes, group?.testUrl),
+                      )
+                    : null,
+                icon: const GlyphIcon(AppGlyphs.speed),
               ),
               IconButton(
                 tooltip: l.fdSync,
@@ -217,8 +251,13 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
 }
 
 class RouteHealthIndicator extends StatelessWidget {
-  const RouteHealthIndicator({super.key, required this.delay});
+  const RouteHealthIndicator({
+    super.key,
+    required this.delay,
+    this.checking = false,
+  });
   final int? delay;
+  final bool checking;
 
   @override
   Widget build(BuildContext context) {
@@ -230,20 +269,34 @@ class RouteHealthIndicator extends StatelessWidget {
       _ => (const Color(0xFFAD6200), l.fdRouteSlow),
     };
     return Tooltip(
-      message: delay != null && delay! > 0
+      message: checking
+          ? l.fdRouteChecking
+          : delay != null && delay! > 0
           ? '${l.fdRouteLastCheck}: $delay ms'
           : label,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ExcludeSemantics(
-            child: DecoratedBox(
-              decoration: ShapeDecoration(color: color, shape: AppShape.circle),
-              child: const SizedBox.square(dimension: 7),
+          if (checking)
+            const SizedBox.square(
+              dimension: 12,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else
+            ExcludeSemantics(
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  color: color,
+                  shape: AppShape.circle,
+                ),
+                child: const SizedBox.square(dimension: 7),
+              ),
             ),
-          ),
           const SizedBox(width: 6),
-          Text(label, style: context.textTheme.labelSmall),
+          Text(
+            checking ? l.fdRouteChecking : label,
+            style: context.textTheme.labelSmall,
+          ),
         ],
       ),
     );

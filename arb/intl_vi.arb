@@ -719,5 +719,7 @@
   "fdRepairWorking": "Đang khắc phục và kiểm tra kết nối…",
   "fdRepairFailed": "Không hoàn tất thao tác. Xem kết quả mới bên dưới; đăng nhập và kiểm tra quyền tài khoản nếu cần.",
   "fdRepairVerified": "Tuyến proxy đã được xác minh. Xem các cảnh báo còn lại bên dưới.",
-  "fdRepairUnresolved": "Thao tác đã xong nhưng chưa xác minh được khôi phục. Làm theo hướng dẫn còn lại bên dưới."
+  "fdRepairUnresolved": "Thao tác đã xong nhưng chưa xác minh được khôi phục. Làm theo hướng dẫn còn lại bên dưới.",
+  "fdRouteChecking": "Đang kiểm tra…",
+  "fdPlan": "Gói dịch vụ"
 }

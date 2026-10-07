@@ -470,6 +470,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("공식 웹사이트"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("사용한 기간 데이터"),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("요금제"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("인터넷 연결"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "요청이 너무 많습니다. 나중에 다시 시도하세요.",
@@ -582,6 +583,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "초기화 가능 횟수를 확인할 수 없습니다. 계정 정보를 새로고치고 다시 시도하세요.",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("초기화 결과 확인"),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("확인 중…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("확인 실패"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("마지막 확인"),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("낮은 지연 시간"),

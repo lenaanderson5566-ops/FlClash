@@ -568,6 +568,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage(
       "Lưu lượng chu kỳ đã dùng",
     ),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("Gói dịch vụ"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "Kết nối Internet",
     ),
@@ -704,6 +705,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRetryReset": MessageLookupByLibrary.simpleMessage(
       "Kiểm tra kết quả đặt lại",
     ),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("Đang kiểm tra…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Kiểm tra thất bại"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("Lần đo gần nhất"),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("Độ trễ thấp"),

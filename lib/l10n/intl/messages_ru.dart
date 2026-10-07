@@ -585,6 +585,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage(
       "Использовано за период",
     ),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("Тариф"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "Доступ в Интернет",
     ),
@@ -719,6 +720,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRetryReset": MessageLookupByLibrary.simpleMessage(
       "Проверить результат сброса",
     ),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("Проверка…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Сбой проверки"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("Последний замер"),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage(

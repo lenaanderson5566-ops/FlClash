@@ -6,7 +6,8 @@ The client lives in `v3/FlClash`, alongside the customized backend in `v3/v2boar
 The old Desktop client is reference material; do not reuse its legacy transports.
 The brand is `FastAI`, and the default panel and website are `https://fastdog.ws`.
 Use the blue-and-white client theme and the website's shared mark. The desktop
-sidebar contains Home, Connection, Settings, Account and About. Do not add
+sidebar contains Home, Connection, Settings and About, with Account pinned at
+the bottom using the same email-initial avatar as the website. Do not add
 simulated AI chat, connection checks or activity feeds: render real state.
 Keep Core, Helper, channel and package identifiers stable. Windows executable and
 window title are fastai; this also gives Windows a distinct app data directory.

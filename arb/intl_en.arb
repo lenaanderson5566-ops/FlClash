@@ -719,5 +719,7 @@
   "fdRepairWorking": "Applying the fix and checking the connection…",
   "fdRepairFailed": "The action could not be completed. Review the new results below; sign in and check account access if needed.",
   "fdRepairVerified": "The proxy route passed verification. Review any remaining warnings below.",
-  "fdRepairUnresolved": "The action finished, but recovery is not verified. Follow the remaining guidance below."
+  "fdRepairUnresolved": "The action finished, but recovery is not verified. Follow the remaining guidance below.",
+  "fdRouteChecking": "Checking…",
+  "fdPlan": "Plan"
 }

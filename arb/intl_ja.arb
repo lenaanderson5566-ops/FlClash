@@ -719,5 +719,7 @@
   "fdRepairWorking": "修復して接続を再確認しています…",
   "fdRepairFailed": "操作を完了できませんでした。最新の結果とアカウントの利用権限を確認してください。",
   "fdRepairVerified": "プロキシ経路の再検査に成功しました。残りの警告も確認してください。",
-  "fdRepairUnresolved": "操作は完了しましたが、復旧は未確認です。以下の案内に従ってください。"
+  "fdRepairUnresolved": "操作は完了しましたが、復旧は未確認です。以下の案内に従ってください。",
+  "fdRouteChecking": "確認中…",
+  "fdPlan": "プラン"
 }

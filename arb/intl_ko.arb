@@ -719,5 +719,7 @@
   "fdRepairWorking": "복구 및 연결 확인 중…",
   "fdRepairFailed": "작업을 완료하지 못했습니다. 아래 새 결과를 확인하고 필요하면 로그인과 계정 권한을 확인하세요.",
   "fdRepairVerified": "프록시 경로 확인에 성공했습니다. 아래 남은 경고를 확인하세요.",
-  "fdRepairUnresolved": "작업은 완료되었지만 복구는 확인되지 않았습니다. 아래 남은 안내를 따르세요."
+  "fdRepairUnresolved": "작업은 완료되었지만 복구는 확인되지 않았습니다. 아래 남은 안내를 따르세요.",
+  "fdRouteChecking": "확인 중…",
+  "fdPlan": "요금제"
 }

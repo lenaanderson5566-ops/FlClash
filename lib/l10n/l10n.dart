@@ -5947,6 +5947,21 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Checking…`
+  String get fdRouteChecking {
+    return Intl.message(
+      'Checking…',
+      name: 'fdRouteChecking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plan`
+  String get fdPlan {
+    return Intl.message('Plan', name: 'fdPlan', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

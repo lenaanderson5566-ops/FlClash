@@ -1,3 +1,5 @@
+import 'dart:ui' as ui show TextDirection;
+import 'account_avatar.dart';
 import 'network_diagnostics.dart';
 import 'connection_diagnostics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -102,6 +104,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           ref.read(coreStatusProvider) != CoreStatus.connected) {
         return;
       }
+      if (ref.read(pendingDelayTestsProvider).isNotEmpty) return;
       final groups = ref.read(groupsProvider);
       final group = primaryRouteGroup(groups);
       if (group == null) return;
@@ -146,6 +149,12 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
           await _profile.clear();
         }
       }),
+    );
+    ref.listenManual(
+      pendingDelayTestsProvider.select((state) => state.isEmpty),
+      (previous, idle) {
+        if (previous == false && idle) _scheduleDelay();
+      },
     );
     _scheduleDelay();
     unawaited(_checkRelease());
@@ -777,41 +786,87 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
 
   Widget _myAccount() {
     final l = context.appLocalizations;
+    final account = _account;
+    final status = switch (account?.status) {
+      'noPlan' => l.fdNoPlan,
+      'expired' => l.fdExpired,
+      'exhausted' => l.fdExhausted,
+      'banned' => l.fdBanned,
+      _ => l.serviceAvailable,
+    };
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(l.account, style: context.textTheme.headlineSmall),
-            ),
-            IconButton(
-              tooltip: l.fdRefresh,
-              onPressed: _busy ? null : () => _run(_refresh),
-              icon: const GlyphIcon(AppGlyphs.refresh),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
+        Text(l.account, style: context.textTheme.headlineSmall),
+        const SizedBox(height: 20),
         Card(
-          elevation: 0,
-          color: context.colorScheme.surfaceContainerLowest,
           child: Column(
             children: [
-              _metric(l.fdEmail, _account?.email ?? ''),
-              _metric(l.fdShop, _account?.planName ?? ''),
-              if (_account != null &&
-                  (_account!.periodActive || _account!.expiresAt != null))
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    AccountAvatar(email: account?.email, size: 48),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            account?.email ?? '',
+                            textDirection: ui.TextDirection.ltr,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            status,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: context.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: l.fdRefresh,
+                      onPressed: _busy ? null : () => _run(_refresh),
+                      icon: const GlyphIcon(AppGlyphs.refresh),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(height: 1, indent: 20, endIndent: 20),
+              _metric(
+                l.fdPlan,
+                account?.planName.isNotEmpty == true ? account!.planName : '—',
+              ),
+              if (account != null &&
+                  (account.periodActive || account.expiresAt != null))
                 _metric(
                   l.fdExpiry,
-                  _account!.expiresAt?.toLocal().toString().split(' ').first ??
-                      l.fdNoExpiry,
+                  account.expiresAt == null
+                      ? l.fdNoExpiry
+                      : DateFormat.yMd(
+                          Localizations.localeOf(context).toString(),
+                        ).format(account.expiresAt!.toLocal()),
                 ),
             ],
           ),
         ),
+        if (_accountStale)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Text(
+              l.fdAccountStale,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.colorScheme.error,
+              ),
+            ),
+          ),
         const SizedBox(height: 16),
-        if (_account != null) _trafficCard(_account!),
+        if (account != null) _trafficCard(account),
         const SizedBox(height: 16),
         Card(
           child: ListTile(
@@ -822,17 +877,78 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             onTap: _busy ? null : () => _run(_portal),
           ),
         ),
-        if (_accountStale)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(l.fdAccountStale),
+        const SizedBox(height: 12),
+        Align(
+          alignment: AlignmentDirectional.centerEnd,
+          child: TextButton(
+            onPressed: _busy ? null : _logout,
+            child: Text(l.fdLogout),
           ),
-        const SizedBox(height: 16),
-        OutlinedButton(
-          onPressed: _busy ? null : _logout,
-          child: Text(l.fdLogout),
         ),
       ],
+    );
+  }
+
+  Widget _sidebarAccount(bool expanded) {
+    final l = context.appLocalizations;
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: SizedBox(
+        width: expanded ? 176 : 56,
+        child: Tooltip(
+          message: _account?.email ?? l.account,
+          child: Material(
+            color: _tab == 3
+                ? context.colorScheme.primaryContainer
+                : Colors.transparent,
+            shape: AppShape.lg,
+            child: InkWell(
+              key: const ValueKey('sidebar-account'),
+              customBorder: AppShape.lg,
+              onTap: _busy ? null : () => _selectPage(3),
+              child: Semantics(
+                button: true,
+                selected: _tab == 3,
+                label: l.account,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AccountAvatar(email: _account?.email),
+                      if (expanded) ...[
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l.account,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              if (_account != null)
+                                Text(
+                                  _account!.email,
+                                  textDirection: ui.TextDirection.ltr,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                    color: context.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -1149,8 +1265,18 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                       ),
               ),
             ),
-            selectedIndex: _tab,
-            onDestinationSelected: _busy ? null : _selectPage,
+            trailingAtBottom: true,
+            trailing: _sidebarAccount(
+              _sidebarExpanded && constraints.maxWidth >= 520,
+            ),
+            selectedIndex: _tab == 3
+                ? null
+                : _tab == 4
+                ? 3
+                : _tab,
+            onDestinationSelected: _busy
+                ? null
+                : (index) => _selectPage(index == 3 ? 4 : index),
             destinations: [
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.language),
@@ -1163,10 +1289,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.settings),
                 label: Text(l.settings),
-              ),
-              NavigationRailDestination(
-                icon: const GlyphIcon(AppGlyphs.account),
-                label: Text(l.account),
               ),
               NavigationRailDestination(
                 icon: const GlyphIcon(AppGlyphs.info),

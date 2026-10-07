@@ -478,6 +478,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("公式サイト"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("期間データ使用量"),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("プラン"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("インターネット接続"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。しばらくお待ちください。",
@@ -588,6 +589,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "リセット権を取得できません。アカウント情報を更新して再試行してください。",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("リセット結果を確認"),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("確認中…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("確認失敗"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("前回の測定"),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("低遅延"),

@@ -444,6 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("官方網站"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("週期流量已用"),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("方案"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("網際網路連通性"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作過於頻繁，請稍後重試。"),
     "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
@@ -542,6 +543,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "暫時無法獲取重置權益，請重新整理賬號資訊後重試。",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("確認重置結果"),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("檢測中…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("檢測失敗"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("上次檢測"),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("低延遲"),

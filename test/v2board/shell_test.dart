@@ -134,6 +134,7 @@ void main() {
     V2BoardApi? api, {
     FastaiRelease? release,
     bool desktopLayout = false,
+    Locale locale = const Locale('en'),
     _Probes? probes,
   }) async {
     await tester.pumpWidget(
@@ -172,7 +173,7 @@ void main() {
             return child!;
           },
           theme: ThemeData(brightness: Brightness.dark),
-          locale: const Locale('en'),
+          locale: locale,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             ...GlobalMaterialLocalizations.delegates,
@@ -201,6 +202,26 @@ void main() {
     },
   );
 
+  testWidgets('automatic probes wait for an existing manual probe to finish', (
+    tester,
+  ) async {
+    final probes = _Probes();
+    await show(tester, null, probes: probes);
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(V2BoardShell)),
+    );
+    final pending = container.read(pendingDelayTestsProvider.notifier);
+    pending.apply(acquired: ['manual-probe']);
+    await tester.pump(const Duration(seconds: 1));
+    expect(probes.calls, 0);
+    pending.apply(released: ['manual-probe']);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump();
+    expect(probes.calls, 1);
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('account polling waits five minutes instead of one', (
     tester,
   ) async {
@@ -215,6 +236,72 @@ void main() {
     expect(api.accountGets, 2);
     await tester.pumpWidget(const SizedBox());
   });
+
+  testWidgets(
+    'desktop account lives at the bottom and keeps its avatar when collapsed',
+    (tester) async {
+      await show(tester, _Api(false), desktopLayout: true);
+      final entry = find.byKey(const ValueKey('sidebar-account'));
+      expect(
+        tester
+            .widget<NavigationRail>(find.byType(NavigationRail))
+            .trailingAtBottom,
+        isTrue,
+      );
+      expect(find.text('T'), findsOneWidget);
+      expect(
+        tester.getCenter(entry).dy,
+        greaterThan(
+          tester.view.physicalSize.height / tester.view.devicePixelRatio * 0.7,
+        ),
+      );
+      await tester.tap(find.byKey(const ValueKey('sidebar-toggle')));
+      await tester.pumpAndSettle();
+      expect(find.text('T'), findsOneWidget);
+      await tester.tap(entry);
+      await tester.pumpAndSettle();
+      expect(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.text('test@example.com'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        tester
+            .widget<NavigationRail>(find.byType(NavigationRail))
+            .selectedIndex,
+        isNull,
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+
+  for (final locale in AppLocalizations.delegate.supportedLocales) {
+    testWidgets('account layout fits a narrow window in $locale', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 720);
+      tester.view.devicePixelRatio = 1;
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await show(tester, _Api(false), locale: locale, desktopLayout: true);
+      await tester.tap(find.byKey(const ValueKey('sidebar-account')));
+      await tester.pumpAndSettle();
+      expect(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.text('test@example.com'),
+        ),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    });
+  }
 
   testWidgets(
     'background account refresh does not block navigation or show global errors',
@@ -327,7 +414,13 @@ void main() {
       expect(container.read(v2BoardAccessProvider), isFalse);
       await tester.tap(find.text('Account'));
       await tester.pumpAndSettle();
-      expect(find.text('test@example.com'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.text('test@example.com'),
+        ),
+        findsOneWidget,
+      );
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
@@ -468,7 +561,6 @@ void main() {
       'Home',
       'Connection',
       'Settings',
-      'Account',
       'About',
     ]);
     expect(
@@ -576,7 +668,13 @@ void main() {
     await show(tester, _Api(true));
     await tester.tap(find.byType(NavigationDestination).at(3));
     await tester.pumpAndSettle();
-    expect(find.text('test@example.com'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(ListView),
+        matching: find.text('test@example.com'),
+      ),
+      findsOneWidget,
+    );
     await tester.scrollUntilVisible(
       find.text('Manage on website'),
       180,

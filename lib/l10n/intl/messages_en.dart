@@ -568,6 +568,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Official website",
     ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("Period traffic used"),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("Plan"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "Internet connectivity",
     ),
@@ -702,6 +703,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unable to check available resets. Refresh account information and retry.",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("Check reset result"),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("Checking…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Check failed"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage(
       "Last measurement",

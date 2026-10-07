@@ -444,6 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("官方网站"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("周期流量已用"),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("套餐"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("互联网连通性"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作过于频繁，请稍后重试。"),
     "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
@@ -540,6 +541,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "暂时无法获取重置权益，请刷新账号信息后重试。",
     ),
     "fdRetryReset": MessageLookupByLibrary.simpleMessage("确认重置结果"),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("检测中…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("检测失败"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("上次检测"),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("低延迟"),

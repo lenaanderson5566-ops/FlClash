@@ -719,5 +719,7 @@
   "fdRepairWorking": "正在處理並重新驗證連線…",
   "fdRepairFailed": "操作未能完成。請檢視下方最新結果，必要時登入並檢查賬號使用許可權。",
   "fdRepairVerified": "代理線路已透過複測，請繼續檢視下方剩餘提示。",
-  "fdRepairUnresolved": "操作已執行，但尚未確認恢復，請按下方結果繼續排查。"
+  "fdRepairUnresolved": "操作已執行，但尚未確認恢復，請按下方結果繼續排查。",
+  "fdRouteChecking": "檢測中…",
+  "fdPlan": "方案"
 }

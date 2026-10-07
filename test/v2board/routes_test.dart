@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:fastai/v2board/node_metadata.dart';
 import 'package:fastai/v2board/routes.dart';
@@ -9,6 +10,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import '../helpers/test_app.dart';
 import '../helpers/test_profiles.dart';
+
+class _ManualProbes extends ProxiesAction {
+  final pending = Completer<void>();
+  final tested = <String>[];
+  @override
+  void build() {}
+  @override
+  Future<void> delayTest(List<Proxy> proxies, [String? testUrl]) {
+    tested.addAll(proxies.map((proxy) => proxy.name));
+    return pending.future;
+  }
+}
 
 void main() {
   testWidgets(
@@ -37,6 +50,21 @@ void main() {
       }
     },
   );
+  testWidgets('a running probe replaces the previous status with checking', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const TestApp(
+        child: Scaffold(body: RouteHealthIndicator(delay: 450, checking: true)),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('Checking…'), findsOneWidget);
+    expect(find.text('Higher latency'), findsNothing);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+  });
+
   test('route selection exposes real nodes while retaining engine groups', () {
     const root = Group(
       name: 'FastDog',
@@ -125,11 +153,78 @@ void main() {
         tester.getTopLeft(find.text('United States · San Jose')).dy,
         lessThan(tester.getTopLeft(find.text('Japan · Tokyo')).dy),
       );
-      expect(find.byTooltip('Delay test'), findsNothing);
+      expect(find.byTooltip('Delay test'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+  testWidgets(
+    'manual probe only tests real routes and disables repeated taps',
+    (tester) async {
+      final probes = _ManualProbes();
+      final container = ProviderContainer(
+        overrides: [
+          profilesProvider.overrideWith(() => TestProfiles([])),
+          proxiesActionProvider.overrideWith(() => probes),
+          coreStatusProvider.overrideWithBuild((_, _) => CoreStatus.connected),
+          safeModeProvider.overrideWithValue(true),
+          groupsProvider.overrideWithBuild(
+            (_, _) => const [
+              Group(
+                name: 'FastAI',
+                type: GroupType.Selector,
+                all: [
+                  Proxy(name: 'DIRECT', type: 'Direct'),
+                  Proxy(name: 'node_1', type: 'Vless'),
+                  Proxy(name: 'node_2', type: 'AnyTLS'),
+                ],
+              ),
+            ],
+          ),
+          fastaiNodeMetadataProvider.overrideWith((_) async => {}),
+        ],
+      );
+      addTearDown(container.dispose);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: TestApp(
+            child: Scaffold(body: FastaiRoutesView(onSync: () async {})),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Delay test'));
+      await tester.pump();
+      expect(probes.tested, ['node_1', 'node_2']);
+      expect(
+        tester
+            .widget<IconButton>(
+              find.ancestor(
+                of: find.byTooltip('Delay test'),
+                matching: find.byType(IconButton),
+              ),
+            )
+            .onPressed,
+        isNull,
+      );
+      probes.pending.complete();
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<IconButton>(
+              find.ancestor(
+                of: find.byTooltip('Delay test'),
+                matching: find.byType(IconButton),
+              ),
+            )
+            .onPressed,
+        isNotNull,
+      );
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+
   testWidgets('route header stays fixed while the nodes scroll', (
     tester,
   ) async {
@@ -166,7 +261,7 @@ void main() {
     await tester.drag(find.byType(Scrollable).first, const Offset(0, -500));
     await tester.pumpAndSettle();
     expect(tester.getTopLeft(title), before);
-    expect(find.byTooltip('Delay test'), findsNothing);
+    expect(find.byTooltip('Delay test'), findsOneWidget);
     expect(find.text('node_0'), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());

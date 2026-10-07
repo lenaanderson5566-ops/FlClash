@@ -549,6 +549,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("وب‌سایت رسمی"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("داده مصرف‌شده دوره"),
+    "fdPlan": MessageLookupByLibrary.simpleMessage("طرح"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "اتصال اینترنت",
     ),
@@ -679,6 +680,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRetryReset": MessageLookupByLibrary.simpleMessage(
       "بررسی نتیجه بازنشانی",
     ),
+    "fdRouteChecking": MessageLookupByLibrary.simpleMessage("در حال بررسی…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("بررسی ناموفق"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage(
       "آخرین اندازه‌گیری",
