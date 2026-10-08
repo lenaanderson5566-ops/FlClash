@@ -359,7 +359,7 @@ void main() {
     () async {
       final adapter = _Adapter(
         (options) => _json({
-          'data': options.path == '/auth/sessions'
+          'data': options.uri.path == '/api/v10/auth/sessions'
               ? {'accessToken': 'session-secret', 'tokenType': 'Bearer'}
               : {'email': 'user@example.com'},
         }),
@@ -384,6 +384,36 @@ void main() {
       expect(adapter.requests[1].followRedirects, isFalse);
     },
   );
+
+  test('a CDN HTML denial never revokes the account session', () async {
+    final adapter = _Adapter(
+      (_) => ResponseBody.fromString('<html>Access denied</html>', 403),
+    );
+    final api = V2BoardApi(
+      'https://panel.example',
+      dio: Dio()..httpClientAdapter = adapter,
+    )..accessToken = 'test-token';
+    var revoked = false;
+    api.onSessionRejected = () async {
+      revoked = true;
+    };
+    addTearDown(api.close);
+    await expectLater(
+      api.object('GET', '/me'),
+      throwsA(
+        isA<V2BoardProblem>().having(
+          (error) => error.code,
+          'code',
+          'service_unavailable',
+        ),
+      ),
+    );
+    expect(revoked, isFalse);
+    expect(
+      const V2BoardProblem('service_unavailable', status: 403).sessionRejected,
+      isFalse,
+    );
+  });
 
   for (final status in [401, 403, 409, 422, 429, 502]) {
     test(

@@ -122,7 +122,8 @@ class BrowserLogin {
           !RegExp(r'^[a-f0-9]{64}$').hasMatch(id) ||
           url == null ||
           url.scheme != 'https' ||
-          url.origin != website.origin ||
+          url.origin !=
+              (api.hasManagedEntrypoints ? api.panel.origin : website.origin) ||
           url.userInfo.isNotEmpty ||
           url.query.isNotEmpty ||
           url.path != '/app' ||

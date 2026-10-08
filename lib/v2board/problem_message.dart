@@ -23,7 +23,7 @@ String clientProblemMessage(
   'invalid_config' || 'invalid_response' => l.fdInvalidConfig,
   'request_timeout' => l.fdRequestTimeout,
   'certificate_error' => l.fdCertificateError,
-  'network_error' => l.fdNetworkError,
+  'network_error' || 'service_unavailable' => l.fdNetworkError,
   _ => switch (problem.status) {
     401 => hadSession ? l.fdSessionExpired : l.fdInvalidCredentials,
     403 => l.fdBanned,

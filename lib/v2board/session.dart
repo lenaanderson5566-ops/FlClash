@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'api.dart';
 import 'config.dart';
+import 'entrypoints.dart';
 
 class V2BoardSession {
   const V2BoardSession({
@@ -19,15 +20,18 @@ class V2BoardSession {
     try {
       final data = jsonDecode(value) as Map<String, dynamic>;
       final origin = data['origin'] as String;
-      if (V2BoardConfig.panelUrl.isNotEmpty &&
-          V2BoardConfig.origin(origin).origin !=
-              V2BoardConfig.origin(V2BoardConfig.panelUrl).origin) {
+      await ServiceEntrypoints.shared.loadCache();
+      final identity = data['serviceIdentity'];
+      final trusted = identity == null
+          ? ServiceEntrypoints.shared.trusts(V2BoardConfig.origin(origin))
+          : identity == ServiceEntrypoints.identity;
+      if (!trusted) {
         await clear();
         return null;
       }
       final token = data['accessToken'] as String;
       if (token.isEmpty) throw const FormatException();
-      return V2BoardApi(origin)..accessToken = token;
+      return V2BoardApi(V2BoardConfig.panelUrl)..accessToken = token;
     } on FormatException {
       await clear();
       return null;
@@ -43,18 +47,8 @@ class V2BoardSession {
     client.version ??= version;
     if (api == null) client.onSessionRejected = clear;
     try {
-      var value = V2BoardConfig.websiteUrl;
-      if (value.isEmpty) {
-        final settings = await client.object('GET', '/public/settings');
-        value = settings['appUrl'] as String? ?? client.panel.origin;
-      }
-      final website = Uri.tryParse(value);
-      if (website == null ||
-          website.scheme != 'https' ||
-          website.host.isEmpty ||
-          website.userInfo.isNotEmpty) {
-        throw const FormatException();
-      }
+      await client.prepare();
+      final website = client.panel;
       return restored == null ? website : await client.loginLink(website);
     } finally {
       if (api == null) client.close();
@@ -65,6 +59,7 @@ class V2BoardSession {
     key: _key,
     value: jsonEncode({
       'origin': api.panel.origin,
+      'serviceIdentity': ServiceEntrypoints.identity,
       'accessToken': api.accessToken,
     }),
   );

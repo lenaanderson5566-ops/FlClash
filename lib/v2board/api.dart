@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -6,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 import 'config.dart';
+import 'entrypoints.dart';
 import 'language.dart';
 import 'diagnostics.dart';
 
@@ -25,18 +27,26 @@ class V2BoardProblem implements Exception {
   final String requestId;
 
   bool get sessionRejected =>
-      status == 401 ||
-      (status == 403 &&
-          code != 'SUBSCRIPTION_UNAVAILABLE' &&
-          code != 'CLIENT_DISABLED');
+      code != 'service_unavailable' &&
+      (status == 401 ||
+          (status == 403 &&
+              code != 'SUBSCRIPTION_UNAVAILABLE' &&
+              code != 'CLIENT_DISABLED'));
 
   @override
   String toString() => code;
 }
 
 class V2BoardApi {
-  V2BoardApi(String origin, {Dio? dio})
-    : panel = V2BoardConfig.origin(origin),
+  V2BoardApi(String origin, {Dio? dio, ServiceEntrypoints? entrypoints})
+    : _panel = V2BoardConfig.origin(origin),
+      _entrypoints =
+          entrypoints ??
+          (dio == null &&
+                  V2BoardConfig.origin(origin) ==
+                      V2BoardConfig.origin(V2BoardConfig.panelUrl)
+              ? ServiceEntrypoints.shared
+              : null),
       _dio = dio ?? Dio() {
     if (dio == null) {
       _dio.httpClientAdapter = IOHttpClientAdapter(
@@ -62,7 +72,10 @@ class V2BoardApi {
     );
   }
 
-  final Uri panel;
+  final Uri _panel;
+  final ServiceEntrypoints? _entrypoints;
+  bool get hasManagedEntrypoints => _entrypoints != null;
+  Uri get panel => _entrypoints?.current ?? _panel;
   final Dio _dio;
   String? accessToken;
   Future<void> Function()? onSessionRejected;
@@ -72,6 +85,8 @@ class V2BoardApi {
   set language(String value) => _language = clientLanguage(value);
   void Function(ClientRequestDiagnostic event)? onDiagnostic;
 
+  Future<void> prepare() async => _entrypoints?.prepare();
+
   Future<T> _perform<T>(
     String method,
     String path,
@@ -80,7 +95,28 @@ class V2BoardApi {
     final timer = Stopwatch()..start();
     V2BoardProblem? problem;
     try {
-      return await action();
+      await _entrypoints?.prepare();
+      T result;
+      final attemptedOrigin = panel;
+      try {
+        result = await action();
+      } on V2BoardProblem catch (error) {
+        final transportFailure =
+            error.code == 'service_unavailable' ||
+            error.status == null &&
+                const [
+                  'network_error',
+                  'request_timeout',
+                  'certificate_error',
+                ].contains(error.code);
+        if (!transportFailure || _entrypoints == null) rethrow;
+        final switched =
+            panel != attemptedOrigin || await _entrypoints.failover();
+        if (!const ['GET', 'HEAD'].contains(method) || !switched) rethrow;
+        result = await action();
+      }
+      if (_entrypoints != null) unawaited(_entrypoints.refresh());
+      return result;
     } on V2BoardProblem catch (error) {
       problem = error;
       rethrow;
@@ -107,7 +143,7 @@ class V2BoardApi {
   }) => _perform(method, path, () async {
     try {
       final response = await _dio.request<dynamic>(
-        path,
+        '${panel.origin}/api/v10$path',
         data: body,
         queryParameters: query,
         options: Options(
@@ -142,6 +178,9 @@ class V2BoardApi {
   Future<void> _checkStatus(int status, dynamic payload) async {
     if (status >= 200 && status < 300) return;
     final problem = payload is Map ? payload : const <String, dynamic>{};
+    if (problem['code'] is! String) {
+      throw V2BoardProblem('service_unavailable', status: status);
+    }
     final code = problem['code'] as String? ?? 'request_failed';
     final error = V2BoardProblem(
       code,
@@ -189,7 +228,7 @@ class V2BoardApi {
     }
     try {
       final response = await _dio.request<List<int>>(
-        '/me/client-config',
+        '${panel.origin}/api/v10/me/client-config',
         queryParameters: {
           'clientVersion': version,
           'platform': platform,
