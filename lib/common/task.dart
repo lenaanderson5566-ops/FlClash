@@ -259,7 +259,7 @@ Future<({String yaml, String md5})> _makeRealProfileTask(
       defaultDns.overrideJson(baselineDnsOverrideKeys),
     );
   }
-  if (overrideDns || !isEnableDns) {
+  if (!V2BoardConfig.enabled && (overrideDns || !isEnableDns)) {
     rawDns = mergeDnsOverride(
       rawDns,
       realPatchConfig.dns.overrideJson(realPatchConfig.dnsOverrideKeys),
@@ -275,7 +275,7 @@ Future<({String yaml, String md5})> _makeRealProfileTask(
       ...realPatchConfig.ntp.overrideJson(realPatchConfig.ntpOverrideKeys),
     };
   }
-  if (appendSystemDns) {
+  if (!V2BoardConfig.enabled && appendSystemDns) {
     final List<String> nameserver = List<String>.from(
       rawConfig['dns']['nameserver'] ?? [],
     );

@@ -3,6 +3,7 @@ import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yaml/yaml.dart';
+import 'package:fastai/v2board/config.dart';
 
 const _profileDns = <String, dynamic>{
   'enable': true,
@@ -31,6 +32,8 @@ const _patchConfig = PatchClashConfig(
 Future<YamlMap> _dnsOf({
   required Map<String, dynamic> rawConfig,
   required bool overrideDns,
+  bool appendSystemDns = false,
+  bool safeMode = false,
 }) async {
   final result = await makeRealProfileTask(
     MakeRealProfileState(
@@ -40,7 +43,8 @@ Future<YamlMap> _dnsOf({
       realPatchConfig: _patchConfig,
       overrideDns: overrideDns,
       overrideNtp: false,
-      appendSystemDns: false,
+      appendSystemDns: appendSystemDns,
+      safeMode: safeMode,
       proxyGroups: const [],
       rules: const [],
       addedRules: const [],
@@ -52,6 +56,48 @@ Future<YamlMap> _dnsOf({
 }
 
 void main() {
+  if (V2BoardConfig.enabled) {
+    test(
+      'managed DNS preserves service policy despite stale overrides',
+      () async {
+        final serviceDns = {
+          ..._profileDns,
+          'respect-rules': true,
+          'nameserver': ['https://cloudflare-dns.com/dns-query#FastAI'],
+          'proxy-server-nameserver': [
+            'https://dns.alidns.com/dns-query#DIRECT',
+          ],
+          'nameserver-policy': {
+            'geosite:cn': ['https://doh.pub/dns-query#DIRECT'],
+          },
+        };
+        final dns = await _dnsOf(
+          rawConfig: {'dns': serviceDns},
+          overrideDns: true,
+          appendSystemDns: true,
+        );
+        expect(dns, {...serviceDns, 'listen': '127.0.0.1:1053', 'ipv6': false});
+      },
+    );
+    test('managed safe mode disables DNS listener', () async {
+      final dns = await _dnsOf(
+        rawConfig: {'dns': _profileDns},
+        overrideDns: false,
+        safeMode: true,
+      );
+      expect(dns, {..._profileDns, 'listen': '', 'ipv6': false});
+    });
+    test('managed missing DNS does not apply legacy user overrides', () async {
+      final dns = await _dnsOf(rawConfig: {}, overrideDns: true);
+      expect(dns['enable'], true);
+      expect(dns['enhanced-mode'], 'fake-ip');
+      expect(dns['nameserver'], defaultDns.nameserver);
+      expect(dns.containsKey('fallback-filter'), false);
+      expect(dns['listen'], '127.0.0.1:1053');
+      expect(dns['ipv6'], false);
+    });
+    return;
+  }
   test('overrides only the selected DNS keys of an enabled profile', () async {
     final dns = await _dnsOf(
       rawConfig: {'dns': _profileDns},
