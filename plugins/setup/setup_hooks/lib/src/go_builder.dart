@@ -67,6 +67,10 @@ class GoBuilder {
       notice: notice,
       build: () async {
         final env = _buildEnvironment(target);
+        final cronetDir = _cronetDirectory(target);
+        final cronetHash = cronetDir == null
+            ? null
+            : await calcSha256(p.join(cronetDir, 'libcronet.dll'));
         _log.info(
           'Building Go core: $target '
           '${target.isLib ? "(CGO, c-shared)" : "(standalone)"}',
@@ -80,7 +84,7 @@ class GoBuilder {
         try {
           await runCommandStream(
             'go',
-            _buildArguments(target, outFile: staged),
+            _buildArguments(target, outFile: staged, cronetHash: cronetHash),
             workingDirectory: _corePath,
             environment: env,
           );
@@ -97,6 +101,20 @@ class GoBuilder {
               ),
             );
           } else {
+            if (cronetDir != null) {
+              for (final entry in {
+                'libcronet.dll': 'libcronet.dll',
+                'LICENSE': 'LICENSE.cronet',
+              }.entries) {
+                final destination = p.join(outDir, entry.value);
+                final stagedAsset = File(p.join(stagingDir.path, entry.value));
+                stagedAsset.writeAsBytesSync(
+                  File(p.join(cronetDir, entry.key)).readAsBytesSync(),
+                );
+                replaceFile(stagedAsset.path, destination);
+                outputs.add(destination);
+              }
+            }
             replaceFile(staged, outFile);
           }
 
@@ -133,10 +151,40 @@ class GoBuilder {
             .join(' ')
       : config.goLdflags;
 
-  List<String> _buildArguments(Target target, {String? outFile}) => [
+  String _tags(Target target) => [
+    config.tags,
+    if (target.goos == 'windows' && config.windowsTags.isNotEmpty)
+      config.windowsTags,
+  ].join(',');
+
+  String? _cronetDirectory(Target target) {
+    if (target.goos != 'windows' ||
+        !_tags(target).split(',').contains('with_naive_outbound')) {
+      return null;
+    }
+    final result = runCommand(
+      'go',
+      [
+        'list',
+        '-tags=${_tags(target)}',
+        '-f',
+        '{{.Dir}}',
+        'github.com/sagernet/cronet-go/lib/windows_${target.goarch}',
+      ],
+      workingDirectory: _corePath,
+      environment: _buildEnvironment(target),
+    );
+    return (result.stdout as String).trim();
+  }
+
+  List<String> _buildArguments(
+    Target target, {
+    String? outFile,
+    String? cronetHash,
+  }) => [
     'build',
-    '-ldflags=${_ldflags(target)}',
-    '-tags=${config.tags}',
+    '-ldflags=${_ldflags(target)}${cronetHash == null ? '' : ' -X main.cronetSHA256=$cronetHash'}',
+    '-tags=${_tags(target)}',
     if (target.isLib) '-buildmode=c-shared',
     if (outFile != null) ...['-o', outFile],
   ];
@@ -182,7 +230,14 @@ class GoBuilder {
     final goEnv = jsonDecode((goEnvResult.stdout as String).trim());
     builder.addValue('go_env', goEnv);
 
-    final inputs = _resolveGoInputs(env);
+    final inputs = _resolveGoInputs(target, env);
+    final cronetDir = _cronetDirectory(target);
+    if (cronetDir != null) {
+      inputs.addAll([
+        p.join(cronetDir, 'libcronet.dll'),
+        p.join(cronetDir, 'LICENSE'),
+      ]);
+    }
     final goWork = (goEnv as Map<String, dynamic>)['GOWORK'];
     if (goWork is String && goWork.isNotEmpty && goWork != 'off') {
       inputs.add(goWork);
@@ -204,12 +259,12 @@ class GoBuilder {
     return builder.finishWithInputs();
   }
 
-  Set<String> _resolveGoInputs(Map<String, String> environment) {
+  Set<String> _resolveGoInputs(Target target, Map<String, String> environment) {
     const template =
         r'''{{range .GoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CgoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CXXFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .MFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .HFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .FFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SwigFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SwigCXXFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SysoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .EmbedFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{with .Module}}{{if .GoMod}}{{.GoMod}}{{"\n"}}{{end}}{{end}}''';
     final result = runCommand(
       'go',
-      ['list', '-deps', '-tags=${config.tags}', '-f', template, '.'],
+      ['list', '-deps', '-tags=${_tags(target)}', '-f', template, '.'],
       workingDirectory: _corePath,
       environment: environment,
     );

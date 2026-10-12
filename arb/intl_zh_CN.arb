@@ -732,5 +732,7 @@
   "fdEmailLogin": "或使用邮箱登录",
   "fdBrowserComplete": "已收到授权，请返回 FastAI 完成登录。",
   "fdBrowserExpired": "授权已过期，请重新发起浏览器登录。",
-  "fdBrowserFailed": "浏览器登录未完成，请重试或使用邮箱登录。"
+  "fdBrowserFailed": "浏览器登录未完成，请重试或使用邮箱登录。",
+  "fdUnsupportedNodesSkipped": "已跳过当前安装不支持的协议节点。可更新或重新安装 FastAI 以启用这些节点。",
+  "fdUnsupportedProtocols": "当前配置依赖本机不支持的协议。请更新或重新安装 FastAI，或切换核心。已保留原配置。"
 }

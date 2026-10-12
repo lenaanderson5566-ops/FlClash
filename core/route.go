@@ -65,6 +65,9 @@ func routeStamp() (epoch, picksVersion uint64) {
 }
 
 func readPicks() (map[string]string, map[string]uint32) {
+	if picks, active := singboxPicks(); active {
+		return picks, map[string]uint32{}
+	}
 	picks := map[string]string{}
 	for name, proxy := range tunnel.AllProxies() {
 		outbound, ok := proxy.(*adapter.Proxy)

@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fastai/core/controller.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:fastai/l10n/l10n.dart';
 import 'package:fastai/common/common.dart';
 import 'package:fastai/common/theme.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/v2board/update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'dart:typed_data';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/providers/providers.dart';
@@ -16,9 +17,12 @@ import 'package:fastai/v2board/session.dart';
 import 'package:fastai/v2board/shell.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../helpers/test_profiles.dart';
+
+class _Core extends Mock implements CoreController {}
 
 class _Session extends V2BoardSession {
   const _Session(this.api);
@@ -47,6 +51,7 @@ class _Api extends V2BoardApi {
     required String version,
     required String platform,
     String? architecture,
+    String core = 'mihomo',
   }) async {
     if (pendingConfig != null) return pendingConfig!.future;
     throw const V2BoardProblem('subscription_failed');
@@ -136,10 +141,18 @@ void main() {
     bool desktopLayout = false,
     Locale locale = const Locale('en'),
     _Probes? probes,
+    CoreController? core,
   }) async {
+    final effectiveCore = core ?? _Core();
+    if (core == null) {
+      when(
+        () => effectiveCore.singboxFeatures(),
+      ).thenAnswer((_) async => ['naive']);
+    }
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          coreHandlerProvider.overrideWithValue(effectiveCore),
           if (probes != null) ...[
             proxiesActionProvider.overrideWith(() => probes),
             safeModeProvider.overrideWithValue(true),
@@ -805,6 +818,35 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
+
+  testWidgets('Windows core switch restores preference on download failure', (
+    tester,
+  ) async {
+    final core = _Core();
+    when(() => core.singboxFeatures()).thenAnswer((_) async => ['naive']);
+    await show(tester, _Api(true), desktopLayout: true, core: core);
+    final selector = find.byType(DropdownButton<String>);
+    await tester.scrollUntilVisible(
+      selector,
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(tester.widget<DropdownButton<String>>(selector).value, 'sing-box');
+    await tester.tap(selector);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Mihomo').last);
+    await tester.pumpAndSettle();
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(V2BoardShell)),
+    );
+    expect(container.read(appSettingProvider).proxyCore, 'sing-box');
+    expect(
+      tester.widget<DropdownButton<String>>(selector).onChanged,
+      isNotNull,
+    );
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  }, variant: TargetPlatformVariant.only(TargetPlatform.windows));
 
   testWidgets(
     'paid account exposes connect and functional modes without a shop tab',

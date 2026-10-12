@@ -139,6 +139,7 @@ const (
 	messageMethod                  CoreMethod = "message"
 	initClashMethod                CoreMethod = "initClash"
 	getIsInitMethod                CoreMethod = "getIsInit"
+	getCoreCapabilitiesMethod      CoreMethod = "getCoreCapabilities"
 	forceGcMethod                  CoreMethod = "forceGc"
 	shutdownMethod                 CoreMethod = "shutdown"
 	validateConfigMethod           CoreMethod = "validateConfig"

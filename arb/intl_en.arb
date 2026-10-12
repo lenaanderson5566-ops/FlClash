@@ -732,5 +732,7 @@
   "fdEmailLogin": "Or sign in with email",
   "fdBrowserComplete": "Authorization received. Return to FastAI to complete sign-in.",
   "fdBrowserExpired": "Authorization expired. Start browser sign-in again.",
-  "fdBrowserFailed": "Browser sign-in could not be completed. Please try again or sign in with email."
+  "fdBrowserFailed": "Browser sign-in could not be completed. Please try again or sign in with email.",
+  "fdUnsupportedNodesSkipped": "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",
+  "fdUnsupportedProtocols": "This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept."
 }

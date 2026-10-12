@@ -18,6 +18,7 @@ String clientProblemMessage(
   'CLIENT_VERSION_TOO_LOW' => l.fdUpdateRequired,
   'CLIENT_DISABLED' => l.fdClientUnavailable,
   'SUBSCRIPTION_UNAVAILABLE' => l.fdNodesUnavailable,
+  'unsupported_protocol' => l.fdUnsupportedProtocols,
   'connection_failed' => l.fdConnectionFailed,
   'subscription_failed' => l.fdSyncFailed,
   'invalid_config' || 'invalid_response' => l.fdInvalidConfig,

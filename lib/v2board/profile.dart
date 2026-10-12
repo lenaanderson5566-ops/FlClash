@@ -9,6 +9,7 @@ import 'package:fastai/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'api.dart';
+import 'singbox.dart';
 import 'config_cache.dart';
 import 'node_metadata.dart';
 import 'access.dart';
@@ -26,12 +27,25 @@ class V2BoardProfile {
   ClientConfigCache? _cache;
   static const label = V2BoardConfig.managedProfileLabel;
 
-  Future<void> sync(V2BoardApi api) async {
+  Future<String> _singboxFeatures() async {
+    if (!Platform.isWindows ||
+        ref.read(appSettingProvider).proxyCore != 'sing-box') {
+      return '';
+    }
+    final features = await ref.read(coreHandlerProvider).singboxFeatures();
+    return features.contains('naive') ? 'naive' : '';
+  }
+
+  Future<void> sync(V2BoardApi api, {bool apply = true}) async {
     _cache = null;
+    final features = await _singboxFeatures();
     var bytes = await api.clientConfig(
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
+      core: Platform.isWindows
+          ? ref.read(appSettingProvider).proxyCore
+          : 'mihomo',
     );
     String responseText;
     try {
@@ -41,16 +55,36 @@ class V2BoardProfile {
     }
     Map<String, Map<String, dynamic>> metadata = {};
     var yamlText = responseText;
+    Map<String, dynamic>? nativeConfig;
+    final unsupported = <String>{};
     if (responseText.trimLeft().startsWith('{')) {
       try {
         final payload =
             (jsonDecode(responseText) as Map<String, dynamic>)['data']
                 as Map<String, dynamic>;
-        if (payload['configVersion'] is! String || payload['yaml'] is! String) {
+        if (payload['configVersion'] is! String) {
           throw const FormatException();
         }
-        yamlText = payload['yaml'] as String;
+        if (payload['core'] == 'sing-box') {
+          if (!Platform.isWindows ||
+              ref.read(appSettingProvider).proxyCore != 'sing-box') {
+            throw const FormatException();
+          }
+          final compatible = compatibleSingboxProfile(
+            Map<String, dynamic>.from(payload['configuration'] as Map),
+            features: features.split(','),
+          );
+          nativeConfig = compatible.profile;
+          unsupported.addAll(compatible.removed);
+        } else {
+          if (ref.read(appSettingProvider).proxyCore == 'sing-box' &&
+              Platform.isWindows) {
+            throw const FormatException();
+          }
+          yamlText = payload['yaml'] as String;
+        }
         metadata = decodeNodeMetadata(payload['nodes']);
+        metadata.removeWhere((name, _) => unsupported.contains(name));
       } on FormatException {
         throw const V2BoardProblem('invalid_response');
       } on TypeError {
@@ -59,9 +93,11 @@ class V2BoardProfile {
     }
     Map<String, dynamic> config;
     try {
-      config = Map<String, dynamic>.from(
-        json.decode(json.encode(loadYaml(yamlText))) as Map,
-      );
+      config =
+          nativeConfig ??
+          Map<String, dynamic>.from(
+            json.decode(json.encode(loadYaml(yamlText))) as Map,
+          );
     } on YamlException {
       throw const V2BoardProblem('invalid_config');
     } on FormatException {
@@ -99,15 +135,23 @@ class V2BoardProfile {
               g['hidden'] != true,
         )
         .firstOrNull;
-    final removed = removeSubscriptionMetadata(config);
+    final removed = nativeConfig == null
+        ? removeSubscriptionMetadata(config)
+        : <String>{};
     if (removed.isNotEmpty) {
       commonPrint.log(
         'Native configuration contained ${removed.length} subscription metadata nodes; removed.',
         logLevel: LogLevel.warning,
       );
     }
-    enforceBundledRules(config);
-    bytes = Uint8List.fromList(utf8.encode(await encodeYamlTask(config)));
+    if (nativeConfig == null) enforceBundledRules(config);
+    bytes = Uint8List.fromList(
+      utf8.encode(
+        nativeConfig == null
+            ? await encodeYamlTask(config)
+            : jsonEncode(config),
+      ),
+    );
     if (!ref.context.mounted) return;
     final previous = ref
         .read(profilesProvider)
@@ -186,13 +230,22 @@ class V2BoardProfile {
       ..setAvailable(true);
     ref.read(profilesActionProvider.notifier).putProfile(updated);
     ref.read(currentProfileIdProvider.notifier).value = updated.id;
-    ref.read(setupActionProvider.notifier).applyProfileDebounce();
+    if (apply) ref.read(setupActionProvider.notifier).applyProfileDebounce();
+    if (unsupported.isNotEmpty) {
+      ref.context.showNotifier(
+        ref.context.appLocalizations.fdUnsupportedNodesSkipped,
+      );
+    }
     _cache = ClientConfigCache(
+      coreFeatures: features,
       client: api,
       profileId: updated.id,
       hash: sha256.convert(bytes).toString(),
       version: globalState.packageInfo.version,
       syncedAt: DateTime.now(),
+      core: Platform.isWindows
+          ? ref.read(appSettingProvider).proxyCore
+          : 'mihomo',
     );
   }
 
@@ -217,14 +270,19 @@ class V2BoardProfile {
 
   Future<bool> _reuseConfig(V2BoardApi api) async {
     final cache = _cache;
+    final features = await _singboxFeatures();
     final profile = ref.read(currentProfileProvider);
     if (cache == null ||
         profile == null ||
         !cache.reusable(
+          coreFeatures: features,
           client: api,
           profileId: profile.id,
           version: globalState.packageInfo.version,
           now: DateTime.now(),
+          core: Platform.isWindows
+              ? ref.read(appSettingProvider).proxyCore
+              : 'mihomo',
         )) {
       return false;
     }
@@ -241,6 +299,9 @@ class V2BoardProfile {
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
+      core: Platform.isWindows
+          ? ref.read(appSettingProvider).proxyCore
+          : 'mihomo',
     );
     return ref.context.mounted &&
         ref.read(currentProfileProvider)?.id == cache.profileId;

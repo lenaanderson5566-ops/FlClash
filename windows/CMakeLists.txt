@@ -124,6 +124,8 @@ install(FILES
   "${CORE_ARTIFACTS_DIR}/FastAICore.exe"
   "${CORE_ARTIFACTS_DIR}/FastAIHelperService.exe"
   "${CORE_ARTIFACTS_DIR}/manifest.json"
+  "${CORE_ARTIFACTS_DIR}/libcronet.dll"
+  "${CORE_ARTIFACTS_DIR}/LICENSE.cronet"
   DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
   COMPONENT Runtime)
 

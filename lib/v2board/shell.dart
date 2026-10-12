@@ -12,6 +12,7 @@ import 'package:fastai/common/common.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/providers/providers.dart';
+import 'package:fastai/models/models.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/views.dart';
 import 'package:fastai/views/config/connection_settings.dart';
@@ -1281,6 +1282,30 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                           },
                   ),
                 ),
+                if (defaultTargetPlatform == TargetPlatform.windows)
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: ref.watch(
+                        appSettingProvider.select((s) => s.proxyCore),
+                      ),
+                      isDense: true,
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'mihomo',
+                          child: Text('Mihomo'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'sing-box',
+                          child: Text('sing-box 1.14.3'),
+                        ),
+                      ],
+                      onChanged: _busy || _api == null
+                          ? null
+                          : (value) {
+                              if (value != null) unawaited(_changeCore(value));
+                            },
+                    ),
+                  ),
                 if (widget.desktopLayout)
                   DropdownButtonHideUnderline(
                     child: DropdownButton<bool>(
@@ -1315,6 +1340,80 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         ),
       ),
     );
+  }
+
+  Future<void> _changeCore(String core) async {
+    if (_busy || _api == null) return;
+    await _run(() async {
+      final previous = ref.read(appSettingProvider).proxyCore;
+      final previousProfile = ref.read(currentProfileProvider);
+      final previousFile = await previousProfile?.file;
+      final previousBytes = previousFile != null && await previousFile.exists()
+          ? await previousFile.readAsBytes()
+          : null;
+      final previousMetadataFile = previousProfile == null
+          ? null
+          : await nodeMetadataFile(previousProfile.id);
+      final previousMetadata =
+          previousMetadataFile != null && await previousMetadataFile.exists()
+          ? await previousMetadataFile.readAsBytes()
+          : null;
+      if (!mounted) return;
+      final wasRunning = ref.read(runTimeProvider) != null;
+      final action = ref.read(setupActionProvider.notifier);
+      if (!await action.setRunning(false)) {
+        throw const V2BoardProblem('connection_failed');
+      }
+      if (!mounted) return;
+      ref
+          .read(appSettingProvider.notifier)
+          .update((state) => state.copyWith(proxyCore: core));
+      try {
+        await _profile.sync(_api!, apply: false);
+        if (!mounted) return;
+        if (!await action.applyProfile(force: true)) {
+          throw const V2BoardProblem('invalid_config');
+        }
+        if (wasRunning && !await action.setRunning(true)) {
+          throw const V2BoardProblem('connection_failed');
+        }
+      } catch (error) {
+        final accessDenied =
+            error is V2BoardProblem &&
+            (error.sessionRejected ||
+                const {
+                  'SUBSCRIPTION_UNAVAILABLE',
+                  'CLIENT_DISABLED',
+                  'CLIENT_VERSION_TOO_LOW',
+                }.contains(error.code));
+        if (mounted) {
+          ref
+              .read(appSettingProvider.notifier)
+              .update((state) => state.copyWith(proxyCore: previous));
+          if (previousProfile != null &&
+              previousBytes != null &&
+              previousFile != null) {
+            await previousFile.safeWriteAsBytes(previousBytes);
+            if (previousMetadata != null && previousMetadataFile != null) {
+              await previousMetadataFile.safeWriteAsBytes(previousMetadata);
+            }
+            if (!mounted) return;
+            ref
+                .read(profilesActionProvider.notifier)
+                .putProfile(previousProfile);
+            ref.read(currentProfileIdProvider.notifier).value =
+                previousProfile.id;
+            ref.invalidate(fastaiNodeMetadataProvider);
+            if (await action.applyProfile(force: true) &&
+                wasRunning &&
+                !accessDenied) {
+              await action.setRunning(true);
+            }
+          }
+        }
+        rethrow;
+      }
+    });
   }
 
   void _selectPage(int index) => setState(() {

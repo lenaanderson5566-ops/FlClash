@@ -131,6 +131,7 @@ Object? _readUserAgents(Map<dynamic, dynamic> json, String key) {
 abstract class AppSettingProps with _$AppSettingProps {
   const factory AppSettingProps({
     String? locale,
+    @Default('sing-box') String proxyCore,
     @Default(defaultDashboardWidgets)
     @JsonKey(fromJson: dashboardWidgetsSafeFormJson)
     List<DashboardWidget> dashboardWidgets,

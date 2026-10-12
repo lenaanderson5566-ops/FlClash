@@ -786,6 +786,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
       "TLS-рукопожатие и проверка сертификата успешны.",
     ),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "Узлы с недоступными протоколами пропущены. Обновите или переустановите FastAI, чтобы использовать их.",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "Для этой конфигурации нужны недоступные протоколы. Обновите или переустановите FastAI либо выберите другое ядро. Предыдущая конфигурация сохранена.",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Для подключения требуется обновление",
     ),

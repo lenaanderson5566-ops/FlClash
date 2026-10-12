@@ -250,6 +250,39 @@ void main() {
     },
   );
 
+  test(
+    'sing-box configuration explicitly selects its native template',
+    () async {
+      final body = {
+        'data': {
+          'core': 'sing-box',
+          'coreVersion': '1.14.3',
+          'configuration': {},
+          'nodes': [],
+          'configVersion': 'snapshot',
+        },
+      };
+      final adapter = _Adapter((_) => _json(body));
+      final api = V2BoardApi(
+        'https://panel.example',
+        dio: Dio()..httpClientAdapter = adapter,
+      );
+      addTearDown(api.close);
+      api.accessToken = 'session-secret';
+      final bytes = await api.clientConfig(
+        version: '1.0.0',
+        platform: 'windows',
+        core: 'sing-box',
+      );
+      expect(adapter.requests.single.queryParameters['core'], 'sing-box');
+      expect(
+        adapter.requests.single.queryParameters.containsKey('coreFeatures'),
+        isFalse,
+      );
+      expect(jsonDecode(utf8.decode(bytes)), body);
+    },
+  );
+
   test('native configuration requests and accepts a JSON snapshot', () async {
     final body = {
       'data': {'configVersion': 'snapshot', 'yaml': 'proxies: []', 'nodes': []},

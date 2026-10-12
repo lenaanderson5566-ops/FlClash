@@ -266,6 +266,9 @@ func patchTun(target *LC.Tun, params *tunSchema) {
 func updateConfig(params *UpdateParams) error {
 	configMu.Lock()
 	defer configMu.Unlock()
+	if handled, err := singboxUpdate(params); handled {
+		return err
+	}
 	if currentConfig == nil {
 		return errConfigNotApplied
 	}
@@ -400,8 +403,43 @@ func applyConfig(params *SetupParams) error {
 	defer configMu.Unlock()
 
 	setTestURL(params.TestURL)
+	data, readErr := os.ReadFile(filepath.Join(constant.Path.HomeDir(), "config.yaml"))
+	if readErr != nil {
+		return readErr
+	}
+	envelope, detected, decodeErr := decodeSingbox(data)
+	if decodeErr != nil {
+		return decodeErr
+	}
+	if detected {
+		if err := validateSingbox(data); err != nil {
+			return err
+		}
+		listener.StopListener()
+		handleCloseConnections()
+		updater.StopGeoUpdater()
+		singbox.Lock()
+		err := singbox.replaceLocked(envelope.Configuration, params.SelectedMap, isRunning.Load())
+		singbox.Unlock()
+		if err != nil {
+			updateListeners(currentConfig)
+			return err
+		}
+		handleCloseConnections()
+		if idle, idleErr := config.ParseRawConfig(config.DefaultRawConfig()); idleErr == nil {
+			hub.ApplyConfig(idle)
+		}
+		listener.StopListener()
+		updater.StopGeoUpdater()
+		currentConfig = nil
+		bumpRouteEpoch()
+		return nil
+	}
 	cfg, err := loadConfig(filepath.Join(constant.Path.HomeDir(), "config.yaml"))
 	if err != nil {
+		if _, active := singboxPicks(); active {
+			return err
+		}
 		// The fallback is what keeps the listeners serving while the host
 		// reports the error, but it applies a config with no proxies in it.
 		// From the UI that is indistinguishable from a subscription that went
@@ -416,6 +454,14 @@ func applyConfig(params *SetupParams) error {
 			return err
 		}
 		cfg = fallback
+	}
+
+	singbox.Lock()
+	closeErr := singbox.closeLocked()
+	singbox.configuration = nil
+	singbox.Unlock()
+	if closeErr != nil {
+		return closeErr
 	}
 
 	currentConfig = cfg

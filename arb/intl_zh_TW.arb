@@ -732,5 +732,7 @@
   "fdEmailLogin": "或使用電子郵件登入",
   "fdBrowserComplete": "已收到授權，請返回 FastAI 完成登入。",
   "fdBrowserExpired": "授權已過期，請重新發起瀏覽器登入。",
-  "fdBrowserFailed": "瀏覽器登入未完成，請重試或使用電子郵件登入。"
+  "fdBrowserFailed": "瀏覽器登入未完成，請重試或使用電子郵件登入。",
+  "fdUnsupportedNodesSkipped": "已略過目前安裝版本不支援的協定節點。可更新或重新安裝 FastAI 以啟用這些節點。",
+  "fdUnsupportedProtocols": "目前設定依賴本機不支援的協定。請更新或重新安裝 FastAI，或切換核心。已保留原設定。"
 }

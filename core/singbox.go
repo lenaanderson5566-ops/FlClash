@@ -1,0 +1,492 @@
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	M "github.com/sagernet/sing/common/metadata"
+	"net"
+	"os"
+	"runtime"
+	"strings"
+	"sync"
+	"time"
+
+	"github.com/gofrs/uuid/v5"
+	box "github.com/sagernet/sing-box"
+	SA "github.com/sagernet/sing-box/adapter"
+	"github.com/sagernet/sing-box/common/trafficcontrol"
+	"github.com/sagernet/sing-box/common/urltest"
+	"github.com/sagernet/sing-box/experimental"
+	"github.com/sagernet/sing-box/experimental/clashapi"
+	"github.com/sagernet/sing-box/experimental/clashmode"
+	"github.com/sagernet/sing-box/include"
+	"github.com/sagernet/sing-box/option"
+	"github.com/sagernet/sing-box/protocol/group"
+	SJ "github.com/sagernet/sing/common/json"
+	"github.com/sagernet/sing/service"
+)
+
+func init() { experimental.RegisterClashServerConstructor(clashapi.NewServer) }
+
+type singboxEnvelope struct {
+	Core          string          `json:"fastai-core"`
+	Configuration json.RawMessage `json:"configuration"`
+}
+
+type singboxRuntime struct {
+	sync.RWMutex
+	instance        *box.Box
+	cancel          context.CancelFunc
+	ctx             context.Context
+	configuration   json.RawMessage
+	selected        map[string]string
+	previousTraffic Traffic
+	trafficBaseline Traffic
+	sampledAt       time.Time
+}
+
+var singbox singboxRuntime
+
+func decodeSingbox(data []byte) (*singboxEnvelope, bool, error) {
+	var envelope singboxEnvelope
+	if json.Unmarshal(data, &envelope) != nil || envelope.Core != "sing-box" {
+		return nil, false, nil
+	}
+	if runtime.GOOS != "windows" {
+		return nil, true, errors.New("sing-box is currently supported on Windows only")
+	}
+	if len(envelope.Configuration) == 0 {
+		return nil, true, errors.New("missing sing-box configuration")
+	}
+	return &envelope, true, nil
+}
+
+func newSingbox(data []byte, running bool) (*box.Box, context.Context, context.CancelFunc, error) {
+	ctx, cancel := context.WithCancel(service.ContextWithDefaultRegistry(include.Context(context.Background())))
+	var options option.Options
+	if err := SJ.UnmarshalContext(ctx, data, &options); err != nil {
+		cancel()
+		return nil, nil, nil, err
+	}
+	for _, outbound := range options.Outbounds {
+		if outbound.Type == "naive" {
+			if err := prepareNaive(); err != nil {
+				cancel()
+				return nil, nil, nil, err
+			}
+		}
+	}
+	if !running {
+		options.Inbounds = nil
+	}
+	mode := "Rule"
+	if options.Experimental != nil && options.Experimental.ClashAPI != nil {
+		mode = options.Experimental.ClashAPI.DefaultMode
+	}
+	options.Experimental = &option.ExperimentalOptions{ClashAPI: &option.ClashAPIOptions{DefaultMode: mode}}
+	// The desktop IPC is the sole controller; do not bind a second management endpoint.
+	options.Log = &option.LogOptions{Disabled: true}
+	instance, err := box.New(box.Options{Context: ctx, Options: options})
+	if err != nil {
+		cancel()
+		return nil, nil, nil, err
+	}
+	return instance, ctx, cancel, nil
+}
+
+func validateSingbox(data []byte) error {
+	envelope, detected, err := decodeSingbox(data)
+	if err != nil {
+		return err
+	}
+	if !detected {
+		return errors.New("invalid sing-box envelope")
+	}
+	instance, _, cancel, err := newSingbox(envelope.Configuration, false)
+	if err != nil {
+		return err
+	}
+	defer cancel()
+	return instance.Close()
+}
+
+func (s *singboxRuntime) closeLocked() error {
+	if s.instance == nil {
+		return nil
+	}
+	s.cancel()
+	err := s.instance.Close()
+	s.instance = nil
+	s.ctx = nil
+	return err
+}
+
+func (s *singboxRuntime) replaceLocked(data []byte, selected map[string]string, running bool) error {
+	candidate, ctx, cancel, err := newSingbox(data, running)
+	if err != nil {
+		return err
+	}
+	if err = s.closeLocked(); err != nil {
+		candidate.Close()
+		cancel()
+		return err
+	}
+	if err = candidate.Start(); err != nil {
+		candidate.Close()
+		cancel()
+		if s.configuration != nil {
+			restored, oldCtx, oldCancel, restoreErr := newSingbox(s.configuration, isRunning.Load())
+			if restoreErr == nil {
+				restoreErr = restored.Start()
+				if restoreErr == nil {
+					s.instance = restored
+					s.ctx = oldCtx
+					s.cancel = oldCancel
+					for name, pick := range s.selected {
+						outbound, _ := restored.Outbound().Outbound(name)
+						if selector, ok := outbound.(*group.Selector); ok {
+							selector.SelectOutbound(pick)
+						}
+					}
+				} else {
+					restored.Close()
+					oldCancel()
+				}
+			}
+			if restoreErr != nil {
+				return fmt.Errorf("apply failed: %w; restore failed: %v", err, restoreErr)
+			}
+		}
+		return err
+	}
+	s.instance = candidate
+	s.ctx = ctx
+	s.cancel = cancel
+	s.configuration = append(json.RawMessage(nil), data...)
+	s.selected = map[string]string{}
+	for name, pick := range selected {
+		s.selected[name] = pick
+	}
+	for name, pick := range selected {
+		outbound, ok := candidate.Outbound().Outbound(name)
+		if !ok {
+			continue
+		}
+		if selector, ok := outbound.(*group.Selector); ok {
+			selector.SelectOutbound(pick)
+		}
+	}
+	s.previousTraffic = Traffic{}
+	s.trafficBaseline = Traffic{}
+	s.sampledAt = time.Now()
+	return nil
+}
+
+func singboxPicks() (map[string]string, bool) {
+	singbox.RLock()
+	defer singbox.RUnlock()
+	if singbox.configuration == nil {
+		return nil, false
+	}
+	picks := map[string]string{}
+	if singbox.instance != nil {
+		for _, outbound := range singbox.instance.Outbound().Outbounds() {
+			if group, ok := outbound.(SA.OutboundGroup); ok {
+				picks[outbound.Tag()] = group.Now()
+			}
+		}
+	}
+	return picks, true
+}
+
+func singboxListeners(running bool) (bool, error) {
+	singbox.Lock()
+	defer singbox.Unlock()
+	if singbox.configuration == nil {
+		return false, nil
+	}
+	picks := map[string]string{}
+	if singbox.instance != nil {
+		for _, outbound := range singbox.instance.Outbound().Outbounds() {
+			if group, ok := outbound.(SA.OutboundGroup); ok {
+				picks[outbound.Tag()] = group.Now()
+			}
+		}
+	}
+	return true, singbox.replaceLocked(singbox.configuration, picks, running)
+}
+
+func singboxProxiesLocked() ProxiesData {
+	views := map[string]any{}
+	names := []string{}
+	if singbox.instance != nil {
+		for _, outbound := range singbox.instance.Outbound().Outbounds() {
+			kind := outbound.Type()
+			if kind == "selector" {
+				kind = "Selector"
+			}
+			if kind == "urltest" {
+				kind = "URLTest"
+			}
+			view := map[string]any{"name": outbound.Tag(), "type": kind}
+			if group, ok := outbound.(SA.OutboundGroup); ok {
+				view["all"] = group.All()
+				view["now"] = group.Now()
+				names = append(names, outbound.Tag())
+			}
+			views[outbound.Tag()] = view
+		}
+	}
+	return ProxiesData{All: names, Proxies: views}
+}
+
+func handleSingboxMethod(call *MethodCall, response MethodResponse) bool {
+	switch call.Method {
+	case getProxiesMethod, changeProxyMethod, getTrafficMethod, getTotalTrafficMethod, resetTrafficMethod,
+		getConnectionsMethod, getConnectionCountMethod, closeConnectionsMethod, resetConnectionsMethod, closeConnectionMethod,
+		getExternalProvidersMethod, getExternalProviderMethod, updateExternalProviderMethod, sideLoadExternalProviderMethod:
+	default:
+		return false
+	}
+	singbox.Lock()
+	if singbox.configuration == nil {
+		singbox.Unlock()
+		return false
+	}
+	changed := false
+	defer func() {
+		singbox.Unlock()
+		if changed {
+			refreshRoute()
+		}
+	}()
+	if singbox.instance == nil {
+		response.failure("core_unavailable", "sing-box is not running", nil)
+		return true
+	}
+	manager := service.PtrFromContext[trafficcontrol.Manager](singbox.ctx)
+	switch call.Method {
+	case getProxiesMethod:
+		response.success(singboxProxiesLocked())
+	case changeProxyMethod:
+		var params ChangeProxyParams
+		if !decodeMethodArguments(call, response, &params) {
+			return true
+		}
+		outbound, ok := singbox.instance.Outbound().Outbound(params.GroupName)
+		selector, selectable := outbound.(*group.Selector)
+		if !ok || !selectable {
+			response.success(&ChangeProxyResult{Message: "Group is not selectable"})
+			return true
+		}
+		before := selector.Now()
+		if !selector.SelectOutbound(params.ProxyName) {
+			response.success(&ChangeProxyResult{Message: "Proxy is not in group"})
+			return true
+		}
+		changed = before != selector.Now()
+		singbox.selected[params.GroupName] = params.ProxyName
+		response.success(&ChangeProxyResult{Changed: changed})
+	case getTrafficMethod, getTotalTrafficMethod, resetTrafficMethod:
+		up, down := manager.Total()
+		total := Traffic{Up: up, Down: down}
+		if call.Method == resetTrafficMethod {
+			singbox.trafficBaseline = total
+			singbox.previousTraffic = total
+			singbox.sampledAt = time.Now()
+			response.success(true)
+			break
+		}
+		if call.Method == getTotalTrafficMethod {
+			response.success(Traffic{Up: up - singbox.trafficBaseline.Up, Down: down - singbox.trafficBaseline.Down})
+			break
+		}
+		elapsed := time.Since(singbox.sampledAt).Seconds()
+		if elapsed <= 0 {
+			elapsed = 1
+		}
+		response.success(Traffic{Up: int64(float64(up-singbox.previousTraffic.Up) / elapsed), Down: int64(float64(down-singbox.previousTraffic.Down) / elapsed)})
+		singbox.previousTraffic = total
+		singbox.sampledAt = time.Now()
+		manager.Clear()
+	case getConnectionsMethod:
+		connections := []any{}
+		for _, tracker := range manager.Connections() {
+			metadata := tracker.Metadata
+			domain := metadata.Domain
+			if domain == "" {
+				domain = metadata.Destination.Fqdn
+			}
+			connections = append(connections, map[string]any{
+				"id": tracker.ID.String(), "metadata": map[string]any{
+					"network": metadata.Network, "type": metadata.InboundType, "sourceIP": metadata.Source.Addr.String(),
+					"destinationIP": metadata.Destination.Addr.String(), "sourcePort": fmt.Sprint(metadata.Source.Port),
+					"destinationPort": fmt.Sprint(metadata.Destination.Port), "host": domain, "dnsMode": "normal",
+				}, "upload": tracker.Upload.Load(), "download": tracker.Download.Load(), "start": tracker.CreatedAt,
+				"chains": tracker.Chain, "rule": "sing-box", "rulePayload": "",
+			})
+		}
+		up, down := manager.Total()
+		response.success(map[string]any{"connections": connections, "uploadTotal": up, "downloadTotal": down})
+	case getConnectionCountMethod:
+		response.success(manager.ConnectionsLen())
+	case closeConnectionsMethod, resetConnectionsMethod:
+		manager.CloseAllConnections()
+		manager.Clear()
+		response.success(true)
+	case closeConnectionMethod:
+		var id string
+		if !decodeMethodArguments(call, response, &id) {
+			return true
+		}
+		parsed, err := uuid.FromString(id)
+		if err != nil {
+			response.success(false)
+			break
+		}
+		connection := manager.Connection(parsed)
+		if connection != nil {
+			connection.Close()
+		}
+		response.success(connection != nil)
+	case getExternalProvidersMethod:
+		response.success([]ExternalProvider{})
+	default:
+		response.failure("unsupported_engine_operation", "This provider operation is not available for sing-box", nil)
+	}
+	return true
+}
+
+func singboxDelay(params *TestDelayParams) (*Delay, bool) {
+	singbox.RLock()
+	if singbox.configuration == nil {
+		singbox.RUnlock()
+		return nil, false
+	}
+	link := params.TestUrl
+	if link == "" {
+		link = currentTestURL()
+	}
+	result := &Delay{Name: params.ProxyName, Url: link, Value: -1}
+	if singbox.instance == nil {
+		singbox.RUnlock()
+		return result, true
+	}
+	outbound, ok := singbox.instance.Outbound().Outbound(params.ProxyName)
+	parent := singbox.ctx
+	singbox.RUnlock()
+	if !ok {
+		return result, true
+	}
+	timeout := delayTestTimeout(params.Timeout)
+	queueCtx, cancelQueue := context.WithTimeout(parent, timeout)
+	granted := acquireDelayTestSlot(queueCtx)
+	cancelQueue()
+	if !granted {
+		return nil, true
+	}
+	defer releaseDelayTestSlot()
+	ctx, cancel := context.WithTimeout(parent, timeout)
+	defer cancel()
+	delay, err := urltest.URLTest(ctx, link, outbound)
+	if err == nil {
+		result.Value = int32(delay)
+	}
+	return result, true
+}
+
+func singboxUpdate(params *UpdateParams) (bool, error) {
+	singbox.Lock()
+	defer singbox.Unlock()
+	if singbox.configuration == nil {
+		return false, nil
+	}
+	if singbox.instance == nil {
+		return true, errors.New("sing-box is not running")
+	}
+	if params.Mode != nil {
+		service.PtrFromContext[clashmode.Manager](singbox.ctx).SetMode(strings.Title(params.Mode.String()))
+	}
+	if params.Tun != nil || params.MixedPort != nil || params.AllowLan != nil || params.IPv6 != nil {
+		return true, errors.New("sing-box listener changes require applying the profile")
+	}
+	return true, nil
+}
+
+func readSingboxConfig(path string) (map[string]any, bool, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, false, err
+	}
+	_, detected, err := decodeSingbox(data)
+	if !detected || err != nil {
+		return nil, detected, err
+	}
+	var result map[string]any
+	err = json.Unmarshal(data, &result)
+	return result, true, err
+}
+
+func singboxError(err error) string {
+	if err != nil {
+		return fmt.Sprintf("sing-box: %v", err)
+	}
+	return ""
+}
+
+func singboxOutbound(name string) (SA.Outbound, []string, context.Context, error) {
+	singbox.RLock()
+	defer singbox.RUnlock()
+	if singbox.instance == nil {
+		return nil, nil, nil, errors.New("sing-box is not running")
+	}
+	if name == "" {
+		mode := service.PtrFromContext[clashmode.Manager](singbox.ctx).Mode()
+		switch strings.ToLower(mode) {
+		case "direct":
+			name = "DIRECT"
+		case "global":
+			name = "GLOBAL"
+		default:
+			name = singbox.instance.Outbound().Default().Tag()
+		}
+	}
+	outbound, ok := singbox.instance.Outbound().Outbound(name)
+	if !ok {
+		return nil, nil, nil, fmt.Errorf("unknown sing-box outbound %q", name)
+	}
+	chain := []string{name}
+	visited := map[string]bool{}
+	for {
+		group, ok := outbound.(SA.OutboundGroup)
+		if !ok {
+			break
+		}
+		next := group.Now()
+		if visited[next] {
+			return nil, nil, nil, errors.New("outbound cycle")
+		}
+		visited[next] = true
+		chain = append(chain, next)
+		outbound, ok = singbox.instance.Outbound().Outbound(next)
+		if !ok {
+			return nil, nil, nil, errors.New("outbound unavailable")
+		}
+	}
+	return outbound, chain, singbox.ctx, nil
+}
+
+func singboxDial(ctx context.Context, name, address string) (net.Conn, []string, error) {
+	outbound, chain, parent, err := singboxOutbound(name)
+	if err != nil {
+		return nil, nil, err
+	}
+	dialCtx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	stop := context.AfterFunc(parent, cancel)
+	defer stop()
+	conn, err := outbound.DialContext(dialCtx, "tcp", M.ParseSocksaddr(address))
+	return conn, chain, err
+}

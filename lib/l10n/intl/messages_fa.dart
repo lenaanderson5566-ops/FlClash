@@ -746,6 +746,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
       "دست‌دهی TLS و اعتبارسنجی گواهی موفق بود.",
     ),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "گره‌های دارای پروتکل پشتیبانی‌نشده رد شدند. برای فعال‌سازی آن‌ها FastAI را به‌روز یا دوباره نصب کنید.",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "این پیکربندی به پروتکل‌های غیرقابل دسترس نیاز دارد. FastAI را به‌روز یا دوباره نصب کنید یا هسته دیگری انتخاب کنید. پیکربندی قبلی حفظ شد.",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "برای ادامه اتصال به‌روزرسانی لازم است",
     ),

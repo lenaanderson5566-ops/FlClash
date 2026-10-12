@@ -10,6 +10,7 @@ _AppSettingProps _$AppSettingPropsFromJson(
   Map<String, dynamic> json,
 ) => _AppSettingProps(
   locale: json['locale'] as String?,
+  proxyCore: json['proxyCore'] as String? ?? 'sing-box',
   dashboardWidgets: json['dashboardWidgets'] == null
       ? defaultDashboardWidgets
       : dashboardWidgetsSafeFormJson(json['dashboardWidgets'] as List?),
@@ -69,6 +70,7 @@ _AppSettingProps _$AppSettingPropsFromJson(
 Map<String, dynamic> _$AppSettingPropsToJson(_AppSettingProps instance) =>
     <String, dynamic>{
       'locale': instance.locale,
+      'proxyCore': instance.proxyCore,
       'dashboardWidgets': instance.dashboardWidgets
           .map((e) => _$DashboardWidgetEnumMap[e]!)
           .toList(),

@@ -96,6 +96,15 @@ class CoreController {
 
   FutureOr<bool> get isInit => _interface.isInit;
 
+  Future<List<String>> singboxFeatures() async {
+    final result = await _interface.invokeMethod<Map<String, dynamic>>(
+      method: CoreMethod.getCoreCapabilities,
+    );
+    if (result?['core'] != 'sing-box') return const [];
+    return (result?['features'] as List?)?.whereType<String>().toList() ??
+        const [];
+  }
+
   Future<String> validateConfig(String path) async {
     final res = await _interface.validateConfig(path);
     return res;

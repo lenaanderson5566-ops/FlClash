@@ -637,6 +637,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
       "TLS 핸드셰이크와 인증서 검증이 성공했습니다.",
     ),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "현재 설치에서 지원하지 않는 프로토콜 노드를 건너뛰었습니다. FastAI를 업데이트하거나 다시 설치하세요.",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "이 설정에는 현재 지원하지 않는 프로토콜이 필요합니다. FastAI를 업데이트하거나 다시 설치하거나 다른 코어를 선택하세요. 이전 설정은 유지됩니다.",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "계속 연결하려면 업데이트하세요",
     ),

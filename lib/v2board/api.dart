@@ -198,21 +198,25 @@ class V2BoardApi {
     required String version,
     required String platform,
     String? architecture,
+    String core = 'mihomo',
   }) => _clientConfig(
     version: version,
     platform: platform,
     architecture: architecture,
+    core: core,
   );
 
   Future<void> validateCachedConfig({
     required String version,
     required String platform,
     String? architecture,
+    String core = 'mihomo',
   }) async {
     await _clientConfig(
       version: version,
       platform: platform,
       architecture: architecture,
+      core: core,
       head: true,
     );
   }
@@ -221,6 +225,7 @@ class V2BoardApi {
     required String version,
     required String platform,
     String? architecture,
+    String core = 'mihomo',
     bool head = false,
   }) => _perform(head ? 'HEAD' : 'GET', '/me/client-config', () async {
     if (accessToken == null || accessToken!.isEmpty) {
@@ -233,6 +238,7 @@ class V2BoardApi {
           'clientVersion': version,
           'platform': platform,
           'architecture': ?architecture,
+          if (core != 'mihomo') 'core': core,
         },
         options: Options(
           method: head ? 'HEAD' : 'GET',
@@ -253,6 +259,7 @@ class V2BoardApi {
           version: version,
           platform: platform,
           architecture: architecture,
+          core: core,
         );
         throw const V2BoardProblem('invalid_response');
       }
@@ -270,6 +277,7 @@ class V2BoardApi {
             !const [
               '1',
               '2',
+              '3',
             ].contains(response.headers.value('x-fastai-config-version'))) {
           throw const V2BoardProblem('invalid_response');
         }

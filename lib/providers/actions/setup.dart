@@ -259,6 +259,14 @@ class SetupAction extends _$SetupAction {
         await _restartCoreAfterAuthorization();
         return;
       }
+      if (V2BoardConfig.enabled) {
+        final profileId = ref.read(currentProfileProvider)?.id;
+        if (profileId != null &&
+            (await _core.getConfig(profileId))['fastai-core'] == 'sing-box') {
+          await applyProfile(force: true);
+          return;
+        }
+      }
       final networkSetting = ref.read(networkSettingProvider);
       final message = await _core.updateConfig(
         _effectivePatchConfig(patchConfig).toUpdateParams(
@@ -378,6 +386,13 @@ class SetupAction extends _$SetupAction {
         !V2BoardConfig.enabled && networkSetting.appendSystemDns;
     final routeMode = networkSetting.routeMode;
     final configMap = await _core.getConfig(profileId);
+    if (configMap['fastai-core'] == 'sing-box') {
+      return singboxRuntimeProfile(
+        configMap,
+        patchConfig,
+        safeMode: ref.read(safeModeProvider),
+      );
+    }
     String? scriptContent;
     final List<Rule> addedRules = [];
     final List<CustomProxy> proxies = [];

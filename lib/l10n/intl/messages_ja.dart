@@ -647,6 +647,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
       "TLS ハンドシェイクと証明書検証に成功しました。",
     ),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "このインストールで利用できないプロトコルのノードをスキップしました。FastAI を更新または再インストールしてください。",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "この設定には利用できないプロトコルが必要です。FastAI を更新・再インストールするか、別のコアを選んでください。以前の設定は保持されています。",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage("接続するには更新が必要です"),
     "fdUseReset": MessageLookupByLibrary.simpleMessage("リセットを1回使用"),
     "fdValidationError": MessageLookupByLibrary.simpleMessage(

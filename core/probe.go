@@ -47,13 +47,22 @@ type probeRoute struct {
 // of the most recent one, which after redirects is the one that produced the
 // final response.
 type probeDialer struct {
-	proxy constant.Proxy
+	proxy        constant.Proxy
+	singboxProxy string
+	useSingbox   bool
 
 	mu   sync.Mutex
 	last *routedConn
 }
 
 func (d *probeDialer) dial(ctx context.Context, _ string, address string) (net.Conn, error) {
+	if d.useSingbox {
+		conn, chains, err := singboxDial(ctx, d.singboxProxy, address)
+		if err == nil {
+			d.remember(&routedConn{route: &probeRoute{chains: chains}})
+		}
+		return conn, err
+	}
 	metadata := &constant.Metadata{
 		NetWork: constant.TCP,
 		Type:    constant.INNER,
@@ -204,8 +213,9 @@ func runProbe(parent context.Context, req probeRequest) *ProbeResult {
 		return result
 	}
 
-	dialer := &probeDialer{}
-	if req.proxyName != "" {
+	_, singboxActive := singboxPicks()
+	dialer := &probeDialer{useSingbox: singboxActive, singboxProxy: req.proxyName}
+	if !singboxActive && req.proxyName != "" {
 		dialer.proxy = lookupProxy(req.proxyName)
 		if dialer.proxy == nil {
 			return fail(fmt.Errorf("proxy %q is not part of the applied config", req.proxyName))

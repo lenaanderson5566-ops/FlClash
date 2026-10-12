@@ -589,6 +589,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "TLS 未完成，請檢查系統時間、網路攔截及證書信任，不要關閉證書校驗。",
     ),
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage("TLS 握手和證書校驗透過。"),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "已略過目前安裝版本不支援的協定節點。可更新或重新安裝 FastAI 以啟用這些節點。",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "目前設定依賴本機不支援的協定。請更新或重新安裝 FastAI，或切換核心。已保留原設定。",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "請更新 FastAI 後繼續連線",
     ),

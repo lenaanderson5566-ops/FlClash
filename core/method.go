@@ -167,6 +167,13 @@ func withoutArguments(handle func(response MethodResponse)) methodHandler {
 }
 
 var methodHandlers = map[CoreMethod]methodHandler{
+	getCoreCapabilitiesMethod: withoutArguments(func(response MethodResponse) {
+		features := []string{}
+		if runtime.GOOS == "windows" && prepareNaive() == nil {
+			features = append(features, "naive")
+		}
+		response.success(map[string]any{"core": "sing-box", "coreVersion": "1.14.3", "features": features})
+	}),
 	initClashMethod: withArguments(func(params *InitParams, response MethodResponse) {
 		response.success(handleInitClash(params))
 	}),
@@ -193,6 +200,14 @@ var methodHandlers = map[CoreMethod]methodHandler{
 		response.success(handleSetupConfig(params))
 	}),
 	getConfigMethod: withArguments(func(path *string, response MethodResponse) {
+		if config, detected, err := readSingboxConfig(*path); detected {
+			if err != nil {
+				response.failure("core_error", err.Error(), nil)
+			} else {
+				response.success(config)
+			}
+			return
+		}
 		rawConfig, err := handleGetConfig(*path)
 		if err != nil {
 			response.failure("core_error", err.Error(), nil)
@@ -347,6 +362,9 @@ func handleMethodCall(call *MethodCall, response MethodResponse) {
 		}
 	}()
 
+	if handleSingboxMethod(call, response) {
+		return
+	}
 	handler, exists := methodHandlers[call.Method]
 	if !exists {
 		response.notImplemented(call.Method)

@@ -61,6 +61,15 @@ func handleInitClash(params *InitParams) bool {
 func handleStartListener() bool {
 	configMu.Lock()
 	defer configMu.Unlock()
+	if handled, err := singboxListeners(true); handled {
+		if err != nil {
+			logError("%v", err)
+			return false
+		}
+		isRunning.Store(true)
+		refreshRoute()
+		return true
+	}
 	isRunning.Store(true)
 	updateListeners(currentConfig)
 	resolver.ResetConnection()
@@ -71,6 +80,14 @@ func handleStartListener() bool {
 func handleStopListener() bool {
 	configMu.Lock()
 	defer configMu.Unlock()
+	if handled, err := singboxListeners(false); handled {
+		if err != nil {
+			logError("%v", err)
+			return false
+		}
+		isRunning.Store(false)
+		return true
+	}
 	isRunning.Store(false)
 	listener.StopListener()
 	resolver.ResetConnection()
@@ -98,6 +115,10 @@ func handleShutdown() bool {
 	isRunning.Store(false)
 	listener.StopListener()
 	updater.StopGeoUpdater()
+	singbox.Lock()
+	_ = singbox.closeLocked()
+	singbox.configuration = nil
+	singbox.Unlock()
 	executor.Shutdown()
 	currentConfig = nil
 	isInit.Store(false)
@@ -111,6 +132,12 @@ func handleValidateConfig(path string) string {
 	buf, err := os.ReadFile(path)
 	if err != nil {
 		return err.Error()
+	}
+	if _, detected, decodeErr := decodeSingbox(buf); detected {
+		if decodeErr != nil {
+			return decodeErr.Error()
+		}
+		return singboxError(validateSingbox(buf))
 	}
 	if _, err = config.UnmarshalRawConfig(buf); err != nil {
 		return err.Error()
@@ -323,6 +350,9 @@ func reportMissingDelayTestProxy(name string) {
 }
 
 func handleTestDelay(params *TestDelayParams) *Delay {
+	if result, handled := singboxDelay(params); handled {
+		return result
+	}
 	url := params.TestUrl
 	if url == "" {
 		url = currentTestURL()

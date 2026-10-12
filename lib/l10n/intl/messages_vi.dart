@@ -769,6 +769,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
       "Bắt tay TLS và xác minh chứng chỉ thành công.",
     ),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "Đã bỏ qua các nút có giao thức không khả dụng trong bản cài đặt này. Hãy cập nhật hoặc cài lại FastAI.",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật, cài lại FastAI hoặc chọn lõi khác. Cấu hình trước đã được giữ lại.",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Cần cập nhật để tiếp tục kết nối",
     ),

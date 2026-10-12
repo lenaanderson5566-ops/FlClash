@@ -9,6 +9,7 @@ final _log = Logger('options');
 class BuildConfig {
   const BuildConfig({
     required this.tags,
+    this.windowsTags = '',
     required this.goLdflags,
     required this.coreDir,
     required this.coreName,
@@ -19,6 +20,7 @@ class BuildConfig {
   });
 
   final String tags;
+  final String windowsTags;
   final String goLdflags;
   final String coreDir;
   final String coreName;
@@ -48,6 +50,7 @@ class BuildConfig {
     if (yaml == null) return _defaults;
     return BuildConfig(
       tags: yaml['tags'] as String? ?? _defaults.tags,
+      windowsTags: yaml['windows_tags'] as String? ?? _defaults.windowsTags,
       goLdflags: yaml['go_ldflags'] as String? ?? _defaults.goLdflags,
       coreDir: yaml['core_dir'] as String? ?? _defaults.coreDir,
       coreName: yaml['core_name'] as String? ?? _defaults.coreName,
@@ -60,6 +63,7 @@ class BuildConfig {
 
   Map<String, String> toFingerprintMap() => {
     'tags': tags,
+    'windows_tags': windowsTags,
     'go_ldflags': goLdflags,
     'core_dir': coreDir,
     'core_name': coreName,

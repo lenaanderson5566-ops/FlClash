@@ -6067,6 +6067,26 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.`
+  String get fdUnsupportedNodesSkipped {
+    return Intl.message(
+      'Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.',
+      name: 'fdUnsupportedNodesSkipped',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept.`
+  String get fdUnsupportedProtocols {
+    return Intl.message(
+      'This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept.',
+      name: 'fdUnsupportedProtocols',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

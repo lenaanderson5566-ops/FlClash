@@ -732,5 +732,7 @@
   "fdEmailLogin": "Hoặc đăng nhập bằng email",
   "fdBrowserComplete": "Đã nhận ủy quyền. Quay lại FastAI để hoàn tất đăng nhập.",
   "fdBrowserExpired": "Ủy quyền đã hết hạn. Hãy đăng nhập lại qua trình duyệt.",
-  "fdBrowserFailed": "Không thể hoàn tất đăng nhập qua trình duyệt. Hãy thử lại hoặc dùng email."
+  "fdBrowserFailed": "Không thể hoàn tất đăng nhập qua trình duyệt. Hãy thử lại hoặc dùng email.",
+  "fdUnsupportedNodesSkipped": "Đã bỏ qua các nút có giao thức không khả dụng trong bản cài đặt này. Hãy cập nhật hoặc cài lại FastAI.",
+  "fdUnsupportedProtocols": "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật, cài lại FastAI hoặc chọn lõi khác. Cấu hình trước đã được giữ lại."
 }

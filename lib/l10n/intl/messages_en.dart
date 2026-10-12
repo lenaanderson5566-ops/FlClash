@@ -769,6 +769,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
       "TLS handshake and certificate validation succeeded.",
     ),
+    "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
+      "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",
+    ),
+    "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
+      "This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept.",
+    ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Update required to continue connecting",
     ),
