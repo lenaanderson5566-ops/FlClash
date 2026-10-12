@@ -13,6 +13,7 @@ import 'package:fastai/icons/icons.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/models/models.dart';
+import 'package:fastai/plugins/service.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/views.dart';
 import 'package:fastai/views/config/connection_settings.dart';
@@ -1282,28 +1283,39 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                           },
                   ),
                 ),
-                if (defaultTargetPlatform == TargetPlatform.windows)
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: ref.watch(
-                        appSettingProvider.select((s) => s.proxyCore),
+                if (defaultTargetPlatform == TargetPlatform.windows ||
+                    defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.macOS)
+                  SizedBox(
+                    width: 160,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: ref.watch(
+                          appSettingProvider.select((s) => s.proxyCore),
+                        ),
+                        isDense: true,
+                        items: const [
+                          DropdownMenuItem(
+                            value: 'mihomo',
+                            child: Text('Mihomo'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'sing-box',
+                            child: Text(
+                              'sing-box 1.14.3',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                        onChanged: _busy || _api == null
+                            ? null
+                            : (value) {
+                                if (value != null) {
+                                  unawaited(_changeCore(value));
+                                }
+                              },
                       ),
-                      isDense: true,
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'mihomo',
-                          child: Text('Mihomo'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'sing-box',
-                          child: Text('sing-box 1.14.3'),
-                        ),
-                      ],
-                      onChanged: _busy || _api == null
-                          ? null
-                          : (value) {
-                              if (value != null) unawaited(_changeCore(value));
-                            },
                     ),
                   ),
                 if (widget.desktopLayout)
@@ -1362,6 +1374,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       final wasRunning = ref.read(runTimeProvider) != null;
       final action = ref.read(setupActionProvider.notifier);
       if (!await action.setRunning(false)) {
+        throw const V2BoardProblem('connection_failed');
+      }
+      if (system.isAndroid && !(await service?.stopForCoreSwitch() ?? false)) {
         throw const V2BoardProblem('connection_failed');
       }
       if (!mounted) return;

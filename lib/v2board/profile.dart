@@ -28,7 +28,7 @@ class V2BoardProfile {
   static const label = V2BoardConfig.managedProfileLabel;
 
   Future<String> _singboxFeatures() async {
-    if (!Platform.isWindows ||
+    if (!(Platform.isWindows || Platform.isAndroid || Platform.isMacOS) ||
         ref.read(appSettingProvider).proxyCore != 'sing-box') {
       return '';
     }
@@ -43,7 +43,7 @@ class V2BoardProfile {
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
-      core: Platform.isWindows
+      core: (Platform.isWindows || Platform.isAndroid || Platform.isMacOS)
           ? ref.read(appSettingProvider).proxyCore
           : 'mihomo',
     );
@@ -66,7 +66,7 @@ class V2BoardProfile {
           throw const FormatException();
         }
         if (payload['core'] == 'sing-box') {
-          if (!Platform.isWindows ||
+          if (!(Platform.isWindows || Platform.isAndroid || Platform.isMacOS) ||
               ref.read(appSettingProvider).proxyCore != 'sing-box') {
             throw const FormatException();
           }
@@ -78,7 +78,7 @@ class V2BoardProfile {
           unsupported.addAll(compatible.removed);
         } else {
           if (ref.read(appSettingProvider).proxyCore == 'sing-box' &&
-              Platform.isWindows) {
+              (Platform.isWindows || Platform.isAndroid || Platform.isMacOS)) {
             throw const FormatException();
           }
           yamlText = payload['yaml'] as String;
@@ -243,7 +243,7 @@ class V2BoardProfile {
       hash: sha256.convert(bytes).toString(),
       version: globalState.packageInfo.version,
       syncedAt: DateTime.now(),
-      core: Platform.isWindows
+      core: (Platform.isWindows || Platform.isAndroid || Platform.isMacOS)
           ? ref.read(appSettingProvider).proxyCore
           : 'mihomo',
     );
@@ -280,7 +280,7 @@ class V2BoardProfile {
           profileId: profile.id,
           version: globalState.packageInfo.version,
           now: DateTime.now(),
-          core: Platform.isWindows
+          core: (Platform.isWindows || Platform.isAndroid || Platform.isMacOS)
               ? ref.read(appSettingProvider).proxyCore
               : 'mihomo',
         )) {
@@ -299,7 +299,7 @@ class V2BoardProfile {
       version: globalState.packageInfo.version,
       platform: Platform.operatingSystem,
       architecture: fastaiArchitecture,
-      core: Platform.isWindows
+      core: (Platform.isWindows || Platform.isAndroid || Platform.isMacOS)
           ? ref.read(appSettingProvider).proxyCore
           : 'mihomo',
     );

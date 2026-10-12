@@ -169,7 +169,7 @@ func withoutArguments(handle func(response MethodResponse)) methodHandler {
 var methodHandlers = map[CoreMethod]methodHandler{
 	getCoreCapabilitiesMethod: withoutArguments(func(response MethodResponse) {
 		features := []string{}
-		if runtime.GOOS == "windows" && prepareNaive() == nil {
+		if (runtime.GOOS == "windows" || runtime.GOOS == "android" || runtime.GOOS == "darwin") && prepareNaive() == nil {
 			features = append(features, "naive")
 		}
 		response.success(map[string]any{"core": "sing-box", "coreVersion": "1.14.3", "features": features})

@@ -391,6 +391,8 @@ class SetupAction extends _$SetupAction {
         configMap,
         patchConfig,
         safeMode: ref.read(safeModeProvider),
+        android: system.isAndroid,
+        macos: system.isMacOS,
       );
     }
     String? scriptContent;

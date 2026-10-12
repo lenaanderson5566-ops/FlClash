@@ -365,10 +365,11 @@
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/FastAICore",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/LICENSE.cronet",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "core=\"$SRCROOT/../libclash/macos/FastAICore\"\nif [ ! -f \"$core\" ]; then\n  echo \"error: $core is missing; the setup build hook produced no Core\"\n  exit 1\nfi\nslices=\"$(lipo -archs \"$core\")\"\nfor arch in $ARCHS; do\n  case \" $slices \" in\n    *\" $arch \"*) ;;\n    *) echo \"error: $core has no $arch slice (has: $slices)\"; exit 1 ;;\n  esac\ndone\nif ! cmp -s \"$core\" \"$BUILT_PRODUCTS_DIR/FastAICore\"; then\n  cp -f \"$core\" \"$BUILT_PRODUCTS_DIR/FastAICore\"\nfi\n";
+			shellScript = "set -e\ncore=\"$SRCROOT/../libclash/macos/FastAICore\"\nif [ ! -f \"$core\" ]; then\n  echo \"error: $core is missing; the setup build hook produced no Core\"\n  exit 1\nfi\nslices=\"$(lipo -archs \"$core\")\"\nfor arch in $ARCHS; do\n  case \" $slices \" in\n    *\" $arch \"*) ;;\n    *) echo \"error: $core has no $arch slice (has: $slices)\"; exit 1 ;;\n  esac\ndone\nif ! cmp -s \"$core\" \"$BUILT_PRODUCTS_DIR/FastAICore\"; then\n  cp -f \"$core\" \"$BUILT_PRODUCTS_DIR/FastAICore\"\nfi\nmkdir -p \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\ncp -f \"$SRCROOT/../libclash/macos/LICENSE.cronet\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/LICENSE.cronet\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -37,14 +37,16 @@ type singboxEnvelope struct {
 
 type singboxRuntime struct {
 	sync.RWMutex
-	instance        *box.Box
-	cancel          context.CancelFunc
-	ctx             context.Context
-	configuration   json.RawMessage
-	selected        map[string]string
-	previousTraffic Traffic
-	trafficBaseline Traffic
-	sampledAt       time.Time
+	instance              *box.Box
+	cancel                context.CancelFunc
+	ctx                   context.Context
+	configuration         json.RawMessage
+	selected              map[string]string
+	previousTraffic       Traffic
+	trafficBaseline       Traffic
+	sampledAt             time.Time
+	notificationTraffic   Traffic
+	notificationSampledAt time.Time
 }
 
 var singbox singboxRuntime
@@ -54,8 +56,8 @@ func decodeSingbox(data []byte) (*singboxEnvelope, bool, error) {
 	if json.Unmarshal(data, &envelope) != nil || envelope.Core != "sing-box" {
 		return nil, false, nil
 	}
-	if runtime.GOOS != "windows" {
-		return nil, true, errors.New("sing-box is currently supported on Windows only")
+	if runtime.GOOS != "windows" && runtime.GOOS != "android" && runtime.GOOS != "darwin" {
+		return nil, true, errors.New("sing-box is currently supported on Windows, Android and macOS only")
 	}
 	if len(envelope.Configuration) == 0 {
 		return nil, true, errors.New("missing sing-box configuration")
@@ -64,7 +66,7 @@ func decodeSingbox(data []byte) (*singboxEnvelope, bool, error) {
 }
 
 func newSingbox(data []byte, running bool) (*box.Box, context.Context, context.CancelFunc, error) {
-	ctx, cancel := context.WithCancel(service.ContextWithDefaultRegistry(include.Context(context.Background())))
+	ctx, cancel := context.WithCancel(singboxPlatformContext(service.ContextWithDefaultRegistry(include.Context(context.Background()))))
 	var options option.Options
 	if err := SJ.UnmarshalContext(ctx, data, &options); err != nil {
 		cancel()
@@ -81,12 +83,16 @@ func newSingbox(data []byte, running bool) (*box.Box, context.Context, context.C
 	if !running {
 		options.Inbounds = nil
 	}
+	if err := configureSingboxPlatform(&options, running); err != nil {
+		cancel()
+		return nil, nil, nil, err
+	}
 	mode := "Rule"
 	if options.Experimental != nil && options.Experimental.ClashAPI != nil {
 		mode = options.Experimental.ClashAPI.DefaultMode
 	}
 	options.Experimental = &option.ExperimentalOptions{ClashAPI: &option.ClashAPIOptions{DefaultMode: mode}}
-	// The desktop IPC is the sole controller; do not bind a second management endpoint.
+	// The app bridge owns control; never expose a separate management endpoint.
 	options.Log = &option.LogOptions{Disabled: true}
 	instance, err := box.New(box.Options{Context: ctx, Options: options})
 	if err != nil {
@@ -181,6 +187,8 @@ func (s *singboxRuntime) replaceLocked(data []byte, selected map[string]string, 
 	s.previousTraffic = Traffic{}
 	s.trafficBaseline = Traffic{}
 	s.sampledAt = time.Now()
+	s.notificationTraffic = Traffic{}
+	s.notificationSampledAt = s.sampledAt
 	return nil
 }
 
@@ -489,4 +497,29 @@ func singboxDial(ctx context.Context, name, address string) (net.Conn, []string,
 	defer stop()
 	conn, err := outbound.DialContext(dialCtx, "tcp", M.ParseSocksaddr(address))
 	return conn, chain, err
+}
+
+func singboxNotificationTraffic(total bool) (Traffic, bool) {
+	singbox.Lock()
+	defer singbox.Unlock()
+	if singbox.configuration == nil {
+		return Traffic{}, false
+	}
+	if singbox.instance == nil {
+		return Traffic{}, true
+	}
+	manager := service.PtrFromContext[trafficcontrol.Manager](singbox.ctx)
+	up, down := manager.Total()
+	if total {
+		return Traffic{Up: up - singbox.trafficBaseline.Up, Down: down - singbox.trafficBaseline.Down}, true
+	}
+	elapsed := time.Since(singbox.notificationSampledAt).Seconds()
+	if elapsed <= 0 {
+		return Traffic{}, true
+	}
+	result := Traffic{Up: int64(float64(up-singbox.notificationTraffic.Up) / elapsed), Down: int64(float64(down-singbox.notificationTraffic.Down) / elapsed)}
+	singbox.notificationTraffic = Traffic{Up: up, Down: down}
+	singbox.notificationSampledAt = time.Now()
+	manager.Clear()
+	return result, true
 }

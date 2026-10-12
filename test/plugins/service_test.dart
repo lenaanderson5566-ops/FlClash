@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:fastai/common/constant.dart';
 import 'package:fastai/core/method.dart';
@@ -79,6 +80,17 @@ void main() {
   });
 
   group('lifecycle commands', () {
+    testWidgets('core switching times out without switching an active VPN', (
+      tester,
+    ) async {
+      final stopped = Completer<Object?>();
+      mockChannel((_) => stopped.future);
+      final pending = Service().stopForCoreSwitch();
+      await tester.pump(const Duration(seconds: 15));
+      expect(await pending, isFalse);
+      stopped.complete(true);
+    });
+
     test('start and stop report the platform result', () async {
       mockChannel((call) async => call.method == 'start');
 
@@ -93,6 +105,31 @@ void main() {
       expect(await Service().start(), isFalse);
       expect(await Service().stop(), isFalse);
     });
+
+    test('core switching waits for native stop completion', () async {
+      final stopped = Completer<bool>();
+      mockChannel((call) => stopped.future);
+      var completed = false;
+      final result = Service().stopForCoreSwitch().then((value) {
+        completed = true;
+        return value;
+      });
+      await Future<void>.delayed(Duration.zero);
+      expect(completed, isFalse);
+      expect(calls.single.method, 'stopForCoreSwitch');
+      stopped.complete(true);
+      expect(await result, isTrue);
+    });
+
+    test(
+      'core switching rejects missing or failed stop acknowledgements',
+      () async {
+        mockChannel((_) async => null);
+        expect(await Service().stopForCoreSwitch(), isFalse);
+        mockChannel((_) async => false);
+        expect(await Service().stopForCoreSwitch(), isFalse);
+      },
+    );
 
     test('an absent shutdown result is treated as success', () async {
       mockChannel((_) async => null);

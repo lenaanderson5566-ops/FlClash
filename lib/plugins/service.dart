@@ -81,6 +81,13 @@ class Service {
     return await methodChannel.invokeMethod<bool>('start') ?? false;
   }
 
+  Future<bool> stopForCoreSwitch() async {
+    return await methodChannel
+            .invokeMethod<bool>('stopForCoreSwitch')
+            .timeout(const Duration(seconds: 15), onTimeout: () => false) ??
+        false;
+  }
+
   Future<bool> stop() async {
     return await methodChannel.invokeMethod<bool>('stop') ?? false;
   }

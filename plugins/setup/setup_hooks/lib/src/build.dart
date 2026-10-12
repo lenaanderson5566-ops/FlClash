@@ -21,8 +21,10 @@ class AndroidToolchain {
   final String clangDirectory;
   final int apiLevel;
 
-  String clangFor(Target target) =>
-      p.join(clangDirectory, '${target.ndkTriple}$apiLevel-clang');
+  String clangFor(Target target, {bool windows = false}) => p.join(
+    clangDirectory,
+    '${target.ndkTriple}$apiLevel-clang${windows ? '.cmd' : ''}',
+  );
 }
 
 class BuildRequest {

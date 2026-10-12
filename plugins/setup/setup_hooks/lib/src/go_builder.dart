@@ -39,7 +39,7 @@ class GoBuilder {
     if (toolchain == null) {
       throw BuildException('Android target $target needs an NDK toolchain');
     }
-    final cc = toolchain.clangFor(target);
+    final cc = toolchain.clangFor(target, windows: Platform.isWindows);
     if (!File(cc).existsSync()) {
       throw BuildException(
         'NDK compiler not found: $cc (API ${toolchain.apiLevel} from the '
@@ -68,7 +68,7 @@ class GoBuilder {
       build: () async {
         final env = _buildEnvironment(target);
         final cronetDir = _cronetDirectory(target);
-        final cronetHash = cronetDir == null
+        final cronetHash = cronetDir == null || target.goos != 'windows'
             ? null
             : await calcSha256(p.join(cronetDir, 'libcronet.dll'));
         _log.info(
@@ -103,7 +103,7 @@ class GoBuilder {
           } else {
             if (cronetDir != null) {
               for (final entry in {
-                'libcronet.dll': 'libcronet.dll',
+                if (target.goos == 'windows') 'libcronet.dll': 'libcronet.dll',
                 'LICENSE': 'LICENSE.cronet',
               }.entries) {
                 final destination = p.join(outDir, entry.value);
@@ -136,6 +136,23 @@ class GoBuilder {
         ..['CGO_ENABLED'] = '1'
         ..['CC'] = _resolveCc(target)
         ..['CFLAGS'] = '-O3 -Werror';
+    } else if (target.goos == 'darwin') {
+      if (!Platform.isMacOS) {
+        throw BuildException('macOS Core with Naive requires macOS and Xcode');
+      }
+      final sdk =
+          (runCommand('xcrun', ['--sdk', 'macosx', '--show-sdk-path']).stdout
+                  as String)
+              .trim();
+      final cc =
+          (runCommand('xcrun', ['--sdk', 'macosx', '--find', 'clang']).stdout
+                  as String)
+              .trim();
+      env
+        ..['CGO_ENABLED'] = '1'
+        ..['CC'] = cc
+        ..['SDKROOT'] = sdk
+        ..['MACOSX_DEPLOYMENT_TARGET'] = '12.0';
     } else {
       env['CGO_ENABLED'] = '0';
     }
@@ -155,10 +172,14 @@ class GoBuilder {
     config.tags,
     if (target.goos == 'windows' && config.windowsTags.isNotEmpty)
       config.windowsTags,
+    if (target.goos == 'android' && config.androidTags.isNotEmpty)
+      config.androidTags,
+    if (target.goos == 'darwin' && config.macosTags.isNotEmpty)
+      config.macosTags,
   ].join(',');
 
   String? _cronetDirectory(Target target) {
-    if (target.goos != 'windows' ||
+    if (!const {'windows', 'darwin'}.contains(target.goos) ||
         !_tags(target).split(',').contains('with_naive_outbound')) {
       return null;
     }
@@ -169,7 +190,7 @@ class GoBuilder {
         '-tags=${_tags(target)}',
         '-f',
         '{{.Dir}}',
-        'github.com/sagernet/cronet-go/lib/windows_${target.goarch}',
+        'github.com/sagernet/cronet-go/lib/${target.goos}_${target.goarch}',
       ],
       workingDirectory: _corePath,
       environment: _buildEnvironment(target),
@@ -234,7 +255,10 @@ class GoBuilder {
     final cronetDir = _cronetDirectory(target);
     if (cronetDir != null) {
       inputs.addAll([
-        p.join(cronetDir, 'libcronet.dll'),
+        p.join(
+          cronetDir,
+          target.goos == 'windows' ? 'libcronet.dll' : 'libcronet.a',
+        ),
         p.join(cronetDir, 'LICENSE'),
       ]);
     }
@@ -246,15 +270,23 @@ class GoBuilder {
     }
     inputs.addAll(harnessInputs);
 
-    if (target.isLib) {
+    if (target.isLib || target.goos == 'darwin') {
       final compilerVersion = runCommand(env['CC']!, ['--version']);
       builder.addValue(
-        'android_compiler',
+        'native_compiler',
         '${(compilerVersion.stdout as String).trim()}\n'
             '${(compilerVersion.stderr as String).trim()}',
       );
     }
 
+    if (target.goos == 'darwin') {
+      final sdkVersion = runCommand('xcrun', [
+        '--sdk',
+        'macosx',
+        '--show-sdk-version',
+      ]);
+      builder.addValue('macos_sdk', (sdkVersion.stdout as String).trim());
+    }
     builder.addFiles(inputs);
     return builder.finishWithInputs();
   }

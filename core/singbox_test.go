@@ -38,8 +38,8 @@ func TestSingboxLifecycleAndSelection(t *testing.T) {
 }
 
 func TestSingboxRejectsInvalidConfiguration(t *testing.T) {
-	if runtime.GOOS != "windows" {
-		t.Skip("Windows profile format")
+	if runtime.GOOS != "windows" && runtime.GOOS != "android" && runtime.GOOS != "darwin" {
+		t.Skip("unsupported profile platform")
 	}
 	data, _ := json.Marshal(singboxEnvelope{Core: "sing-box", Configuration: json.RawMessage(`{"outbounds":[{"type":"invalid"}]}`)})
 	if validateSingbox(data) == nil {
@@ -52,8 +52,8 @@ func TestSingboxRejectsInvalidConfiguration(t *testing.T) {
 }
 
 func TestSingboxPanelTemplate(t *testing.T) {
-	if runtime.GOOS != "windows" {
-		t.Skip("Windows profile")
+	if runtime.GOOS != "windows" && runtime.GOOS != "android" && runtime.GOOS != "darwin" {
+		t.Skip("unsupported profile platform")
 	}
 	data, err := os.ReadFile("testdata/fastai-singbox.json")
 	if err != nil {

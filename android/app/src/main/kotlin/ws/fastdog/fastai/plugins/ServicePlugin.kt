@@ -44,6 +44,10 @@ class ServicePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
             "syncState" -> syncState(call, result)
             "start" -> start(result)
             "stop" -> stop(result)
+            "stopForCoreSwitch" -> {
+                val stopped = ServiceState.requestStop()
+                scope.launch { result.success(stopped.await()) }
+            }
             else -> result.notImplemented()
         }
     }

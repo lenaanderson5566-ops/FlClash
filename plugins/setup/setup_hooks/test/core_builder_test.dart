@@ -144,6 +144,21 @@ void main() {
       );
     });
 
+    test('uses the NDK command wrapper when building Android on Windows', () {
+      const toolchain = AndroidToolchain(
+        clangDirectory: 'ndk/bin',
+        apiLevel: 24,
+      );
+      expect(
+        toolchain.clangFor(Target.androidArm64, windows: true),
+        p.join('ndk/bin', 'aarch64-linux-android24-clang.cmd'),
+      );
+      expect(
+        toolchain.clangFor(Target.androidArm64),
+        p.join('ndk/bin', 'aarch64-linux-android24-clang'),
+      );
+    });
+
     test('fails when Flutter passes no Android compiler', () {
       expect(
         () => const CoreBuilder().requestFor(

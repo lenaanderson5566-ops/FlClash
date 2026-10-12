@@ -115,6 +115,8 @@ bool _referencesRemoved(dynamic value, Set<String> removed) {
   Map<String, dynamic> profile,
   PatchClashConfig patch, {
   required bool safeMode,
+  bool android = false,
+  bool macos = false,
 }) {
   final config = Map<String, dynamic>.from(profile['configuration'] as Map);
   config['inbounds'] = [
@@ -125,11 +127,11 @@ bool _referencesRemoved(dynamic value, Set<String> removed) {
         'listen': patch.allowLan ? '0.0.0.0' : '127.0.0.1',
         'listen_port': patch.mixedPort,
       },
-    if (!safeMode && patch.tun.enable)
+    if (!safeMode && !android && patch.tun.enable)
       {
         'type': 'tun',
         'tag': 'fastai-tun',
-        'interface_name': 'FastAI',
+        if (!macos) 'interface_name': 'FastAI',
         'address': ['172.19.0.1/30', if (patch.ipv6) 'fdfe:dcba:9876::1/126'],
         'mtu': 1500,
         'auto_route': true,

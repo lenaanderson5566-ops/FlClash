@@ -51,6 +51,44 @@ void main() {
     expect(config.containsKey('inbounds'), isFalse);
   });
 
+  test('macOS allocates a free utun and safe mode opens no listeners', () {
+    for (final safe in [false, true]) {
+      final result = singboxRuntimeProfile(
+        singboxProfile(config),
+        const PatchClashConfig(tun: Tun(enable: true)),
+        safeMode: safe,
+        macos: true,
+      );
+      final runtime = (jsonDecode(result.yaml) as Map)['configuration'] as Map;
+      final inbounds = runtime['inbounds'] as List;
+      if (safe) {
+        expect(inbounds, isEmpty);
+      } else {
+        final tun = inbounds.singleWhere((e) => e['type'] == 'tun') as Map;
+        expect(tun.containsKey('interface_name'), isFalse);
+        expect(tun['auto_route'], isTrue);
+        expect(tun['address'], contains('172.19.0.1/30'));
+      }
+    }
+  });
+
+  test('Android leaves TUN creation to the native VPN service', () {
+    final profile = singboxProfile(config);
+    final result = singboxRuntimeProfile(
+      profile,
+      const PatchClashConfig(tun: Tun(enable: true)),
+      safeMode: false,
+      android: true,
+    );
+    final runtime = (jsonDecode(result.yaml) as Map)['configuration'] as Map;
+    expect(
+      (runtime['inbounds'] as List).where((e) => e['type'] == 'tun'),
+      isEmpty,
+    );
+    expect((runtime['inbounds'] as List).single['type'], 'mixed');
+    expect(runtime['experimental']['clash_api']['external_controller'], isNull);
+  });
+
   test('duplicate outbound identities fail before replacing the profile', () {
     expect(
       () => singboxProfile({

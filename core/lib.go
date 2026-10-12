@@ -13,6 +13,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/sagernet/sing-box/adapter"
+	"github.com/sagernet/sing/service"
 	"net"
 	"strings"
 	"sync"
@@ -34,8 +36,11 @@ var (
 )
 
 type TunHandler struct {
-	listener *sing_tun.Listener
-	callback unsafe.Pointer
+	listener       *sing_tun.Listener
+	callback       unsafe.Pointer
+	singboxFD      int
+	singboxStack   string
+	singboxAddress string
 
 	mu sync.RWMutex
 }
@@ -47,6 +52,27 @@ func (th *TunHandler) start(fd int, stack, address, dns string) bool {
 	th.mu.Lock()
 	th.initHook()
 	th.mu.Unlock()
+
+	singbox.Lock()
+	if singbox.configuration != nil {
+		th.mu.Lock()
+		th.singboxFD, th.singboxStack, th.singboxAddress = fd, stack, address
+		th.mu.Unlock()
+		err := singbox.replaceLocked(singbox.configuration, singbox.selected, true)
+		if err != nil {
+			_ = singbox.closeLocked()
+		}
+		singbox.Unlock()
+		if err == nil {
+			return true
+		}
+		logError("Android sing-box TUN: %v", err)
+		th.mu.Lock()
+		th.clear()
+		th.mu.Unlock()
+		return false
+	}
+	singbox.Unlock()
 
 	// t.Start runs outside th.mu on purpose. The hook is live from initHook
 	// onwards, and a socket opened anywhere inside Start reaches handleProtect
@@ -67,12 +93,23 @@ func (th *TunHandler) start(fd int, stack, address, dns string) bool {
 }
 
 func (th *TunHandler) close() {
+	configMu.Lock()
+	defer configMu.Unlock()
+	if th.singboxFD > 0 {
+		singbox.Lock()
+		_ = singbox.closeLocked()
+		singbox.Unlock()
+	}
 	th.mu.Lock()
 	defer th.mu.Unlock()
 	th.clear()
 }
 
 func (th *TunHandler) clear() {
+	if th.singboxFD > 0 {
+		syscall.Close(th.singboxFD)
+		th.singboxFD = 0
+	}
 	th.removeHook()
 	if th.listener != nil {
 		_ = th.listener.Close()
@@ -92,7 +129,7 @@ func (th *TunHandler) handleProtect(fd int) error {
 	th.mu.RLock()
 	defer th.mu.RUnlock()
 
-	if th.listener == nil || th.callback == nil {
+	if (th.listener == nil && th.singboxFD <= 0) || th.callback == nil {
 		// The tun routes are already live at this point (Android establishes
 		// them before it hands the fd over), so an unprotected socket would be
 		// routed straight back into the tunnel and hang until it times out.
@@ -118,7 +155,7 @@ func (th *TunHandler) handleResolveProcess(source, target net.Addr) (int, string
 	defer th.mu.RUnlock()
 
 	// A released callback is a null jobject, and JNI aborts on a call through one.
-	if th.listener == nil || th.callback == nil {
+	if (th.listener == nil && th.singboxFD <= 0) || th.callback == nil {
 		return -1, ""
 	}
 	var protocol int
@@ -262,6 +299,12 @@ func handleUpdateDns(value string) {
 		log.Infoln("[DNS] updateDns %s", value)
 		dns.UpdateSystemDNS(addr)
 		dns.FlushCacheWithDefaultResolver()
+		singbox.RLock()
+		if singbox.instance != nil {
+			service.FromContext[adapter.DNSRouter](singbox.ctx).ClearCache()
+			service.FromContext[adapter.NetworkManager](singbox.ctx).ResetNetwork(singbox.ctx)
+		}
+		singbox.RUnlock()
 	})
 }
 
@@ -301,7 +344,10 @@ func startTUN(callback unsafe.Pointer, fd C.int, stackChar, addressChar, dnsChar
 		return false
 	}
 	if !isRunning.Load() {
-		handleStartListener()
+		if !handleStartListener() {
+			handleStopTun()
+			return false
+		}
 	} else {
 		handleResetConnections()
 	}
@@ -359,11 +405,17 @@ func hasEventListener() bool {
 
 //export getTotalTraffic
 func getTotalTraffic(onlyStatisticsProxy bool) *C.char {
+	if traffic, active := singboxNotificationTraffic(true); active {
+		return C.CString(marshalResult(traffic))
+	}
 	return C.CString(marshalResult(handleGetTotalTraffic(onlyStatisticsProxy)))
 }
 
 //export getTraffic
 func getTraffic(onlyStatisticsProxy bool) *C.char {
+	if traffic, active := singboxNotificationTraffic(false); active {
+		return C.CString(marshalResult(traffic))
+	}
 	return C.CString(marshalResult(handleGetTraffic(onlyStatisticsProxy)))
 }
 

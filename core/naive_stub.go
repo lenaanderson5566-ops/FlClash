@@ -1,4 +1,4 @@
-//go:build !windows || !with_naive_outbound || !with_purego
+//go:build (!windows || !with_naive_outbound || !with_purego) && (!android || !cgo || !with_naive_outbound || with_purego) && (!darwin || !cgo || !with_naive_outbound || with_purego)
 
 package main
 

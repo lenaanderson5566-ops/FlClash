@@ -310,6 +310,16 @@ github.com/sagernet/cronet-go v0.0.0-20260912104727-0d28acc44093 h1:CsvsLVIli53L
 github.com/sagernet/cronet-go v0.0.0-20260912104727-0d28acc44093/go.mod h1:T/mwtrpC4JlWfScw73CmSBvHzIvc7BatQ1MhRr+cYNw=
 github.com/sagernet/cronet-go/all v0.0.0-20260912104727-0d28acc44093 h1:1lRUqrLcBz0Q0r/xvyiXS5hZwH5pOq6Lwb4dqbSqJfs=
 github.com/sagernet/cronet-go/all v0.0.0-20260912104727-0d28acc44093/go.mod h1:bvm9T9FdwHYYfWdZkLoZ4Qr9Dce0TTQ7ngXlbGZnnJk=
+github.com/sagernet/cronet-go/lib/android_amd64 v0.0.0-20260912104006-c10c03c318db h1:75fzfzaz/j1mKsqNE01KTMMP3i/9FgmPlwO2BIV8TpU=
+github.com/sagernet/cronet-go/lib/android_amd64 v0.0.0-20260912104006-c10c03c318db/go.mod h1:iNiUGoLtnr8/JTuVNj7XJbmpOAp2C6+B81KDrPxwaZM=
+github.com/sagernet/cronet-go/lib/android_arm v0.0.0-20260912104006-c10c03c318db h1:tz6Tm3qqxPKp9QMFDUxbVzu5NgYQZq2hY9CGQ+sTmII=
+github.com/sagernet/cronet-go/lib/android_arm v0.0.0-20260912104006-c10c03c318db/go.mod h1:19ILNUOGIzRdOqa2mq+iY0JoHxuieB7/lnjYeaA2vEc=
+github.com/sagernet/cronet-go/lib/android_arm64 v0.0.0-20260912104006-c10c03c318db h1:OO+rUNHeZja1m0n/bBfkWtK2NQkNN9iROP0CRqw9aL8=
+github.com/sagernet/cronet-go/lib/android_arm64 v0.0.0-20260912104006-c10c03c318db/go.mod h1:JxzGyQf94Cr6sBShKqODGDyRUlESfJK/Njcz9Lz6qMQ=
+github.com/sagernet/cronet-go/lib/darwin_amd64 v0.0.0-20260912104006-c10c03c318db h1:78W68WJdZjQDhkp4tcFkLcXBH4W8jlCBK1eFcBKKZwI=
+github.com/sagernet/cronet-go/lib/darwin_amd64 v0.0.0-20260912104006-c10c03c318db/go.mod h1:KN+9T9TBycGOLzmKU4QdcHAJEj6Nlx48ifnlTvvHMvs=
+github.com/sagernet/cronet-go/lib/darwin_arm64 v0.0.0-20260912104006-c10c03c318db h1:qVLzw+rWqzD82/CUwvxfSohUj6aSD9zRAX7WtKiSNeQ=
+github.com/sagernet/cronet-go/lib/darwin_arm64 v0.0.0-20260912104006-c10c03c318db/go.mod h1:kojvtUc29KKnk8hs2QIANynVR59921SnGWA9kXohHc0=
 github.com/sagernet/cronet-go/lib/windows_amd64 v0.0.0-20260912104006-c10c03c318db h1:fKs7KaruaDhStaiYpaqMQXDCmAc4YmNLI/pBkPYvwH8=
 github.com/sagernet/cronet-go/lib/windows_amd64 v0.0.0-20260912104006-c10c03c318db/go.mod h1:lm9w/oCCRyBiUa3G8lDQTT8x/ONUvgVR2iV9fVzUZB8=
 github.com/sagernet/cronet-go/lib/windows_arm64 v0.0.0-20260912104006-c10c03c318db h1:K7/F1mWxmf5yUDxSSk+6pRk+yfCoWsqIgt2LsjRpP8w=

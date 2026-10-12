@@ -10,6 +10,8 @@ class BuildConfig {
   const BuildConfig({
     required this.tags,
     this.windowsTags = '',
+    this.androidTags = '',
+    this.macosTags = '',
     required this.goLdflags,
     required this.coreDir,
     required this.coreName,
@@ -21,6 +23,8 @@ class BuildConfig {
 
   final String tags;
   final String windowsTags;
+  final String androidTags;
+  final String macosTags;
   final String goLdflags;
   final String coreDir;
   final String coreName;
@@ -51,6 +55,8 @@ class BuildConfig {
     return BuildConfig(
       tags: yaml['tags'] as String? ?? _defaults.tags,
       windowsTags: yaml['windows_tags'] as String? ?? _defaults.windowsTags,
+      androidTags: yaml['android_tags'] as String? ?? _defaults.androidTags,
+      macosTags: yaml['macos_tags'] as String? ?? _defaults.macosTags,
       goLdflags: yaml['go_ldflags'] as String? ?? _defaults.goLdflags,
       coreDir: yaml['core_dir'] as String? ?? _defaults.coreDir,
       coreName: yaml['core_name'] as String? ?? _defaults.coreName,
@@ -64,6 +70,8 @@ class BuildConfig {
   Map<String, String> toFingerprintMap() => {
     'tags': tags,
     'windows_tags': windowsTags,
+    'android_tags': androidTags,
+    'macos_tags': macosTags,
     'go_ldflags': goLdflags,
     'core_dir': coreDir,
     'core_name': coreName,

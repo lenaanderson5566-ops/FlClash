@@ -819,34 +819,40 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('Windows core switch restores preference on download failure', (
-    tester,
-  ) async {
-    final core = _Core();
-    when(() => core.singboxFeatures()).thenAnswer((_) async => ['naive']);
-    await show(tester, _Api(true), desktopLayout: true, core: core);
-    final selector = find.byType(DropdownButton<String>);
-    await tester.scrollUntilVisible(
-      selector,
-      120,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(tester.widget<DropdownButton<String>>(selector).value, 'sing-box');
-    await tester.tap(selector);
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Mihomo').last);
-    await tester.pumpAndSettle();
-    final container = ProviderScope.containerOf(
-      tester.element(find.byType(V2BoardShell)),
-    );
-    expect(container.read(appSettingProvider).proxyCore, 'sing-box');
-    expect(
-      tester.widget<DropdownButton<String>>(selector).onChanged,
-      isNotNull,
-    );
-    expect(tester.takeException(), isNull);
-    await tester.pumpWidget(const SizedBox.shrink());
-  }, variant: TargetPlatformVariant.only(TargetPlatform.windows));
+  testWidgets(
+    'core switch restores preference on download failure',
+    (tester) async {
+      final core = _Core();
+      when(() => core.singboxFeatures()).thenAnswer((_) async => ['naive']);
+      await show(tester, _Api(true), desktopLayout: true, core: core);
+      final selector = find.byType(DropdownButton<String>);
+      await tester.scrollUntilVisible(
+        selector,
+        120,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(tester.widget<DropdownButton<String>>(selector).value, 'sing-box');
+      await tester.tap(selector);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Mihomo').last);
+      await tester.pumpAndSettle();
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(V2BoardShell)),
+      );
+      expect(container.read(appSettingProvider).proxyCore, 'sing-box');
+      expect(
+        tester.widget<DropdownButton<String>>(selector).onChanged,
+        isNotNull,
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+    variant: const TargetPlatformVariant({
+      TargetPlatform.windows,
+      TargetPlatform.android,
+      TargetPlatform.macOS,
+    }),
+  );
 
   testWidgets(
     'paid account exposes connect and functional modes without a shop tab',
