@@ -457,6 +457,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("無週期到期時間"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("購買套餐後即可開始使用"),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage("開通套餐後即可連線。"),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage("尚未開通方案"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "暫無可用線路，請前往官網檢查賬號權益。",
     ),

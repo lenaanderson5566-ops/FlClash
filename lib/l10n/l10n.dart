@@ -4628,6 +4628,16 @@ class AppLocalizations {
     );
   }
 
+  /// `No active plan`
+  String get fdNoPlanStatus {
+    return Intl.message(
+      'No active plan',
+      name: 'fdNoPlanStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Choose a plan to get started`
   String get fdNoPlan {
     return Intl.message(

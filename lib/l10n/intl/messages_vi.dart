@@ -589,6 +589,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
       "Cần đăng ký gói để kết nối.",
     ),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage(
+      "Chưa có gói dịch vụ",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Không có tuyến khả dụng. Kiểm tra tài khoản trên website.",
     ),

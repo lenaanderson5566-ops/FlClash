@@ -487,6 +487,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
       "요금제를 활성화하면 연결할 수 있습니다.",
     ),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage("활성 요금제 없음"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "사용 가능한 경로가 없습니다. 웹사이트에서 계정 권한을 확인하세요.",
     ),

@@ -585,6 +585,7 @@
   "fdLogout": "退出登录",
   "fdNetworkError": "无法连接服务，请检查网络后重试。",
   "fdNoExpiry": "无周期到期时间",
+  "fdNoPlanStatus": "未开通套餐",
   "fdNoPlan": "购买套餐后即可开始使用",
   "fdRateLimited": "操作过于频繁，请稍后重试。",
   "fdRefresh": "刷新",

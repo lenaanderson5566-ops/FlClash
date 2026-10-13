@@ -495,6 +495,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("期間の期限なし"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("プランを購入して開始"),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage("接続にはプランの契約が必要です。"),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage("プラン未契約"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "利用可能な経路がありません。公式サイトでアカウントを確認してください。",
     ),

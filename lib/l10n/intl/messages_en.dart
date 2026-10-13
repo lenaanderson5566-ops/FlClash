@@ -593,6 +593,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
       "A subscription is required to connect.",
     ),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage("No active plan"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "No routes are available. Check your account on the website.",
     ),

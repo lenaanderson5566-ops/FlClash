@@ -585,6 +585,7 @@
   "fdLogout": "ログアウト",
   "fdNetworkError": "サービスに接続できません。ネットワークを確認して再試行してください。",
   "fdNoExpiry": "期間の期限なし",
+  "fdNoPlanStatus": "プラン未契約",
   "fdNoPlan": "プランを購入して開始",
   "fdRateLimited": "リクエストが多すぎます。しばらくお待ちください。",
   "fdRefresh": "更新",

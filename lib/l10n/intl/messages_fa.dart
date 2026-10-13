@@ -574,6 +574,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
       "برای اتصال به اشتراک نیاز دارید.",
     ),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage("بدون طرح فعال"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "مسیری در دسترس نیست. حساب را در وب‌سایت بررسی کنید.",
     ),

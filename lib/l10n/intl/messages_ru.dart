@@ -606,6 +606,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
       "Для подключения нужна подписка.",
     ),
+    "fdNoPlanStatus": MessageLookupByLibrary.simpleMessage(
+      "Нет активного тарифа",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Нет доступных маршрутов. Проверьте доступ учётной записи на сайте.",
     ),

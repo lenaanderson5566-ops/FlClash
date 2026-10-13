@@ -965,7 +965,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     final l = context.appLocalizations;
     final account = _account;
     final status = switch (account?.status) {
-      'noPlan' => l.fdNoPlan,
+      'noPlan' => l.fdNoPlanStatus,
       'expired' => l.fdExpired,
       'exhausted' => l.fdExhausted,
       'banned' => l.fdBanned,
@@ -1158,7 +1158,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     final l = context.appLocalizations;
     final status = _account?.status;
     final title = switch (status) {
-      'noPlan' => l.fdNoPlan,
+      'noPlan' => l.fdNoPlanStatus,
       'expired' => l.fdExpired,
       'exhausted' => l.fdExhausted,
       _ => l.fdBanned,
@@ -1264,7 +1264,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             const SizedBox(height: 8),
             Text(
               switch (_account?.status) {
-                'noPlan' => l.fdNoPlan,
+                'noPlan' => l.fdNoPlanHint,
                 'expired' => l.fdExpired,
                 'exhausted' => l.fdExhausted,
                 'banned' => l.fdBanned,
@@ -1456,7 +1456,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ? Center(child: _subscriptionNotice())
             : FastaiRoutePreview(
                 api: _api!,
-                notice: _subscriptionNotice(),
+                notice: _account!.status == 'noPlan'
+                    ? const SizedBox.shrink()
+                    : _subscriptionNotice(),
                 busy: _busy,
                 onRefresh: () => _run(_refreshSubscription),
               ),

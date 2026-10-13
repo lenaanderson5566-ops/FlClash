@@ -585,6 +585,7 @@
   "fdLogout": "Sign out",
   "fdNetworkError": "Unable to reach the service. Check your network and try again.",
   "fdNoExpiry": "No period expiry",
+  "fdNoPlanStatus": "No active plan",
   "fdNoPlan": "Choose a plan to get started",
   "fdRateLimited": "Too many requests. Try again later.",
   "fdRefresh": "Refresh",

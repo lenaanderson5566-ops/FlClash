@@ -804,6 +804,11 @@ void main() {
             .onPressed,
         isNull,
       );
+      await tester.scrollUntilVisible(
+        find.byType(DropdownButton<Mode>),
+        120,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byType(DropdownButton<Mode>), findsOneWidget);
       expect(find.text('Choose a route'), findsOneWidget);
       await tester.scrollUntilVisible(
@@ -827,7 +832,11 @@ void main() {
       expect(find.text('Manage on website'), findsOneWidget);
       await tester.tap(find.byType(NavigationDestination).at(1));
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(TextButton, 'Choose a plan'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Choose a plan'), findsNothing);
+      expect(
+        find.text('Preview only. A valid subscription is required to connect.'),
+        findsOneWidget,
+      );
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     },

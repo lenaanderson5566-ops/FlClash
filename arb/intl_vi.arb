@@ -585,6 +585,7 @@
   "fdLogout": "Đăng xuất",
   "fdNetworkError": "Không thể kết nối dịch vụ. Kiểm tra mạng rồi thử lại.",
   "fdNoExpiry": "Không hết hạn chu kỳ",
+  "fdNoPlanStatus": "Chưa có gói dịch vụ",
   "fdNoPlan": "Chọn gói để bắt đầu",
   "fdRateLimited": "Quá nhiều yêu cầu. Thử lại sau.",
   "fdRefresh": "Làm mới",

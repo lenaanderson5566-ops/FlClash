@@ -585,6 +585,7 @@
   "fdLogout": "로그아웃",
   "fdNetworkError": "서비스에 연결할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.",
   "fdNoExpiry": "기간 만료 없음",
+  "fdNoPlanStatus": "활성 요금제 없음",
   "fdNoPlan": "요금제를 선택해 시작하세요",
   "fdRateLimited": "요청이 너무 많습니다. 나중에 다시 시도하세요.",
   "fdRefresh": "새로고침",
