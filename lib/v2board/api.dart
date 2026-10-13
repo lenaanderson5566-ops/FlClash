@@ -77,6 +77,12 @@ class V2BoardApi {
   bool get hasManagedEntrypoints => _entrypoints != null;
   Uri get panel => _entrypoints?.current ?? _panel;
   final Dio _dio;
+  bool _closed = false;
+
+  void _ensureOpen() {
+    if (_closed) throw const V2BoardProblem('client_auth_cancelled');
+  }
+
   String? accessToken;
   Future<void> Function()? onSessionRejected;
   String? version;
@@ -92,15 +98,18 @@ class V2BoardApi {
     String path,
     Future<T> Function() action,
   ) async {
+    _ensureOpen();
     final timer = Stopwatch()..start();
     V2BoardProblem? problem;
     try {
       await _entrypoints?.prepare();
+      _ensureOpen();
       T result;
       final attemptedOrigin = panel;
       try {
         result = await action();
       } on V2BoardProblem catch (error) {
+        _ensureOpen();
         final transportFailure =
             error.code == 'service_unavailable' ||
             error.status == null &&
@@ -112,9 +121,11 @@ class V2BoardApi {
         if (!transportFailure || _entrypoints == null) rethrow;
         final switched =
             panel != attemptedOrigin || await _entrypoints.failover();
+        _ensureOpen();
         if (!const ['GET', 'HEAD'].contains(method) || !switched) rethrow;
         result = await action();
       }
+      _ensureOpen();
       if (_entrypoints != null) unawaited(_entrypoints.refresh());
       return result;
     } on V2BoardProblem catch (error) {
@@ -198,7 +209,7 @@ class V2BoardApi {
     required String version,
     required String platform,
     String? architecture,
-    String core = 'mihomo',
+    String core = 'sing-box',
   }) => _clientConfig(
     version: version,
     platform: platform,
@@ -210,7 +221,7 @@ class V2BoardApi {
     required String version,
     required String platform,
     String? architecture,
-    String core = 'mihomo',
+    String core = 'sing-box',
   }) async {
     await _clientConfig(
       version: version,
@@ -225,9 +236,10 @@ class V2BoardApi {
     required String version,
     required String platform,
     String? architecture,
-    String core = 'mihomo',
+    String core = 'sing-box',
     bool head = false,
   }) => _perform(head ? 'HEAD' : 'GET', '/me/client-config', () async {
+    if (core != 'sing-box') throw const V2BoardProblem('invalid_config');
     if (accessToken == null || accessToken!.isEmpty) {
       throw const V2BoardProblem('UNAUTHENTICATED', status: 401);
     }
@@ -238,7 +250,7 @@ class V2BoardApi {
           'clientVersion': version,
           'platform': platform,
           'architecture': ?architecture,
-          if (core != 'mihomo') 'core': core,
+          'core': core,
         },
         options: Options(
           method: head ? 'HEAD' : 'GET',
@@ -390,5 +402,12 @@ class V2BoardApi {
     return url;
   }
 
-  void close() => _dio.close(force: true);
+  void close() {
+    if (_closed) return;
+    _closed = true;
+    accessToken = null;
+    onSessionRejected = null;
+    onDiagnostic = null;
+    _dio.close(force: true);
+  }
 }

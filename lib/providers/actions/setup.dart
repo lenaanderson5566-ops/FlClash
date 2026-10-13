@@ -127,6 +127,9 @@ class SetupAction extends _$SetupAction {
       return;
     }
     commonPrint.log('init status');
+    if (V2BoardConfig.enabled && !ref.read(v2BoardAccessProvider)) {
+      return;
+    }
     if (system.isAndroid) {
       await _updateStartTime();
     }

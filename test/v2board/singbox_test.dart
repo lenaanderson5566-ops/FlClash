@@ -101,7 +101,7 @@ void main() {
     );
   });
 
-  test('cached profile cannot be reused after switching cores', () {
+  test('legacy Mihomo cache cannot be reused by sing-box', () {
     final client = Object();
     final now = DateTime.now();
     final cache = ClientConfigCache(
@@ -110,15 +110,10 @@ void main() {
       hash: 'hash',
       version: '1',
       syncedAt: now,
+      core: 'mihomo',
     );
     expect(
-      cache.reusable(
-        client: client,
-        profileId: 1,
-        version: '1',
-        now: now,
-        core: 'sing-box',
-      ),
+      cache.reusable(client: client, profileId: 1, version: '1', now: now),
       isFalse,
     );
   });

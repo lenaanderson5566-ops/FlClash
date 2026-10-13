@@ -131,6 +131,7 @@ Object? _readUserAgents(Map<dynamic, dynamic> json, String key) {
 abstract class AppSettingProps with _$AppSettingProps {
   const factory AppSettingProps({
     String? locale,
+    // Retained for old backup files; the runtime always uses sing-box.
     @Default('sing-box') String proxyCore,
     @Default(defaultDashboardWidgets)
     @JsonKey(fromJson: dashboardWidgetsSafeFormJson)

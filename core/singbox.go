@@ -47,6 +47,7 @@ type singboxRuntime struct {
 	sampledAt             time.Time
 	notificationTraffic   Traffic
 	notificationSampledAt time.Time
+	running               bool
 }
 
 var singbox singboxRuntime
@@ -56,8 +57,8 @@ func decodeSingbox(data []byte) (*singboxEnvelope, bool, error) {
 	if json.Unmarshal(data, &envelope) != nil || envelope.Core != "sing-box" {
 		return nil, false, nil
 	}
-	if runtime.GOOS != "windows" && runtime.GOOS != "android" && runtime.GOOS != "darwin" {
-		return nil, true, errors.New("sing-box is currently supported on Windows, Android and macOS only")
+	if runtime.GOOS != "windows" && runtime.GOOS != "android" && runtime.GOOS != "darwin" && runtime.GOOS != "linux" {
+		return nil, true, errors.New("sing-box is currently supported on Windows, Android, macOS and Linux only")
 	}
 	if len(envelope.Configuration) == 0 {
 		return nil, true, errors.New("missing sing-box configuration")
@@ -66,6 +67,10 @@ func decodeSingbox(data []byte) (*singboxEnvelope, bool, error) {
 }
 
 func newSingbox(data []byte, running bool) (*box.Box, context.Context, context.CancelFunc, error) {
+	return newSingboxWithMode(data, running, "")
+}
+
+func newSingboxWithMode(data []byte, running bool, restoredMode string) (*box.Box, context.Context, context.CancelFunc, error) {
 	ctx, cancel := context.WithCancel(singboxPlatformContext(service.ContextWithDefaultRegistry(include.Context(context.Background()))))
 	var options option.Options
 	if err := SJ.UnmarshalContext(ctx, data, &options); err != nil {
@@ -91,7 +96,14 @@ func newSingbox(data []byte, running bool) (*box.Box, context.Context, context.C
 	if options.Experimental != nil && options.Experimental.ClashAPI != nil {
 		mode = options.Experimental.ClashAPI.DefaultMode
 	}
+	if restoredMode != "" {
+		mode = restoredMode
+	}
 	options.Experimental = &option.ExperimentalOptions{ClashAPI: &option.ClashAPIOptions{DefaultMode: mode}}
+	if err := configureSingboxRules(&options, homeDirectory); err != nil {
+		cancel()
+		return nil, nil, nil, err
+	}
 	// The app bridge owns control; never expose a separate management endpoint.
 	options.Log = &option.LogOptions{Disabled: true}
 	instance, err := box.New(box.Options{Context: ctx, Options: options})
@@ -119,14 +131,40 @@ func validateSingbox(data []byte) error {
 }
 
 func (s *singboxRuntime) closeLocked() error {
+	if s.cancel != nil {
+		s.cancel()
+		s.cancel = nil
+	}
+	s.ctx = nil
 	if s.instance == nil {
 		return nil
 	}
-	s.cancel()
 	err := s.instance.Close()
 	s.instance = nil
-	s.ctx = nil
 	return err
+}
+
+func (s *singboxRuntime) resetSamplesLocked() {
+	s.previousTraffic = Traffic{}
+	s.trafficBaseline = Traffic{}
+	s.sampledAt = time.Now()
+	s.notificationTraffic = Traffic{}
+	s.notificationSampledAt = s.sampledAt
+}
+
+func (s *singboxRuntime) picksLocked() map[string]string {
+	picks := make(map[string]string, len(s.selected))
+	for name, pick := range s.selected {
+		picks[name] = pick
+	}
+	if s.instance != nil {
+		for _, outbound := range s.instance.Outbound().Outbounds() {
+			if group, ok := outbound.(SA.OutboundGroup); ok {
+				picks[outbound.Tag()] = group.Now()
+			}
+		}
+	}
+	return picks
 }
 
 func (s *singboxRuntime) replaceLocked(data []byte, selected map[string]string, running bool) error {
@@ -134,31 +172,38 @@ func (s *singboxRuntime) replaceLocked(data []byte, selected map[string]string, 
 	if err != nil {
 		return err
 	}
+	previousPicks := s.picksLocked()
+	previousMode := ""
+	if s.ctx != nil {
+		previousMode = service.PtrFromContext[clashmode.Manager](s.ctx).Mode()
+	}
 	if err = s.closeLocked(); err != nil {
-		candidate.Close()
 		cancel()
+		candidate.Close()
 		return err
 	}
 	if err = candidate.Start(); err != nil {
-		candidate.Close()
 		cancel()
+		candidate.Close()
 		if s.configuration != nil {
-			restored, oldCtx, oldCancel, restoreErr := newSingbox(s.configuration, isRunning.Load())
+			restored, oldCtx, oldCancel, restoreErr := newSingboxWithMode(s.configuration, s.running, previousMode)
 			if restoreErr == nil {
 				restoreErr = restored.Start()
 				if restoreErr == nil {
 					s.instance = restored
 					s.ctx = oldCtx
 					s.cancel = oldCancel
-					for name, pick := range s.selected {
+					s.selected = previousPicks
+					s.resetSamplesLocked()
+					for name, pick := range previousPicks {
 						outbound, _ := restored.Outbound().Outbound(name)
 						if selector, ok := outbound.(*group.Selector); ok {
 							selector.SelectOutbound(pick)
 						}
 					}
 				} else {
-					restored.Close()
 					oldCancel()
+					restored.Close()
 				}
 			}
 			if restoreErr != nil {
@@ -170,6 +215,7 @@ func (s *singboxRuntime) replaceLocked(data []byte, selected map[string]string, 
 	s.instance = candidate
 	s.ctx = ctx
 	s.cancel = cancel
+	s.running = running
 	s.configuration = append(json.RawMessage(nil), data...)
 	s.selected = map[string]string{}
 	for name, pick := range selected {
@@ -184,11 +230,7 @@ func (s *singboxRuntime) replaceLocked(data []byte, selected map[string]string, 
 			selector.SelectOutbound(pick)
 		}
 	}
-	s.previousTraffic = Traffic{}
-	s.trafficBaseline = Traffic{}
-	s.sampledAt = time.Now()
-	s.notificationTraffic = Traffic{}
-	s.notificationSampledAt = s.sampledAt
+	s.resetSamplesLocked()
 	return nil
 }
 
@@ -198,15 +240,7 @@ func singboxPicks() (map[string]string, bool) {
 	if singbox.configuration == nil {
 		return nil, false
 	}
-	picks := map[string]string{}
-	if singbox.instance != nil {
-		for _, outbound := range singbox.instance.Outbound().Outbounds() {
-			if group, ok := outbound.(SA.OutboundGroup); ok {
-				picks[outbound.Tag()] = group.Now()
-			}
-		}
-	}
-	return picks, true
+	return singbox.picksLocked(), true
 }
 
 func singboxListeners(running bool) (bool, error) {
@@ -215,14 +249,7 @@ func singboxListeners(running bool) (bool, error) {
 	if singbox.configuration == nil {
 		return false, nil
 	}
-	picks := map[string]string{}
-	if singbox.instance != nil {
-		for _, outbound := range singbox.instance.Outbound().Outbounds() {
-			if group, ok := outbound.(SA.OutboundGroup); ok {
-				picks[outbound.Tag()] = group.Now()
-			}
-		}
-	}
+	picks := singbox.picksLocked()
 	return true, singbox.replaceLocked(singbox.configuration, picks, running)
 }
 
@@ -263,40 +290,49 @@ func handleSingboxMethod(call *MethodCall, response MethodResponse) bool {
 		singbox.Unlock()
 		return false
 	}
-	changed := false
-	defer func() {
-		singbox.Unlock()
-		if changed {
-			refreshRoute()
-		}
+	result, methodErr, changed := func() (any, *MethodError, bool) {
+		defer singbox.Unlock()
+		return singboxMethodLocked(call)
 	}()
+	if changed {
+		refreshRoute()
+	}
+	if methodErr != nil {
+		response.failure(methodErr.Code, methodErr.Message, methodErr.Details)
+	} else {
+		response.success(result)
+	}
+	return true
+}
+
+func singboxMethodLocked(call *MethodCall) (any, *MethodError, bool) {
 	if singbox.instance == nil {
-		response.failure("core_unavailable", "sing-box is not running", nil)
-		return true
+		return nil, &MethodError{Code: "core_unavailable", Message: "sing-box is not running"}, false
+	}
+	invalidArguments := func(err error) (any, *MethodError, bool) {
+		return nil, &MethodError{Code: "invalid_arguments", Message: fmt.Sprintf("invalid arguments for %s: %v", call.Method, err)}, false
 	}
 	manager := service.PtrFromContext[trafficcontrol.Manager](singbox.ctx)
 	switch call.Method {
 	case getProxiesMethod:
-		response.success(singboxProxiesLocked())
+		return singboxProxiesLocked(), nil, false
 	case changeProxyMethod:
 		var params ChangeProxyParams
-		if !decodeMethodArguments(call, response, &params) {
-			return true
+		if err := call.decodeArguments(&params); err != nil {
+			return invalidArguments(err)
 		}
 		outbound, ok := singbox.instance.Outbound().Outbound(params.GroupName)
 		selector, selectable := outbound.(*group.Selector)
 		if !ok || !selectable {
-			response.success(&ChangeProxyResult{Message: "Group is not selectable"})
-			return true
+			return &ChangeProxyResult{Message: "Group is not selectable"}, nil, false
 		}
 		before := selector.Now()
 		if !selector.SelectOutbound(params.ProxyName) {
-			response.success(&ChangeProxyResult{Message: "Proxy is not in group"})
-			return true
+			return &ChangeProxyResult{Message: "Proxy is not in group"}, nil, false
 		}
-		changed = before != selector.Now()
+		changed := before != selector.Now()
 		singbox.selected[params.GroupName] = params.ProxyName
-		response.success(&ChangeProxyResult{Changed: changed})
+		return &ChangeProxyResult{Changed: changed}, nil, changed
 	case getTrafficMethod, getTotalTrafficMethod, resetTrafficMethod:
 		up, down := manager.Total()
 		total := Traffic{Up: up, Down: down}
@@ -304,21 +340,20 @@ func handleSingboxMethod(call *MethodCall, response MethodResponse) bool {
 			singbox.trafficBaseline = total
 			singbox.previousTraffic = total
 			singbox.sampledAt = time.Now()
-			response.success(true)
-			break
+			return true, nil, false
 		}
 		if call.Method == getTotalTrafficMethod {
-			response.success(Traffic{Up: up - singbox.trafficBaseline.Up, Down: down - singbox.trafficBaseline.Down})
-			break
+			return Traffic{Up: up - singbox.trafficBaseline.Up, Down: down - singbox.trafficBaseline.Down}, nil, false
 		}
 		elapsed := time.Since(singbox.sampledAt).Seconds()
 		if elapsed <= 0 {
 			elapsed = 1
 		}
-		response.success(Traffic{Up: int64(float64(up-singbox.previousTraffic.Up) / elapsed), Down: int64(float64(down-singbox.previousTraffic.Down) / elapsed)})
+		result := Traffic{Up: int64(float64(up-singbox.previousTraffic.Up) / elapsed), Down: int64(float64(down-singbox.previousTraffic.Down) / elapsed)}
 		singbox.previousTraffic = total
 		singbox.sampledAt = time.Now()
 		manager.Clear()
+		return result, nil, false
 	case getConnectionsMethod:
 		connections := []any{}
 		for _, tracker := range manager.Connections() {
@@ -337,34 +372,32 @@ func handleSingboxMethod(call *MethodCall, response MethodResponse) bool {
 			})
 		}
 		up, down := manager.Total()
-		response.success(map[string]any{"connections": connections, "uploadTotal": up, "downloadTotal": down})
+		return map[string]any{"connections": connections, "uploadTotal": up, "downloadTotal": down}, nil, false
 	case getConnectionCountMethod:
-		response.success(manager.ConnectionsLen())
+		return manager.ConnectionsLen(), nil, false
 	case closeConnectionsMethod, resetConnectionsMethod:
 		manager.CloseAllConnections()
 		manager.Clear()
-		response.success(true)
+		return true, nil, false
 	case closeConnectionMethod:
 		var id string
-		if !decodeMethodArguments(call, response, &id) {
-			return true
+		if err := call.decodeArguments(&id); err != nil {
+			return invalidArguments(err)
 		}
 		parsed, err := uuid.FromString(id)
 		if err != nil {
-			response.success(false)
-			break
+			return false, nil, false
 		}
 		connection := manager.Connection(parsed)
 		if connection != nil {
 			connection.Close()
 		}
-		response.success(connection != nil)
+		return connection != nil, nil, false
 	case getExternalProvidersMethod:
-		response.success([]ExternalProvider{})
+		return []ExternalProvider{}, nil, false
 	default:
-		response.failure("unsupported_engine_operation", "This provider operation is not available for sing-box", nil)
+		return nil, &MethodError{Code: "unsupported_engine_operation", Message: "This provider operation is not available for sing-box"}, false
 	}
-	return true
 }
 
 func singboxDelay(params *TestDelayParams) (*Delay, bool) {
@@ -414,11 +447,37 @@ func singboxUpdate(params *UpdateParams) (bool, error) {
 	if singbox.instance == nil {
 		return true, errors.New("sing-box is not running")
 	}
-	if params.Mode != nil {
-		service.PtrFromContext[clashmode.Manager](singbox.ctx).SetMode(strings.Title(params.Mode.String()))
-	}
 	if params.Tun != nil || params.MixedPort != nil || params.AllowLan != nil || params.IPv6 != nil {
 		return true, errors.New("sing-box listener changes require applying the profile")
+	}
+	if params.Mode != nil {
+		mode := strings.ToLower(params.Mode.String())
+		if mode != "rule" && mode != "global" && mode != "direct" {
+			return true, errors.New("invalid routing mode")
+		}
+		if strings.EqualFold(service.PtrFromContext[clashmode.Manager](singbox.ctx).Mode(), mode) {
+			return true, nil
+		}
+		var config map[string]any
+		if err := json.Unmarshal(singbox.configuration, &config); err != nil {
+			return true, err
+		}
+		experimental, _ := config["experimental"].(map[string]any)
+		if experimental == nil {
+			experimental = map[string]any{}
+			config["experimental"] = experimental
+		}
+		api, _ := experimental["clash_api"].(map[string]any)
+		if api == nil {
+			api = map[string]any{}
+			experimental["clash_api"] = api
+		}
+		api["default_mode"] = strings.Title(mode)
+		data, err := json.Marshal(config)
+		if err != nil {
+			return true, err
+		}
+		return true, singbox.replaceLocked(data, singbox.picksLocked(), singbox.running)
 	}
 	return true, nil
 }

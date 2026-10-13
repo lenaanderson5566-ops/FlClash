@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -36,6 +37,72 @@ ResponseBody _json(dynamic body, [int status = 200]) => ResponseBody.fromString(
 );
 
 void main() {
+  test(
+    'closed clients reject new requests and release session callbacks',
+    () async {
+      final adapter = _Adapter((_) => _json({'data': {}}));
+      final api =
+          V2BoardApi(
+              'https://panel.example',
+              dio: Dio()..httpClientAdapter = adapter,
+            )
+            ..accessToken = 'session'
+            ..onSessionRejected = () async {}
+            ..onDiagnostic = (_) {};
+      api.close();
+      api.close();
+      await expectLater(
+        api.object('GET', '/me'),
+        throwsA(
+          isA<V2BoardProblem>().having(
+            (e) => e.code,
+            'code',
+            'client_auth_cancelled',
+          ),
+        ),
+      );
+      expect(adapter.requests, isEmpty);
+      expect(api.accessToken, isNull);
+      expect(api.onDiagnostic, isNull);
+      expect(api.onSessionRejected, isNull);
+    },
+  );
+
+  test('a late successful response cannot revive a closed session', () async {
+    final body = StreamController<Uint8List>();
+    final entered = Completer<void>();
+    final adapter = _Adapter((_) {
+      entered.complete();
+      return ResponseBody(
+        body.stream,
+        200,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    });
+    final api = V2BoardApi(
+      'https://panel.example',
+      dio: Dio()..httpClientAdapter = adapter,
+    );
+    final request = api.object('GET', '/me');
+    final rejected = expectLater(
+      request,
+      throwsA(
+        isA<V2BoardProblem>().having(
+          (e) => e.code,
+          'code',
+          'client_auth_cancelled',
+        ),
+      ),
+    );
+    await entered.future;
+    api.close();
+    body.add(Uint8List.fromList(utf8.encode('{"data":{"email":"old"}}')));
+    await body.close();
+    await rejected;
+  });
+
   test(
     'a successful HTML page does not authorize the cached configuration',
     () async {
@@ -245,6 +312,7 @@ void main() {
       expect(request.queryParameters, {
         'clientVersion': '0.8.99',
         'platform': 'windows',
+        'core': 'sing-box',
       });
       expect(request.followRedirects, isFalse);
     },

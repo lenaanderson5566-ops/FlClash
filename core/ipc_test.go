@@ -1,4 +1,4 @@
-//go:build !cgo
+//go:build !cgo && legacy_mihomo
 
 package main
 
@@ -30,6 +30,50 @@ type fakeConn struct {
 	deadlines     int
 	deadlineErr   error
 	deadlineOK    int
+}
+
+type singboxLockCheckingConn struct {
+	fakeConn
+	t *testing.T
+}
+
+func (c *singboxLockCheckingConn) Write(data []byte) (int, error) {
+	if !singbox.TryLock() {
+		c.t.Error("response delivery holds the sing-box lifecycle lock")
+	} else {
+		singbox.Unlock()
+	}
+	return c.fakeConn.Write(data)
+}
+
+func TestSingboxResponsesReleaseLifecycleLock(t *testing.T) {
+	singbox.Lock()
+	err := singbox.replaceLocked([]byte(singboxTestConfig), nil, false)
+	singbox.Unlock()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		singbox.Lock()
+		singbox.closeLocked()
+		singbox.configuration = nil
+		singbox.Unlock()
+	}()
+	fake := &singboxLockCheckingConn{t: t}
+	previous := swapConn(fake)
+	defer swapConn(previous)
+	for _, method := range []CoreMethod{getProxiesMethod, changeProxyMethod, getTrafficMethod, getExternalProviderMethod} {
+		if !handleSingboxMethod(&MethodCall{Method: method}, newMethodResponse("test", nil)) {
+			t.Fatalf("method %v was not handled", method)
+		}
+	}
+	singbox.Lock()
+	singbox.closeLocked()
+	singbox.Unlock()
+	handleSingboxMethod(&MethodCall{Method: getTrafficMethod}, newMethodResponse("closed", nil))
+	if len(fake.frames(t)) != 5 {
+		t.Fatal("missing method responses")
+	}
 }
 
 func (fake *fakeConn) Read(p []byte) (int, error) {

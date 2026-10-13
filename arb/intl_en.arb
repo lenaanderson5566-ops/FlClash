@@ -734,5 +734,11 @@
   "fdBrowserExpired": "Authorization expired. Start browser sign-in again.",
   "fdBrowserFailed": "Browser sign-in could not be completed. Please try again or sign in with email.",
   "fdUnsupportedNodesSkipped": "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",
-  "fdUnsupportedProtocols": "This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept."
+  "fdUnsupportedProtocols": "This configuration requires protocols unavailable in this installation. Update or reinstall FastAI. Your previous configuration was kept.",
+  "fdNoPlanHint": "No active plan is available. Choose a plan on the website, then refresh here to start connecting.",
+  "fdExpiredHint": "Your subscription has expired. Renew it on the website, then refresh here to restore access.",
+  "fdChoosePlan": "Choose a plan",
+  "fdRenewPlan": "Renew subscription",
+  "fdRefreshSubscription": "Refresh subscription",
+  "fdProxyCore": "Proxy core"
 }

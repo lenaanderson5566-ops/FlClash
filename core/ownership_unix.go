@@ -11,7 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/metacubex/mihomo/log"
+	"log"
 )
 
 const reclaimDebounce = 2 * time.Second
@@ -142,7 +142,7 @@ func reclaimOwnership(homeDir string) {
 		ok, err := reclaimEntry(target, realUid, realGid)
 		if err != nil {
 			if !errors.Is(err, fs.ErrNotExist) {
-				log.Warnln("[APP] reclaim %s: %v", target.path, err)
+				log.Printf("[APP] reclaim %s: %v", target.path, err)
 			}
 			continue
 		}
@@ -150,7 +150,7 @@ func reclaimOwnership(homeDir string) {
 			reclaimed++
 		}
 	}
-	log.Infoln("[APP] reclaimed %d of %d elevated entries under %s", reclaimed, len(targets), homeDir)
+	log.Printf("[APP] reclaimed %d of %d elevated entries under %s", reclaimed, len(targets), homeDir)
 }
 
 func initOwnership(homeDir string) {

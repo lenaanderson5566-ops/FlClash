@@ -1,0 +1,18 @@
+[
+  {
+    "name": "geosite-cn.srs",
+    "repository": "SagerNet/sing-geosite",
+    "revision": "df6851d87aeaeb9d6a9464288b317e7ff2288d78",
+    "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/df6851d87aeaeb9d6a9464288b317e7ff2288d78/geosite-cn.srs",
+    "sha256": "7e5edaa3156918ebb732629f7b4ab3f03040b9940456438f976c2046033fc15c",
+    "bytes": 56189
+  },
+  {
+    "name": "geoip-cn.srs",
+    "repository": "SagerNet/sing-geoip",
+    "revision": "eb32cd6ed4a16fcb3bf9a36ccebf28e45716ae84",
+    "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/eb32cd6ed4a16fcb3bf9a36ccebf28e45716ae84/geoip-cn.srs",
+    "sha256": "81ada5cafd9d831adc48776f29cdfe55c9713d9287caeef9de925ef30f66cce4",
+    "bytes": 34268
+  }
+]

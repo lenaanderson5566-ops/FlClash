@@ -420,6 +420,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP connectivity"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("Secure connection"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("Choose a plan"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Choose a route"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage(
       "Client configuration",
@@ -530,6 +531,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Traffic exhausted. Renew or buy credits.",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Subscription expired"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "Your subscription has expired. Renew it on the website, then refresh here to restore access.",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Global mode"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
@@ -586,6 +590,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlan": MessageLookupByLibrary.simpleMessage(
       "Choose a plan to get started",
     ),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "No active plan is available. Choose a plan on the website, then refresh here to start connecting.",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "No routes are available. Check your account on the website.",
     ),
@@ -594,6 +601,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("Period traffic used"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("Plan"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("Proxy core"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "Internet connectivity",
     ),
@@ -605,12 +613,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Reference ID"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Refresh"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage(
+      "Refresh subscription",
+    ),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "Register or reset password on the website",
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Period traffic remaining",
     ),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("Renew subscription"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
       "Refresh configuration and connect",
     ),
@@ -773,7 +785,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept.",
+      "This configuration requires protocols unavailable in this installation. Update or reinstall FastAI. Your previous configuration was kept.",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Update required to continue connecting",

@@ -293,7 +293,7 @@ class GoBuilder {
 
   Set<String> _resolveGoInputs(Target target, Map<String, String> environment) {
     const template =
-        r'''{{range .GoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CgoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CXXFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .MFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .HFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .FFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SwigFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SwigCXXFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SysoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .EmbedFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{with .Module}}{{if .GoMod}}{{.GoMod}}{{"\n"}}{{end}}{{end}}''';
+        r'''{{.ImportPath}}{{"\n"}}{{range .GoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CgoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .CXXFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .MFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .HFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .FFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SwigFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SwigCXXFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .SysoFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{range .EmbedFiles}}{{$.Dir}}/{{.}}{{"\n"}}{{end}}{{with .Module}}{{if .GoMod}}{{.GoMod}}{{"\n"}}{{end}}{{end}}''';
     final result = runCommand(
       'go',
       ['list', '-deps', '-tags=${_tags(target)}', '-f', template, '.'],
@@ -305,9 +305,16 @@ class GoBuilder {
     for (final line in (result.stdout as String).split('\n')) {
       final value = line.trim();
       if (value.isEmpty) continue;
+      if (value == 'github.com/metacubex/mihomo' ||
+          value.startsWith('github.com/metacubex/mihomo/')) {
+        throw BuildException('FastAI releases must only link sing-box.');
+      }
       final filePath = p.normalize(
         p.absolute(p.isAbsolute(value) ? value : p.join(_corePath, value)),
       );
+      if (p.isWithin(p.join(corePath, 'Clash.Meta'), filePath)) {
+        throw BuildException('FastAI releases must only link sing-box.');
+      }
       if (!p.isWithin(corePath, filePath) && !p.equals(corePath, filePath)) {
         continue;
       }

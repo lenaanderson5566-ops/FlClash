@@ -431,6 +431,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("Соединение TCP"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("Защищённое соединение"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("Выбрать тариф"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("Настройки клиента"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -545,6 +546,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Трафик исчерпан. Продлите тариф или купите пакет.",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Подписка истекла"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "Подписка истекла. Продлите её на сайте, затем обновите статус здесь, чтобы восстановить доступ.",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Глобальный режим"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
@@ -599,6 +603,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlan": MessageLookupByLibrary.simpleMessage(
       "Выберите тариф для начала",
     ),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "Нет действующего тарифа. Выберите тариф на сайте, затем обновите статус здесь, чтобы подключиться.",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Нет доступных маршрутов. Проверьте доступ учётной записи на сайте.",
     ),
@@ -609,6 +616,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Использовано за период",
     ),
     "fdPlan": MessageLookupByLibrary.simpleMessage("Тариф"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("Ядро прокси"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "Доступ в Интернет",
     ),
@@ -620,12 +628,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Номер обращения"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Обновить"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage(
+      "Обновить статус подписки",
+    ),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "Регистрация или сброс пароля на сайте",
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Остаток трафика за период",
     ),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("Продлить подписку"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
       "Обновить конфигурацию и подключиться",
     ),
@@ -790,7 +802,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Узлы с недоступными протоколами пропущены. Обновите или переустановите FastAI, чтобы использовать их.",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "Для этой конфигурации нужны недоступные протоколы. Обновите или переустановите FastAI либо выберите другое ядро. Предыдущая конфигурация сохранена.",
+      "Для этой конфигурации нужны недоступные протоколы. Обновите или переустановите FastAI. Предыдущая конфигурация сохранена.",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Для подключения требуется обновление",

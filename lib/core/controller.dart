@@ -7,10 +7,7 @@ import 'package:fastai/core/interface.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
 import 'package:fastai/v2board/config.dart';
-import 'package:fastai/v2board/geo.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
-import 'package:flutter/services.dart';
-import 'package:path/path.dart';
 
 class CoreController {
   static CoreController? _instance;
@@ -60,36 +57,8 @@ class CoreController {
     await system.grantHomeDirAccess(homePath);
   }
 
-  static Future<void> initGeo() async {
-    final homePath = await appPath.homeDirPath;
-    if (V2BoardConfig.enabled) {
-      await restoreBundledGeo(homePath);
-      return;
-    }
-    const geoFileNameList = [MMDB, GEOIP, GEOSITE, ASN];
-    try {
-      for (final geoFileName in geoFileNameList) {
-        final geoFile = File(join(homePath, geoFileName));
-        final isExists = await geoFile.exists();
-        if (isExists) {
-          continue;
-        }
-        final data = await rootBundle.load('assets/data/$geoFileName');
-        final List<int> bytes = data.buffer.asUint8List();
-        await geoFile.writeAsBytes(bytes, flush: true);
-      }
-    } catch (e) {
-      commonPrint.log(
-        'Failed to initialize geo data: $e',
-        logLevel: LogLevel.error,
-      );
-      rethrow;
-    }
-  }
-
   Future<bool> init(int version) async {
     await ensureHomeDir();
-    await initGeo();
     final homeDirPath = await appPath.homeDirPath;
     return _interface.init(InitParams(homeDir: homeDirPath, version: version));
   }

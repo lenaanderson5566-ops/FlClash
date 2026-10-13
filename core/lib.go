@@ -1,4 +1,4 @@
-//go:build android && cgo
+//go:build android && cgo && legacy_mihomo
 
 package main
 

@@ -330,6 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckReference": MessageLookupByLibrary.simpleMessage("系统网络连接"),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 连通性"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("安全连接"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("选购套餐"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("选择线路"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("客户端配置"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -424,6 +425,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdEmailLogin": MessageLookupByLibrary.simpleMessage("或使用邮箱登录"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage("流量已用尽，请续费或购买流量包。"),
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "套餐已到期。请前往官网续费，完成后刷新状态即可恢复使用。",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("周期到期时间"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("全局模式"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("检查完成，部分项目尚未验证"),
@@ -454,12 +458,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自动重置（本地时间）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("无周期到期时间"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("购买套餐后即可开始使用"),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "当前没有可用套餐。请前往官网选购套餐，完成后刷新状态即可连接。",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "暂无可用线路，请前往官网检查账号权益。",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("官方网站"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("周期流量已用"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("套餐"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("代理核心"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("互联网连通性"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作过于频繁，请稍后重试。"),
     "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
@@ -467,8 +475,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("问题编号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("刷新"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage("刷新套餐状态"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("前往官网注册或找回密码"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("周期剩余流量"),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("续费套餐"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage("重新获取配置并连接"),
     "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
       "操作未能完成。请查看下方最新结果，必要时登录并检查账号使用权限。",
@@ -591,7 +601,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "已跳过当前安装不支持的协议节点。可更新或重新安装 FastAI 以启用这些节点。",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "当前配置依赖本机不支持的协议。请更新或重新安装 FastAI，或切换核心。已保留原配置。",
+      "当前配置依赖本机不支持的协议。请更新或重新安装 FastAI。已保留原配置。",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "请更新 FastAI 后继续连接",

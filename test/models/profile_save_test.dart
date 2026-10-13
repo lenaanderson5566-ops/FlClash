@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -58,6 +59,49 @@ void main() {
 
       final savedFile = await profile.file;
       expect(await savedFile.length(), 0);
+    });
+
+    test(
+      'validation exceptions remove staging files and preserve old bytes',
+      () async {
+        final profile = Profile.normal(label: 'p');
+        final destination = await profile.file;
+        await destination.writeAsString('old');
+        String? staged;
+        await expectLater(
+          profile.saveFile(
+            Uint8List.fromList([1]),
+            validate: (path) async {
+              staged = path;
+              throw StateError('validator unavailable');
+            },
+          ),
+          throwsStateError,
+        );
+        expect(await destination.readAsString(), 'old');
+        expect(await File(staged!).parent.exists(), isFalse);
+      },
+    );
+
+    test('readers retain the old config until validation completes', () async {
+      final profile = Profile.normal(label: 'p');
+      final destination = await profile.file;
+      await destination.writeAsString('old');
+      final entered = Completer<String>();
+      final validation = Completer<String>();
+      final saving = profile.saveFile(
+        Uint8List.fromList(utf8.encode('new')),
+        validate: (path) {
+          entered.complete(path);
+          return validation.future;
+        },
+      );
+      final staged = await entered.future;
+      expect(await destination.readAsString(), 'old');
+      validation.complete('');
+      await saving;
+      expect(await destination.readAsString(), 'new');
+      expect(await File(staged).parent.exists(), isFalse);
     });
 
     test('copies validated bytes and stamps the update time', () async {

@@ -1,3 +1,5 @@
+//go:build legacy_mihomo
+
 package main
 
 import (
@@ -213,7 +215,23 @@ func runProbe(parent context.Context, req probeRequest) *ProbeResult {
 		return result
 	}
 
-	_, singboxActive := singboxPicks()
+	singbox.RLock()
+	singboxActive := singbox.configuration != nil
+	runtimeContext := singbox.ctx
+	singbox.RUnlock()
+	if singboxActive {
+		if runtimeContext == nil {
+			return fail(errors.New("sing-box is not running"))
+		}
+		var cancel context.CancelFunc
+		parent, cancel = context.WithCancel(parent)
+		defer cancel()
+		stop := context.AfterFunc(runtimeContext, cancel)
+		defer stop()
+		if runtimeContext.Err() != nil {
+			cancel()
+		}
+	}
 	dialer := &probeDialer{useSingbox: singboxActive, singboxProxy: req.proxyName}
 	if !singboxActive && req.proxyName != "" {
 		dialer.proxy = lookupProxy(req.proxyName)

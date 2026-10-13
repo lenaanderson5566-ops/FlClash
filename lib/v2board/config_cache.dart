@@ -5,7 +5,7 @@ class ClientConfigCache {
     required this.hash,
     required this.version,
     required this.syncedAt,
-    this.core = 'mihomo',
+    this.core = 'sing-box',
     this.coreFeatures = '',
   });
 
@@ -22,7 +22,7 @@ class ClientConfigCache {
     required int? profileId,
     required String version,
     required DateTime now,
-    String core = 'mihomo',
+    String core = 'sing-box',
     String coreFeatures = '',
   }) {
     final age = now.difference(syncedAt);

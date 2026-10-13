@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/metacubex/mihomo/log"
+	"log"
 )
 
 const (
@@ -37,7 +37,7 @@ func init() {
 	// depends on, so a failure to arm it degrades to never blocking.
 	fd, err := syscall.Open("/dev/null", syscall.O_WRONLY, 0644)
 	if err != nil {
-		log.Errorln("[APP] fd pressure probe disabled: %v", err)
+		log.Printf("[APP] fd pressure probe disabled: %v", err)
 		return
 	}
 
@@ -81,7 +81,7 @@ func disarmProbe(err error) {
 		return
 	}
 	lastProbeBlocked.Store(false)
-	log.Errorln("[APP] fd pressure probe disabled after an unexpected error: %v", err)
+	log.Printf("[APP] fd pressure probe disabled after an unexpected error: %v", err)
 }
 
 func openFdCount() int {
@@ -114,13 +114,13 @@ func ShouldBlockConnection() bool {
 	blocked := probeFdPressure()
 	if lastProbeBlocked.Swap(blocked) != blocked {
 		if blocked {
-			log.Warnln(
+			log.Printf(
 				"[APP] refusing new connections: %d of %d descriptors in use",
 				openFdCount(),
 				fdCeilingValue(),
 			)
 		} else {
-			log.Warnln("[APP] descriptor pressure cleared, accepting new connections")
+			log.Printf("[APP] descriptor pressure cleared, accepting new connections")
 		}
 	}
 	lastProbeAt.Store(now)

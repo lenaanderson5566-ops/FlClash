@@ -91,6 +91,56 @@ void main() {
       expect(sentMessages, [utf8.encode('hello')]);
     });
 
+    test('connection waiters time out and later waits still connect', () async {
+      final open = transport.open();
+      rawEvents.add(_frame(0x00));
+      await open;
+      for (var i = 0; i < 20; i++) {
+        await expectLater(
+          transport.waitUntilConnected(Duration.zero),
+          throwsA(isA<TimeoutException>()),
+        );
+      }
+      final connected = transport.waitUntilConnected(
+        const Duration(seconds: 1),
+      );
+      rawEvents.add(_frame(0x01, _processIdPayload(4321)));
+      expect((await connected).pid, 4321);
+    });
+
+    test('failure invalidates a previously connected peer', () async {
+      final open = transport.open();
+      rawEvents.add(_frame(0x00));
+      await open;
+      rawEvents.add(_frame(0x01, _processIdPayload(4321)));
+      await transport.waitUntilConnected(const Duration(seconds: 1));
+      rawEvents.add(_frame(0x04, utf8.encode('connection failed')));
+      await pumpEventQueue();
+      await expectLater(
+        transport.waitUntilConnected(const Duration(seconds: 1)),
+        throwsA(isA<StateError>()),
+      );
+    });
+
+    test(
+      'close releases pending connection waits and rejects new waits',
+      () async {
+        final open = transport.open();
+        rawEvents.add(_frame(0x00));
+        await open;
+        final pending = expectLater(
+          transport.waitUntilConnected(const Duration(minutes: 1)),
+          throwsA(isA<StateError>()),
+        );
+        await transport.close();
+        await pending;
+        await expectLater(
+          transport.waitUntilConnected(const Duration(minutes: 1)),
+          throwsA(isA<StateError>()),
+        );
+      },
+    );
+
     test('emits startup failure and fails open', () async {
       final failures = transport.events
           .where((event) => event is TransportFailed)

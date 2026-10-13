@@ -405,6 +405,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckReference": MessageLookupByLibrary.simpleMessage("اتصال سیستم"),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("اتصال TCP"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("اتصال امن"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("انتخاب طرح"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("انتخاب مسیر"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("پیکربندی برنامه"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -513,6 +514,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "داده تمام شده است. تمدید کنید یا داده بخرید.",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("اشتراک منقضی شده"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "اشتراک شما منقضی شده است. آن را در وب‌سایت تمدید کنید و سپس وضعیت را در اینجا تازه‌سازی کنید.",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("انقضای دوره"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("حالت سراسری"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
@@ -567,12 +571,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoPlan": MessageLookupByLibrary.simpleMessage(
       "برای شروع طرحی انتخاب کنید",
     ),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "طرح فعالی وجود ندارد. یک طرح در وب‌سایت انتخاب کنید و سپس وضعیت را در اینجا تازه‌سازی کنید.",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "مسیری در دسترس نیست. حساب را در وب‌سایت بررسی کنید.",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("وب‌سایت رسمی"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("داده مصرف‌شده دوره"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("طرح"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("هستهٔ پروکسی"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "اتصال اینترنت",
     ),
@@ -584,10 +592,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("شناسه پیگیری"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("تازه‌سازی"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage(
+      "تازه‌سازی وضعیت اشتراک",
+    ),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "ثبت‌نام یا بازنشانی گذرواژه در وب‌سایت",
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("داده دوره باقی‌مانده"),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("تمدید اشتراک"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
       "تازه‌سازی پیکربندی و اتصال",
     ),
@@ -750,7 +762,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "گره‌های دارای پروتکل پشتیبانی‌نشده رد شدند. برای فعال‌سازی آن‌ها FastAI را به‌روز یا دوباره نصب کنید.",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "این پیکربندی به پروتکل‌های غیرقابل دسترس نیاز دارد. FastAI را به‌روز یا دوباره نصب کنید یا هسته دیگری انتخاب کنید. پیکربندی قبلی حفظ شد.",
+      "این پیکربندی به پروتکل‌های غیرقابل دسترس نیاز دارد. FastAI را به‌روز یا دوباره نصب کنید. پیکربندی قبلی حفظ شد.",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "برای ادامه اتصال به‌روزرسانی لازم است",

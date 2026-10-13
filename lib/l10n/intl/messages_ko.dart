@@ -342,6 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckReference": MessageLookupByLibrary.simpleMessage("시스템 연결"),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 연결"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("보안 연결"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("요금제 선택"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("경로 선택"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("앱 설정"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -442,6 +443,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "데이터가 소진되었습니다. 갱신하거나 데이터를 구매하세요.",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("이용 기간 만료"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "구독이 만료되었습니다. 웹사이트에서 갱신한 후 여기에서 상태를 새로고침하세요.",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("이용 기간 만료일"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("전체 모드"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
@@ -480,12 +484,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNextReset": MessageLookupByLibrary.simpleMessage("다음 자동 초기화(현지 시간)"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("기간 만료 없음"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("요금제를 선택해 시작하세요"),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "사용 가능한 요금제가 없습니다. 웹사이트에서 요금제를 구매한 후 여기에서 상태를 새로고침하세요.",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "사용 가능한 경로가 없습니다. 웹사이트에서 계정 권한을 확인하세요.",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("공식 웹사이트"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("사용한 기간 데이터"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("요금제"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("프록시 코어"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("인터넷 연결"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "요청이 너무 많습니다. 나중에 다시 시도하세요.",
@@ -495,10 +503,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("문의 번호"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("새로고침"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage("구독 상태 새로고침"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "웹사이트에서 가입 또는 비밀번호 재설정",
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("남은 기간 데이터"),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("구독 갱신"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage("설정 새로고침 후 연결"),
     "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
       "작업을 완료하지 못했습니다. 아래 새 결과를 확인하고 필요하면 로그인과 계정 권한을 확인하세요.",
@@ -641,7 +651,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "현재 설치에서 지원하지 않는 프로토콜 노드를 건너뛰었습니다. FastAI를 업데이트하거나 다시 설치하세요.",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "이 설정에는 현재 지원하지 않는 프로토콜이 필요합니다. FastAI를 업데이트하거나 다시 설치하거나 다른 코어를 선택하세요. 이전 설정은 유지됩니다.",
+      "이 설정에는 현재 지원하지 않는 프로토콜이 필요합니다. FastAI를 업데이트하거나 다시 설치하세요. 이전 설정은 유지됩니다.",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "계속 연결하려면 업데이트하세요",

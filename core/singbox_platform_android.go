@@ -11,7 +11,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/metacubex/mihomo/component/resolver"
+	"errors"
 	mdns "github.com/miekg/dns"
 	"github.com/sagernet/sing-box/adapter"
 	sdns "github.com/sagernet/sing-box/dns"
@@ -19,10 +19,11 @@ import (
 	"github.com/sagernet/sing-box/option"
 	"github.com/sagernet/sing-tun"
 	"github.com/sagernet/sing/service"
+	"sync/atomic"
+	"time"
 )
 
 func singboxPlatformContext(ctx context.Context) context.Context {
-	installHooks()
 	service.MustRegister[adapter.PlatformInterface](ctx, &mobilePlatform{
 		protect: func(fd int) error {
 			th := activeTunHandler.Load()
@@ -86,12 +87,46 @@ func singboxPlatformContext(ctx context.Context) context.Context {
 	return ctx
 }
 
+var systemDNS atomic.Value
+
 type androidSystemDNS struct{ sdns.TransportAdapter }
 
 func (*androidSystemDNS) Start(adapter.StartStage, *adapter.Scope) error { return nil }
 func (*androidSystemDNS) Reset()                                         {}
 func (*androidSystemDNS) Exchange(ctx context.Context, message *mdns.Msg) (*mdns.Msg, error) {
-	return resolver.SystemResolver.ExchangeContext(ctx, message)
+	servers, _ := systemDNS.Load().([]string)
+	var last error = errors.New("Android system DNS is not available")
+	for _, server := range servers {
+		host := strings.TrimSpace(server)
+		if host == "" {
+			continue
+		}
+		if _, _, err := net.SplitHostPort(host); err != nil {
+			host = net.JoinHostPort(host, "53")
+		}
+		dialer := net.Dialer{Timeout: 5 * time.Second, Control: func(_, _ string, c syscall.RawConn) error {
+			th := activeTunHandler.Load()
+			if th == nil {
+				return nil
+			}
+			var err error
+			if controlErr := c.Control(func(fd uintptr) { err = th.handleProtect(int(fd)) }); controlErr != nil {
+				return controlErr
+			}
+			return err
+		}}
+		client := mdns.Client{Dialer: &dialer, Timeout: 5 * time.Second}
+		response, _, err := client.ExchangeContext(ctx, message, host)
+		if err == nil && response.Truncated {
+			client.Net = "tcp"
+			response, _, err = client.ExchangeContext(ctx, message, host)
+		}
+		if err == nil {
+			return response, nil
+		}
+		last = err
+	}
+	return nil, last
 }
 
 func (d *androidSystemDNS) ExchangeAsync(ctx context.Context, message *mdns.Msg, callback func(*mdns.Msg, error)) {

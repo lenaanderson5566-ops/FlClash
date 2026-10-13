@@ -356,6 +356,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckReference": MessageLookupByLibrary.simpleMessage("システム接続"),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 接続"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("安全な接続"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("プランを選ぶ"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("接続先を選ぶ"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("クライアント設定"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -456,6 +457,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "通信量を使い切りました。更新または追加容量を購入してください。",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("プラン期限切れ"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "サブスクリプションの期限が切れています。ウェブサイトで更新し、ここで状態を更新してください。",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("確認完了・一部未検証"),
@@ -492,12 +496,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNextReset": MessageLookupByLibrary.simpleMessage("次回の自動リセット（現地時刻）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("期間の期限なし"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("プランを購入して開始"),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "有効なプランがありません。ウェブサイトでプランを購入し、ここで更新すると接続できます。",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "利用可能な経路がありません。公式サイトでアカウントを確認してください。",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("公式サイト"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("期間データ使用量"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("プラン"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("プロキシコア"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("インターネット接続"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。しばらくお待ちください。",
@@ -507,8 +515,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("問い合わせ番号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("更新"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage("契約状態を更新"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("公式サイトで登録・パスワード再設定"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("期間の残り通信量"),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("契約を更新"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage("設定を再取得して接続"),
     "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
       "操作を完了できませんでした。最新の結果とアカウントの利用権限を確認してください。",
@@ -651,7 +661,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "このインストールで利用できないプロトコルのノードをスキップしました。FastAI を更新または再インストールしてください。",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "この設定には利用できないプロトコルが必要です。FastAI を更新・再インストールするか、別のコアを選んでください。以前の設定は保持されています。",
+      "この設定には利用できないプロトコルが必要です。FastAI を更新または再インストールしてください。以前の設定は保持されています。",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage("接続するには更新が必要です"),
     "fdUseReset": MessageLookupByLibrary.simpleMessage("リセットを1回使用"),

@@ -35,6 +35,7 @@ class _Session extends V2BoardSession {
 class _Api extends V2BoardApi {
   _Api(this.available) : super('https://example.com');
   bool available;
+  String? accountState;
   Completer<V10Object>? pendingAccount;
   Completer<Uint8List>? pendingConfig;
   V10Object subscription = {};
@@ -85,7 +86,7 @@ class _Api extends V2BoardApi {
             'email': 'test@example.com',
             'accountStatus': {
               'available': available,
-              'state': available ? 'active' : 'new',
+              'state': accountState ?? (available ? 'active' : 'new'),
             },
           }
         : {
@@ -792,10 +793,20 @@ void main() {
   ) async {
     await show(tester, _Api(false));
     expect(find.byType(NavigationDestination), findsNWidgets(5));
-    final connect = tester.widget<FilledButton>(
-      find.widgetWithText(FilledButton, 'Connect'),
+    expect(
+      tester
+          .widget<FilledButton>(find.byKey(const ValueKey('home-connect')))
+          .onPressed,
+      isNull,
     );
-    expect(connect.onPressed, isNull);
+    expect(find.byType(DropdownButton<Mode>), findsOneWidget);
+    expect(find.text('Choose a route'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.widgetWithText(FilledButton, 'Choose a plan'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.widgetWithText(FilledButton, 'Choose a plan'), findsOneWidget);
     await tester.tap(find.byType(NavigationDestination).at(3));
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
@@ -811,48 +822,94 @@ void main() {
     expect(find.text('Manage on website'), findsOneWidget);
     await tester.tap(find.byType(NavigationDestination).at(1));
     await tester.pumpAndSettle();
-    expect(
-      find.text('No routes are available. Check your account on the website.'),
-      findsOneWidget,
-    );
+    expect(find.widgetWithText(FilledButton, 'Choose a plan'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
   testWidgets(
-    'core switch restores preference on download failure',
+    'expired subscription refresh restores connect without auto connecting',
     (tester) async {
-      final core = _Core();
-      when(() => core.singboxFeatures()).thenAnswer((_) async => ['naive']);
-      await show(tester, _Api(true), desktopLayout: true, core: core);
-      final selector = find.byType(DropdownButton<String>);
+      final api = _Api(false)..accountState = 'expired';
+      await show(tester, api);
+      expect(find.text('Subscription expired'), findsWidgets);
+      expect(
+        tester
+            .widget<FilledButton>(find.byKey(const ValueKey('home-connect')))
+            .onPressed,
+        isNull,
+      );
+      expect(find.byType(DropdownButton<Mode>), findsOneWidget);
       await tester.scrollUntilVisible(
-        selector,
-        120,
+        find.byKey(const ValueKey('subscription-refresh')),
+        200,
         scrollable: find.byType(Scrollable).first,
       );
-      expect(tester.widget<DropdownButton<String>>(selector).value, 'sing-box');
-      await tester.tap(selector);
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Mihomo').last);
-      await tester.pumpAndSettle();
-      final container = ProviderScope.containerOf(
-        tester.element(find.byType(V2BoardShell)),
-      );
-      expect(container.read(appSettingProvider).proxyCore, 'sing-box');
       expect(
-        tester.widget<DropdownButton<String>>(selector).onChanged,
+        find.widgetWithText(FilledButton, 'Renew subscription'),
+        findsOneWidget,
+      );
+      await tester.pumpAndSettle();
+      final before = api.accountGets;
+      api.available = true;
+      api.accountState = 'active';
+      await tester.tap(find.byKey(const ValueKey('subscription-refresh')));
+      await tester.pumpAndSettle();
+      expect(api.accountGets, greaterThan(before));
+      expect(
+        find.widgetWithText(FilledButton, 'Renew subscription'),
+        findsNothing,
+      );
+      expect(
+        tester
+            .widget<FilledButton>(find.byKey(const ValueKey('home-connect')))
+            .onPressed,
         isNotNull,
       );
+      await tester.scrollUntilVisible(
+        find.text('Disconnected'),
+        -200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('Disconnected'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     },
-    variant: const TargetPlatformVariant({
-      TargetPlatform.windows,
-      TargetPlatform.android,
-      TargetPlatform.macOS,
-    }),
   );
+
+  testWidgets('subscription notice fits a narrow screen with larger text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(360, 700);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 1.4;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await show(tester, _Api(false));
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('subscription-refresh')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('settings show the single engine without a selector', (
+    tester,
+  ) async {
+    await show(tester, _Api(true), desktopLayout: true);
+    expect(find.byType(DropdownButton<String>), findsNothing);
+    await tester.tap(find.text('Settings').last);
+    await tester.pumpAndSettle();
+    expect(find.text('sing-box 1.14.3'), findsOneWidget);
+    expect(find.byType(DropdownButton<String>), findsNothing);
+    expect(find.textContaining('Mihomo'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
 
   testWidgets(
     'paid account exposes connect and functional modes without a shop tab',

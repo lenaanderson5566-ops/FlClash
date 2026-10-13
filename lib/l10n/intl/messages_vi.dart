@@ -422,6 +422,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("Kết nối TCP"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("Kết nối bảo mật"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("Chọn gói"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Chọn tuyến"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("Cấu hình ứng dụng"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -532,6 +533,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã hết lưu lượng. Hãy gia hạn hoặc mua thêm.",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Gói đã hết hạn"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "Gói dịch vụ đã hết hạn. Gia hạn trên trang web, rồi làm mới trạng thái tại đây để tiếp tục sử dụng.",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Hạn chu kỳ"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Chế độ toàn cục"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
@@ -582,6 +586,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("Không hết hạn chu kỳ"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("Chọn gói để bắt đầu"),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "Chưa có gói dịch vụ khả dụng. Chọn gói trên trang web, rồi làm mới trạng thái tại đây để kết nối.",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Không có tuyến khả dụng. Kiểm tra tài khoản trên website.",
     ),
@@ -592,6 +599,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Lưu lượng chu kỳ đã dùng",
     ),
     "fdPlan": MessageLookupByLibrary.simpleMessage("Gói dịch vụ"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("Lõi proxy"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
       "Kết nối Internet",
     ),
@@ -603,12 +611,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Mã tham chiếu"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Làm mới"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage(
+      "Làm mới trạng thái gói",
+    ),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage(
       "Đăng ký hoặc đặt lại mật khẩu trên website",
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage(
       "Lưu lượng chu kỳ còn lại",
     ),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("Gia hạn gói"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
       "Làm mới cấu hình và kết nối",
     ),
@@ -773,7 +785,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã bỏ qua các nút có giao thức không khả dụng trong bản cài đặt này. Hãy cập nhật hoặc cài lại FastAI.",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật, cài lại FastAI hoặc chọn lõi khác. Cấu hình trước đã được giữ lại.",
+      "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật hoặc cài lại FastAI. Cấu hình trước đã được giữ lại.",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "Cần cập nhật để tiếp tục kết nối",

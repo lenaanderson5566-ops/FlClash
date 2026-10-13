@@ -12,7 +12,8 @@ import 'package:fastai/v2board/network_diagnostics.dart';
 import 'package:fastai/v2board/connection_diagnostics.dart';
 
 class ToolsView extends ConsumerStatefulWidget {
-  const ToolsView({super.key, this.onRepair});
+  const ToolsView({super.key, this.onRepair, this.coreSetting});
+  final Widget? coreSetting;
   final Future<void> Function(DiagnosticRepair)? onRepair;
 
   @override
@@ -25,6 +26,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       title: null,
       items: [
         const _LocaleItem(),
+        if (widget.coreSetting != null) widget.coreSetting!,
         ListTile(
           leading: const GlyphIcon(AppGlyphs.info),
           title: Text(context.appLocalizations.fdNetworkDiagnostics),

@@ -330,6 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCheckReference": MessageLookupByLibrary.simpleMessage("系統網路連線"),
     "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 連通性"),
     "fdCheckTls": MessageLookupByLibrary.simpleMessage("安全連線"),
+    "fdChoosePlan": MessageLookupByLibrary.simpleMessage("選購套餐"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("選擇線路"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("客戶端配置"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
@@ -424,6 +425,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdEmailLogin": MessageLookupByLibrary.simpleMessage("或使用電子郵件登入"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage("流量已用盡，請續費或購買流量包。"),
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
+      "套餐已到期。請前往官網續費，完成後重新整理狀態即可恢復使用。",
+    ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("週期到期時間"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("全域性模式"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("檢查完成，部分專案尚未驗證"),
@@ -454,12 +458,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自動重置（本地時間）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("無週期到期時間"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("購買套餐後即可開始使用"),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
+      "目前沒有可用套餐。請前往官網選購套餐，完成後重新整理狀態即可連線。",
+    ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "暫無可用線路，請前往官網檢查賬號權益。",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("官方網站"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("週期流量已用"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("方案"),
+    "fdProxyCore": MessageLookupByLibrary.simpleMessage("代理核心"),
     "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("網際網路連通性"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作過於頻繁，請稍後重試。"),
     "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
@@ -467,8 +475,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("問題編號"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("重新整理"),
+    "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage("重新整理套餐狀態"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("前往官網註冊或找回密碼"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("週期剩餘流量"),
+    "fdRenewPlan": MessageLookupByLibrary.simpleMessage("續費套餐"),
     "fdRepairConfig": MessageLookupByLibrary.simpleMessage("重新獲取配置並連線"),
     "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
       "操作未能完成。請檢視下方最新結果，必要時登入並檢查賬號使用許可權。",
@@ -593,7 +603,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "已略過目前安裝版本不支援的協定節點。可更新或重新安裝 FastAI 以啟用這些節點。",
     ),
     "fdUnsupportedProtocols": MessageLookupByLibrary.simpleMessage(
-      "目前設定依賴本機不支援的協定。請更新或重新安裝 FastAI，或切換核心。已保留原設定。",
+      "目前設定依賴本機不支援的協定。請更新或重新安裝 FastAI。已保留原設定。",
     ),
     "fdUpdateRequired": MessageLookupByLibrary.simpleMessage(
       "請更新 FastAI 後繼續連線",

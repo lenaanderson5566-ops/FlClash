@@ -6078,14 +6078,69 @@ class AppLocalizations {
     );
   }
 
-  /// `This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept.`
+  /// `This configuration requires protocols unavailable in this installation. Update or reinstall FastAI. Your previous configuration was kept.`
   String get fdUnsupportedProtocols {
     return Intl.message(
-      'This configuration requires protocols unavailable in this installation. Update or reinstall FastAI, or choose another core. Your previous configuration was kept.',
+      'This configuration requires protocols unavailable in this installation. Update or reinstall FastAI. Your previous configuration was kept.',
       name: 'fdUnsupportedProtocols',
       desc: '',
       args: [],
     );
+  }
+
+  /// `No active plan is available. Choose a plan on the website, then refresh here to start connecting.`
+  String get fdNoPlanHint {
+    return Intl.message(
+      'No active plan is available. Choose a plan on the website, then refresh here to start connecting.',
+      name: 'fdNoPlanHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your subscription has expired. Renew it on the website, then refresh here to restore access.`
+  String get fdExpiredHint {
+    return Intl.message(
+      'Your subscription has expired. Renew it on the website, then refresh here to restore access.',
+      name: 'fdExpiredHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a plan`
+  String get fdChoosePlan {
+    return Intl.message(
+      'Choose a plan',
+      name: 'fdChoosePlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renew subscription`
+  String get fdRenewPlan {
+    return Intl.message(
+      'Renew subscription',
+      name: 'fdRenewPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh subscription`
+  String get fdRefreshSubscription {
+    return Intl.message(
+      'Refresh subscription',
+      name: 'fdRefreshSubscription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proxy core`
+  String get fdProxyCore {
+    return Intl.message('Proxy core', name: 'fdProxyCore', desc: '', args: []);
   }
 }
 

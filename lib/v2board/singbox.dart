@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:fastai/models/models.dart';
 
 import 'api.dart';
+import 'singbox_rules.dart';
 
 Map<String, dynamic> singboxProfile(Map<String, dynamic> configuration) {
   final outbounds = configuration['outbounds'];
@@ -50,13 +51,14 @@ Map<String, dynamic> singboxProfile(Map<String, dynamic> configuration) {
   if (features.contains('naive')) {
     return (profile: original, removed: <String>{});
   }
-  final copy = jsonDecode(jsonEncode(configuration)) as Map<String, dynamic>;
-  final outbounds = (copy['outbounds'] as List).cast<Map<String, dynamic>>();
-  final removed = outbounds
+  final removed = (configuration['outbounds'] as List)
+      .cast<Map>()
       .where((node) => node['type'] == 'naive')
       .map((node) => node['tag'] as String)
       .toSet();
   if (removed.isEmpty) return (profile: original, removed: removed);
+  final copy = jsonDecode(jsonEncode(configuration)) as Map<String, dynamic>;
+  final outbounds = (copy['outbounds'] as List).cast<Map<String, dynamic>>();
   var changed = true;
   while (changed) {
     changed = false;
@@ -118,7 +120,10 @@ bool _referencesRemoved(dynamic value, Set<String> removed) {
   bool android = false,
   bool macos = false,
 }) {
-  final config = Map<String, dynamic>.from(profile['configuration'] as Map);
+  final config = withDefaultSingboxRules(
+    Map<String, dynamic>.from(profile['configuration'] as Map),
+    ipv6: patch.ipv6,
+  );
   config['inbounds'] = [
     if (!safeMode && patch.mixedPort > 0)
       {

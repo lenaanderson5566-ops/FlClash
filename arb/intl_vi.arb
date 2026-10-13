@@ -734,5 +734,11 @@
   "fdBrowserExpired": "Ủy quyền đã hết hạn. Hãy đăng nhập lại qua trình duyệt.",
   "fdBrowserFailed": "Không thể hoàn tất đăng nhập qua trình duyệt. Hãy thử lại hoặc dùng email.",
   "fdUnsupportedNodesSkipped": "Đã bỏ qua các nút có giao thức không khả dụng trong bản cài đặt này. Hãy cập nhật hoặc cài lại FastAI.",
-  "fdUnsupportedProtocols": "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật, cài lại FastAI hoặc chọn lõi khác. Cấu hình trước đã được giữ lại."
+  "fdUnsupportedProtocols": "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật hoặc cài lại FastAI. Cấu hình trước đã được giữ lại.",
+  "fdNoPlanHint": "Chưa có gói dịch vụ khả dụng. Chọn gói trên trang web, rồi làm mới trạng thái tại đây để kết nối.",
+  "fdExpiredHint": "Gói dịch vụ đã hết hạn. Gia hạn trên trang web, rồi làm mới trạng thái tại đây để tiếp tục sử dụng.",
+  "fdChoosePlan": "Chọn gói",
+  "fdRenewPlan": "Gia hạn gói",
+  "fdRefreshSubscription": "Làm mới trạng thái gói",
+  "fdProxyCore": "Lõi proxy"
 }

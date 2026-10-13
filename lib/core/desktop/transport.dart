@@ -228,8 +228,9 @@ final class IPCCoreTransport implements DesktopCoreTransport {
 
   Future<void> _open() async {
     _state = DesktopTransportState.starting;
-    final readiness = events.firstWhere(
+    final readiness = _waitForEvent(
       (event) => event is TransportReady || event is TransportFailed,
+      readyTimeout,
     );
     try {
       _subscription = _startServer(address).listen(
@@ -238,7 +239,7 @@ final class IPCCoreTransport implements DesktopCoreTransport {
         onDone: _handleStreamDone,
         cancelOnError: false,
       );
-      final event = await readiness.timeout(readyTimeout);
+      final event = await readiness;
       if (event case TransportFailed(:final error, :final stackTrace)) {
         Error.throwWithStackTrace(error, stackTrace);
       }
@@ -342,12 +343,16 @@ final class IPCCoreTransport implements DesktopCoreTransport {
     }
     commonPrint.log('IPC error: $error', logLevel: LogLevel.debug);
     _state = DesktopTransportState.failed;
+    _connection = null;
     _failure = TransportFailed(error, stackTrace);
     _eventController.add(_failure!);
   }
 
   @override
   Future<TransportConnected> waitUntilConnected(Duration timeout) {
+    if (_state == DesktopTransportState.closed) {
+      return Future.error(StateError('IPC transport is closed'));
+    }
     final connection = _connection;
     if (connection != null) {
       return Future.value(connection);
@@ -356,18 +361,40 @@ final class IPCCoreTransport implements DesktopCoreTransport {
     if (failure != null) {
       return Future.error(failure.error, failure.stackTrace);
     }
-    return events
-        .firstWhere(
-          (event) => event is TransportConnected || event is TransportFailed,
-        )
-        .then<TransportConnected>((event) {
-          if (event case TransportConnected()) {
-            return event;
-          }
-          final failure = event as TransportFailed;
-          Error.throwWithStackTrace(failure.error, failure.stackTrace);
-        })
-        .timeout(timeout);
+    return _waitForEvent(
+      (event) => event is TransportConnected || event is TransportFailed,
+      timeout,
+    ).then<TransportConnected>((event) {
+      if (event case TransportConnected()) {
+        return event;
+      }
+      final failure = event as TransportFailed;
+      Error.throwWithStackTrace(failure.error, failure.stackTrace);
+    });
+  }
+
+  Future<DesktopTransportEvent> _waitForEvent(
+    bool Function(DesktopTransportEvent) matches,
+    Duration timeout,
+  ) async {
+    final completer = Completer<DesktopTransportEvent>();
+    final subscription = events.listen(
+      (event) {
+        if (!completer.isCompleted && matches(event)) {
+          completer.complete(event);
+        }
+      },
+      onDone: () {
+        if (!completer.isCompleted) {
+          completer.completeError(StateError('IPC transport is closed'));
+        }
+      },
+    );
+    try {
+      return await completer.future.timeout(timeout);
+    } finally {
+      await subscription.cancel();
+    }
   }
 
   @override

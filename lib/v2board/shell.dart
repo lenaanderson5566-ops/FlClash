@@ -12,8 +12,6 @@ import 'package:fastai/common/common.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/providers/providers.dart';
-import 'package:fastai/models/models.dart';
-import 'package:fastai/plugins/service.dart';
 import 'package:fastai/state.dart';
 import 'package:fastai/views/views.dart';
 import 'package:fastai/views/config/connection_settings.dart';
@@ -211,6 +209,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _browserLogin?.cancel();
     _accountTimer?.cancel();
     _delayTimer?.cancel();
+    _profile.invalidate();
     _api?.close();
     super.dispose();
   }
@@ -235,6 +234,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       if (!mounted) return;
       final l = context.appLocalizations;
       if (error.code == 'CLIENT_VERSION_TOO_LOW') {
+        _profile.invalidate();
         ref.read(v2BoardAccessProvider.notifier).rejectVersion();
         await ref.read(setupActionProvider.notifier).setRunning(false);
         if (!mounted) return;
@@ -242,6 +242,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       }
       if (error.code == 'CLIENT_DISABLED' ||
           error.code == 'SUBSCRIPTION_UNAVAILABLE') {
+        _profile.invalidate();
         ref.read(v2BoardAccessProvider.notifier).setAvailable(false);
         await ref.read(setupActionProvider.notifier).setRunning(false);
         if (!mounted) return;
@@ -337,6 +338,10 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     if (!mounted || _api != api) return;
     _accountStale = false;
     _account = V2BoardAccount(data[0], data[1]);
+    if (!_account!.active ||
+        ref.read(fastaiReleaseProvider)?.required == true) {
+      _profile.invalidate();
+    }
     ref
         .read(v2BoardAccessProvider.notifier)
         .setAvailable(
@@ -689,25 +694,28 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       _requestLogin(connect: connect);
       return;
     }
+    final api = _api!;
     await _run(() async {
       await _refresh();
-      if (!mounted || _account?.active != true) return;
+      if (!mounted || !identical(api, _api) || _account?.active != true) return;
       if (ref.read(fastaiReleaseProvider)?.required == true) {
         await checkFastaiUpdate(context, ref);
         return;
       }
       if (connect) {
-        await _profile.connect(_api!, onConnecting: _connecting);
+        await _profile.connect(api, onConnecting: _connecting);
       } else {
-        await _profile.sync(_api!);
+        await _profile.sync(api);
       }
     }, activity: context.appLocalizations.fdSyncingRoutes);
   }
 
   Future<void> _syncAvailable() async {
-    if (_account?.active == true &&
+    final api = _api;
+    if (api != null &&
+        _account?.active == true &&
         ref.read(fastaiReleaseProvider)?.required != true) {
-      await _profile.sync(_api!);
+      await _profile.sync(api);
     }
   }
 
@@ -1018,7 +1026,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ),
           ),
         const SizedBox(height: 16),
-        if (account != null) _trafficCard(account),
+        if (account != null && !account.active) ...[
+          _subscriptionNotice(showStale: false),
+          const SizedBox(height: 16),
+        ],
+        if (account != null &&
+            (account.active ||
+                account.totalBytes > 0 ||
+                account.creditBytes > 0))
+          _trafficCard(account),
         const SizedBox(height: 16),
         Card(
           child: ListTile(
@@ -1124,6 +1140,83 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _retryConnect = connect;
     _showLogin = true;
   });
+
+  Widget _subscriptionNotice({bool showStale = true}) {
+    final l = context.appLocalizations;
+    final status = _account?.status;
+    final title = switch (status) {
+      'noPlan' => l.fdNoPlan,
+      'expired' => l.fdExpired,
+      'exhausted' => l.fdExhausted,
+      _ => l.fdBanned,
+    };
+    final hint = switch (status) {
+      'noPlan' => l.fdNoPlanHint,
+      'expired' => l.fdExpiredHint,
+      _ => l.fdWebAccountHint,
+    };
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const GlyphIcon(AppGlyphs.info, size: 40),
+            const SizedBox(height: 16),
+            Text(title, style: context.textTheme.headlineSmall),
+            const SizedBox(height: 12),
+            Text(hint, style: context.textTheme.bodyMedium),
+            if (showStale && _accountStale) ...[
+              const SizedBox(height: 12),
+              Text(l.fdAccountStale),
+            ],
+            const SizedBox(height: 24),
+            Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              children: [
+                FilledButton(
+                  onPressed: _busy ? null : () => _run(_portal),
+                  child: Text(switch (status) {
+                    'noPlan' => l.fdChoosePlan,
+                    'expired' => l.fdRenewPlan,
+                    _ => l.fdWebAccount,
+                  }),
+                ),
+                OutlinedButton(
+                  key: const ValueKey('subscription-refresh'),
+                  onPressed: _busy ? null : () => _run(_refresh),
+                  child: Text(l.fdRefreshSubscription),
+                ),
+                if (ref.watch(isStartProvider))
+                  TextButton(
+                    onPressed: _busy ? null : _disconnect,
+                    child: Text(l.fdDisconnect),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _subscriptionPage() => Center(
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 520),
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(24),
+        children: [_subscriptionNotice()],
+      ),
+    ),
+  );
+
+  Widget _coreSetting() => ListTile(
+    leading: const GlyphIcon(AppGlyphs.settings),
+    title: Text(context.appLocalizations.fdProxyCore),
+    subtitle: const Text('sing-box 1.14.3'),
+  );
 
   Widget _desktopHome() {
     final l = context.appLocalizations;
@@ -1283,41 +1376,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                           },
                   ),
                 ),
-                if (defaultTargetPlatform == TargetPlatform.windows ||
-                    defaultTargetPlatform == TargetPlatform.android ||
-                    defaultTargetPlatform == TargetPlatform.macOS)
-                  SizedBox(
-                    width: 160,
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: ref.watch(
-                          appSettingProvider.select((s) => s.proxyCore),
-                        ),
-                        isDense: true,
-                        items: const [
-                          DropdownMenuItem(
-                            value: 'mihomo',
-                            child: Text('Mihomo'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'sing-box',
-                            child: Text(
-                              'sing-box 1.14.3',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                        onChanged: _busy || _api == null
-                            ? null
-                            : (value) {
-                                if (value != null) {
-                                  unawaited(_changeCore(value));
-                                }
-                              },
-                      ),
-                    ),
-                  ),
                 if (widget.desktopLayout)
                   DropdownButtonHideUnderline(
                     child: DropdownButton<bool>(
@@ -1348,87 +1406,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                   const ConnectionSettings(isDesktop: false),
               ],
             ),
+            if (_account != null && !_account!.active) ...[
+              const SizedBox(height: 20),
+              _subscriptionNotice(),
+            ],
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _changeCore(String core) async {
-    if (_busy || _api == null) return;
-    await _run(() async {
-      final previous = ref.read(appSettingProvider).proxyCore;
-      final previousProfile = ref.read(currentProfileProvider);
-      final previousFile = await previousProfile?.file;
-      final previousBytes = previousFile != null && await previousFile.exists()
-          ? await previousFile.readAsBytes()
-          : null;
-      final previousMetadataFile = previousProfile == null
-          ? null
-          : await nodeMetadataFile(previousProfile.id);
-      final previousMetadata =
-          previousMetadataFile != null && await previousMetadataFile.exists()
-          ? await previousMetadataFile.readAsBytes()
-          : null;
-      if (!mounted) return;
-      final wasRunning = ref.read(runTimeProvider) != null;
-      final action = ref.read(setupActionProvider.notifier);
-      if (!await action.setRunning(false)) {
-        throw const V2BoardProblem('connection_failed');
-      }
-      if (system.isAndroid && !(await service?.stopForCoreSwitch() ?? false)) {
-        throw const V2BoardProblem('connection_failed');
-      }
-      if (!mounted) return;
-      ref
-          .read(appSettingProvider.notifier)
-          .update((state) => state.copyWith(proxyCore: core));
-      try {
-        await _profile.sync(_api!, apply: false);
-        if (!mounted) return;
-        if (!await action.applyProfile(force: true)) {
-          throw const V2BoardProblem('invalid_config');
-        }
-        if (wasRunning && !await action.setRunning(true)) {
-          throw const V2BoardProblem('connection_failed');
-        }
-      } catch (error) {
-        final accessDenied =
-            error is V2BoardProblem &&
-            (error.sessionRejected ||
-                const {
-                  'SUBSCRIPTION_UNAVAILABLE',
-                  'CLIENT_DISABLED',
-                  'CLIENT_VERSION_TOO_LOW',
-                }.contains(error.code));
-        if (mounted) {
-          ref
-              .read(appSettingProvider.notifier)
-              .update((state) => state.copyWith(proxyCore: previous));
-          if (previousProfile != null &&
-              previousBytes != null &&
-              previousFile != null) {
-            await previousFile.safeWriteAsBytes(previousBytes);
-            if (previousMetadata != null && previousMetadataFile != null) {
-              await previousMetadataFile.safeWriteAsBytes(previousMetadata);
-            }
-            if (!mounted) return;
-            ref
-                .read(profilesActionProvider.notifier)
-                .putProfile(previousProfile);
-            ref.read(currentProfileIdProvider.notifier).value =
-                previousProfile.id;
-            ref.invalidate(fastaiNodeMetadataProvider);
-            if (await action.applyProfile(force: true) &&
-                wasRunning &&
-                !accessDenied) {
-              await action.setRunning(true);
-            }
-          }
-        }
-        rethrow;
-      }
-    });
   }
 
   void _selectPage(int index) => setState(() {
@@ -1465,8 +1450,17 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
               )
             : _account?.active == true
             ? FastaiRoutesView(onSync: () => _sync())
-            : Center(child: Text(context.appLocalizations.fdNodesUnavailable)),
+            : _account == null
+            ? Center(child: Text(context.appLocalizations.fdNodesUnavailable))
+            : _subscriptionPage(),
       2 => ToolsView(
+        coreSetting:
+            defaultTargetPlatform == TargetPlatform.windows ||
+                defaultTargetPlatform == TargetPlatform.android ||
+                defaultTargetPlatform == TargetPlatform.macOS ||
+                defaultTargetPlatform == TargetPlatform.linux
+            ? _coreSetting()
+            : null,
         onRepair: _api != null && _account?.active == true
             ? _repairConnection
             : null,
@@ -1587,6 +1581,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     ref.listen(groupsProvider, (_, _) => _scheduleDelay());
     ref.listen(fastaiReleaseProvider, (previous, next) {
       if (next?.required == true) {
+        _profile.invalidate();
         ref.read(v2BoardAccessProvider.notifier).setAvailable(false);
         unawaited(ref.read(setupActionProvider.notifier).setRunning(false));
       }

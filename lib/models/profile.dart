@@ -189,16 +189,19 @@ extension ProfileExtension on Profile {
     Uint8List bytes, {
     required ValidateConfig validate,
   }) async {
-    final path = await appPath.tempFilePath;
-    final tempFile = File(path);
-    await tempFile.safeWriteAsBytes(bytes);
-    final message = await validate(path);
-    if (message.isNotEmpty) {
-      throw MessageException(message);
+    final destination = await file;
+    final staging = await Directory(
+      destination.parent.path,
+    ).createTemp('.profile-');
+    final tempFile = File('${staging.path}/config.yaml');
+    try {
+      await tempFile.writeAsBytes(bytes, flush: true);
+      final message = await validate(tempFile.path);
+      if (message.isNotEmpty) throw MessageException(message);
+      await tempFile.rename(destination.path);
+      return copyWith(lastUpdateDate: DateTime.now());
+    } finally {
+      await staging.safeDelete(recursive: true);
     }
-    final mFile = await file;
-    await tempFile.copy(mFile.path);
-    await tempFile.safeDelete();
-    return copyWith(lastUpdateDate: DateTime.now());
   }
 }

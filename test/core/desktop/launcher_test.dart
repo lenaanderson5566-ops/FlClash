@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fastai/core/desktop/launcher.dart';
@@ -6,6 +7,29 @@ import 'package:fastai/core/desktop/model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('stderr handles split UTF-8 and malformed native output', () async {
+    final stderr = StreamController<List<int>>();
+    final process = _FakeProcess(
+      pid: 42,
+      exitCode: Future.value(0),
+      stderr: stderr.stream,
+    );
+    final launcher = DirectCoreLauncher(
+      startProcess: (_, _) async => process,
+      corePath: 'FastAICore',
+    );
+    final lease = await launcher.start(
+      sessionId: '0123456789abcdef0123456789abcdef',
+      address: 'test-address',
+    );
+    final bytes = utf8.encode('连接失败');
+    stderr.add(bytes.sublist(0, 1));
+    stderr.add(bytes.sublist(1));
+    stderr.add([0xff]);
+    await stderr.close();
+    await lease.stop(const Duration(seconds: 1));
+  });
+
   test('createCoreSessionId returns lowercase 128-bit hex', () {
     expect(createCoreSessionId(), matches(RegExp(r'^[0-9a-f]{32}$')));
   });
@@ -89,11 +113,15 @@ class _FakeProcess implements Process {
   final Stream<List<int>> stdout = const Stream.empty();
 
   @override
-  final Stream<List<int>> stderr = const Stream.empty();
+  final Stream<List<int>> stderr;
 
   bool killed = false;
 
-  _FakeProcess({required this.pid, required this.exitCode});
+  _FakeProcess({
+    required this.pid,
+    required this.exitCode,
+    this.stderr = const Stream.empty(),
+  });
 
   @override
   bool kill([ProcessSignal signal = ProcessSignal.sigterm]) {

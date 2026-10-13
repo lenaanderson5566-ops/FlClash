@@ -1,0 +1,15 @@
+This application includes geosite-cn.srs and geoip-cn.srs from:
+https://github.com/SagerNet/sing-geosite
+https://github.com/SagerNet/sing-geoip
+Copyright (C) 2022 nekohasekai <contact-sagernet@sekai.icu>
+See LICENSE.sing-geosite and LICENSE.sing-geoip in this directory.
+
+Domain data is derived by upstream from v2fly/domain-list-community:
+https://github.com/v2fly/domain-list-community
+IP data is derived by upstream from Dreamacro/maxmind-geoip and MaxMind GeoLite2:
+https://github.com/Dreamacro/maxmind-geoip
+https://www.maxmind.com/
+
+The bundled snapshot revisions and SHA256 hashes are recorded in the source
+distribution under core/rulesets/manifest.json. Runtime downloads may contain
+newer versions from the same rule-set repositories.

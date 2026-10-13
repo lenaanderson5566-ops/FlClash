@@ -1,5 +1,5 @@
 import 'package:fastai/v2board/node_metadata.dart';
-import 'package:flutter/material.dart' show Locale;
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

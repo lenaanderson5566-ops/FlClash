@@ -1,0 +1,195 @@
+{
+  "fastai-core": "sing-box",
+  "configuration": {
+    "log": {
+      "level": "warn"
+    },
+    "dns": {
+      "servers": [
+        {
+          "type": "local",
+          "tag": "local"
+        },
+        {
+          "type": "https",
+          "tag": "remote",
+          "server": "1.1.1.1",
+          "path": "/dns-query",
+          "detour": "节点选择"
+        },
+        {
+          "type": "local",
+          "tag": "fastai-dns-direct"
+        },
+        {
+          "type": "https",
+          "tag": "fastai-dns-proxy",
+          "server": "1.1.1.1",
+          "path": "/dns-query",
+          "detour": "节点选择"
+        }
+      ],
+      "final": "fastai-dns-proxy",
+      "rules": [
+        {
+          "clash_mode": "Direct",
+          "action": "route",
+          "server": "fastai-dns-direct"
+        },
+        {
+          "clash_mode": "Global",
+          "action": "route",
+          "server": "fastai-dns-proxy"
+        },
+        {
+          "domain_suffix": [
+            "lan",
+            "local"
+          ],
+          "action": "route",
+          "server": "fastai-dns-direct"
+        },
+        {
+          "rule_set": [
+            "fastai-geosite-cn"
+          ],
+          "action": "route",
+          "server": "fastai-dns-direct"
+        }
+      ],
+      "independent_cache": true,
+      "strategy": "prefer_ipv4"
+    },
+    "inbounds": [],
+    "outbounds": [
+      {
+        "type": "direct",
+        "tag": "DIRECT"
+      },
+      {
+        "type": "selector",
+        "tag": "GLOBAL",
+        "outbounds": [
+          "节点选择"
+        ],
+        "default": "节点选择"
+      },
+      {
+        "type": "selector",
+        "tag": "节点选择",
+        "outbounds": [
+          "自动选择",
+          "node_v2box_1"
+        ],
+        "interrupt_exist_connections": true
+      },
+      {
+        "type": "urltest",
+        "tag": "自动选择",
+        "outbounds": [
+          "node_v2box_1"
+        ],
+        "url": "https://www.gstatic.com/generate_204",
+        "interval": "10m",
+        "tolerance": 50
+      },
+      {
+        "tag": "node_v2box_1",
+        "type": "shadowsocks",
+        "server": "node.example",
+        "server_port": 443,
+        "method": "aes-128-gcm",
+        "password": "00000000-0000-4000-8000-000000000001",
+        "domain_resolver": "local"
+      }
+    ],
+    "route": {
+      "auto_detect_interface": true,
+      "default_domain_resolver": {
+        "server": "local"
+      },
+      "rules": [
+        {
+          "action": "sniff"
+        },
+        {
+          "protocol": "dns",
+          "action": "hijack-dns"
+        },
+        {
+          "clash_mode": "Direct",
+          "action": "route",
+          "outbound": "DIRECT"
+        },
+        {
+          "clash_mode": "Global",
+          "action": "route",
+          "outbound": "GLOBAL"
+        },
+        {
+          "ip_is_private": true,
+          "action": "route",
+          "outbound": "DIRECT"
+        },
+        {
+          "domain_suffix": [
+            "lan",
+            "local"
+          ],
+          "action": "route",
+          "outbound": "DIRECT"
+        },
+        {
+          "rule_set": [
+            "fastai-geosite-cn"
+          ],
+          "action": "route",
+          "outbound": "DIRECT"
+        },
+        {
+          "action": "resolve",
+          "strategy": "prefer_ipv4"
+        },
+        {
+          "ip_is_private": true,
+          "action": "route",
+          "outbound": "DIRECT"
+        },
+        {
+          "rule_set": [
+            "fastai-geoip-cn"
+          ],
+          "action": "route",
+          "outbound": "DIRECT"
+        }
+      ],
+      "final": "节点选择",
+      "rule_set": [
+        {
+          "type": "remote",
+          "tag": "fastai-geosite-cn",
+          "format": "binary",
+          "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+          "initial_path": "fastai-bundled:geosite-cn.srs",
+          "http_client": {
+            "detour": "节点选择",
+            "connect_timeout": "10s"
+          },
+          "update_interval": "5d"
+        },
+        {
+          "type": "remote",
+          "tag": "fastai-geoip-cn",
+          "format": "binary",
+          "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+          "initial_path": "fastai-bundled:geoip-cn.srs",
+          "http_client": {
+            "detour": "节点选择",
+            "connect_timeout": "10s"
+          },
+          "update_interval": "5d"
+        }
+      ]
+    }
+  }
+}
