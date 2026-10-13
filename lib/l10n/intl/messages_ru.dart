@@ -435,7 +435,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("Настройки клиента"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI временно недоступен. Обратитесь в поддержку на сайте.",
+      "Доступ к FastAI отключён на сервере. Обратитесь к администратору.",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "Оба пути не прошли проверку. Возможна общая проблема сети или ограничение адреса; сопоставьте результаты по слоям.",
@@ -547,7 +547,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Подписка истекла"),
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "Подписка истекла. Продлите её на сайте, затем обновите статус здесь, чтобы восстановить доступ.",
+      "Продлите подписку, чтобы подключиться снова.",
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Глобальный режим"),
@@ -604,7 +604,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Выберите тариф для начала",
     ),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "Нет действующего тарифа. Выберите тариф на сайте, затем обновите статус здесь, чтобы подключиться.",
+      "Для подключения нужна подписка.",
     ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Нет доступных маршрутов. Проверьте доступ учётной записи на сайте.",
@@ -758,11 +758,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteChecking": MessageLookupByLibrary.simpleMessage("Проверка…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Сбой проверки"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("Последний замер"),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage(
+      "Предпросмотр маршрутов",
+    ),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "Только просмотр. Для подключения нужна действующая подписка.",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage(
       "Низкая задержка",
     ),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("Высокая задержка"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("Не проверено"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
+      "Маршрутов пока нет. Попробуйте обновить позже.",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Сессия истекла. Войдите снова.",
     ),

@@ -614,7 +614,7 @@
   "fdDisconnecting": "切断中…",
   "fdOfficialWebsite": "公式サイト",
   "fdInvalidConfig": "サーバーから無効な設定が返されました。再同期するかサポートにお問い合わせください。",
-  "fdClientUnavailable": "FastAI は一時的に利用できません。公式サイトからサポートにお問い合わせください。",
+  "fdClientUnavailable": "サーバーで FastAI へのアクセスが無効になっています。管理者にお問い合わせください。",
   "fdRequestTimeout": "リクエストがタイムアウトしました。ネットワークを確認して再試行してください。",
   "fdCertificateError": "サーバー証明書を確認できません。システム時刻を確認するかサポートにお問い合わせください。",
   "fdReferenceId": "問い合わせ番号",
@@ -735,10 +735,13 @@
   "fdBrowserFailed": "ブラウザーでのログインを完了できませんでした。再試行するかメールでログインしてください。",
   "fdUnsupportedNodesSkipped": "このインストールで利用できないプロトコルのノードをスキップしました。FastAI を更新または再インストールしてください。",
   "fdUnsupportedProtocols": "この設定には利用できないプロトコルが必要です。FastAI を更新または再インストールしてください。以前の設定は保持されています。",
-  "fdNoPlanHint": "有効なプランがありません。ウェブサイトでプランを購入し、ここで更新すると接続できます。",
-  "fdExpiredHint": "サブスクリプションの期限が切れています。ウェブサイトで更新し、ここで状態を更新してください。",
+  "fdNoPlanHint": "接続にはプランの契約が必要です。",
+  "fdExpiredHint": "プランを更新すると再接続できます。",
   "fdChoosePlan": "プランを選ぶ",
   "fdRenewPlan": "契約を更新",
   "fdRefreshSubscription": "契約状態を更新",
-  "fdProxyCore": "プロキシコア"
+  "fdProxyCore": "プロキシコア",
+  "fdRoutePreview": "ルートのプレビュー",
+  "fdRoutePreviewHint": "プレビューのみです。接続には有効なプランが必要です。",
+  "fdRoutesEmpty": "利用可能なルートがありません。後でもう一度更新してください。"
 }

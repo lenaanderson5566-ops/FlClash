@@ -409,7 +409,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("انتخاب مسیر"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("پیکربندی برنامه"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI موقتاً در دسترس نیست. از وب‌سایت با پشتیبانی تماس بگیرید.",
+      "دسترسی FastAI در سرور غیرفعال شده است. با مدیر تماس بگیرید.",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "هر دو مسیر برای این مقصد ناموفق بودند. ممکن است مشکل مشترک شبکه یا محدودیت مقصد باشد؛ پیش از نتیجه‌گیری بررسی‌های لایه‌ای را ببینید.",
@@ -515,7 +515,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("اشتراک منقضی شده"),
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "اشتراک شما منقضی شده است. آن را در وب‌سایت تمدید کنید و سپس وضعیت را در اینجا تازه‌سازی کنید.",
+      "برای اتصال دوباره اشتراک را تمدید کنید.",
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("انقضای دوره"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("حالت سراسری"),
@@ -572,7 +572,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "برای شروع طرحی انتخاب کنید",
     ),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "طرح فعالی وجود ندارد. یک طرح در وب‌سایت انتخاب کنید و سپس وضعیت را در اینجا تازه‌سازی کنید.",
+      "برای اتصال به اشتراک نیاز دارید.",
     ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "مسیری در دسترس نیست. حساب را در وب‌سایت بررسی کنید.",
@@ -720,9 +720,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage(
       "آخرین اندازه‌گیری",
     ),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage("پیش‌نمایش مسیرها"),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "فقط پیش‌نمایش است. اتصال به اشتراک فعال نیاز دارد.",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("تأخیر کم"),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("تأخیر بیشتر"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("بررسی نشده"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
+      "هنوز مسیری موجود نیست. بعداً بازخوانی کنید.",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "نشست منقضی شده است. دوباره وارد شوید.",
     ),

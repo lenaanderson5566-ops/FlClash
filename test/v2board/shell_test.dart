@@ -46,6 +46,7 @@ class _Api extends V2BoardApi {
   };
   int resetPosts = 0;
   int accountGets = 0;
+  int configGets = 0;
 
   @override
   Future<Uint8List> clientConfig({
@@ -54,9 +55,13 @@ class _Api extends V2BoardApi {
     String? architecture,
     String core = 'mihomo',
   }) async {
+    configGets++;
     if (pendingConfig != null) return pendingConfig!.future;
     throw const V2BoardProblem('subscription_failed');
   }
+
+  @override
+  Future<List<V10Object>> list(String path, {int page = 1}) async => [];
 
   @override
   Future<V10Object> object(
@@ -428,7 +433,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         find.text(
-          'FastAI is temporarily unavailable. Contact support on the website.',
+          'The service has disabled FastAI access. Please contact the administrator.',
         ),
         findsOneWidget,
       );
@@ -788,44 +793,45 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('unpaid account can sign in but cannot connect or see nodes', (
-    tester,
-  ) async {
-    await show(tester, _Api(false));
-    expect(find.byType(NavigationDestination), findsNWidgets(5));
-    expect(
-      tester
-          .widget<FilledButton>(find.byKey(const ValueKey('home-connect')))
-          .onPressed,
-      isNull,
-    );
-    expect(find.byType(DropdownButton<Mode>), findsOneWidget);
-    expect(find.text('Choose a route'), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.widgetWithText(FilledButton, 'Choose a plan'),
-      200,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(find.widgetWithText(FilledButton, 'Choose a plan'), findsOneWidget);
-    await tester.tap(find.byType(NavigationDestination).at(3));
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Manage on website'),
-      160,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.scrollUntilVisible(
-      find.text('Manage on website'),
-      180,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(find.text('Manage on website'), findsOneWidget);
-    await tester.tap(find.byType(NavigationDestination).at(1));
-    await tester.pumpAndSettle();
-    expect(find.widgetWithText(FilledButton, 'Choose a plan'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
+  testWidgets(
+    'unpaid account retains basic UI and a restrained route preview',
+    (tester) async {
+      await show(tester, _Api(false));
+      expect(find.byType(NavigationDestination), findsNWidgets(5));
+      expect(
+        tester
+            .widget<FilledButton>(find.byKey(const ValueKey('home-connect')))
+            .onPressed,
+        isNull,
+      );
+      expect(find.byType(DropdownButton<Mode>), findsOneWidget);
+      expect(find.text('Choose a route'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.widgetWithText(TextButton, 'Choose a plan'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.widgetWithText(TextButton, 'Choose a plan'), findsOneWidget);
+      await tester.tap(find.byType(NavigationDestination).at(3));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('Manage on website'),
+        160,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.scrollUntilVisible(
+        find.text('Manage on website'),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('Manage on website'), findsOneWidget);
+      await tester.tap(find.byType(NavigationDestination).at(1));
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(TextButton, 'Choose a plan'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
 
   testWidgets(
     'expired subscription refresh restores connect without auto connecting',
@@ -846,18 +852,20 @@ void main() {
         scrollable: find.byType(Scrollable).first,
       );
       expect(
-        find.widgetWithText(FilledButton, 'Renew subscription'),
+        find.widgetWithText(TextButton, 'Renew subscription'),
         findsOneWidget,
       );
       await tester.pumpAndSettle();
       final before = api.accountGets;
+      expect(api.configGets, 0);
       api.available = true;
       api.accountState = 'active';
       await tester.tap(find.byKey(const ValueKey('subscription-refresh')));
       await tester.pumpAndSettle();
+      expect(api.configGets, 1);
       expect(api.accountGets, greaterThan(before));
       expect(
-        find.widgetWithText(FilledButton, 'Renew subscription'),
+        find.widgetWithText(TextButton, 'Renew subscription'),
         findsNothing,
       );
       expect(

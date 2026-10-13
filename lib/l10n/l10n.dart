@@ -4898,10 +4898,10 @@ class AppLocalizations {
     );
   }
 
-  /// `FastAI is temporarily unavailable. Contact support on the website.`
+  /// `The service has disabled FastAI access. Please contact the administrator.`
   String get fdClientUnavailable {
     return Intl.message(
-      'FastAI is temporarily unavailable. Contact support on the website.',
+      'The service has disabled FastAI access. Please contact the administrator.',
       name: 'fdClientUnavailable',
       desc: '',
       args: [],
@@ -6088,20 +6088,20 @@ class AppLocalizations {
     );
   }
 
-  /// `No active plan is available. Choose a plan on the website, then refresh here to start connecting.`
+  /// `A subscription is required to connect.`
   String get fdNoPlanHint {
     return Intl.message(
-      'No active plan is available. Choose a plan on the website, then refresh here to start connecting.',
+      'A subscription is required to connect.',
       name: 'fdNoPlanHint',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your subscription has expired. Renew it on the website, then refresh here to restore access.`
+  /// `Renew your subscription to connect again.`
   String get fdExpiredHint {
     return Intl.message(
-      'Your subscription has expired. Renew it on the website, then refresh here to restore access.',
+      'Renew your subscription to connect again.',
       name: 'fdExpiredHint',
       desc: '',
       args: [],
@@ -6141,6 +6141,36 @@ class AppLocalizations {
   /// `Proxy core`
   String get fdProxyCore {
     return Intl.message('Proxy core', name: 'fdProxyCore', desc: '', args: []);
+  }
+
+  /// `Route preview`
+  String get fdRoutePreview {
+    return Intl.message(
+      'Route preview',
+      name: 'fdRoutePreview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preview only. A valid subscription is required to connect.`
+  String get fdRoutePreviewHint {
+    return Intl.message(
+      'Preview only. A valid subscription is required to connect.',
+      name: 'fdRoutePreviewHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No routes are available yet. Try refreshing.`
+  String get fdRoutesEmpty {
+    return Intl.message(
+      'No routes are available yet. Try refreshing.',
+      name: 'fdRoutesEmpty',
+      desc: '',
+      args: [],
+    );
   }
 }
 

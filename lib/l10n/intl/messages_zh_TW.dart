@@ -334,7 +334,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("選擇線路"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("客戶端配置"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI 暫時不可用，請前往官網聯絡支援。",
+      "伺服器已關閉 FastAI 存取，請聯絡管理員。",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "兩條路徑均未透過。可能是共有網路問題，也可能是目標地址受限，請結合分層結果判斷。",
@@ -425,9 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdEmailLogin": MessageLookupByLibrary.simpleMessage("或使用電子郵件登入"),
     "fdExhausted": MessageLookupByLibrary.simpleMessage("流量已用盡，請續費或購買流量包。"),
     "fdExpired": MessageLookupByLibrary.simpleMessage("套餐已到期"),
-    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "套餐已到期。請前往官網續費，完成後重新整理狀態即可恢復使用。",
-    ),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage("續費後即可恢復連線。"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("週期到期時間"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("全域性模式"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("檢查完成，部分專案尚未驗證"),
@@ -458,9 +456,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自動重置（本地時間）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("無週期到期時間"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("購買套餐後即可開始使用"),
-    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "目前沒有可用套餐。請前往官網選購套餐，完成後重新整理狀態即可連線。",
-    ),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage("開通套餐後即可連線。"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "暫無可用線路，請前往官網檢查賬號權益。",
     ),
@@ -571,9 +567,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteChecking": MessageLookupByLibrary.simpleMessage("檢測中…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("檢測失敗"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("上次檢測"),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage("線路預覽"),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "僅供預覽，有效套餐可用於連線。",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("低延遲"),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("延遲較高"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("未檢測"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage("暫無線路，請稍後重新整理。"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage("登入已失效，請重新登入。"),
     "fdShop": MessageLookupByLibrary.simpleMessage("套餐"),
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("顯示密碼"),

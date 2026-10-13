@@ -426,7 +426,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Client configuration",
     ),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI is temporarily unavailable. Contact support on the website.",
+      "The service has disabled FastAI access. Please contact the administrator.",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "Both paths failed for this endpoint. This can be a shared network problem or an endpoint restriction; review the layer checks before deciding.",
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Subscription expired"),
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "Your subscription has expired. Renew it on the website, then refresh here to restore access.",
+      "Renew your subscription to connect again.",
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Global mode"),
@@ -591,7 +591,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Choose a plan to get started",
     ),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "No active plan is available. Choose a plan on the website, then refresh here to start connecting.",
+      "A subscription is required to connect.",
     ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "No routes are available. Check your account on the website.",
@@ -745,9 +745,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage(
       "Last measurement",
     ),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage("Route preview"),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "Preview only. A valid subscription is required to connect.",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("Low latency"),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("Higher latency"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("Not checked"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
+      "No routes are available yet. Try refreshing.",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Your session expired. Please sign in again.",
     ),

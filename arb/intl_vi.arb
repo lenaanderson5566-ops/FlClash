@@ -614,7 +614,7 @@
   "fdDisconnecting": "Đang ngắt kết nối…",
   "fdOfficialWebsite": "Website chính thức",
   "fdInvalidConfig": "Cấu hình từ máy chủ không hợp lệ. Đồng bộ lại hoặc liên hệ hỗ trợ.",
-  "fdClientUnavailable": "FastAI tạm thời không khả dụng. Liên hệ hỗ trợ trên website.",
+  "fdClientUnavailable": "Máy chủ đã tắt quyền truy cập FastAI. Vui lòng liên hệ quản trị viên.",
   "fdRequestTimeout": "Yêu cầu hết thời gian chờ. Kiểm tra mạng rồi thử lại.",
   "fdCertificateError": "Không thể xác minh chứng chỉ máy chủ. Kiểm tra giờ hệ thống hoặc liên hệ hỗ trợ.",
   "fdReferenceId": "Mã tham chiếu",
@@ -735,10 +735,13 @@
   "fdBrowserFailed": "Không thể hoàn tất đăng nhập qua trình duyệt. Hãy thử lại hoặc dùng email.",
   "fdUnsupportedNodesSkipped": "Đã bỏ qua các nút có giao thức không khả dụng trong bản cài đặt này. Hãy cập nhật hoặc cài lại FastAI.",
   "fdUnsupportedProtocols": "Cấu hình này cần giao thức không khả dụng. Hãy cập nhật hoặc cài lại FastAI. Cấu hình trước đã được giữ lại.",
-  "fdNoPlanHint": "Chưa có gói dịch vụ khả dụng. Chọn gói trên trang web, rồi làm mới trạng thái tại đây để kết nối.",
-  "fdExpiredHint": "Gói dịch vụ đã hết hạn. Gia hạn trên trang web, rồi làm mới trạng thái tại đây để tiếp tục sử dụng.",
+  "fdNoPlanHint": "Cần đăng ký gói để kết nối.",
+  "fdExpiredHint": "Gia hạn gói để kết nối lại.",
   "fdChoosePlan": "Chọn gói",
   "fdRenewPlan": "Gia hạn gói",
   "fdRefreshSubscription": "Làm mới trạng thái gói",
-  "fdProxyCore": "Lõi proxy"
+  "fdProxyCore": "Lõi proxy",
+  "fdRoutePreview": "Xem trước tuyến",
+  "fdRoutePreviewHint": "Chỉ xem trước. Cần gói còn hiệu lực để kết nối.",
+  "fdRoutesEmpty": "Chưa có tuyến. Hãy thử làm mới sau."
 }

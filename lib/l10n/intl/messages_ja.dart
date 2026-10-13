@@ -360,7 +360,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("接続先を選ぶ"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("クライアント設定"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI は一時的に利用できません。公式サイトからサポートにお問い合わせください。",
+      "サーバーで FastAI へのアクセスが無効になっています。管理者にお問い合わせください。",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "両経路とも失敗。共通のネットワーク問題または検査先の制限の可能性があります。各層の結果を確認してください。",
@@ -457,9 +457,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "通信量を使い切りました。更新または追加容量を購入してください。",
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("プラン期限切れ"),
-    "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "サブスクリプションの期限が切れています。ウェブサイトで更新し、ここで状態を更新してください。",
-    ),
+    "fdExpiredHint": MessageLookupByLibrary.simpleMessage("プランを更新すると再接続できます。"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
     "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("確認完了・一部未検証"),
@@ -496,9 +494,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNextReset": MessageLookupByLibrary.simpleMessage("次回の自動リセット（現地時刻）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("期間の期限なし"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("プランを購入して開始"),
-    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "有効なプランがありません。ウェブサイトでプランを購入し、ここで更新すると接続できます。",
-    ),
+    "fdNoPlanHint": MessageLookupByLibrary.simpleMessage("接続にはプランの契約が必要です。"),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "利用可能な経路がありません。公式サイトでアカウントを確認してください。",
     ),
@@ -621,9 +617,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteChecking": MessageLookupByLibrary.simpleMessage("確認中…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("確認失敗"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("前回の測定"),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage("ルートのプレビュー"),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "プレビューのみです。接続には有効なプランが必要です。",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("低遅延"),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("遅延大"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("未確認"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
+      "利用可能なルートがありません。後でもう一度更新してください。",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "セッションが切れました。再ログインしてください。",
     ),

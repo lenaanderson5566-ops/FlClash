@@ -346,7 +346,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("경로 선택"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("앱 설정"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI를 일시적으로 사용할 수 없습니다. 웹사이트에서 고객 지원에 문의하세요.",
+      "서버에서 FastAI 접근을 비활성화했습니다. 관리자에게 문의하세요.",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "두 경로 모두 이 서버에 연결하지 못했습니다. 공통 네트워크 문제 또는 서버 제한일 수 있으므로 단계별 결과를 확인하세요.",
@@ -444,7 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("이용 기간 만료"),
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "구독이 만료되었습니다. 웹사이트에서 갱신한 후 여기에서 상태를 새로고침하세요.",
+      "요금제를 갱신하면 다시 연결할 수 있습니다.",
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("이용 기간 만료일"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("전체 모드"),
@@ -485,7 +485,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("기간 만료 없음"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("요금제를 선택해 시작하세요"),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "사용 가능한 요금제가 없습니다. 웹사이트에서 요금제를 구매한 후 여기에서 상태를 새로고침하세요.",
+      "요금제를 활성화하면 연결할 수 있습니다.",
     ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "사용 가능한 경로가 없습니다. 웹사이트에서 계정 권한을 확인하세요.",
@@ -611,9 +611,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteChecking": MessageLookupByLibrary.simpleMessage("확인 중…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("확인 실패"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("마지막 확인"),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage("경로 미리 보기"),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "미리 보기 전용입니다. 연결하려면 유효한 요금제가 필요합니다.",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("낮은 지연 시간"),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("높은 지연 시간"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("미확인"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
+      "아직 경로가 없습니다. 나중에 새로고침하세요.",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "로그인이 만료되었습니다. 다시 로그인하세요.",
     ),

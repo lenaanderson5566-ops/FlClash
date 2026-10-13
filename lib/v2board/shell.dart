@@ -32,6 +32,7 @@ import 'session.dart';
 import 'update.dart';
 import 'theme.dart';
 import 'routes.dart';
+import 'route_preview.dart';
 import 'auto_delay.dart';
 
 class V2BoardShell extends StatelessWidget {
@@ -246,6 +247,15 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         ref.read(v2BoardAccessProvider.notifier).setAvailable(false);
         await ref.read(setupActionProvider.notifier).setRunning(false);
         if (!mounted) return;
+      }
+      if (error.code == 'SUBSCRIPTION_UNAVAILABLE') {
+        try {
+          await _refresh();
+        } on V2BoardProblem {
+          // Keep the original failure if the account refresh is unavailable.
+        }
+        if (!mounted) return;
+        if (_account?.active == false) return;
       }
       final diagnostic = ClientRequestDiagnostic(
         method: '',
@@ -710,6 +720,13 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     }, activity: context.appLocalizations.fdSyncingRoutes);
   }
 
+  Future<void> _refreshSubscription() async {
+    final api = _api;
+    await _refresh();
+    if (!mounted || !identical(api, _api)) return;
+    await _syncAvailable();
+  }
+
   Future<void> _syncAvailable() async {
     final api = _api;
     if (api != null &&
@@ -1026,10 +1043,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ),
           ),
         const SizedBox(height: 16),
-        if (account != null && !account.active) ...[
-          _subscriptionNotice(showStale: false),
-          const SizedBox(height: 16),
-        ],
         if (account != null &&
             (account.active ||
                 account.totalBytes > 0 ||
@@ -1141,7 +1154,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     _showLogin = true;
   });
 
-  Widget _subscriptionNotice({bool showStale = true}) {
+  Widget _subscriptionNotice() {
     final l = context.appLocalizations;
     final status = _account?.status;
     final title = switch (status) {
@@ -1157,25 +1170,23 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     };
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const GlyphIcon(AppGlyphs.info, size: 40),
-            const SizedBox(height: 16),
-            Text(title, style: context.textTheme.headlineSmall),
-            const SizedBox(height: 12),
+            Text(title, style: context.textTheme.titleMedium),
+            const SizedBox(height: 8),
             Text(hint, style: context.textTheme.bodyMedium),
-            if (showStale && _accountStale) ...[
+            if (_accountStale) ...[
               const SizedBox(height: 12),
               Text(l.fdAccountStale),
             ],
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             Wrap(
               spacing: 12,
               runSpacing: 8,
               children: [
-                FilledButton(
+                TextButton(
                   onPressed: _busy ? null : () => _run(_portal),
                   child: Text(switch (status) {
                     'noPlan' => l.fdChoosePlan,
@@ -1183,9 +1194,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                     _ => l.fdWebAccount,
                   }),
                 ),
-                OutlinedButton(
+                TextButton(
                   key: const ValueKey('subscription-refresh'),
-                  onPressed: _busy ? null : () => _run(_refresh),
+                  onPressed: _busy ? null : () => _run(_refreshSubscription),
                   child: Text(l.fdRefreshSubscription),
                 ),
                 if (ref.watch(isStartProvider))
@@ -1200,17 +1211,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
       ),
     );
   }
-
-  Widget _subscriptionPage() => Center(
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 520),
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(24),
-        children: [_subscriptionNotice()],
-      ),
-    ),
-  );
 
   Widget _coreSetting() => ListTile(
     leading: const GlyphIcon(AppGlyphs.settings),
@@ -1452,7 +1452,14 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             ? FastaiRoutesView(onSync: () => _sync())
             : _account == null
             ? Center(child: Text(context.appLocalizations.fdNodesUnavailable))
-            : _subscriptionPage(),
+            : _account!.banned
+            ? Center(child: _subscriptionNotice())
+            : FastaiRoutePreview(
+                api: _api!,
+                notice: _subscriptionNotice(),
+                busy: _busy,
+                onRefresh: () => _run(_refreshSubscription),
+              ),
       2 => ToolsView(
         coreSetting:
             defaultTargetPlatform == TargetPlatform.windows ||
@@ -1631,8 +1638,6 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                       if (const {
                         'invalid_config',
                         'invalid_response',
-                        'CLIENT_DISABLED',
-                        'SUBSCRIPTION_UNAVAILABLE',
                         'certificate_error',
                       }.contains(_errorCode))
                         TextButton(

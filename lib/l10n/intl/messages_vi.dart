@@ -426,7 +426,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Chọn tuyến"),
     "fdClientChecks": MessageLookupByLibrary.simpleMessage("Cấu hình ứng dụng"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
-      "FastAI tạm thời không khả dụng. Liên hệ hỗ trợ trên website.",
+      "Máy chủ đã tắt quyền truy cập FastAI. Vui lòng liên hệ quản trị viên.",
     ),
     "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
       "Cả hai đường đều thất bại với máy chủ này. Có thể do mạng chung hoặc hạn chế máy chủ; xem kiểm tra từng lớp trước khi kết luận.",
@@ -534,7 +534,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpired": MessageLookupByLibrary.simpleMessage("Gói đã hết hạn"),
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage(
-      "Gói dịch vụ đã hết hạn. Gia hạn trên trang web, rồi làm mới trạng thái tại đây để tiếp tục sử dụng.",
+      "Gia hạn gói để kết nối lại.",
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Hạn chu kỳ"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Chế độ toàn cục"),
@@ -587,7 +587,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("Không hết hạn chu kỳ"),
     "fdNoPlan": MessageLookupByLibrary.simpleMessage("Chọn gói để bắt đầu"),
     "fdNoPlanHint": MessageLookupByLibrary.simpleMessage(
-      "Chưa có gói dịch vụ khả dụng. Chọn gói trên trang web, rồi làm mới trạng thái tại đây để kết nối.",
+      "Cần đăng ký gói để kết nối.",
     ),
     "fdNodesUnavailable": MessageLookupByLibrary.simpleMessage(
       "Không có tuyến khả dụng. Kiểm tra tài khoản trên website.",
@@ -743,9 +743,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRouteChecking": MessageLookupByLibrary.simpleMessage("Đang kiểm tra…"),
     "fdRouteFailed": MessageLookupByLibrary.simpleMessage("Kiểm tra thất bại"),
     "fdRouteLastCheck": MessageLookupByLibrary.simpleMessage("Lần đo gần nhất"),
+    "fdRoutePreview": MessageLookupByLibrary.simpleMessage("Xem trước tuyến"),
+    "fdRoutePreviewHint": MessageLookupByLibrary.simpleMessage(
+      "Chỉ xem trước. Cần gói còn hiệu lực để kết nối.",
+    ),
     "fdRouteResponsive": MessageLookupByLibrary.simpleMessage("Độ trễ thấp"),
     "fdRouteSlow": MessageLookupByLibrary.simpleMessage("Độ trễ cao"),
     "fdRouteUnmeasured": MessageLookupByLibrary.simpleMessage("Chưa kiểm tra"),
+    "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
+      "Chưa có tuyến. Hãy thử làm mới sau.",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Phiên đã hết hạn. Vui lòng đăng nhập lại.",
     ),

@@ -614,7 +614,7 @@
   "fdDisconnecting": "正在斷開…",
   "fdOfficialWebsite": "官方網站",
   "fdInvalidConfig": "伺服器返回的配置異常，請重新同步或聯絡支援。",
-  "fdClientUnavailable": "FastAI 暫時不可用，請前往官網聯絡支援。",
+  "fdClientUnavailable": "伺服器已關閉 FastAI 存取，請聯絡管理員。",
   "fdRequestTimeout": "請求超時，請檢查網路後重試。",
   "fdCertificateError": "無法驗證伺服器證書，請檢查系統時間或聯絡支援。",
   "fdReferenceId": "問題編號",
@@ -735,10 +735,13 @@
   "fdBrowserFailed": "瀏覽器登入未完成，請重試或使用電子郵件登入。",
   "fdUnsupportedNodesSkipped": "已略過目前安裝版本不支援的協定節點。可更新或重新安裝 FastAI 以啟用這些節點。",
   "fdUnsupportedProtocols": "目前設定依賴本機不支援的協定。請更新或重新安裝 FastAI。已保留原設定。",
-  "fdNoPlanHint": "目前沒有可用套餐。請前往官網選購套餐，完成後重新整理狀態即可連線。",
-  "fdExpiredHint": "套餐已到期。請前往官網續費，完成後重新整理狀態即可恢復使用。",
+  "fdNoPlanHint": "開通套餐後即可連線。",
+  "fdExpiredHint": "續費後即可恢復連線。",
   "fdChoosePlan": "選購套餐",
   "fdRenewPlan": "續費套餐",
   "fdRefreshSubscription": "重新整理套餐狀態",
-  "fdProxyCore": "代理核心"
+  "fdProxyCore": "代理核心",
+  "fdRoutePreview": "線路預覽",
+  "fdRoutePreviewHint": "僅供預覽，有效套餐可用於連線。",
+  "fdRoutesEmpty": "暫無線路，請稍後重新整理。"
 }

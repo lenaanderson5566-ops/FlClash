@@ -614,7 +614,7 @@
   "fdDisconnecting": "正在断开…",
   "fdOfficialWebsite": "官方网站",
   "fdInvalidConfig": "服务器返回的配置异常，请重新同步或联系支持。",
-  "fdClientUnavailable": "FastAI 暂时不可用，请前往官网联系支持。",
+  "fdClientUnavailable": "服务端已关闭 FastAI 访问，请联系管理员。",
   "fdRequestTimeout": "请求超时，请检查网络后重试。",
   "fdCertificateError": "无法验证服务器证书，请检查系统时间或联系支持。",
   "fdReferenceId": "问题编号",
@@ -735,10 +735,13 @@
   "fdBrowserFailed": "浏览器登录未完成，请重试或使用邮箱登录。",
   "fdUnsupportedNodesSkipped": "已跳过当前安装不支持的协议节点。可更新或重新安装 FastAI 以启用这些节点。",
   "fdUnsupportedProtocols": "当前配置依赖本机不支持的协议。请更新或重新安装 FastAI。已保留原配置。",
-  "fdNoPlanHint": "当前没有可用套餐。请前往官网选购套餐，完成后刷新状态即可连接。",
-  "fdExpiredHint": "套餐已到期。请前往官网续费，完成后刷新状态即可恢复使用。",
+  "fdNoPlanHint": "开通套餐后即可连接。",
+  "fdExpiredHint": "续费后即可恢复连接。",
   "fdChoosePlan": "选购套餐",
   "fdRenewPlan": "续费套餐",
   "fdRefreshSubscription": "刷新套餐状态",
-  "fdProxyCore": "代理核心"
+  "fdProxyCore": "代理核心",
+  "fdRoutePreview": "线路预览",
+  "fdRoutePreviewHint": "仅供预览，有效套餐可用于连接。",
+  "fdRoutesEmpty": "暂无线路，请稍后刷新。"
 }

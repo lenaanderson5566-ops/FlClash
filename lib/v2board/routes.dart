@@ -234,7 +234,7 @@ class _FastaiRoutesViewState extends ConsumerState<FastaiRoutesView> {
               if (nodeIndex >= nodes.length) {
                 return Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Text(l.fdNodesUnavailable),
+                  child: Text(l.fdRoutesEmpty),
                 );
               }
               final node = nodes[nodeIndex];
