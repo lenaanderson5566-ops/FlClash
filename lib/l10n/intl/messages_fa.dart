@@ -402,27 +402,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "گواهی سرور تأیید نشد. ساعت سیستم را بررسی کنید یا با پشتیبانی تماس بگیرید.",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage("اتصال سیستم"),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("اتصال TCP"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("اتصال امن"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("انتخاب طرح"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("انتخاب مسیر"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage("پیکربندی برنامه"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "دسترسی FastAI در سرور غیرفعال شده است. با مدیر تماس بگیرید.",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "هر دو مسیر برای این مقصد ناموفق بودند. ممکن است مشکل مشترک شبکه یا محدودیت مقصد باشد؛ پیش از نتیجه‌گیری بررسی‌های لایه‌ای را ببینید.",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "در این بررسی هر دو مسیر به سرور آزمایشی دسترسی داشتند.",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage("مقایسه اتصال"),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "مسیر سیستم موفق و مسیر انتخاب‌شده ناموفق بود. ابتدا مسیر را بررسی کنید؛ علت هنوز مشخص نیست.",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "مسیر انتخاب‌شده موفق و مسیر سیستم ناموفق بود. DNS سیستم، مسیریابی و محدودیت‌های شبکه محلی را بررسی کنید.",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("اتصال"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("متصل"),
@@ -430,7 +413,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "اتصال ناموفق بود. دوباره تلاش یا مسیر دیگری انتخاب کنید.",
     ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage("کپی گزارش فنی"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "داده مستقل باقی‌مانده",
     ),
@@ -438,74 +420,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "داده مستقل جدا از سهمیه دوره است و با بازنشانی دوره پاک نمی‌شود. دسترسی و انقضا به حساب شما بستگی دارد.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("مسیر فعلی"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "تنظیمات اتصال هنگام بررسی تغییر کرد. برای نتیجه فعلی دوباره بررسی کنید.",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "هسته یا فهرست مسیرها آماده نیست. مسیرها را تازه‌سازی کنید و دوباره متصل شوید.",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "متصل نیست. برای بررسی مسیر پروکسی ابتدا متصل شوید.",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("DNS سیستم"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "جستجوی DNS ناموفق بود یا مهلت آن پایان یافت. شبکه را بررسی کنید یا شبکه دیگری را امتحان کنید.",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "دامنه‌های آزمایشی عمومی با موفقیت ترجمه شدند.",
-    ),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
-      "مشکلات اتصال را پیدا کنید و مراحل رفع مشکل را دنبال کنید",
-    ),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "پروکسی/PAC ویندوز با حالت انتخاب‌شده متفاوت است. برنامه‌های VPN یا پروکسی دیگر و تنظیمات ویندوز را بررسی و دوباره متصل شوید.",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "درگاه پروکسی محلی پاسخ نداد. اتصال را قطع و دوباره برقرار کنید، سپس مجدداً امتحان کنید.",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "درگاه محلی در دسترس است؛ مسیر راه دور هنوز تأیید نشده است.",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "تنظیمات پروکسی دستی و PAC ویندوز با حالت فعلی مطابقت دارند.",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("بررسی دوباره"),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage(
-      "مسیر انتخاب‌شده",
-    ),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "مسیر انتخاب‌شده به سرور آزمایشی دسترسی نداشت. مسیر دیگری را امتحان کنید؛ اگر همه ناموفق بودند، DNS و شبکه محلی را بررسی کنید.",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "مسیر انتخاب‌شده به سرور آزمایشی HTTPS دسترسی داشت. نتیجه سرویس‌های دیگر ممکن است متفاوت باشد.",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
-      "در حال بررسی اتصال…",
-    ),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "در حالت امن رد شد؛ هسته پروکسی و تنظیمات سیستم استفاده نمی‌شوند.",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "هسته، مسیرها و مجوز اتصال آماده‌اند. همه تنظیمات سیستم بررسی نشده‌اند.",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "این بررسی برای وضعیت اتصال یا دستگاه فعلی کاربرد ندارد.",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
-      "گزارش ارسال شد",
-    ),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "مجوز TUN آماده نیست. دوباره متصل شوید و مجوز بدهید یا پروکسی سیستم را انتخاب کنید.",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "این بررسی کامل نشد. دوباره امتحان کنید یا راهنمای زیر را دنبال کنید.",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "سرور آزمایشی تأیید نشد. این به‌تنهایی به معنی قطع کامل اینترنت نیست.",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "سرور آزمایشی عمومی پاسخ مورد انتظار را برگرداند.",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("قطع اتصال"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("متصل نیست"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage(
@@ -522,18 +436,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("انقضای دوره"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("حالت سراسری"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
-      "بررسی تمام شد؛ برخی موارد تأیید نشدند",
-    ),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage(
-      "برخی موارد نیاز به توجه دارند",
-    ),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage(
-      "بررسی‌های تکمیل‌شده موفق بودند",
-    ),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "نتایج زیر را بررسی کنید. اصلاحات فقط با انتخاب شما اجرا می‌شوند.",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "مسیر را انتخاب کنید و با یک کلیک متصل شوید.",
     ),
@@ -560,10 +462,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("ورود"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("ورود به حساب"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("خروج از حساب"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("اتصال شبکه"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "عیب‌یابی شبکه",
-    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "اتصال به سرویس ممکن نیست. شبکه را بررسی و دوباره تلاش کنید.",
     ),
@@ -582,17 +480,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "مسیری در دسترس نیست. حساب را در وب‌سایت بررسی کنید.",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("وب‌سایت رسمی"),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage(
+      "مجوزهای متن‌باز",
+    ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("داده مصرف‌شده دوره"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("طرح"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("هستهٔ پروکسی"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
-      "اتصال اینترنت",
-    ),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "درخواست‌ها بیش از حد است. بعداً تلاش کنید.",
-    ),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "از همان نشانی HTTPS مسیر انتخاب‌شده، بدون تعیین پروکسی برنامه استفاده می‌شود. TUN یا مسیریابی سیستم می‌تواند مؤثر باشد؛ عبور نکردن از VPN تضمین نمی‌شود.",
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("شناسه پیگیری"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("تازه‌سازی"),
@@ -604,84 +499,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("داده دوره باقی‌مانده"),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("تمدید اشتراک"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
-      "تازه‌سازی پیکربندی و اتصال",
-    ),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "عملیات کامل نشد. نتایج جدید زیر را ببینید؛ در صورت نیاز وارد شوید و دسترسی حساب را بررسی کنید.",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "این کار ممکن است اتصال را قطع یا مسیر را تغییر دهد. پس از آن بررسی تکرار می‌شود. بازیابی مسیر حداکثر پنج مسیر جایگزین را آزمایش می‌کند.",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("اتصال دوباره"),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage(
-      "یافتن و انتخاب مسیر سالم",
-    ),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "عملیات پایان یافت، اما بازیابی تأیید نشد. راهنمای باقی‌مانده زیر را دنبال کنید.",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "مسیر پروکسی تأیید شد. هشدارهای باقی‌مانده را در زیر بررسی کنید.",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage(
-      "در حال اصلاح و بررسی اتصال…",
-    ),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("کپی گزارش"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("معیار ارزیابی"),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "هر دو دامنه باید ظرف ۸ ثانیه حداقل یک نشانی برگردانند. این بررسی مربوط به حل‌کننده سیستم است، نه نشت DNS یا سرور بالادستی تنظیم‌شده.",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "۱. Wi-Fi یا اترنت را بررسی و ورود به شبکه را کامل کنید.\n۲. شبکه دیگری را امتحان کنید تا مشکل DNS محلی مشخص شود.\n۳. اگر ادامه داشت، گزارش را برای پشتیبانی یا مدیر شبکه بفرستید.",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("مشکل یافت شد"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage(
-      "داده‌ای اندازه‌گیری نشد.",
-    ),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "این مورد به اصلاح نیاز ندارد. نتیجه مربوط به همین لحظه است و دسترسی به همه سرویس‌ها را تضمین نمی‌کند.",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
-      "پارامترهای فنی (ms = میلی‌ثانیه)",
-    ),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("موفق"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "اتصال TCP به درگاه loopback تنظیم‌شده باید ظرف ۸ ثانیه کامل شود. فرایند شنونده یا مسیر راه دور تأیید نمی‌شود.",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "۱. اتصال FastAI را قطع و دوباره برقرار کنید.\n۲. در صورت تکرار خطا، FastAI را دوباره اجرا کنید.\n۳. گزارش را برای پشتیبانی بفرستید؛ خطای درگاه به‌تنهایی اشغال آن توسط برنامه دیگر را ثابت نمی‌کند.",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "گزارش کپی‌شده شامل مقصدهای آزمایش و پاسخ‌های DNS است، اما حساب، توکن، نشانی اشتراک یا PAC را ندارد.",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "پروکسی دستی HTTP/HTTPS کاربر ویندوز باید با حالت انتخاب‌شده مطابقت داشته باشد؛ PAC فعال به‌عنوان تداخل احتمالی گزارش می‌شود. فایروال، WinHTTP و سیاست‌های سازمان بررسی نمی‌شوند.",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "۱. تنظیمات ویندوز ← شبکه و اینترنت ← پروکسی را بررسی کنید.\n۲. برنامه‌های پروکسی/VPN دیگر را ببندید و تنظیمات شخصی پروکسی یا PAC را بررسی کنید. تنظیمات سازمانی را حذف نکنید.\n۳. FastAI را دوباره متصل و بررسی کنید.",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("اقدام بعدی"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "مسیر انتخاب‌شده باید ظرف ۸ ثانیه و بدون خطای پروکسی، HTTP 204 برگرداند.",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "۱. مسیر دیگری را انتخاب و دوباره امتحان کنید.\n۲. اگر همه ناموفق بودند، نتیجه DNS و پروکسی محلی را بررسی کنید.\n۳. اگر فقط مقصد آزمایشی خطا داشت، سرویس موردنیاز را بررسی و گزارش را برای پشتیبانی ارسال کنید.",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "از نسخه عادی برنامه استفاده کنید، متصل شوید و دوباره بررسی کنید. بررسی درگاه دسکتاپ روی موبایل اجرا نمی‌شود.",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "۱. ورود به حساب و مجاز بودن اتصال را بررسی کنید.\n۲. مسیرها را تازه‌سازی و دوباره متصل شوید.\n۳. مجوز TUN را بدهید یا پروکسی سیستم را انتخاب کنید.",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("اجرا نشده"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("شروع بررسی"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("تأیید نشده"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "اعتبارسنجی گواهی فعال است. سرور آزمایشی باید ظرف ۸ ثانیه HTTP 204 برگرداند؛ تغییر مسیر دنبال نمی‌شود.",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "۱. تاریخ و ساعت سیستم را بررسی کنید.\n۲. ورود Wi-Fi را کامل و شبکه دیگری را امتحان کنید.\n۳. مقصد آزمایشی دیگر و مسیر پروکسی را مقایسه کنید. اعتبارسنجی گواهی را غیرفعال نکنید.",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "عملیات ناموفق بود. دوباره تلاش کنید.",
     ),
@@ -741,12 +558,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("نمایش گذرواژه"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("در حال ورود…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("حالت هوشمند"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage(
-      "ارسال عیب‌یابی",
-    ),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "نسخه برنامه، سیستم‌عامل، نتایج و مدت بررسی‌ها همراه با ارتباط به حساب شما برای مدیر سایت ارسال می‌شود. سابقه مرور، نشانی IP، پاسخ DNS، اطلاعات ورود گره یا پیکربندی ارسال نمی‌شود. گزارش‌ها به‌طور پیش‌فرض ۳۰ روز نگهداری می‌شوند؛ مدیر می‌تواند این مدت را تغییر دهد.",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("تازه‌سازی مسیرها"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "تازه‌سازی مسیرها ممکن نیست. پیش از اتصال دوباره تلاش کنید.",
@@ -754,26 +565,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage(
       "در حال همگام‌سازی مسیرها…",
     ),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "اتصال به سرور آزمایشی عمومی باید ظرف ۸ ثانیه انجام شود. زمان DNS نیز محاسبه می‌شود.",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage(
+      "پشتیبانی فنی توسط FastDog",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "اتصال TCP ناموفق بود. DNS، دسترسی شبکه و فیلترها را بررسی کنید؛ این به‌تنهایی مشکل فایروال را ثابت نمی‌کند.",
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "پیش‌فرض خاموش است. با فعال‌سازی، نسخه برنامه، سیستم‌عامل، نتیجه اتصال و همگام‌سازی، دسته خطا و زمان اجرا هر ۵ دقیقه با ارتباط به حساب ارسال می‌شود. سابقه مرور، نشانی‌ها، اطلاعات ورود و تنظیمات جمع‌آوری نمی‌شوند. نگهداری پیش‌فرض ۳۰ روز است و مدیر می‌تواند آن را تغییر دهد.",
     ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
-      "سرور آزمایشی اتصال TCP را پذیرفت.",
-    ),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "۱. ابتدا نتیجه DNS را بررسی کنید.\n۲. شبکه دیگری را امتحان یا ورود شبکه را کامل کنید.\n۳. قواعد فایروال/VPN را با مدیر شبکه بررسی کنید؛ فایروال را به‌طور کلی غیرفعال نکنید.",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "TLS با مخزن اعتماد سیستم باید ظرف ۸ ثانیه کامل شود؛ شامل زمان DNS و TCP. تاریخ اعتبار گواهی در صورت دسترسی ثبت می‌شود.",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "TLS کامل نشد. ساعت، رهگیری شبکه و اعتماد گواهی را بررسی کنید و اعتبارسنجی را غیرفعال نکنید.",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
-      "دست‌دهی TLS و اعتبارسنجی گواهی موفق بود.",
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage(
+      "اشتراک داده‌های عملکرد",
     ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "گره‌های دارای پروتکل پشتیبانی‌نشده رد شدند. برای فعال‌سازی آن‌ها FastAI را به‌روز یا دوباره نصب کنید.",

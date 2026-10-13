@@ -417,38 +417,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Không thể xác minh chứng chỉ máy chủ. Kiểm tra giờ hệ thống hoặc liên hệ hỗ trợ.",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage(
-      "Kết nối hệ thống",
-    ),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("Kết nối TCP"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("Kết nối bảo mật"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("Chọn gói"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Chọn tuyến"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage("Cấu hình ứng dụng"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "Máy chủ đã tắt quyền truy cập FastAI. Vui lòng liên hệ quản trị viên.",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "Cả hai đường đều thất bại với máy chủ này. Có thể do mạng chung hoặc hạn chế máy chủ; xem kiểm tra từng lớp trước khi kết luận.",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "Cả hai đường đều truy cập được máy chủ kiểm tra lần này.",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage("So sánh kết nối"),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "Đường hệ thống đạt nhưng tuyến đã chọn thất bại. Kiểm tra tuyến trước; chưa xác định nguyên nhân.",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "Tuyến đã chọn đạt nhưng đường hệ thống thất bại. Kiểm tra DNS hệ thống, định tuyến và hạn chế mạng cục bộ.",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("Kết nối"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("Đã kết nối"),
     "fdConnection": MessageLookupByLibrary.simpleMessage("Kết nối"),
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "Kết nối thất bại. Thử lại hoặc chọn tuyến khác.",
-    ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage(
-      "Sao chép báo cáo kỹ thuật",
     ),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Lưu lượng độc lập còn lại",
@@ -457,72 +435,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Lưu lượng độc lập được tính riêng và không mất khi đặt lại chu kỳ. Quyền sử dụng và hạn dùng tùy theo tài khoản.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Tuyến hiện tại"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "Cài đặt kết nối đã thay đổi khi kiểm tra. Kiểm tra lại để có kết quả mới.",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "Lõi hoặc danh sách tuyến chưa sẵn sàng. Làm mới tuyến và kết nối lại.",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "Chưa kết nối. Hãy kết nối trước để xác minh tuyến proxy.",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("DNS hệ thống"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "Tra cứu DNS thất bại hoặc hết thời gian. Kiểm tra mạng hoặc thử mạng khác.",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Đã phân giải thành công các miền kiểm tra công cộng.",
-    ),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
-      "Tìm lỗi kết nối và làm theo hướng dẫn khắc phục",
-    ),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "Proxy/PAC Windows khác chế độ đã chọn. Kiểm tra ứng dụng VPN/proxy khác và cài đặt proxy Windows, rồi kết nối lại.",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "Cổng proxy cục bộ không phản hồi. Ngắt rồi kết nối lại và thử lại.",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "Cổng cục bộ có thể truy cập; chưa xác minh tuyến từ xa.",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Cài đặt proxy thủ công và PAC của Windows khớp chế độ hiện tại.",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("Kiểm tra lại"),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("Tuyến đã chọn"),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "Tuyến đã chọn không truy cập được máy chủ kiểm tra. Thử tuyến khác; nếu tất cả thất bại, kiểm tra DNS và mạng cục bộ.",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "Tuyến đã chọn truy cập được máy chủ kiểm tra HTTPS. Các dịch vụ khác có thể khác.",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
-      "Đang kiểm tra kết nối…",
-    ),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "Bỏ qua trong chế độ an toàn: không dùng lõi proxy và cài đặt hệ thống.",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Lõi, tuyến và quyền kết nối đã sẵn sàng. Chưa kiểm tra mọi cài đặt hệ thống.",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "Kiểm tra này không áp dụng cho trạng thái kết nối hoặc thiết bị hiện tại.",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
-      "Đã gửi báo cáo",
-    ),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "Chưa có quyền TUN. Kết nối lại và cấp quyền hoặc chọn proxy hệ thống.",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "Không thể hoàn tất kiểm tra. Thử lại hoặc làm theo hướng dẫn bên dưới.",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "Không xác minh được máy chủ kiểm tra. Điều này không có nghĩa là toàn bộ Internet không truy cập được.",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "Máy chủ kiểm tra công cộng trả về phản hồi mong đợi.",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Ngắt kết nối"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Chưa kết nối"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage(
@@ -541,18 +453,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Hạn chu kỳ"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Chế độ toàn cục"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
-      "Đã kiểm tra; một số mục chưa xác minh được",
-    ),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage(
-      "Một số mục cần chú ý",
-    ),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage(
-      "Các mục đã kiểm tra đều đạt",
-    ),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "Xem kết quả bên dưới. Chỉ thực hiện khắc phục khi bạn chọn.",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Chọn tuyến. Kết nối chỉ với một chạm.",
     ),
@@ -577,10 +477,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("Đăng nhập tài khoản"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("Kết nối mạng"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Chẩn đoán mạng",
-    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối dịch vụ. Kiểm tra mạng rồi thử lại.",
     ),
@@ -601,19 +497,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage(
       "Website chính thức",
     ),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage(
+      "Giấy phép nguồn mở",
+    ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage(
       "Lưu lượng chu kỳ đã dùng",
     ),
     "fdPlan": MessageLookupByLibrary.simpleMessage("Gói dịch vụ"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("Lõi proxy"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
-      "Kết nối Internet",
-    ),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Quá nhiều yêu cầu. Thử lại sau.",
-    ),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "Dùng cùng URL HTTPS với tuyến đã chọn, không chỉ định proxy ứng dụng. TUN hoặc định tuyến hệ điều hành vẫn có thể ảnh hưởng; không đảm bảo bỏ qua VPN.",
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Mã tham chiếu"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Làm mới"),
@@ -627,86 +520,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Lưu lượng chu kỳ còn lại",
     ),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("Gia hạn gói"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
-      "Làm mới cấu hình và kết nối",
-    ),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "Không hoàn tất thao tác. Xem kết quả mới bên dưới; đăng nhập và kiểm tra quyền tài khoản nếu cần.",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "Thao tác có thể ngắt kết nối hoặc đổi tuyến. Sẽ kiểm tra lại sau đó. Khôi phục tuyến thử tối đa 5 tuyến thay thế.",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("Kết nối lại"),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage(
-      "Tìm và chuyển sang tuyến hoạt động",
-    ),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "Thao tác đã xong nhưng chưa xác minh được khôi phục. Làm theo hướng dẫn còn lại bên dưới.",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "Tuyến proxy đã được xác minh. Xem các cảnh báo còn lại bên dưới.",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage(
-      "Đang khắc phục và kiểm tra kết nối…",
-    ),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("Sao chép báo cáo"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage(
-      "Tiêu chí đánh giá",
-    ),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "Cả hai miền phải trả về ít nhất một địa chỉ trong 8 giây. Chỉ kiểm tra bộ phân giải hệ thống, không kiểm tra rò rỉ DNS hay máy chủ DNS thượng nguồn đã cấu hình.",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Kiểm tra Wi-Fi/Ethernet và đăng nhập mạng nếu cần.\n2. Thử mạng khác để xác định lỗi DNS cục bộ.\n3. Nếu vẫn lỗi, gửi báo cáo cho hỗ trợ hoặc quản trị viên mạng.",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("Phát hiện vấn đề"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage(
-      "Chưa thu thập được số đo.",
-    ),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "Mục này không cần khắc phục. Đây là kết quả tại thời điểm kiểm tra, không đảm bảo truy cập mọi dịch vụ.",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
-      "Thông số kỹ thuật (ms = mili giây)",
-    ),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("Đạt"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "Kết nối TCP tới cổng loopback đã cấu hình phải hoàn tất trong 8 giây. Không xác định tiến trình lắng nghe hay xác minh tuyến từ xa.",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Ngắt và kết nối lại FastAI.\n2. Nếu vẫn lỗi, khởi động lại FastAI.\n3. Gửi báo cáo cho hỗ trợ; lỗi kiểm tra cổng không chứng minh ứng dụng khác chiếm cổng.",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "Báo cáo sao chép có đích kiểm tra và phản hồi DNS, không có tài khoản, token, URL đăng ký hay PAC.",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "Proxy HTTP/HTTPS thủ công cấp người dùng Windows phải khớp chế độ đã chọn; PAC đang hoạt động được báo là có thể xung đột. Không kiểm tra tường lửa, WinHTTP hay chính sách tổ chức.",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "1. Mở Cài đặt Windows → Mạng và Internet → Proxy.\n2. Thoát ứng dụng proxy/VPN khác và kiểm tra proxy/PAC cá nhân. Không xóa cài đặt do tổ chức quản lý.\n3. Kết nối lại FastAI và kiểm tra.",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("Bước tiếp theo"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "Tuyến đã chọn phải trả HTTP 204 trong 8 giây, không có lỗi proxy.",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Chọn tuyến khác và thử lại.\n2. Nếu mọi tuyến thất bại, xem kết quả DNS và proxy cục bộ.\n3. Nếu chỉ máy chủ kiểm tra lỗi, thử dịch vụ cần dùng và gửi báo cáo cho hỗ trợ.",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "Dùng bản ứng dụng thông thường, kết nối rồi kiểm tra lại. Thiết bị di động không chạy kiểm tra cổng máy tính.",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Đảm bảo đã đăng nhập và tài khoản được phép kết nối.\n2. Làm mới tuyến và kết nối lại.\n3. Cấp quyền TUN hoặc chọn proxy hệ thống.",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("Chưa chạy"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("Bắt đầu kiểm tra"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Chưa xác minh"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "Bật xác minh chứng chỉ. Máy chủ kiểm tra phải trả HTTP 204 trong 8 giây; không theo chuyển hướng.",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Kiểm tra ngày giờ hệ thống.\n2. Đăng nhập Wi-Fi và thử mạng khác.\n3. So sánh máy chủ kiểm tra khác và đường proxy. Không tắt xác minh chứng chỉ.",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "Thao tác thất bại. Vui lòng thử lại.",
     ),
@@ -766,10 +579,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("Hiện mật khẩu"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("Đang đăng nhập…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Chế độ thông minh"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("Gửi chẩn đoán"),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "Gửi phiên bản ứng dụng, hệ điều hành, kết quả và thời gian kiểm tra cho quản trị viên, liên kết với tài khoản hiện tại. Không gửi lịch sử duyệt web, địa chỉ IP, kết quả DNS, thông tin xác thực nút hoặc cấu hình. Báo cáo được lưu 30 ngày theo mặc định; quản trị viên có thể thay đổi thời hạn.",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Làm mới tuyến"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Không thể làm mới tuyến. Thử lại trước khi kết nối.",
@@ -777,26 +586,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage(
       "Đang đồng bộ tuyến…",
     ),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "Kết nối máy chủ kiểm tra công cộng trong 8 giây. Thời gian bao gồm phân giải DNS.",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage(
+      "Hỗ trợ kỹ thuật bởi FastDog",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "Kết nối TCP thất bại. Kiểm tra DNS, truy cập mạng và bộ lọc; chưa thể kết luận lỗi tường lửa.",
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "Mặc định tắt. Khi bật, gửi phiên bản ứng dụng, hệ điều hành, kết quả kết nối và đồng bộ, loại lỗi và thời gian mỗi 5 phút, gắn với tài khoản. Không thu thập lịch sử duyệt web, địa chỉ, thông tin xác thực hoặc cấu hình. Lưu 30 ngày theo mặc định; quản trị viên có thể thay đổi.",
     ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
-      "Máy chủ kiểm tra đã chấp nhận kết nối TCP.",
-    ),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Xem kết quả DNS trước.\n2. Thử mạng khác hoặc hoàn tất đăng nhập mạng.\n3. Kiểm tra quy tắc tường lửa/VPN với quản trị viên; không tắt toàn bộ tường lửa.",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "Hoàn tất TLS bằng kho tin cậy hệ thống trong 8 giây, gồm DNS và TCP. Ghi thời hạn chứng chỉ nếu có.",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "Không hoàn tất TLS. Kiểm tra đồng hồ, can thiệp mạng và độ tin cậy chứng chỉ; không tắt xác minh.",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
-      "Bắt tay TLS và xác minh chứng chỉ thành công.",
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage(
+      "Chia sẻ dữ liệu hoạt động",
     ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Đã bỏ qua các nút có giao thức không khả dụng trong bản cài đặt này. Hãy cập nhật hoặc cài lại FastAI.",

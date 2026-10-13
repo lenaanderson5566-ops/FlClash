@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:fastai/common/feature.dart';
 
@@ -405,16 +404,6 @@ void main() {
     });
   });
 
-  test('customProxyTypes lists every type the core parses', () {
-    final source = File('core/Clash.Meta/adapter/parser.go').readAsStringSync();
-    expect(customProxyTypes, [
-      for (final match in RegExp(
-        r'^\tcase "([^"]+)":',
-        multiLine: true,
-      ).allMatches(source))
-        match.group(1)!,
-    ]);
-  });
 
   test(
     'switched-off features leave app providers and custom proxies out',

@@ -8,14 +8,10 @@ import 'package:fastai/widgets/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fastai/v2board/network_diagnostics.dart';
-import 'package:fastai/v2board/connection_diagnostics.dart';
-
 class ToolsView extends ConsumerStatefulWidget {
-  const ToolsView({super.key, this.onRepair, this.onSubmit, this.coreSetting});
-  final Future<String> Function(DiagnosticSnapshot)? onSubmit;
+  const ToolsView({super.key, this.coreSetting, this.telemetrySetting});
+  final Widget? telemetrySetting;
   final Widget? coreSetting;
-  final Future<void> Function(DiagnosticRepair)? onRepair;
 
   @override
   ConsumerState<ToolsView> createState() => _ToolViewState();
@@ -28,21 +24,7 @@ class _ToolViewState extends ConsumerState<ToolsView> {
       items: [
         const _LocaleItem(),
         if (widget.coreSetting != null) widget.coreSetting!,
-        ListTile(
-          leading: const GlyphIcon(AppGlyphs.info),
-          title: Text(context.appLocalizations.fdNetworkDiagnostics),
-          subtitle: Text(context.appLocalizations.fdDiagnosticEntry),
-          trailing: const GlyphIcon(AppGlyphs.chevronForward),
-          onTap: () => showDialog<void>(
-            context: context,
-            builder: (_) => NetworkDiagnosticsDialog(
-              onSubmit: widget.onSubmit,
-              onRepair: widget.onRepair,
-              runChecks: () =>
-                  diagnoseConnection(ref, context.appLocalizations),
-            ),
-          ),
-        ),
+        if (widget.telemetrySetting != null) widget.telemetrySetting!,
         if (system.isDesktop) const ProxyAddressItem(),
         if (system.isAndroid) const _AccessItem(),
         if (system.isAndroid) const GeneralSettings(),

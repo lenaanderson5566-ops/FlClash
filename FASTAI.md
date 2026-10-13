@@ -85,3 +85,23 @@ the public website normally. No URL scheme or app-import handler is involved.
    request result logs in staging, then roll out the matching client.
 
 Pushing source does not deploy fastdog.ws or publish installation packages.
+
+## Runtime sharing and client presentation
+
+FastAI uses only sing-box. The legacy mihomo implementation, dependency and
+Clash.Meta submodule are removed. Some Clash-named models and IPC identifiers
+remain for compatibility; the release dependency guard rejects mihomo imports.
+
+One-click network diagnosis is removed. Settings offers optional runtime sharing,
+disabled by default. With consent, the app sends at most 30 account-linked events
+per five-minute batch: version, platform, connection/synchronization outcome,
+error category and duration. No browsing history, addresses, credentials or
+configuration content is included. Signing out or disabling sharing clears pending
+events. The backend retains reports for 30 days by default, configurable by admins.
+Deploy the client-events backend and report-kind migration before publishing this
+app. Existing installed clients retain their old manual diagnostic endpoint.
+
+The download UI distinguishes the site-specific FastAI app from third-party
+clients. FastAI signs in with the site account; third-party clients import a
+subscription link. About displays FastDog technical support and preserves access
+to open-source licenses without a website link.

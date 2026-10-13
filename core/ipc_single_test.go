@@ -1,4 +1,4 @@
-//go:build !cgo && !legacy_mihomo
+//go:build !cgo
 
 package main
 

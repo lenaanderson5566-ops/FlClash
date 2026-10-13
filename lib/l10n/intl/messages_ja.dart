@@ -353,27 +353,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "サーバー証明書を確認できません。システム時刻を確認するかサポートにお問い合わせください。",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage("システム接続"),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 接続"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("安全な接続"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("プランを選ぶ"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("接続先を選ぶ"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage("クライアント設定"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "サーバーで FastAI へのアクセスが無効になっています。管理者にお問い合わせください。",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "両経路とも失敗。共通のネットワーク問題または検査先の制限の可能性があります。各層の結果を確認してください。",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "今回、両方の経路で検査先に到達しました。",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage("接続の比較"),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "システム経路は成功し、選択中の経路は失敗。接続先から確認してください。原因は未確定です。",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "選択中の経路は成功し、システム経路は失敗。DNS、経路、回線制限を確認してください。",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("接続"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("接続済み"),
@@ -381,74 +364,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "接続できませんでした。再試行するか接続先を変更してください。",
     ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage("技術レポートをコピー"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("独立データ残量"),
     "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
       "追加データ容量は期間の容量とは別に管理され、期間リセットでは消去されません。利用範囲と有効期限はアカウントによって異なります。",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "確認中に接続設定が変更されました。再確認してください。",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "コアまたは接続先が未準備です。接続先を更新して再接続してください。",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "未接続です。接続してから経路を確認してください。",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("システム DNS"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "名前解決が失敗またはタイムアウトしました。ネットワークを確認するか、別の回線でお試しください。",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "公開テストドメインを正常に名前解決しました。",
-    ),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("接続の問題を調べて復旧する"),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "Windows プロキシ/PAC が現在のモードと一致しません。他の VPN とシステム設定を確認して再接続してください。",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "ローカルプロキシが応答しません。切断して再接続後、再試行してください。",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "ローカルポートに接続できました。リモート経路は未検証です。",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Windows の手動プロキシと PAC 設定が現在のモードに一致しています。",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("再確認"),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("現在の経路"),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "検査先に接続できません。接続先を切り替え、すべて失敗する場合は DNS とネットワークを確認してください。",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "選択中の経路で HTTPS 検査先に接続できました。他のサービスは結果が異なる場合があります。",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
-      "ネットワーク接続を確認しています…",
-    ),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "セーフモードではプロキシとシステム設定の確認をスキップします。",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "コア、接続先、権限は準備済みです。すべてのシステム設定を検証するものではありません。",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "現在の接続状態や端末では、この検査は対象外です。",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("送信済み"),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "TUN 権限がありません。再接続して許可するか、システムプロキシを選択してください。",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "この項目を確認できませんでした。再試行するか、以下の案内に従ってください。",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "公開テスト先を確認できませんでした。この結果だけではインターネット全体の障害とは判断できません。",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "公開テスト先から期待した応答を受信しました。",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("切断"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未接続"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("切断中…"),
@@ -461,12 +381,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage("プランを更新すると再接続できます。"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("期間の有効期限"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("グローバルモード"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("確認完了・一部未検証"),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage("確認が必要な項目があります"),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage("実行した確認は正常です"),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "以下の結果を確認してください。修復は選択した場合のみ実行します。",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("接続先を選び、ワンクリックで接続。"),
     "fdHidePassword": MessageLookupByLibrary.simpleMessage("パスワードを非表示"),
     "fdHome": MessageLookupByLibrary.simpleMessage("ホーム"),
@@ -487,8 +401,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("ログイン"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("アカウントにログイン"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("ログアウト"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("ネットワーク接続"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("ネットワーク診断"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "サービスに接続できません。ネットワークを確認して再試行してください。",
     ),
@@ -501,15 +413,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "利用可能な経路がありません。公式サイトでアカウントを確認してください。",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("公式サイト"),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage(
+      "オープンソースライセンス",
+    ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("期間データ使用量"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("プラン"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("プロキシコア"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("インターネット接続"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。しばらくお待ちください。",
-    ),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "選択中の経路と同じ URL を使用し、アプリのプロキシを明示しません。TUN/OS 経路の影響は残るため VPN を迂回する保証はありません。",
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("問い合わせ番号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("更新"),
@@ -517,76 +428,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("公式サイトで登録・パスワード再設定"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("期間の残り通信量"),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("契約を更新"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage("設定を再取得して接続"),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "操作を完了できませんでした。最新の結果とアカウントの利用権限を確認してください。",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "接続が一時中断されるか、経路が変わる場合があります。完了後に再検査します。代替経路は最大 5 件を検査します。",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("再接続"),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage("利用可能な経路に切り替え"),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "操作は完了しましたが、復旧は未確認です。以下の案内に従ってください。",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "プロキシ経路の再検査に成功しました。残りの警告も確認してください。",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage("修復して接続を再確認しています…"),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("レポートをコピー"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("判定基準"),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "両方のドメインが8秒以内にアドレスを返すこと。システムの名前解決を確認し、DNS リークや上流 DNS サーバーは検証しません。",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Wi-Fi/有線とネットワーク認証を確認。\n2. 別の回線で再確認。\n3. 改善しない場合はレポートをサポートへ。",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("問題あり"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage("測定データがありません。"),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "この項目の修復は不要です。結果は今回の測定のみで、すべてのサービスへの接続を保証しません。",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
-      "技術情報（ms = ミリ秒）",
-    ),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("正常"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "8秒以内にローカル TCP ポートへ接続すること。待受プロセスやリモート経路は確認しません。",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "1. FastAI を再接続。\n2. 改善しない場合は再起動。\n3. レポートをサポートへ。ポート失敗だけでは他アプリの占有と断定できません。",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "コピーには検査先と DNS 応答が含まれますが、アカウント、トークン、サブスクリプション、PAC URL は含みません。",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "Windows ユーザーの手動プロキシを確認し、PAC 有効時は競合の可能性を示します。ファイアウォール、WinHTTP、組織ポリシーは対象外です。",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "1. Windows 設定 → ネットワーク → プロキシを確認。\n2. 他の VPN を終了し、自分のプロキシ/PAC 設定を確認。組織の設定は削除しないでください。\n3. FastAI を再接続して確認。",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("対処手順"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "選択した経路から 8 秒以内に HTTP 204 を受信し、プロキシエラーがないことを確認します。",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 別の接続先で再試行。\n2. すべて失敗する場合は DNS とローカルプロキシを確認。\n3. 検査先のみ失敗する場合は必要なサービスを確認し、レポートを送付。",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "通常モードで接続後、再確認してください。モバイルではデスクトップのポート確認は行いません。",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. ログインと利用権限を確認。\n2. 接続先を更新して再接続。\n3. TUN 権限を許可するかシステムプロキシへ切り替え。",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("未実行"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("確認開始時刻"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("未検証"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "証明書を検証し、8 秒以内の HTTP 204 応答を確認します。リダイレクトには追従しません。",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. システム日時を確認します。\n2. Wi-Fi 認証を完了するか、別のネットワークを試します。\n3. 別のテスト先とプロキシ経路の結果を比較します。証明書検証を無効にしないでください。",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "操作に失敗しました。再試行してください。",
     ),
@@ -636,36 +477,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("パスワードを表示"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("ログイン中…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("スマートモード"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("診断を送信"),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "アプリのバージョン、OS、検査結果と所要時間を、アカウントに関連付けてサイト管理者へ送信します。閲覧履歴、IP アドレス、DNS 結果、ノード認証情報、設定は送信しません。既定の保存期間は30日で、管理者が変更できます。",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("経路を更新"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "経路を更新できませんでした。再試行してから接続してください。",
     ),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("接続先を同期中…"),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "8 秒以内に公開確認用サーバーへ接続します。所要時間には DNS 解決を含みます。",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage(
+      "FastDog による技術サポート",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "TCP 接続に失敗しました。DNS、回線、フィルタリングを確認してください。原因は断定できません。",
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "既定ではオフです。有効にすると、アカウントに紐づくアプリのバージョン、OS、接続・同期結果、エラー分類、所要時間を5分ごとに送信します。閲覧履歴、アドレス、認証情報、設定は収集しません。保存期間は既定で30日（管理者が変更可能）です。",
     ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
-      "確認用サーバーに TCP 接続できました。",
-    ),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "1. DNS 結果を確認。\n2. 別の回線やネットワーク認証を試す。\n3. 管理者と VPN/ファイアウォール規則を確認。全体を無効にしないでください。",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "システムの信頼ストアで8秒以内に TLS を完了。DNS/TCP を含み、取得できた証明書の有効期間を記録します。",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "TLS に失敗しました。日時、通信の介入、証明書の信頼を確認し、検証は無効にしないでください。",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
-      "TLS ハンドシェイクと証明書検証に成功しました。",
-    ),
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage("動作データを共有"),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "このインストールで利用できないプロトコルのノードをスキップしました。FastAI を更新または再インストールしてください。",
     ),

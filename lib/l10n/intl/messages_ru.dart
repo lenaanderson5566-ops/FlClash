@@ -426,40 +426,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Не удалось проверить сертификат сервера. Проверьте системное время или обратитесь в поддержку.",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage(
-      "Системное подключение",
-    ),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("Соединение TCP"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("Защищённое соединение"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("Выбрать тариф"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Выбрать маршрут"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage("Настройки клиента"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "Доступ к FastAI отключён на сервере. Обратитесь к администратору.",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "Оба пути не прошли проверку. Возможна общая проблема сети или ограничение адреса; сопоставьте результаты по слоям.",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "Оба пути достигли тестового адреса.",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage(
-      "Сравнение подключений",
-    ),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "Системный путь работает, выбранный маршрут — нет. Начните с маршрута; причина ещё не установлена.",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "Выбранный маршрут работает, системный — нет. Проверьте DNS, маршрутизацию и ограничения сети.",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("Подключить"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("Подключено"),
     "fdConnection": MessageLookupByLibrary.simpleMessage("Подключение"),
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось подключиться. Повторите попытку или выберите другой сервер.",
-    ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage(
-      "Копировать технический отчёт",
     ),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Остаток независимого трафика",
@@ -468,76 +444,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Дополнительный трафик учитывается отдельно и не обнуляется при сбросе периода. Доступ и срок действия зависят от вашей учётной записи.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Текущий сервер"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "Настройки изменились во время проверки. Повторите диагностику.",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "Ядро или список серверов не готовы. Обновите серверы и переподключитесь.",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "Нет подключения. Подключитесь для проверки маршрута.",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("Системный DNS"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "Ошибка DNS или тайм-аут. Проверьте сеть или попробуйте другую.",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Публичные тестовые домены успешно разрешены.",
-    ),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
-      "Найти проблемы подключения и восстановить связь",
-    ),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "Прокси/PAC Windows не соответствует режиму. Проверьте другие VPN и настройки прокси, затем переподключитесь.",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "Локальный порт прокси не отвечает. Переподключитесь и повторите проверку.",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "Локальный порт доступен; удалённый маршрут не проверен.",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Ручной прокси и PAC Windows соответствуют текущему режиму.",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage(
-      "Проверить снова",
-    ),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage(
-      "Текущий маршрут",
-    ),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "Тестовый адрес недоступен через выбранный маршрут. Смените сервер; если не помогает, проверьте DNS и сеть.",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "Выбранный маршрут достиг тестового HTTPS-адреса. Другие сервисы могут работать иначе.",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
-      "Проверка подключения…",
-    ),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "В безопасном режиме проверка прокси и системных настроек пропущена.",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Ядро, серверы и разрешения готовы. Не все системные настройки проверены.",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "Эта проверка не применяется к текущему состоянию подключения или устройству.",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
-      "Отчёт отправлен",
-    ),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "Нет разрешения TUN. Переподключитесь и разрешите доступ или выберите системный прокси.",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "Не удалось завершить проверку. Повторите её или следуйте указаниям ниже.",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "Не удалось проверить тестовый адрес. Это само по себе не означает недоступность всего Интернета.",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "Публичный тестовый адрес вернул ожидаемый ответ.",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Отключить"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Не подключено"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Отключение…"),
@@ -554,18 +460,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Окончание периода"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Глобальный режим"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
-      "Проверка завершена, часть пунктов не проверена",
-    ),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage(
-      "Есть пункты, требующие внимания",
-    ),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage(
-      "Выполненные проверки пройдены",
-    ),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "Посмотрите результаты ниже. Исправления выполняются только по вашему выбору.",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Выберите сервер и подключитесь одним нажатием.",
     ),
@@ -590,12 +484,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("Вход в аккаунт"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage(
-      "Сетевое соединение",
-    ),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Диагностика сети",
-    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Не удалось подключиться к сервису. Проверьте сеть и повторите попытку.",
     ),
@@ -618,19 +506,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage(
       "Официальный сайт",
     ),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage(
+      "Лицензии открытого ПО",
+    ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage(
       "Использовано за период",
     ),
     "fdPlan": MessageLookupByLibrary.simpleMessage("Тариф"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("Ядро прокси"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
-      "Доступ в Интернет",
-    ),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Слишком много запросов. Повторите позже.",
-    ),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "Тот же HTTPS-адрес без явного прокси приложения. TUN и системные маршруты могут влиять на путь; обход VPN не гарантирован.",
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Номер обращения"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Обновить"),
@@ -644,86 +529,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Остаток трафика за период",
     ),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("Продлить подписку"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
-      "Обновить конфигурацию и подключиться",
-    ),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "Не удалось завершить действие. Проверьте новые результаты и доступ учётной записи.",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "Возможен краткий разрыв соединения или смена маршрута. Затем проверка повторится. Проверяются до пяти альтернативных маршрутов.",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage(
-      "Переподключиться",
-    ),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage(
-      "Найти и выбрать рабочий маршрут",
-    ),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "Действие завершено, но восстановление не подтверждено. Следуйте указаниям ниже.",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "Прокси-маршрут прошёл повторную проверку. Проверьте оставшиеся предупреждения.",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage(
-      "Выполняется исправление и повторная проверка…",
-    ),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("Копировать отчёт"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("Критерий оценки"),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "Оба домена должны вернуть адрес за 8 секунд. Проверяется системный DNS, а не утечки или конкретный вышестоящий сервер DNS.",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Проверьте Wi-Fi/кабель и вход в сеть.\n2. Повторите в другой сети.\n3. Передайте отчёт поддержке или администратору.",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("Проблема"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage(
-      "Измерения отсутствуют.",
-    ),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "Исправление не требуется. Это результат текущей проверки, а не гарантия доступа ко всем сервисам.",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
-      "Параметры (ms = миллисекунды)",
-    ),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("Успешно"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "TCP-соединение с локальным портом за 8 секунд. Процесс-владелец порта и удалённый маршрут не проверяются.",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Переподключите FastAI.\n2. Перезапустите приложение.\n3. Отправьте отчёт: сбой порта сам по себе не доказывает конфликт с другим приложением.",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "Отчёт содержит тестовые адреса и ответы DNS, но не аккаунт, токен, подписку или URL PAC.",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "Проверяется пользовательский прокси Windows; PAC отмечается как возможный конфликт. Брандмауэр, WinHTTP и политики организации не проверяются.",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "1. Откройте настройки прокси Windows.\n2. Закройте другие VPN и проверьте собственные настройки прокси/PAC. Не удаляйте политики организации.\n3. Переподключите FastAI и повторите.",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("Рекомендации"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "Выбранный маршрут должен вернуть HTTP 204 за 8 секунд без ошибки прокси.",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Смените сервер и повторите.\n2. Если все серверы недоступны, проверьте DNS и локальный прокси.\n3. Если не работает только тестовый адрес, проверьте нужный сервис и отправьте отчёт.",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "Запустите обычную версию, подключитесь и повторите. На мобильных устройствах проверка локального порта не выполняется.",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Проверьте вход и доступ аккаунта.\n2. Обновите серверы и подключитесь.\n3. Разрешите TUN или выберите системный прокси.",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("Не выполнено"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("Начало проверки"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Не проверено"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "Проверка сертификата включена. Ожидается HTTP 204 за 8 секунд, без перехода по перенаправлениям.",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Проверьте дату и время.\n2. Завершите авторизацию Wi-Fi или попробуйте другую сеть.\n3. Сравните результаты другого адреса и прокси. Не отключайте проверку сертификата.",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "Операция не выполнена. Повторите попытку.",
     ),
@@ -785,12 +590,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("Показать пароль"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("Вход…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Умный режим"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage(
-      "Отправить диагностику",
-    ),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "Версия приложения, платформа, результаты и длительность проверок будут отправлены администратору сайта с привязкой к аккаунту. История просмотров, IP-адреса, ответы DNS, данные доступа узлов и конфигурация не отправляются. По умолчанию отчёты хранятся 30 дней; администратор может изменить срок.",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Обновить маршруты"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось обновить маршруты. Повторите попытку перед подключением.",
@@ -798,26 +597,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage(
       "Синхронизация серверов…",
     ),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "Подключение к публичному проверочному серверу за 8 секунд. Время включает разрешение DNS.",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage(
+      "Техническая поддержка FastDog",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "Сбой TCP. Проверьте DNS, сеть и фильтрацию; это не доказывает проблему брандмауэра.",
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "По умолчанию выключено. Версия приложения, ОС, результаты соединения и синхронизации, категории ошибок и длительность отправляются каждые 5 минут с привязкой к аккаунту. История просмотров, адреса, учётные данные и настройки не собираются. Срок хранения — 30 дней, администратор может его изменить.",
     ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
-      "TCP-соединение с проверочным сервером установлено.",
-    ),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Проверьте DNS.\n2. Попробуйте другую сеть или войдите в сеть.\n3. Проверьте правила с администратором, не отключая брандмауэр целиком.",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "TLS через системное хранилище доверия за 8 секунд. Время включает DNS/TCP; срок сертификата записывается при наличии.",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "Сбой TLS. Проверьте время, перехват трафика и доверие сертификату, не отключая проверку.",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
-      "TLS-рукопожатие и проверка сертификата успешны.",
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage(
+      "Делиться данными работы",
     ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Узлы с недоступными протоколами пропущены. Обновите или переустановите FastAI, чтобы использовать их.",

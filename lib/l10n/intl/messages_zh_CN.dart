@@ -327,27 +327,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "无法验证服务器证书，请检查系统时间或联系支持。",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage("系统网络连接"),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 连通性"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("安全连接"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("选购套餐"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("选择线路"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage("客户端配置"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "服务端已关闭 FastAI 访问，请联系管理员。",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "两条路径均未通过。可能是共有网络问题，也可能是目标地址受限，请结合分层结果判断。",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "本次两条路径均访问到检测地址。",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage("连接对比"),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "系统路径通过，所选线路失败。建议先排查线路，尚不能确认根因。",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "所选线路通过，系统路径失败。建议检查系统 DNS、路由及本地网络限制。",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("连接"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("已连接"),
@@ -355,70 +338,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "连接失败，请重试或切换线路。",
     ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage("复制技术报告"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("独立流量剩余"),
     "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
       "独立流量与周期流量分别计量，不随周期重置清除；可用线路和有效期以账号权益为准。",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("当前线路"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "检查期间连接设置发生变化，请重新检查。",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "内核或线路列表未就绪，请刷新线路后重新连接。",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "尚未连接，请连接后检查代理线路。",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("系统 DNS"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "域名解析失败或超时，请检查网络或切换网络后重试。",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage("公共检测域名解析成功。"),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage("查找连接问题并按指引恢复"),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "Windows 代理或 PAC 与当前模式不一致，请检查其他 VPN/代理软件及系统代理设置，再重新连接。",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "本地代理端口未响应，请断开后重新连接，再次检查。",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "本地端口可达；此项不验证远端线路。",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Windows 手动代理和 PAC 设置与当前模式一致。",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("重新检查"),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("当前线路"),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "当前线路未能访问检测地址，请切换线路；全部失败时检查 DNS 和本地网络。",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "当前所选线路已访问 HTTPS 检测地址；不代表所有服务均可访问。",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage("正在检查网络连接…"),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "安全模式下跳过：不启用代理内核和系统设置。",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "内核、线路和连接权限已就绪；此项不代表所有系统设置均无冲突。",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "当前连接状态或设备无需执行此项检查。",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("报告已提交"),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "TUN 权限未就绪，请重新连接并完成授权，或切换系统代理。",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "此项暂未完成验证，请重试或按下方指引排查。",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "公共检测端点未通过检查，不能仅凭此结果判断整个互联网不可用。",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "公共检测端点返回了预期响应。",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("断开连接"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未连接"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("正在断开…"),
@@ -429,12 +353,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdExpiredHint": MessageLookupByLibrary.simpleMessage("续费后即可恢复连接。"),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("周期到期时间"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("全局模式"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage("检查完成，部分项目尚未验证"),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage("有检测项需要处理"),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage("已执行的检查均通过"),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "请查看下方结果，修复操作仅在你点击后执行。",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage("选择线路，一键连接。"),
     "fdHidePassword": MessageLookupByLibrary.simpleMessage("隐藏密码"),
     "fdHome": MessageLookupByLibrary.simpleMessage("首页"),
@@ -451,8 +369,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("登录"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("登录帐号"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("退出登录"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("网络连通性"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("网络诊断"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage("无法连接服务，请检查网络后重试。"),
     "fdNextReset": MessageLookupByLibrary.simpleMessage("下次自动重置（本地时间）"),
     "fdNoExpiry": MessageLookupByLibrary.simpleMessage("无周期到期时间"),
@@ -463,88 +379,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "暂无可用线路，请前往官网检查账号权益。",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("官方网站"),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage("开源许可"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("周期流量已用"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("套餐"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("代理核心"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("互联网连通性"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage("操作过于频繁，请稍后重试。"),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "与所选线路使用同一 HTTPS 检测地址，不显式指定应用代理。TUN 或系统路由仍可能影响此路径，不保证绕过 VPN。",
-    ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("问题编号"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("刷新"),
     "fdRefreshSubscription": MessageLookupByLibrary.simpleMessage("刷新套餐状态"),
     "fdRegisterHelp": MessageLookupByLibrary.simpleMessage("前往官网注册或找回密码"),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("周期剩余流量"),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("续费套餐"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage("重新获取配置并连接"),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "操作未能完成。请查看下方最新结果，必要时登录并检查账号使用权限。",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "操作可能短暂中断连接或更换所选线路，完成后会自动复测。线路恢复最多检测 5 条其他线路。",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("重新连接"),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage("检测并切换可用线路"),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "操作已执行，但尚未确认恢复，请按下方结果继续排查。",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "代理线路已通过复测，请继续查看下方剩余提示。",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage("正在处理并重新验证连接…"),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("复制报告"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("判断依据"),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "两个检测域名均需在 8 秒内返回至少一个地址。此项检查系统解析器，不检测 DNS 泄漏，也不验证具体上游 DNS 服务器。",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 检查 Wi-Fi/网线，并完成公共网络登录认证。\n2. 切换网络后重新检查，判断是否为当前网络的 DNS 问题。\n3. 仍然失败时，将报告交给客服或网络管理员。",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("异常"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage("未采集到实测参数。"),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "此项无需修复。结果仅代表本次检测，不保证所有服务均可访问。",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage("技术参数（ms 为毫秒）"),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("通过"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "8 秒内成功连接配置的本机回环 TCP 端口。此项不确认监听进程身份，也不验证远端线路。",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 在 FastAI 中断开后重新连接。\n2. 仍失败时重启 FastAI 后再检查。\n3. 将报告交给支持；端口连接失败本身不能证明端口被其他软件占用。",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "复制报告包含检测地址和 DNS 解析结果，不包含账号、令牌、订阅内容或 PAC 地址。",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "核对 Windows 当前用户的手动 HTTP/HTTPS 代理与所选模式，启用 PAC 时提示潜在冲突。不检查防火墙、WinHTTP 和组织策略。",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "1. 打开 Windows 设置 → 网络和 Internet → 代理。\n2. 退出其他代理/VPN 软件，核对自己配置的手动代理或 PAC；不要擅自移除组织管理的设置。\n3. 重新连接 FastAI 后复查。",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("修复与后续操作"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "当前线路须在 8 秒内返回 HTTP 204，且没有代理错误。",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 切换其他线路后重试。\n2. 所有线路都失败时，结合 DNS 和本地代理结果排查。\n3. 若仅检测地址失败，请验证实际需要的服务，并将报告交给支持。",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "请使用正常模式客户端并连接后重新检查。移动端不执行桌面代理端口检查。",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 确认已登录且账号具备连接权限。\n2. 刷新线路后重新连接。\n3. TUN 授权异常时完成权限授权，或切换为系统代理。",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("未执行"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("检查开始时间"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("未验证"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "保持证书验证开启。公共检测端点须在 8 秒内返回 HTTP 204，不跟随重定向。",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 检查系统日期和时间。\n2. 完成 Wi-Fi 联网认证，或尝试其他网络。\n3. 对照另一检测端点和代理路径结果，不要关闭证书验证。",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage("操作失败，请重试。"),
     "fdRequestTimeout": MessageLookupByLibrary.simpleMessage("请求超时，请检查网络后重试。"),
     "fdRequired": MessageLookupByLibrary.simpleMessage("请填写此项"),
@@ -580,30 +425,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("显示密码"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("正在登录…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("智能模式"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("提交诊断"),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "将应用版本、系统类型、检查结果和耗时提交给本站管理员，并关联当前账号。不发送浏览记录、IP 地址、DNS 结果、节点凭据或配置。报告默认保留 30 天，管理员可调整保留期。",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("刷新线路"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage("线路刷新失败，请重试后再连接。"),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("正在同步线路…"),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "在 8 秒内连接公共检测服务器，总耗时包含域名解析。",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage(
+      "FastDog 提供技术支持",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "TCP 连接失败，请结合 DNS、网络接入及过滤规则排查，不能仅凭此项断定防火墙故障。",
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "默认关闭。开启后每 5 分钟批量上报与账号关联的应用版本、系统类型、连接与同步结果、错误类别和耗时。不采集浏览记录、地址、凭据或配置。默认保留 30 天，管理员可调整。",
     ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage("检测服务器的 TCP 连接正常。"),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 先查看 DNS 检测结果。\n2. 切换网络，或完成网络登录认证后重试。\n3. 与管理员核对防火墙/VPN 规则，不要直接关闭防火墙。",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "8 秒内使用系统信任库完成 TLS；耗时包含 DNS 和 TCP，成功时记录证书有效期。",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "TLS 未完成，请检查系统时间、网络拦截及证书信任，不要关闭证书校验。",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage("TLS 握手和证书校验通过。"),
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage("共享运行数据"),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "已跳过当前安装不支持的协议节点。可更新或重新安装 FastAI 以启用这些节点。",
     ),

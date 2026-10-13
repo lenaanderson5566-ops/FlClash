@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
@@ -12,33 +11,6 @@ PatchClashConfig _decode(Map<String, Object?> json) {
 }
 
 void main() {
-  test('NtpOverrideKey names every key of the core NTP section', () {
-    final source = File('core/Clash.Meta/config/config.go').readAsStringSync();
-    final body = RegExp(
-      'type RawNTP struct {([^}]*)}',
-    ).firstMatch(source)!.group(1)!;
-
-    expect(NtpOverrideKey.values.map((key) => key.path).toSet(), {
-      for (final match in RegExp(r'yaml:"([^",]+)').allMatches(body))
-        match.group(1)!,
-    });
-  });
-
-  test('the model defaults match the ones the core parses', () {
-    final source = File('core/Clash.Meta/config/config.go').readAsStringSync();
-    final body = RegExp(
-      r'NTP: RawNTP\{([^}]*)\}',
-    ).firstMatch(source)!.group(1)!;
-    String valueOf(String field) =>
-        RegExp('$field:\\s*(.+),').firstMatch(body)!.group(1)!.trim();
-
-    expect(valueOf('Server'), '"${defaultNtp.server}"');
-    expect(valueOf('Port'), '${defaultNtp.port}');
-    expect(valueOf('Interval'), '${defaultNtp.interval}');
-    expect(valueOf('Enable'), '${defaultNtp.enable}');
-    expect(valueOf('WriteToSystem'), '${defaultNtp.writeToSystem}');
-  });
-
   group('Ntp.overrideJson', () {
     test('emits only the selected keys in model order', () {
       const ntp = Ntp(server: 'time.cloudflare.com', port: 1230);

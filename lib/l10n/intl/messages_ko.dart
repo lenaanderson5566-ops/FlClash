@@ -339,27 +339,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "서버 인증서를 확인할 수 없습니다. 시스템 시간 확인 또는 고객 지원 문의가 필요합니다.",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage("시스템 연결"),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP 연결"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("보안 연결"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("요금제 선택"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("경로 선택"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage("앱 설정"),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "서버에서 FastAI 접근을 비활성화했습니다. 관리자에게 문의하세요.",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "두 경로 모두 이 서버에 연결하지 못했습니다. 공통 네트워크 문제 또는 서버 제한일 수 있으므로 단계별 결과를 확인하세요.",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "이번 점검에서 두 경로 모두 테스트 서버에 연결되었습니다.",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage("연결 비교"),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "시스템 경로는 성공했지만 선택한 경로는 실패했습니다. 경로부터 확인하세요. 원인은 아직 확정되지 않았습니다.",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "선택한 경로는 성공했지만 시스템 경로는 실패했습니다. 시스템 DNS, 라우팅, 로컬 네트워크 제한을 확인하세요.",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("연결"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("연결됨"),
@@ -367,74 +350,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "연결 실패. 다시 시도하거나 다른 경로를 선택하세요.",
     ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage("기술 보고서 복사"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage("남은 독립 데이터"),
     "fdCreditHelp": MessageLookupByLibrary.simpleMessage(
       "독립 데이터는 기간 데이터와 별도로 관리되며 기간 초기화 시 삭제되지 않습니다. 사용 범위와 만료일은 계정 권한에 따릅니다.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("현재 경로"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "점검 중 연결 설정이 변경되었습니다. 최신 결과를 얻으려면 다시 점검하세요.",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "코어 또는 경로 목록이 준비되지 않았습니다. 경로를 새로고침하고 다시 연결하세요.",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "연결되지 않았습니다. 먼저 연결하여 프록시 경로를 확인하세요.",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("시스템 DNS"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "DNS 조회가 실패했거나 시간이 초과되었습니다. 네트워크를 확인하거나 다른 네트워크를 사용하세요.",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "공용 테스트 도메인을 확인했습니다.",
-    ),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
-      "연결 문제를 찾고 복구 안내를 따르세요",
-    ),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "Windows 프록시/PAC가 선택한 모드와 다릅니다. 다른 VPN/프록시 앱과 Windows 프록시 설정을 확인한 후 다시 연결하세요.",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "로컬 프록시 포트가 응답하지 않습니다. 연결을 끊고 다시 연결한 후 재시도하세요.",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "로컬 포트에 연결할 수 있습니다. 원격 경로까지 확인된 것은 아닙니다.",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Windows 수동 프록시와 PAC 설정이 현재 모드와 일치합니다.",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("다시 점검"),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("선택한 경로"),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "선택한 경로로 테스트 서버에 연결하지 못했습니다. 다른 경로를 시도하고 모두 실패하면 DNS와 로컬 네트워크를 확인하세요.",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "선택한 경로가 HTTPS 테스트 서버에 연결되었습니다. 다른 서비스의 결과는 다를 수 있습니다.",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage("연결 확인 중…"),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "안전 모드에서 건너뜁니다. 프록시 코어와 시스템 설정을 사용하지 않습니다.",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "코어, 경로, 연결 권한이 준비되었습니다. 모든 시스템 설정을 확인한 것은 아닙니다.",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "현재 연결 상태 또는 기기에는 이 점검이 적용되지 않습니다.",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("보고서 제출됨"),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "TUN 권한이 필요합니다. 다시 연결하고 권한을 허용하거나 시스템 프록시를 선택하세요.",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "점검을 완료하지 못했습니다. 다시 시도하거나 아래 안내를 따르세요.",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "공용 테스트 서버를 확인하지 못했습니다. 이것만으로 모든 인터넷 연결이 끊겼다고 볼 수는 없습니다.",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "공용 테스트 서버가 예상한 응답을 반환했습니다.",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("연결 끊기"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("연결되지 않음"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("연결 끊는 중…"),
@@ -449,14 +369,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("이용 기간 만료일"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("전체 모드"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
-      "점검 완료, 일부 항목은 확인되지 않았습니다",
-    ),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage("확인이 필요한 항목이 있습니다"),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage("완료된 점검을 통과했습니다"),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "아래 결과를 확인하세요. 복구 작업은 직접 선택할 때만 실행됩니다.",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "경로를 선택하고 한 번에 연결하세요.",
     ),
@@ -477,8 +389,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("로그인"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("계정 로그인"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("로그아웃"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage("네트워크 연결"),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage("네트워크 진단"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "서비스에 연결할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.",
     ),
@@ -493,15 +403,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "사용 가능한 경로가 없습니다. 웹사이트에서 계정 권한을 확인하세요.",
     ),
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage("공식 웹사이트"),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage("오픈소스 라이선스"),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("사용한 기간 데이터"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("요금제"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("프록시 코어"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage("인터넷 연결"),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "요청이 너무 많습니다. 나중에 다시 시도하세요.",
-    ),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "선택한 경로와 동일한 HTTPS URL을 앱 프록시 지정 없이 사용합니다. TUN이나 운영체제 라우팅의 영향을 받을 수 있으므로 VPN 우회를 보장하지 않습니다.",
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("문의 번호"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("새로고침"),
@@ -511,76 +418,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdRemaining": MessageLookupByLibrary.simpleMessage("남은 기간 데이터"),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("구독 갱신"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage("설정 새로고침 후 연결"),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "작업을 완료하지 못했습니다. 아래 새 결과를 확인하고 필요하면 로그인과 계정 권한을 확인하세요.",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "연결이 잠시 끊기거나 선택한 경로가 바뀔 수 있습니다. 작업 후 다시 점검합니다. 경로 복구 시 최대 5개 대안을 시험합니다.",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("다시 연결"),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage("사용 가능한 경로 찾기 및 전환"),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "작업은 완료되었지만 복구는 확인되지 않았습니다. 아래 남은 안내를 따르세요.",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "프록시 경로 확인에 성공했습니다. 아래 남은 경고를 확인하세요.",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage("복구 및 연결 확인 중…"),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("보고서 복사"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage("판정 기준"),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "두 테스트 도메인이 각각 8초 이내에 주소를 하나 이상 반환해야 합니다. 시스템 이름 확인을 점검하며 DNS 유출이나 설정된 상위 DNS 서버는 확인하지 않습니다.",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Wi-Fi/이더넷과 네트워크 로그인을 확인하세요.\n2. 다른 네트워크에서 로컬 DNS 문제인지 확인하세요.\n3. 지속되면 보고서를 지원팀 또는 네트워크 관리자에게 보내세요.",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("문제 발견"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage("수집된 측정값이 없습니다."),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "이 항목은 복구가 필요하지 않습니다. 현재 상태의 결과이며 모든 서비스의 접속을 보장하지 않습니다.",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
-      "기술 매개변수 (ms = 밀리초)",
-    ),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("통과"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "설정된 루프백 포트에 TCP 연결이 8초 이내 완료되어야 합니다. 수신 프로세스의 신원이나 원격 경로는 확인하지 않습니다.",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "1. FastAI 연결을 끊고 다시 연결하세요.\n2. 다시 실패하면 FastAI를 재시작하세요.\n3. 보고서를 지원팀에 보내세요. 포트 점검 실패만으로 다른 앱이 포트를 점유한다고 단정할 수 없습니다.",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "복사한 보고서에는 테스트 대상과 DNS 응답이 포함되지만 계정, 토큰, 구독 또는 PAC URL은 포함되지 않습니다.",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "Windows 사용자 수준의 수동 HTTP/HTTPS 프록시가 선택한 모드와 일치해야 합니다. 활성 PAC는 충돌 가능성으로 표시합니다. 방화벽, WinHTTP, 조직 정책은 검사하지 않습니다.",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "1. Windows 설정 → 네트워크 및 인터넷 → 프록시를 확인하세요.\n2. 다른 프록시/VPN 앱을 종료하고 개인 프록시/PAC 설정을 확인하세요. 조직 관리 설정은 삭제하지 마세요.\n3. FastAI에 다시 연결하고 점검하세요.",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("다음 조치"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "선택한 경로가 프록시 오류 없이 8초 이내에 HTTP 204를 반환해야 합니다.",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 다른 경로를 선택하여 재시도하세요.\n2. 모두 실패하면 DNS와 로컬 프록시 결과를 확인하세요.\n3. 테스트 서버만 실패하면 필요한 서비스 접속을 확인하고 보고서를 지원팀에 보내세요.",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "일반 버전 앱에서 연결한 후 다시 점검하세요. 모바일에서는 데스크톱 포트 점검을 실행하지 않습니다.",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 로그인 상태와 계정의 연결 권한을 확인하세요.\n2. 경로를 새로고침하고 다시 연결하세요.\n3. TUN 권한을 허용하거나 시스템 프록시를 선택하세요.",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("실행 안 함"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("점검 시작"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("확인되지 않음"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "인증서 검증을 사용합니다. 공용 테스트 서버가 8초 이내에 HTTP 204를 반환해야 하며 리디렉션은 따르지 않습니다.",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 시스템 날짜와 시간을 확인하세요.\n2. Wi-Fi 로그인을 완료하고 다른 네트워크를 시도하세요.\n3. 다른 테스트 서버와 프록시 경로를 비교하세요. 인증서 검증을 끄지 마세요.",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "작업에 실패했습니다. 다시 시도하세요.",
     ),
@@ -630,36 +467,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("비밀번호 표시"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("로그인 중…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("스마트 모드"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("진단 제출"),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "앱 버전, 운영체제, 검사 결과와 소요 시간을 현재 계정과 연결하여 사이트 관리자에게 보냅니다. 방문 기록, IP 주소, DNS 결과, 노드 인증 정보나 설정은 전송하지 않습니다. 기본 보관 기간은 30일이며 관리자가 변경할 수 있습니다.",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("연결 경로 새로고침"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "경로를 새로고칠 수 없습니다. 다시 시도한 뒤 연결하세요.",
     ),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("경로 동기화 중…"),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "공용 테스트 서버에 8초 이내 연결해야 합니다. DNS 확인 시간도 포함됩니다.",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage("FastDog 기술 지원"),
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "기본적으로 꺼져 있습니다. 켜면 계정에 연결된 앱 버전, 운영체제, 연결·동기화 결과, 오류 유형과 소요 시간을 5분마다 보냅니다. 방문 기록, 주소, 인증 정보나 설정은 수집하지 않습니다. 기본 보관 기간은 30일이며 관리자가 변경할 수 있습니다.",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "TCP 연결에 실패했습니다. DNS, 네트워크 접속과 필터링을 확인하세요. 이것만으로 방화벽 문제라고 단정할 수 없습니다.",
-    ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
-      "테스트 서버가 TCP 연결을 수락했습니다.",
-    ),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "1. 먼저 DNS 결과를 확인하세요.\n2. 다른 네트워크를 사용하거나 네트워크 로그인을 완료하세요.\n3. 관리자와 방화벽/VPN 규칙을 확인하세요. 해결책으로 방화벽 전체를 끄지 마세요.",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "시스템 신뢰 저장소를 사용하여 8초 이내 TLS를 완료해야 합니다. DNS와 TCP 시간이 포함되며 가능하면 인증서 유효기간을 기록합니다.",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "TLS를 완료하지 못했습니다. 인증서 검증을 유지한 채 시간, 네트워크 가로채기, 인증서 신뢰를 확인하세요.",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
-      "TLS 핸드셰이크와 인증서 검증이 성공했습니다.",
-    ),
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage("실행 데이터 공유"),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "현재 설치에서 지원하지 않는 프로토콜 노드를 건너뛰었습니다. FastAI를 업데이트하거나 다시 설치하세요.",
     ),

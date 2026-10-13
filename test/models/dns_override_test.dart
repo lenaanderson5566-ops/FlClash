@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:fastai/enum/enum.dart';
 import 'package:fastai/models/models.dart';
@@ -12,25 +11,6 @@ PatchClashConfig _decode(Map<String, Object?> json) {
 }
 
 void main() {
-  test('DnsOverrideKey names every key of the core DNS section', () {
-    final source = File('core/Clash.Meta/config/config.go').readAsStringSync();
-    Iterable<String> yamlKeysOf(String struct) {
-      final body = RegExp(
-        'type $struct struct {([^}]*)}',
-      ).firstMatch(source)!.group(1)!;
-      return RegExp(
-        r'yaml:"([^",]+)',
-      ).allMatches(body).map((match) => match.group(1)!);
-    }
-
-    expect(DnsOverrideKey.values.map((key) => key.path).toSet(), {
-      for (final key in yamlKeysOf('RawDNS'))
-        if (key != DnsOverrideKey.fallbackFilterSection) key,
-      for (final key in yamlKeysOf('RawFallbackFilter'))
-        '${DnsOverrideKey.fallbackFilterSection}.$key',
-    });
-  });
-
   group('Dns.overrideJson', () {
     test('emits only the selected keys in model order', () {
       const dns = Dns(listen: ':53', nameserver: ['1.1.1.1']);

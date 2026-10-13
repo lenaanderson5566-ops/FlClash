@@ -1,8 +1,7 @@
+import 'telemetry.dart';
 import 'dart:ui' as ui show TextDirection;
 import 'account_avatar.dart';
 import 'browser_login.dart';
-import 'network_diagnostics.dart';
-import 'connection_diagnostics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'node_metadata.dart';
 import 'dart:async';
@@ -139,6 +138,9 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
   }
 
+  final _telemetry = ClientTelemetry();
+  bool _telemetryBusy = false;
+
   late final V2BoardProfile _profile = V2BoardProfile(ref);
 
   @override
@@ -146,6 +148,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     super.initState();
     unawaited(
       _run(() async {
+        await _telemetry.load();
         _api = await _session.restore();
         if (_api != null) {
           _bindSession(_api!);
@@ -204,6 +207,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
 
   @override
   void dispose() {
+    _telemetry.dispose();
     _email.dispose();
     _password.dispose();
     _passwordFocus.dispose();
@@ -594,7 +598,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             _connectAfterLogin = false;
             _retryConnect = true;
             _setActivity(context.appLocalizations.fdSyncingRoutes);
-            await _profile.connect(api, onConnecting: _connecting);
+            await _connectWithTelemetry(api);
           } else {
             _connectAfterLogin = false;
             await _syncAvailable();
@@ -613,6 +617,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     api.onDiagnostic = (event) {
       if (!mounted) return;
       ref.read(clientDiagnosticsProvider.notifier).record(event);
+      if (identical(api, _api)) _telemetry.request(event);
       commonPrint.log(
         'Client request: ${event.summary} · ${event.code}'
         '${event.requestId.isEmpty ? '' : ' · ${event.requestId}'}',
@@ -623,6 +628,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
 
   void _bindSession(V2BoardApi api) {
     _observeRequests(api);
+    _telemetry.bind(api);
     api.version = globalState.packageInfo.version;
     api.onSessionRejected = () async {
       if (!mounted || _api != api) return;
@@ -642,6 +648,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     if (!mounted) return;
     ref.read(v2BoardAccessProvider.notifier).setAvailable(false);
     _api?.close();
+    _telemetry.bind(null);
     _api = null;
     _account = null;
     _resets = null;
@@ -670,32 +677,33 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     });
   }
 
-  Future<void> _repairConnection(DiagnosticRepair repair) async {
-    if (ref.read(safeModeProvider) || _api == null || _busy) {
-      throw StateError('repair_unavailable');
+  Future<void> _connectWithTelemetry(V2BoardApi api) async {
+    final watch = Stopwatch()..start();
+    try {
+      await _profile.connect(api, onConnecting: _connecting);
+      if (mounted && identical(_api, api) && ref.read(isStartProvider)) {
+        _telemetry.record('connection', true, watch.elapsedMilliseconds);
+      }
+    } catch (_) {
+      if (mounted && identical(_api, api)) {
+        _telemetry.record('connection', false, watch.elapsedMilliseconds);
+      }
+      rethrow;
     }
-    final api = _api!;
-    await _refresh();
-    if (!mounted ||
-        !identical(api, _api) ||
-        _account?.active != true ||
-        ref.read(fastaiReleaseProvider)?.required == true) {
-      throw StateError('account_unavailable');
+  }
+
+  Future<void> _setTelemetry(bool value) async {
+    if (_telemetryBusy) return;
+    setState(() => _telemetryBusy = true);
+    try {
+      await _telemetry.setEnabled(value);
+    } catch (_) {
+      if (mounted) {
+        context.showNotifier(context.appLocalizations.fdRequestFailed);
+      }
+    } finally {
+      if (mounted) setState(() => _telemetryBusy = false);
     }
-    if (repair == DiagnosticRepair.switchRoute) {
-      await repairSelectedRoute(ref);
-      return;
-    }
-    if (repair == DiagnosticRepair.refreshConfig) await _profile.sync(api);
-    if (!mounted || !identical(api, _api)) throw StateError('session_changed');
-    if (ref.read(isStartProvider)) {
-      final stopped = await ref
-          .read(setupActionProvider.notifier)
-          .setRunning(false);
-      if (!stopped) throw StateError('stop_failed');
-    }
-    if (!mounted || !identical(api, _api)) throw StateError('session_changed');
-    await _profile.connect(api);
   }
 
   Future<void> _sync({bool connect = false}) async {
@@ -713,7 +721,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
         return;
       }
       if (connect) {
-        await _profile.connect(api, onConnecting: _connecting);
+        await _connectWithTelemetry(api);
       } else {
         await _profile.sync(api);
       }
@@ -1463,29 +1471,18 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 onRefresh: () => _run(_refreshSubscription),
               ),
       2 => ToolsView(
-        onSubmit: _api == null
-            ? null
-            : (snapshot) async {
-                final response = await _api!.request(
-                  'POST',
-                  '/me/diagnostic-reports',
-                  body: {
-                    'clientVersion': globalState.packageInfo.version,
-                    'platform': defaultTargetPlatform.name,
-                    'checks': snapshot.submissionChecks(),
-                  },
-                );
-                return response['reportId'] as String;
-              },
+        telemetrySetting: SwitchListTile(
+          title: Text(context.appLocalizations.fdTelemetryTitle),
+          subtitle: Text(context.appLocalizations.fdTelemetryPrivacy),
+          value: _telemetry.enabled,
+          onChanged: _telemetryBusy ? null : _setTelemetry,
+        ),
         coreSetting:
             defaultTargetPlatform == TargetPlatform.windows ||
                 defaultTargetPlatform == TargetPlatform.android ||
                 defaultTargetPlatform == TargetPlatform.macOS ||
                 defaultTargetPlatform == TargetPlatform.linux
             ? _coreSetting()
-            : null,
-        onRepair: _api != null && _account?.active == true
-            ? _repairConnection
             : null,
       ),
       3 => _api == null ? _loginView() : _myAccount(),

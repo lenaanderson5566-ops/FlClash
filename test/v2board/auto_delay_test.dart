@@ -1,5 +1,4 @@
 import 'package:fastai/v2board/auto_delay.dart';
-import 'package:fastai/v2board/connection_diagnostics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -34,19 +33,5 @@ void main() {
     expect(gate.begin('new', now), isFalse);
     gate.finish();
     expect(gate.begin('new', now), isTrue);
-  });
-  test('system proxy requires matching HTTP and HTTPS destinations', () {
-    expect(systemProxyMatches('127.0.0.1:7890', 7890), isTrue);
-    expect(
-      systemProxyMatches('http=127.0.0.1:7890;https=localhost:7890', 7890),
-      isTrue,
-    );
-    expect(
-      systemProxyMatches('http=127.0.0.1:7890;https=localhost:8888', 7890),
-      isFalse,
-    );
-    expect(systemProxyMatches('http=127.0.0.1:7890', 7890), isFalse);
-    expect(systemProxyMatches('127.0.0.1:78901', 7890), isFalse);
-    expect(systemProxyMatches('proxy.example.com:7890', 7890), isFalse);
   });
 }

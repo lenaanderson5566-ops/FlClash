@@ -6,13 +6,11 @@ import 'package:fastai/enum/enum.dart';
 import 'package:fastai/icons/icons.dart';
 import 'package:fastai/providers/providers.dart';
 import 'package:fastai/state.dart';
-import 'package:fastai/widgets/list.dart';
 import 'package:fastai/widgets/config_item.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fastai/v2board/config.dart';
 import 'package:fastai/v2board/update.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends ConsumerWidget {
   const AboutView({super.key});
@@ -30,21 +28,6 @@ class AboutView extends ConsumerWidget {
       tag: LoadingTag.checkUpdate,
     );
     unawaited(commonAction.checkUpdateResultHandle(data: data, isUser: true));
-  }
-
-  Widget _buildLinkItem({
-    required Glyph glyph,
-    required String title,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return ListItem(
-      leading: _LinkBadge(glyph: glyph),
-      title: Text(title),
-      subtitle: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
-      trailing: const GlyphIcon(AppGlyphs.openExternal),
-      onTap: onTap,
-    );
   }
 
   @override
@@ -120,29 +103,18 @@ class AboutView extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Card(
                   margin: EdgeInsets.zero,
-                  child: _buildLinkItem(
-                    glyph: AppGlyphs.send,
-                    title: appLocalizations.fdOfficialWebsite,
-                    label:
-                        Uri.tryParse(V2BoardConfig.websiteUrl)?.host ??
-                        V2BoardConfig.websiteUrl,
-                    onTap: () async {
-                      try {
-                        final url = Uri.parse(V2BoardConfig.websiteUrl);
-                        if (!await launchUrl(
-                          url,
-                          mode: LaunchMode.externalApplication,
-                        )) {
-                          throw StateError('Website launch failed');
-                        }
-                      } catch (_) {
-                        if (context.mounted) {
-                          context.showNotifier(
-                            appLocalizations.fdRequestFailed,
-                          );
-                        }
-                      }
-                    },
+                  child: ListTile(
+                    leading: const GlyphIcon(AppGlyphs.info),
+                    title: Text(appLocalizations.fdTechnicalSupport),
+                  ),
+                ),
+                ListTile(
+                  title: Text(appLocalizations.fdOpenSourceLicenses),
+                  trailing: const GlyphIcon(AppGlyphs.chevronForward),
+                  onTap: () => showLicensePage(
+                    context: context,
+                    applicationName: V2BoardConfig.appName,
+                    applicationVersion: globalState.packageInfo.version,
                   ),
                 ),
               ],
@@ -203,33 +175,6 @@ class _AboutHero extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _LinkBadge extends StatelessWidget {
-  final Glyph glyph;
-
-  const _LinkBadge({required this.glyph});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = context.colorScheme;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colorScheme.secondaryContainer,
-        shape: AppShape.md,
-      ),
-      child: SizedBox.square(
-        dimension: 40,
-        child: Center(
-          child: GlyphIcon(
-            glyph,
-            size: 20,
-            color: colorScheme.onSecondaryContainer,
-          ),
-        ),
       ),
     );
   }

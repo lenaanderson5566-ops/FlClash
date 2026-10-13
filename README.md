@@ -49,8 +49,10 @@ Publishing source does not deploy the panel or create a signed app release.
 
 ## License and upstream
 
-FastAI is derived from [FlClash](https://github.com/chen08209/FlClash), built on
-[Clash.Meta / Mihomo](https://github.com/chen08209/Clash.Meta/tree/FlClash).
+FastAI is derived from [FlClash](https://github.com/chen08209/FlClash) and now uses
+[sing-box](https://github.com/SagerNet/sing-box) exclusively. The former Mihomo
+implementation and submodule have been removed. Existing configuration-model and
+IPC identifiers retain compatibility names; they do not select a second core.
 The original copyright notices and [GPL license](LICENSE) are preserved. Pinned
 upstream dependency tags and subscription/changelog protocol identifiers retain
 their original names. The fork's source repository URL remains

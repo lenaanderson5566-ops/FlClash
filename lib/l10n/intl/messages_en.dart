@@ -415,33 +415,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdCertificateError": MessageLookupByLibrary.simpleMessage(
       "Unable to verify the server certificate. Check your system clock or contact support.",
     ),
-    "fdCheckReference": MessageLookupByLibrary.simpleMessage(
-      "System connection",
-    ),
-    "fdCheckTcp": MessageLookupByLibrary.simpleMessage("TCP connectivity"),
-    "fdCheckTls": MessageLookupByLibrary.simpleMessage("Secure connection"),
     "fdChoosePlan": MessageLookupByLibrary.simpleMessage("Choose a plan"),
     "fdChooseRoute": MessageLookupByLibrary.simpleMessage("Choose a route"),
-    "fdClientChecks": MessageLookupByLibrary.simpleMessage(
-      "Client configuration",
-    ),
     "fdClientUnavailable": MessageLookupByLibrary.simpleMessage(
       "The service has disabled FastAI access. Please contact the administrator.",
-    ),
-    "fdCompareBothFailed": MessageLookupByLibrary.simpleMessage(
-      "Both paths failed for this endpoint. This can be a shared network problem or an endpoint restriction; review the layer checks before deciding.",
-    ),
-    "fdCompareBothPassed": MessageLookupByLibrary.simpleMessage(
-      "Both paths reached the test endpoint in this run.",
-    ),
-    "fdComparePaths": MessageLookupByLibrary.simpleMessage(
-      "Connection comparison",
-    ),
-    "fdCompareRouteFailed": MessageLookupByLibrary.simpleMessage(
-      "The system path passed while the selected route failed. Investigate the route first; the cause is not yet confirmed.",
-    ),
-    "fdCompareSystemFailed": MessageLookupByLibrary.simpleMessage(
-      "The selected route passed while the system path failed. Review system DNS, routing and local network restrictions.",
     ),
     "fdConnect": MessageLookupByLibrary.simpleMessage("Connect"),
     "fdConnected": MessageLookupByLibrary.simpleMessage("Connected"),
@@ -449,7 +426,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdConnectionFailed": MessageLookupByLibrary.simpleMessage(
       "Connection failed. Retry or choose another route.",
     ),
-    "fdCopyJson": MessageLookupByLibrary.simpleMessage("Copy technical report"),
     "fdCreditBalance": MessageLookupByLibrary.simpleMessage(
       "Independent traffic remaining",
     ),
@@ -457,72 +433,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Independent traffic is separate from your period allowance and is not cleared by a period reset. Availability and expiry depend on your account.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
-    "fdDiagnosticChanged": MessageLookupByLibrary.simpleMessage(
-      "Connection settings changed during the check. Run it again for current results.",
-    ),
-    "fdDiagnosticCoreFail": MessageLookupByLibrary.simpleMessage(
-      "The core or route list is not ready. Refresh routes and reconnect.",
-    ),
-    "fdDiagnosticDisconnected": MessageLookupByLibrary.simpleMessage(
-      "Not connected. Connect first to verify the proxy route.",
-    ),
-    "fdDiagnosticDns": MessageLookupByLibrary.simpleMessage("System DNS"),
-    "fdDiagnosticDnsFail": MessageLookupByLibrary.simpleMessage(
-      "DNS lookup failed or timed out. Check your network or try another network.",
-    ),
-    "fdDiagnosticDnsOk": MessageLookupByLibrary.simpleMessage(
-      "Public test domains resolved successfully.",
-    ),
-    "fdDiagnosticEntry": MessageLookupByLibrary.simpleMessage(
-      "Find connection problems and follow the recovery steps",
-    ),
-    "fdDiagnosticProxyConflict": MessageLookupByLibrary.simpleMessage(
-      "Windows proxy/PAC differs from the selected mode. Check other VPN or proxy apps and Windows proxy settings, then reconnect.",
-    ),
-    "fdDiagnosticProxyFail": MessageLookupByLibrary.simpleMessage(
-      "The local proxy port did not respond. Disconnect and reconnect, then retry.",
-    ),
-    "fdDiagnosticProxyOk": MessageLookupByLibrary.simpleMessage(
-      "Local port is reachable; this does not verify the remote route.",
-    ),
-    "fdDiagnosticProxySettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Windows manual proxy and PAC settings match the current mode.",
-    ),
-    "fdDiagnosticRetry": MessageLookupByLibrary.simpleMessage("Check again"),
-    "fdDiagnosticRoute": MessageLookupByLibrary.simpleMessage("Selected route"),
-    "fdDiagnosticRouteFail": MessageLookupByLibrary.simpleMessage(
-      "The selected route could not reach the test endpoint. Try another route; check DNS and local network if all routes fail.",
-    ),
-    "fdDiagnosticRouteOk": MessageLookupByLibrary.simpleMessage(
-      "The selected route reached the HTTPS test endpoint. Other services may differ.",
-    ),
-    "fdDiagnosticRunning": MessageLookupByLibrary.simpleMessage(
-      "Checking your connection…",
-    ),
-    "fdDiagnosticSafe": MessageLookupByLibrary.simpleMessage(
-      "Skipped in safe mode: the proxy core and system settings are not used.",
-    ),
-    "fdDiagnosticSettingsOk": MessageLookupByLibrary.simpleMessage(
-      "Core, routes and connection permissions are ready. This does not verify every system setting.",
-    ),
-    "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
-      "This check does not apply to the current connection state or device.",
-    ),
-    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
-      "Report submitted",
-    ),
-    "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
-      "TUN permission is not ready. Reconnect and approve permission, or choose system proxy.",
-    ),
-    "fdDiagnosticUnverified": MessageLookupByLibrary.simpleMessage(
-      "This check could not be completed. Try again or follow the guidance below.",
-    ),
-    "fdDiagnosticWebsiteFail": MessageLookupByLibrary.simpleMessage(
-      "The public test endpoint could not be verified. This alone does not mean all Internet access is unavailable.",
-    ),
-    "fdDiagnosticWebsiteOk": MessageLookupByLibrary.simpleMessage(
-      "The public test endpoint returned the expected response.",
-    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Disconnecting…"),
@@ -539,18 +449,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdExpiry": MessageLookupByLibrary.simpleMessage("Period expiry"),
     "fdGlobalMode": MessageLookupByLibrary.simpleMessage("Global mode"),
-    "fdHealthIncomplete": MessageLookupByLibrary.simpleMessage(
-      "Checks finished; some items could not be verified",
-    ),
-    "fdHealthIssues": MessageLookupByLibrary.simpleMessage(
-      "Some checks need attention",
-    ),
-    "fdHealthPassed": MessageLookupByLibrary.simpleMessage(
-      "Completed checks passed",
-    ),
-    "fdHealthScope": MessageLookupByLibrary.simpleMessage(
-      "Check the results below. Available fixes run only when you choose them.",
-    ),
     "fdHeroSubtitle": MessageLookupByLibrary.simpleMessage(
       "Choose a route. Connect in one click.",
     ),
@@ -577,12 +475,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sign in to your account",
     ),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),
-    "fdNetworkChecks": MessageLookupByLibrary.simpleMessage(
-      "Network connectivity",
-    ),
-    "fdNetworkDiagnostics": MessageLookupByLibrary.simpleMessage(
-      "Network diagnostics",
-    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Unable to reach the service. Check your network and try again.",
     ),
@@ -603,17 +495,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdOfficialWebsite": MessageLookupByLibrary.simpleMessage(
       "Official website",
     ),
+    "fdOpenSourceLicenses": MessageLookupByLibrary.simpleMessage(
+      "Open-source licenses",
+    ),
     "fdPeriodUsed": MessageLookupByLibrary.simpleMessage("Period traffic used"),
     "fdPlan": MessageLookupByLibrary.simpleMessage("Plan"),
     "fdProxyCore": MessageLookupByLibrary.simpleMessage("Proxy core"),
-    "fdPublicConnectivity": MessageLookupByLibrary.simpleMessage(
-      "Internet connectivity",
-    ),
     "fdRateLimited": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Try again later.",
-    ),
-    "fdReferenceCriteria": MessageLookupByLibrary.simpleMessage(
-      "Uses the same HTTPS test URL as the selected route without an explicit application proxy. TUN or OS routing may still affect this path; it is not guaranteed to bypass the VPN.",
     ),
     "fdReferenceId": MessageLookupByLibrary.simpleMessage("Reference ID"),
     "fdRefresh": MessageLookupByLibrary.simpleMessage("Refresh"),
@@ -627,86 +516,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Period traffic remaining",
     ),
     "fdRenewPlan": MessageLookupByLibrary.simpleMessage("Renew subscription"),
-    "fdRepairConfig": MessageLookupByLibrary.simpleMessage(
-      "Refresh configuration and connect",
-    ),
-    "fdRepairFailed": MessageLookupByLibrary.simpleMessage(
-      "The action could not be completed. Review the new results below; sign in and check account access if needed.",
-    ),
-    "fdRepairHint": MessageLookupByLibrary.simpleMessage(
-      "This action may interrupt the connection or change the selected route. Checks run again afterwards. Route recovery tests up to five alternatives.",
-    ),
-    "fdRepairReconnect": MessageLookupByLibrary.simpleMessage("Reconnect"),
-    "fdRepairRoute": MessageLookupByLibrary.simpleMessage(
-      "Find and switch to a working route",
-    ),
-    "fdRepairUnresolved": MessageLookupByLibrary.simpleMessage(
-      "The action finished, but recovery is not verified. Follow the remaining guidance below.",
-    ),
-    "fdRepairVerified": MessageLookupByLibrary.simpleMessage(
-      "The proxy route passed verification. Review any remaining warnings below.",
-    ),
-    "fdRepairWorking": MessageLookupByLibrary.simpleMessage(
-      "Applying the fix and checking the connection…",
-    ),
-    "fdReportCopy": MessageLookupByLibrary.simpleMessage("Copy report"),
-    "fdReportCriteria": MessageLookupByLibrary.simpleMessage(
-      "Assessment criteria",
-    ),
-    "fdReportDnsCriteria": MessageLookupByLibrary.simpleMessage(
-      "Both test domains must return at least one address within 8 seconds. This checks the system resolver, not DNS leaks or the configured upstream DNS server.",
-    ),
-    "fdReportDnsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Check Wi-Fi/Ethernet and complete any network sign-in.\n2. Retry on another network to isolate a local DNS problem.\n3. If it persists, send this report to support or your network administrator.",
-    ),
-    "fdReportFailed": MessageLookupByLibrary.simpleMessage("Issue found"),
-    "fdReportNoData": MessageLookupByLibrary.simpleMessage(
-      "No measurement was collected.",
-    ),
-    "fdReportNoRepair": MessageLookupByLibrary.simpleMessage(
-      "No repair is needed for this check. This is a snapshot, not a guarantee of access to every service.",
-    ),
-    "fdReportParameters": MessageLookupByLibrary.simpleMessage(
-      "Technical parameters (ms = milliseconds)",
-    ),
-    "fdReportPassed": MessageLookupByLibrary.simpleMessage("Passed"),
-    "fdReportPortCriteria": MessageLookupByLibrary.simpleMessage(
-      "A TCP connection to the configured loopback port must complete within 8 seconds. It does not identify the listening process or verify the remote route.",
-    ),
-    "fdReportPortSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Disconnect and reconnect in FastAI.\n2. If it fails again, restart FastAI and retry.\n3. Send the report to support; a failed port check alone does not prove another app occupies it.",
-    ),
-    "fdReportPrivacy": MessageLookupByLibrary.simpleMessage(
-      "The copied report includes test destinations and DNS answers, but no account, token, subscription or PAC URL.",
-    ),
-    "fdReportProxyCriteria": MessageLookupByLibrary.simpleMessage(
-      "Windows user-level manual HTTP/HTTPS proxy must match the selected mode; an active PAC is reported as a potential conflict. Firewall, WinHTTP and organization policies are not inspected.",
-    ),
-    "fdReportProxySteps": MessageLookupByLibrary.simpleMessage(
-      "1. Review Windows Settings → Network & Internet → Proxy.\n2. Exit other proxy/VPN apps and review your own manual proxy or PAC configuration. Do not remove organization-managed settings.\n3. Reconnect FastAI and repeat the check.",
-    ),
-    "fdReportRepair": MessageLookupByLibrary.simpleMessage("What to do next"),
-    "fdReportRouteCriteria": MessageLookupByLibrary.simpleMessage(
-      "The selected route must return HTTP 204 within 8 seconds, without a proxy error.",
-    ),
-    "fdReportRouteSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Select another route and retry.\n2. If every route fails, review the DNS and local proxy results.\n3. If only the test endpoint fails, check the service you need and send the report to support.",
-    ),
-    "fdReportRunAgain": MessageLookupByLibrary.simpleMessage(
-      "Use the normal app build, connect, then run the check again. Mobile devices do not run the desktop port check.",
-    ),
-    "fdReportSettingsSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Confirm that you are signed in and your account can connect.\n2. Refresh routes and reconnect.\n3. For TUN authorization problems, approve the permission request or choose system proxy.",
-    ),
-    "fdReportSkipped": MessageLookupByLibrary.simpleMessage("Not run"),
-    "fdReportTime": MessageLookupByLibrary.simpleMessage("Check started"),
-    "fdReportUnverified": MessageLookupByLibrary.simpleMessage("Not verified"),
-    "fdReportWebCriteria": MessageLookupByLibrary.simpleMessage(
-      "Certificate validation is enabled. The public test endpoint must return HTTP 204 within 8 seconds; redirects are not followed.",
-    ),
-    "fdReportWebSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Check the system date and time.\n2. Complete any Wi-Fi sign-in and try another network.\n3. Compare the other test endpoint and proxy path. Do not disable certificate validation.",
-    ),
     "fdRequestFailed": MessageLookupByLibrary.simpleMessage(
       "The operation failed. Please retry.",
     ),
@@ -766,37 +575,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("Show password"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("Signing in…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Smart mode"),
-    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage(
-      "Submit diagnostics",
-    ),
-    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
-      "Send app version, platform, check results and durations to the site administrator, linked to your account. No browsing history, IP addresses, DNS answers, node credentials or configuration is sent. Reports are normally kept for 30 days; the administrator can change retention.",
-    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Refresh routes"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Unable to refresh routes. Try again before connecting.",
     ),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("Syncing routes…"),
-    "fdTcpCriteria": MessageLookupByLibrary.simpleMessage(
-      "Connect to the public test server within 8 seconds. The elapsed time includes DNS resolution.",
+    "fdTechnicalSupport": MessageLookupByLibrary.simpleMessage(
+      "Technical support provided by FastDog",
     ),
-    "fdTcpFailed": MessageLookupByLibrary.simpleMessage(
-      "TCP connection failed. Review DNS, network access and filtering; this alone does not prove a firewall issue.",
+    "fdTelemetryPrivacy": MessageLookupByLibrary.simpleMessage(
+      "Off by default. Share app version, platform, connection and sync outcomes, error categories and timings linked to your account, in batches every 5 minutes. No browsing history, addresses, credentials or configuration. Default retention: 30 days; administrators can adjust it.",
     ),
-    "fdTcpPassed": MessageLookupByLibrary.simpleMessage(
-      "The test server accepted a TCP connection.",
-    ),
-    "fdTcpSteps": MessageLookupByLibrary.simpleMessage(
-      "1. Review the DNS result first.\n2. Try another network or complete network sign-in.\n3. Review firewall/VPN rules with your administrator; do not turn off the firewall as a blanket fix.",
-    ),
-    "fdTlsCriteria": MessageLookupByLibrary.simpleMessage(
-      "Complete TLS using the system trust store within 8 seconds. Time includes DNS and TCP. Certificate validity dates are recorded when available.",
-    ),
-    "fdTlsFailed": MessageLookupByLibrary.simpleMessage(
-      "TLS could not complete. Check the clock, network interception and certificate trust without disabling validation.",
-    ),
-    "fdTlsPassed": MessageLookupByLibrary.simpleMessage(
-      "TLS handshake and certificate validation succeeded.",
+    "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage(
+      "Share runtime data",
     ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",
