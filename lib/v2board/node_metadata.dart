@@ -19,13 +19,13 @@ Map<String, Map<String, dynamic>> decodeNodeMetadata(dynamic rows) {
         row['nodeId'] is! String ||
         row['name'] is! String ||
         row['displayNames'] is! Map ||
-        row['tags'] is! List ||
+        (row['tags'] != null && row['tags'] is! List) ||
         (row['regionCode'] != null && row['regionCode'] is! String)) {
       throw const FormatException('Invalid node metadata');
     }
     final name = row['proxyName'] as String;
     if (result.containsKey(name)) throw const FormatException('Duplicate node');
-    result[name] = row;
+    result[name] = {...row, 'tags': row['tags'] ?? <String>[]};
   }
   return result;
 }

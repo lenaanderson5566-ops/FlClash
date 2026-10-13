@@ -70,6 +70,24 @@ void main() {
     },
   );
 
+  testWidgets('preview accepts nodes with null tags from the server', (
+    tester,
+  ) async {
+    final api = _Api();
+    api.nodes.add({
+      'nodeId': 'v2node_2',
+      'proxyName': 'node_v2node_2',
+      'name': 'Route without tags',
+      'tags': null,
+      'displayNames': {},
+    });
+    addTearDown(api.close);
+    await show(tester, api);
+    expect(find.text('Preview route'), findsOneWidget);
+    expect(find.text('Route without tags'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('preview request failure can retry without an upsell', (
     tester,
   ) async {
