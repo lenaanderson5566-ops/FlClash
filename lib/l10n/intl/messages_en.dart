@@ -433,6 +433,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Independent traffic is separate from your period allowance and is not cleared by a period reset. Availability and expiry depend on your account.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Current route"),
+    "fdDeviceTimeZone": MessageLookupByLibrary.simpleMessage("Follow device"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Disconnecting…"),
@@ -588,6 +589,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage(
       "Share runtime data",
+    ),
+    "fdTimeZone": MessageLookupByLibrary.simpleMessage("Time display zone"),
+    "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
+      "Changes display only; expiry and reset instants stay the same.",
     ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",

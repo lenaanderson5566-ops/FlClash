@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 
 import 'proxy_command.dart';
+import 'proxy_recovery.dart';
 
 enum LinuxProxyBackend { gnome, mate, kde }
 
@@ -33,34 +34,135 @@ class LinuxProxy {
     if (selection == null) {
       return false;
     }
-    return _commandRunner.run(
-      LinuxProxyCommands.buildStartForBackend(
-        port: port,
-        bypassDomain: bypassDomain,
-        homeDir: homeDir,
-        backend: selection.backend,
-        kdeConfigWriter: selection.executable,
-      ),
-    );
+    final group = await _settingsGroup(selection, homeDir, port, bypassDomain);
+    return ProxyRecovery(_commandRunner, 'linux').apply([group]);
   }
 
   Future<bool> stop({
     required String? desktop,
     required String? homeDir,
   }) async {
-    if (homeDir == null || homeDir.isEmpty) {
-      return false;
-    }
+    if (homeDir == null || homeDir.isEmpty) return false;
     final selection = await _resolveBackend(desktop);
-    if (selection == null) {
-      return false;
+    if (selection == null) return false;
+    final group = await _settingsGroup(selection, homeDir, 0, const []);
+    return ProxyRecovery(_commandRunner, 'linux').restore([group]);
+  }
+
+  Future<String> _query(String executable, List<String> args) async {
+    final result = await _commandRunner.process(executable, args);
+    if (result.exitCode != 0) {
+      throw StateError('Cannot read or update system proxy');
     }
-    return _commandRunner.run(
-      LinuxProxyCommands.buildStopForBackend(
-        homeDir: homeDir,
-        backend: selection.backend,
-        kdeConfigWriter: selection.executable,
-      ),
+    return result.stdout.toString().trim().replaceAll('@as []', '[]');
+  }
+
+  Future<ProxySettingsGroup> _settingsGroup(
+    _LinuxBackendSelection selection,
+    String homeDir,
+    int port,
+    List<String> bypass,
+  ) async {
+    if (selection.backend == LinuxProxyBackend.kde) {
+      final reader = selection.executable == 'kwriteconfig6'
+          ? 'kreadconfig6'
+          : 'kreadconfig5';
+      if (!await _executableChecker(reader)) {
+        throw StateError('Missing KDE proxy reader');
+      }
+      final configHome = Platform.environment['XDG_CONFIG_HOME'];
+      final config = path.join(
+        configHome == null || configHome.isEmpty
+            ? path.join(homeDir, '.config')
+            : configHome,
+        'kioslaverc',
+      );
+      const absent = '__FASTAI_ABSENT_PROXY_VALUE__';
+      const keys = [
+        'httpProxy',
+        'httpsProxy',
+        'socksProxy',
+        'NoProxyFor',
+        'ProxyType',
+      ];
+      Future<ProxyValues> read() async => {
+        for (final key in keys)
+          key: await _query(reader, [
+            '--file',
+            config,
+            '--group',
+            'Proxy Settings',
+            '--key',
+            key,
+            '--default',
+            absent,
+          ]),
+      };
+      Future<void> write(ProxyValues values) async {
+        for (final key in keys) {
+          final value = values[key]!;
+          await _query(selection.executable, [
+            '--file',
+            config,
+            '--group',
+            'Proxy Settings',
+            '--key',
+            key,
+            if (value == absent) '--delete' else value,
+          ]);
+        }
+      }
+
+      return ProxySettingsGroup(
+        id: 'kde/$config',
+        read: read,
+        write: write,
+        target: {
+          'httpProxy': 'http://$proxyHost:$port',
+          'httpsProxy': 'https://$proxyHost:$port',
+          'socksProxy': 'socks://$proxyHost:$port',
+          'NoProxyFor': bypass.join(','),
+          'ProxyType': '1',
+        },
+      );
+    }
+    final schema = selection.backend == LinuxProxyBackend.mate
+        ? 'org.mate.system.proxy'
+        : 'org.gnome.system.proxy';
+    final keys = <String, List<String>>{
+      'autoconfig-url': [schema, 'autoconfig-url'],
+      'use-authentication': ['$schema.http', 'use-authentication'],
+      'ignore-hosts': [schema, 'ignore-hosts'],
+      for (final type in ['http', 'https', 'socks']) ...{
+        '$type.host': ['$schema.$type', 'host'],
+        '$type.port': ['$schema.$type', 'port'],
+      },
+      'mode': [schema, 'mode'],
+    };
+    Future<ProxyValues> read() async => {
+      for (final entry in keys.entries)
+        entry.key: await _query('gsettings', ['get', ...entry.value]),
+    };
+    Future<void> write(ProxyValues values) async {
+      for (final entry in keys.entries) {
+        await _query('gsettings', ['set', ...entry.value, values[entry.key]!]);
+      }
+    }
+
+    return ProxySettingsGroup(
+      id: schema,
+      read: read,
+      write: write,
+      target: {
+        ...await read(),
+        'use-authentication': 'false',
+        'ignore-hosts': LinuxProxyCommands._formatGSettingsStringList(bypass),
+        for (final type in ['http', 'https', 'socks']) ...{
+          '$type.host': "'$proxyHost'",
+          '$type.port': '$port',
+        },
+        'mode': "'manual'",
+      },
     );
   }
 

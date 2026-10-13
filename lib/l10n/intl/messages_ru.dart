@@ -444,6 +444,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Дополнительный трафик учитывается отдельно и не обнуляется при сбросе периода. Доступ и срок действия зависят от вашей учётной записи.",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("Текущий сервер"),
+    "fdDeviceTimeZone": MessageLookupByLibrary.simpleMessage(
+      "Как на устройстве",
+    ),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("Отключить"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("Не подключено"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("Отключение…"),
@@ -605,6 +608,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage(
       "Делиться данными работы",
+    ),
+    "fdTimeZone": MessageLookupByLibrary.simpleMessage(
+      "Часовой пояс отображения",
+    ),
+    "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
+      "Меняется только отображение. Срок действия и момент сброса остаются прежними.",
     ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Узлы с недоступными протоколами пропущены. Обновите или переустановите FastAI, чтобы использовать их.",

@@ -105,3 +105,20 @@ The download UI distinguishes the site-specific FastAI app from third-party
 clients. FastAI signs in with the site account; third-party clients import a
 subscription link. About displays FastDog technical support and preserves access
 to open-source licenses without a website link.
+
+## Client User-Agent
+
+FastAI API calls, managed configuration downloads, shared package requests and
+service entrypoint discovery use `FastAI/<version> (<platform>; <architecture>)`,
+for example `FastAI/1.0.0 (macos; arm64)`. Before the application version is
+available, discovery omits the version token but retains platform and architecture.
+Architecture comes from the running ABI, matching update target selection (an
+x64 build running under translation continues to request x64 updates).
+The server's existing FastAI product/version matching accepts the suffix and
+continues to accept older version-only UAs. These values are self-reported, not
+an authentication credential. Updates continue to validate explicit platform,
+architecture and channel fields independently of the UA.
+
+## Dedicated-client cleanup
+
+FastAI always opens its managed account shell. `V2BOARD_ENABLED=false` no longer enables a generic client. External subscription imports and third-party URI schemes are disabled. Updates use only the panel release catalog. Shared configuration models and IPC names remain for installed-data compatibility; upstream copyright, licenses, dependency URLs and changelog format markers are retained. Linux Helper owner environment variables remain compatible with installed service units.

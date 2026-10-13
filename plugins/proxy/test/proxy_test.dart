@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:proxy/proxy.dart';
 import 'package:proxy/proxy_method_channel.dart';
 import 'package:proxy/src/linux_proxy.dart';
-import 'package:proxy/src/macos_proxy.dart';
 import 'package:proxy/src/proxy_command.dart';
 
 void main() {
@@ -281,79 +280,6 @@ void main() {
       );
 
       expect(commands, isEmpty);
-    });
-  });
-
-  group('macOS proxy command builders', () {
-    test(
-      'filters networksetup service list headers, disabled services, and blanks',
-      () {
-        final services = MacosProxyCommands.parseNetworkServices('''
-An asterisk (*) denotes that a network service is disabled.
-Wi-Fi
-*Thunderbolt Bridge
-USB 10/100/1000 LAN
-
-''');
-
-        expect(services, ['Wi-Fi', 'USB 10/100/1000 LAN']);
-      },
-    );
-
-    test('passes bypass domains as separate networksetup arguments', () {
-      final command = MacosProxyCommands.buildProxyBypass('Wi-Fi', [
-        'localhost',
-        '127.0.0.1',
-      ]);
-
-      expect(command.executable, '/usr/sbin/networksetup');
-      expect(command.args, [
-        '-setproxybypassdomains',
-        'Wi-Fi',
-        'localhost',
-        '127.0.0.1',
-      ]);
-    });
-
-    test('uses Empty when clearing bypass domains', () {
-      final command = MacosProxyCommands.buildProxyBypass('Wi-Fi', const []);
-
-      expect(command.args, ['-setproxybypassdomains', 'Wi-Fi', 'Empty']);
-    });
-
-    test('configures values before enabling proxy states', () {
-      final commands = MacosProxyCommands.buildStart('Wi-Fi', 7890, const [
-        'localhost',
-      ]);
-
-      final firstStateCommand = commands.indexWhere(
-        (command) => command.args.first.endsWith('proxystate'),
-      );
-
-      expect(firstStateCommand, 4);
-      expect(commands[3].args.first, '-setproxybypassdomains');
-    });
-
-    test('reports failure when no active network service is found', () async {
-      var callCount = 0;
-      final proxy = MacosProxy(
-        commandRunner: ProxyCommandRunner((
-          executable,
-          arguments, {
-          runInShell = false,
-        }) async {
-          callCount++;
-          return ProcessResult(
-            callCount,
-            0,
-            'An asterisk (*) denotes that a network service is disabled.\n',
-            '',
-          );
-        }),
-      );
-
-      expect(await proxy.start(7890, const []), isFalse);
-      expect(callCount, 1);
     });
   });
 

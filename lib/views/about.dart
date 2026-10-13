@@ -1,5 +1,4 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:async';
 
 import 'package:fastai/common/common.dart';
 import 'package:fastai/enum/enum.dart';
@@ -16,18 +15,7 @@ class AboutView extends ConsumerWidget {
   const AboutView({super.key});
 
   Future<void> _checkUpdate(BuildContext context, WidgetRef ref) async {
-    if (V2BoardConfig.enabled) {
-      await checkFastaiUpdate(context, ref);
-      return;
-    }
-    if (ref.read(loadingProvider(LoadingTag.checkUpdate))) return;
-    final commonAction = ref.read(commonActionProvider.notifier);
-    final data = await globalState.loadingRun<Map<String, dynamic>?>(
-      request.checkForUpdate,
-      title: context.appLocalizations.checkUpdate,
-      tag: LoadingTag.checkUpdate,
-    );
-    unawaited(commonAction.checkUpdateResultHandle(data: data, isUser: true));
+    await checkFastaiUpdate(context, ref);
   }
 
   @override

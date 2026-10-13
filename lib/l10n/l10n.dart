@@ -5432,6 +5432,36 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Time display zone`
+  String get fdTimeZone {
+    return Intl.message(
+      'Time display zone',
+      name: 'fdTimeZone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow device`
+  String get fdDeviceTimeZone {
+    return Intl.message(
+      'Follow device',
+      name: 'fdDeviceTimeZone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes display only; expiry and reset instants stay the same.`
+  String get fdTimeZoneHint {
+    return Intl.message(
+      'Changes display only; expiry and reset instants stay the same.',
+      name: 'fdTimeZoneHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

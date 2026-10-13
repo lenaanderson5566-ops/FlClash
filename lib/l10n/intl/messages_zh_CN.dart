@@ -343,6 +343,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "独立流量与周期流量分别计量，不随周期重置清除；可用线路和有效期以账号权益为准。",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("当前线路"),
+    "fdDeviceTimeZone": MessageLookupByLibrary.simpleMessage("跟随设备"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("断开连接"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未连接"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("正在断开…"),
@@ -435,6 +436,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "默认关闭。开启后每 5 分钟批量上报与账号关联的应用版本、系统类型、连接与同步结果、错误类别和耗时。不采集浏览记录、地址、凭据或配置。默认保留 30 天，管理员可调整。",
     ),
     "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage("共享运行数据"),
+    "fdTimeZone": MessageLookupByLibrary.simpleMessage("时间显示时区"),
+    "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
+      "仅改变显示方式，到期与流量重置时刻不变。",
+    ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "已跳过当前安装不支持的协议节点。可更新或重新安装 FastAI 以启用这些节点。",
     ),

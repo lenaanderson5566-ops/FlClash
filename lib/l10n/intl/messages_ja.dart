@@ -369,6 +369,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "追加データ容量は期間の容量とは別に管理され、期間リセットでは消去されません。利用範囲と有効期限はアカウントによって異なります。",
     ),
     "fdCurrentRoute": MessageLookupByLibrary.simpleMessage("現在の接続先"),
+    "fdDeviceTimeZone": MessageLookupByLibrary.simpleMessage("端末に合わせる"),
     "fdDisconnect": MessageLookupByLibrary.simpleMessage("切断"),
     "fdDisconnected": MessageLookupByLibrary.simpleMessage("未接続"),
     "fdDisconnecting": MessageLookupByLibrary.simpleMessage("切断中…"),
@@ -489,6 +490,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "既定ではオフです。有効にすると、アカウントに紐づくアプリのバージョン、OS、接続・同期結果、エラー分類、所要時間を5分ごとに送信します。閲覧履歴、アドレス、認証情報、設定は収集しません。保存期間は既定で30日（管理者が変更可能）です。",
     ),
     "fdTelemetryTitle": MessageLookupByLibrary.simpleMessage("動作データを共有"),
+    "fdTimeZone": MessageLookupByLibrary.simpleMessage("時刻の表示タイムゾーン"),
+    "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
+      "表示のみ変更します。有効期限とリセット時刻は変わりません。",
+    ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "このインストールで利用できないプロトコルのノードをスキップしました。FastAI を更新または再インストールしてください。",
     ),

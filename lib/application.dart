@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fastai/common/common.dart';
-import 'package:fastai/common/window.dart';
 import 'package:fastai/bootstrap.dart';
 import 'package:fastai/common/system_dns.dart';
 import 'package:fastai/icons/icons.dart';
@@ -19,7 +18,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'pages/pages.dart';
 import 'v2board/config.dart';
 import 'v2board/shell.dart';
 import 'v2board/theme.dart';
@@ -103,40 +101,9 @@ class ApplicationState extends ConsumerState<Application> {
         exit(0);
       }
       _autoUpdateProfilesTask();
-      _initLink();
       if (!safeModeBuild) {
         unawaited(app?.initShortcuts());
       }
-    });
-  }
-
-  void _initLink() {
-    if (!V2BoardConfig.allowProfileImports) return;
-    linkManager.initAppLinksListen((url) async {
-      unawaited(window?.show());
-      final message = currentAppLocalizations.createProfileFromUrlTip(url);
-      final parts = message.split(url);
-      final res = await dialogs.showMessage(
-        title: currentAppLocalizations.addProfile,
-        message: TextSpan(
-          children: [
-            TextSpan(text: parts.first),
-            TextSpan(
-              text: url,
-              style: TextStyle(
-                color: context.colorScheme.primary,
-                decoration: TextDecoration.underline,
-                decorationColor: context.colorScheme.primary,
-              ),
-            ),
-            if (parts.length > 1) TextSpan(text: parts.last),
-          ],
-        ),
-      );
-      if (res != true) return;
-      unawaited(
-        ref.read(profilesActionProvider.notifier).addProfileFormURL(url),
-      );
     });
   }
 
@@ -209,7 +176,7 @@ class ApplicationState extends ConsumerState<Application> {
           home: KeyboardInsetHold(child: child!),
         );
       },
-      child: V2BoardConfig.enabled ? const V2BoardShell() : const HomePage(),
+      child: const V2BoardShell(),
     );
   }
 

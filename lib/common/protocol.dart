@@ -5,6 +5,7 @@ import 'package:fastai/v2board/config.dart';
 
 import 'print.dart';
 
+// Kept for parsing legacy QR payloads; FastAI never registers these schemes.
 const protocolSchemes = ['clash', 'clashmeta', 'flclash'];
 
 class ProtocolRegistrationPlan {
@@ -41,7 +42,7 @@ class LinuxProtocolRegistrationPlan {
     required this.applicationsDir,
   });
 
-  String get desktopId => 'flclash-url-handler.desktop';
+  String get desktopId => 'fastai-url-handler.desktop';
 
   String get desktopPath => '$applicationsDir/$desktopId';
 

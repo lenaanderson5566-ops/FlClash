@@ -36,26 +36,38 @@ class SystemAction extends _$SystemAction {
   }
 
   @protected
-  Duration get exitWatchdogDuration => const Duration(seconds: 3);
+  Duration get exitWatchdogDuration => const Duration(seconds: 10);
 
   @protected
   Future<void> cleanupExitResources(bool needSave) async {
-    final saveOperation = needSave ? _savePreferencesSafely() : null;
-    final tray = trayPort;
-    if (tray != null) {
-      await tray.shutdown().onError<Object>((error, stackTrace) {
-        commonPrint.log(
-          'Tray shutdown failed: ${compactError(error)}',
-          logLevel: LogLevel.error,
-        );
-      });
-    }
+    final proxyCleanup = _shutdownProxy();
     await Future.wait([
-      ?saveOperation,
+      proxyCleanup,
+      if (needSave) _savePreferencesSafely(),
+      _shutdownTray(),
       bootGuard.markClosed(),
       if (systemDnsCoordinator != null) systemDnsCoordinator!.shutdown(),
-      if (proxy != null) proxy!.stopProxy(),
     ]);
+  }
+
+  Future<void> _shutdownProxy() async {
+    if (proxy != null && !await proxy!.shutdown()) {
+      commonPrint.log(
+        'System proxy cleanup failed during exit',
+        logLevel: LogLevel.error,
+      );
+    }
+  }
+
+  Future<void> _shutdownTray() async {
+    try {
+      await trayPort?.shutdown();
+    } catch (error) {
+      commonPrint.log(
+        'Tray shutdown failed: ${compactError(error)}',
+        logLevel: LogLevel.error,
+      );
+    }
   }
 
   Future<void> _savePreferencesSafely() async {

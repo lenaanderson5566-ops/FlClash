@@ -1,8 +1,5 @@
 class V2BoardConfig {
-  static const enabled = bool.fromEnvironment(
-    'V2BOARD_ENABLED',
-    defaultValue: true,
-  );
+  static const enabled = true;
   static const appName = String.fromEnvironment(
     'V2BOARD_NAME',
     defaultValue: 'FastAI',
@@ -15,7 +12,7 @@ class V2BoardConfig {
     'V2BOARD_WEBSITE',
     defaultValue: 'https://fastdog.ws',
   );
-  static const allowProfileImports = !enabled;
+  static const allowProfileImports = false;
   static const managedProfileLabel = '$appName · managed';
 
   static Uri origin(String value) {

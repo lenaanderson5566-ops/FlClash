@@ -20,7 +20,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'account.dart';
 import 'usage_reset.dart';
-import 'package:intl/intl.dart';
 import 'diagnostics.dart';
 import 'problem_message.dart';
 import 'api.dart';
@@ -339,6 +338,46 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     }
   }
 
+  Future<void> _selectTimeZone() async {
+    final api = _api;
+    if (api == null) return;
+    final options = await api.object('GET', '/me/preferences/options');
+    if (!mounted || _api != api) return;
+    final l = context.appLocalizations;
+    final zones = (options['timeZones'] as List? ?? const [])
+        .whereType<String>()
+        .toList();
+    final selected = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l.fdTimeZone),
+        content: SizedBox(
+          width: 420,
+          height: 420,
+          child: ListView.builder(
+            itemCount: zones.length + 1,
+            itemBuilder: (context, index) {
+              final zone = index == 0 ? '' : zones[index - 1];
+              return ListTile(
+                selected: zone == (_account?.displayTimeZone ?? ''),
+                title: Text(zone.isEmpty ? l.fdDeviceTimeZone : zone),
+                onTap: () => Navigator.of(dialogContext).pop(zone),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+    if (selected == null || !mounted || _api != api) return;
+    await api.request(
+      'PATCH',
+      '/me',
+      body: {'displayTimeZone': selected.isEmpty ? null : selected},
+    );
+    if (!mounted || _api != api) return;
+    await _refreshAccount();
+  }
+
   Future<void> _refreshAccount() async {
     _lastAccountRefreshAttempt = DateTime.now();
     final api = _api!;
@@ -457,7 +496,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             if (account.periodActive && reset != null) ...[
               const SizedBox(height: 8),
               Text(
-                '${l.fdNextReset} · ${DateFormat.yMd(Localizations.localeOf(context).toString()).format(reset.toLocal())}',
+                '${l.fdNextReset} · ${account.formatTime(reset, 'resetAtDisplay', Localizations.localeOf(context).toString())}',
                 style: context.textTheme.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
                 ),
@@ -1033,13 +1072,25 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                   l.fdExpiry,
                   account.expiresAt == null
                       ? l.fdNoExpiry
-                      : DateFormat.yMd(
+                      : account.formatTime(
+                          account.expiresAt!,
+                          'expiresAtDisplay',
                           Localizations.localeOf(context).toString(),
-                        ).format(account.expiresAt!.toLocal()),
+                        ),
                 ),
             ],
           ),
         ),
+        if (account != null)
+          Card(
+            child: ListTile(
+              title: Text(l.fdTimeZone),
+              subtitle: Text(
+                '${account.displayTimeZone ?? l.fdDeviceTimeZone}\n${l.fdTimeZoneHint}',
+              ),
+              onTap: _busy ? null : () => _run(_selectTimeZone),
+            ),
+          ),
         if (_accountStale)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),

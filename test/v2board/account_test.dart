@@ -1,8 +1,35 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:fastai/v2board/account.dart';
 
 void main() {
+  setUpAll(() => initializeDateFormatting());
+  test('selected display zone uses the server formatted instant', () {
+    final account = V2BoardAccount({}, {
+      'displayTimeZone': 'Asia/Kathmandu',
+      'expiresAtDisplay': '2026-10-14 05:45:00 Asia/Kathmandu',
+    });
+    expect(
+      account.formatTime(DateTime.utc(2026, 10, 14), 'expiresAtDisplay', 'en'),
+      '2026-10-14 05:45:00 Asia/Kathmandu',
+    );
+  });
+  test('missing formatted time falls back explicitly to UTC', () {
+    final account = V2BoardAccount({}, {'displayTimeZone': 'Asia/Kathmandu'});
+    expect(
+      account.formatTime(DateTime.utc(2026, 10, 14), 'expiresAtDisplay', 'en'),
+      endsWith(' UTC'),
+    );
+  });
+  test('device display includes its time zone', () {
+    final account = V2BoardAccount({}, {});
+    final at = DateTime.utc(2026, 10, 14);
+    expect(
+      account.formatTime(at, 'expiresAtDisplay', 'en'),
+      endsWith(' ${at.toLocal().timeZoneName}'),
+    );
+  });
   test(
     'independent credits stay usable after period expiry when the backend grants access',
     () {

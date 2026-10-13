@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:fastai/common/common.dart';
@@ -10,16 +9,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'api.dart';
 import 'config.dart';
+import 'client_identity.dart';
 
-String get fastaiArchitecture => switch (Abi.current()) {
-  Abi.androidArm || Abi.linuxArm => 'arm',
-  Abi.androidArm64 ||
-  Abi.linuxArm64 ||
-  Abi.macosArm64 ||
-  Abi.windowsArm64 => 'arm64',
-  Abi.androidIA32 || Abi.linuxIA32 || Abi.windowsIA32 => 'x86',
-  _ => 'x64',
-};
+export 'client_identity.dart' show fastaiArchitecture;
 
 class FastaiRelease {
   FastaiRelease.fromJson(V10Object data)

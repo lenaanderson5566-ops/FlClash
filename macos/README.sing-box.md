@@ -1,6 +1,6 @@
 # FastAI sing-box on macOS
 
-The app uses sing-box by default, with explicit Mihomo fallback. The existing
+The app uses sing-box exclusively. The existing
 FastAICore process, IPC lifecycle, TUN authorization and system proxy/DNS cleanup
 remain authoritative. TUN names are allocated by sing-tun to avoid an occupied
 utun interface. Subscription JSON and local protocol capability filtering use the
@@ -26,7 +26,7 @@ CGO_ENABLED=1 MACOSX_DEPLOYMENT_TARGET=12.0 go test -tags=with_gvisor,with_quic,
 
 The shared Naive test exercises local TLS/HTTP2 and repeated start/close.
 Validate a signed build on Intel and Apple Silicon: system proxy, administrator
-approval/cancellation, TUN, Naive connection, switching back to Mihomo,
+approval/cancellation, TUN, Naive connection, reconnects,
 sleep/wake, network changes and DNS/proxy restoration after disconnect/exit.
 A Windows cross-build without CGO only checks the portable Darwin core; it does
 not validate the Xcode/Cronet link, signing, permissions or actual TUN networking.

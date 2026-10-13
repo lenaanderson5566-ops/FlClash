@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'api.dart';
 
 class V2BoardAccount {
@@ -23,6 +24,17 @@ class V2BoardAccount {
       (subscription['plan'] as Map?)?['name'] as String? ?? '';
   DateTime? get expiresAt =>
       DateTime.tryParse(subscription['expiresAt'] as String? ?? '');
+  String? get displayTimeZone => subscription['displayTimeZone'] as String?;
+  String formatTime(DateTime instant, String field, String locale) {
+    if (displayTimeZone != null) {
+      final formatted = subscription[field] as String?;
+      if (formatted != null && formatted.isNotEmpty) return formatted;
+      return '${DateFormat.yMd(locale).add_Hms().format(instant.toUtc())} UTC';
+    }
+    final local = instant.toLocal();
+    return '${DateFormat.yMd(locale).add_Hms().format(local)} ${local.timeZoneName}';
+  }
+
   bool get banned => account['banned'] == true;
   Map get _status => account['accountStatus'] as Map? ?? const {};
   bool get active => !banned && _status['available'] == true;

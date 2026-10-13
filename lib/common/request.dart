@@ -67,26 +67,6 @@ class Request {
       rethrow;
     }
   }
-
-  Future<Map<String, dynamic>?> checkForUpdate() async {
-    try {
-      final response = await dio.get(
-        'https://api.github.com/repos/$repository/releases/latest',
-        options: Options(responseType: ResponseType.json),
-      );
-      if (response.statusCode != 200) return null;
-      final data = response.data as Map<String, dynamic>;
-      final remoteVersion = data['tag_name'];
-      final version = globalState.packageInfo.version;
-      final hasUpdate =
-          compareVersions(remoteVersion.replaceAll('v', ''), version) > 0;
-      if (!hasUpdate) return null;
-      return data;
-    } catch (e) {
-      commonPrint.log('checkForUpdate failed', logLevel: LogLevel.warning);
-      return null;
-    }
-  }
 }
 
 final request = Request();

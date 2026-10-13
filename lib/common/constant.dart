@@ -12,7 +12,6 @@ import 'package:material_ui/material_ui.dart';
 const appName = V2BoardConfig.enabled ? V2BoardConfig.appName : 'FastAI';
 const appHelperService = 'FastAIHelperService';
 const coreManifestName = 'manifest.json';
-const coreName = 'clash.meta';
 const browserUa =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 const packageName = 'ws.fastdog.fastai';

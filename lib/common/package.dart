@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:package_info_plus/package_info_plus.dart';
-
-import 'common.dart';
+import 'package:fastai/v2board/client_identity.dart';
 
 extension PackageInfoExtension on PackageInfo {
-  String get ua =>
-      ['$appName/v$version', 'Platform/${Platform.operatingSystem}'].join(' ');
+  String get ua => fastaiUserAgent(version);
 }
 
 int compareVersions(String version1, String version2) {

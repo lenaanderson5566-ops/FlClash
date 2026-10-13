@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'proxy_platform_interface.dart';
 import 'src/linux_proxy.dart';
-import 'src/macos_proxy.dart';
 import 'src/proxy_command.dart';
 
 export 'src/proxy_command.dart' show ProxyExecutableChecker, ProxyProcessRunner;
@@ -12,7 +11,6 @@ class Proxy {
   static const int _maxPort = 65535;
 
   late final LinuxProxy _linuxProxy;
-  late final MacosProxy _macosProxy;
 
   Proxy({
     ProxyProcessRunner? processRunner,
@@ -23,7 +21,6 @@ class Proxy {
       commandRunner: commandRunner,
       executableChecker: executableChecker,
     );
-    _macosProxy = MacosProxy(commandRunner: commandRunner);
   }
 
   Future<bool> startProxy(
@@ -34,7 +31,7 @@ class Proxy {
       return false;
     }
     return switch (Platform.operatingSystem) {
-      'macos' => await _macosProxy.start(port, bypassDomain),
+      'macos' => await ProxyPlatform.instance.startProxy(port, bypassDomain),
       'linux' => await _linuxProxy.start(
         port,
         bypassDomain,
@@ -48,7 +45,7 @@ class Proxy {
 
   Future<bool> stopProxy() async {
     return switch (Platform.operatingSystem) {
-      'macos' => await _macosProxy.stop(),
+      'macos' => await ProxyPlatform.instance.stopProxy(),
       'linux' => await _linuxProxy.stop(
         desktop: Platform.environment['XDG_CURRENT_DESKTOP'],
         homeDir: Platform.environment['HOME'],

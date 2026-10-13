@@ -668,5 +668,8 @@
   "fdTelemetryTitle": "動作データを共有",
   "fdTelemetryPrivacy": "既定ではオフです。有効にすると、アカウントに紐づくアプリのバージョン、OS、接続・同期結果、エラー分類、所要時間を5分ごとに送信します。閲覧履歴、アドレス、認証情報、設定は収集しません。保存期間は既定で30日（管理者が変更可能）です。",
   "fdTechnicalSupport": "FastDog による技術サポート",
-  "fdOpenSourceLicenses": "オープンソースライセンス"
+  "fdOpenSourceLicenses": "オープンソースライセンス",
+  "fdTimeZone": "時刻の表示タイムゾーン",
+  "fdDeviceTimeZone": "端末に合わせる",
+  "fdTimeZoneHint": "表示のみ変更します。有効期限とリセット時刻は変わりません。"
 }

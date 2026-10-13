@@ -8,6 +8,7 @@ import 'package:dio/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config.dart';
+import 'client_identity.dart';
 
 class EntrypointManifest {
   const EntrypointManifest(this.version, this.expiresAt, this.origins);
@@ -88,6 +89,7 @@ class ServiceEntrypoints {
       receiveTimeout: const Duration(seconds: 4),
       followRedirects: false,
       validateStatus: (status) => status == 200,
+      headers: {'User-Agent': fastaiUserAgent()},
     );
   }
   static final shared = ServiceEntrypoints();
@@ -113,6 +115,10 @@ class ServiceEntrypoints {
   }.toList();
 
   final Dio _dio;
+  void setClientVersion(String version) {
+    _dio.options.headers['User-Agent'] = fastaiUserAgent(version);
+  }
+
   Uri current = V2BoardConfig.origin(V2BoardConfig.panelUrl);
   List<Uri> _origins = builtins;
   int _version = 0;

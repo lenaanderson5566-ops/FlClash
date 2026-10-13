@@ -7,6 +7,7 @@ import 'package:app_links/app_links.dart';
 import 'package:crypto/crypto.dart';
 
 import 'api.dart';
+import 'browser_login_page.dart';
 
 class BrowserLogin {
   BrowserLogin({
@@ -85,14 +86,24 @@ class BrowserLogin {
             'no-store',
           );
           request.response.headers.set('Referrer-Policy', 'no-referrer');
+          final nonce = secret();
+          request.response.headers.set(
+            'Content-Security-Policy',
+            "default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-$nonce'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
+          );
+          request.response.headers.set('X-Content-Type-Options', 'nosniff');
           request.response.headers.contentType = ContentType(
             'text',
-            'plain',
+            'html',
             charset: 'utf-8',
           );
           request.response.statusCode = valid ? 200 : 400;
           request.response.write(
-            valid ? completedMessage : 'Invalid authorization response',
+            browserLoginPage(
+              valid: valid,
+              message: completedMessage,
+              nonce: nonce,
+            ),
           );
           try {
             await request.response.close();

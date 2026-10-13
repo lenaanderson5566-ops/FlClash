@@ -668,5 +668,8 @@
   "fdTelemetryTitle": "Share runtime data",
   "fdTelemetryPrivacy": "Off by default. Share app version, platform, connection and sync outcomes, error categories and timings linked to your account, in batches every 5 minutes. No browsing history, addresses, credentials or configuration. Default retention: 30 days; administrators can adjust it.",
   "fdTechnicalSupport": "Technical support provided by FastDog",
-  "fdOpenSourceLicenses": "Open-source licenses"
+  "fdOpenSourceLicenses": "Open-source licenses",
+  "fdTimeZone": "Time display zone",
+  "fdDeviceTimeZone": "Follow device",
+  "fdTimeZoneHint": "Changes display only; expiry and reset instants stay the same."
 }

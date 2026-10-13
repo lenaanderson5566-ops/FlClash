@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 import 'config.dart';
+import 'client_identity.dart';
 import 'entrypoints.dart';
 import 'language.dart';
 import 'diagnostics.dart';
@@ -65,10 +66,7 @@ class V2BoardApi {
       sendTimeout: const Duration(seconds: 15),
       followRedirects: false,
       validateStatus: (status) => status != null,
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': V2BoardConfig.appName,
-      },
+      headers: {'Accept': 'application/json', 'User-Agent': fastaiUserAgent()},
     );
   }
 
@@ -85,7 +83,13 @@ class V2BoardApi {
 
   String? accessToken;
   Future<void> Function()? onSessionRejected;
-  String? version;
+  String? _version;
+  String? get version => _version;
+  set version(String? value) {
+    _version = value;
+    if (value != null) _entrypoints?.setClientVersion(value);
+  }
+
   String _language = 'en-US';
   String get language => _language;
   set language(String value) => _language = clientLanguage(value);
@@ -161,8 +165,7 @@ class V2BoardApi {
           method: method,
           headers: {
             'Accept-Language': language,
-            'User-Agent':
-                '${V2BoardConfig.appName}${version == null ? '' : '/$version'}',
+            'User-Agent': fastaiUserAgent(version),
             if (accessToken != null) 'Authorization': 'Bearer $accessToken',
           },
         ),
@@ -259,7 +262,7 @@ class V2BoardApi {
             'Accept': 'application/json, application/yaml;q=0.9',
             'Accept-Language': language,
             'Authorization': 'Bearer $accessToken',
-            'User-Agent': '${V2BoardConfig.appName}/$version',
+            'User-Agent': fastaiUserAgent(version),
           },
         ),
       );
