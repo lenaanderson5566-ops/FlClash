@@ -508,6 +508,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "This check does not apply to the current connection state or device.",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
+      "Report submitted",
+    ),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "TUN permission is not ready. Reconnect and approve permission, or choose system proxy.",
     ),
@@ -763,6 +766,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("Show password"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("Signing in…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Smart mode"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage(
+      "Submit diagnostics",
+    ),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "Send app version, platform, check results and durations to the site administrator, linked to your account. No browsing history, IP addresses, DNS answers, node credentials or configuration is sent. Reports are normally kept for 30 days; the administrator can change retention.",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Refresh routes"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Unable to refresh routes. Try again before connecting.",

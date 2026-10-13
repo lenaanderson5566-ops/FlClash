@@ -744,5 +744,8 @@
   "fdProxyCore": "Lõi proxy",
   "fdRoutePreview": "Xem trước tuyến",
   "fdRoutePreviewHint": "Chỉ xem trước. Cần gói còn hiệu lực để kết nối.",
-  "fdRoutesEmpty": "Chưa có tuyến. Hãy thử làm mới sau."
+  "fdRoutesEmpty": "Chưa có tuyến. Hãy thử làm mới sau.",
+  "fdSubmitDiagnostic": "Gửi chẩn đoán",
+  "fdSubmitDiagnosticPrivacy": "Gửi phiên bản ứng dụng, hệ điều hành, kết quả và thời gian kiểm tra cho quản trị viên, liên kết với tài khoản hiện tại. Không gửi lịch sử duyệt web, địa chỉ IP, kết quả DNS, thông tin xác thực nút hoặc cấu hình. Báo cáo được lưu 30 ngày theo mặc định; quản trị viên có thể thay đổi thời hạn.",
+  "fdDiagnosticSubmitted": "Đã gửi báo cáo"
 }

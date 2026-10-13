@@ -308,7 +308,9 @@ class NetworkDiagnosticsDialog extends StatefulWidget {
     super.key,
     required this.runChecks,
     this.onRepair,
+    this.onSubmit,
   });
+  final Future<String> Function(DiagnosticSnapshot)? onSubmit;
   final Future<void> Function(DiagnosticRepair)? onRepair;
   final Future<List<NetworkCheckResult>> Function() runChecks;
 
@@ -320,6 +322,8 @@ class NetworkDiagnosticsDialog extends StatefulWidget {
 class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
   bool _busy = false;
   bool _repairing = false;
+  bool _submitting = false;
+  String? _submittedId;
   String? _repairMessage;
   DateTime _at = DateTime.now();
   List<NetworkCheckResult> _results = [];
@@ -338,6 +342,7 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
       _at = DateTime.now();
       _results = [];
       _snapshot = null;
+      _submittedId = null;
     });
     try {
       final results = await widget.runChecks();
@@ -409,6 +414,40 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
       if (mounted) context.showNotifier(l.copySuccess);
     } catch (_) {
       if (mounted) context.showNotifier(l.fdRequestFailed);
+    }
+  }
+
+  Future<void> _submit() async {
+    final snapshot = _snapshot;
+    if (snapshot == null || _submitting || widget.onSubmit == null) return;
+    final l = context.appLocalizations;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: AppShape.lg,
+        title: Text(l.fdSubmitDiagnostic),
+        content: Text(l.fdSubmitDiagnosticPrivacy),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l.fdSubmitDiagnostic),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _submitting = true);
+    try {
+      final id = await widget.onSubmit!(snapshot);
+      if (mounted) setState(() => _submittedId = id);
+    } catch (_) {
+      if (mounted) context.showNotifier(l.fdRequestFailed);
+    } finally {
+      if (mounted) setState(() => _submitting = false);
     }
   }
 
@@ -775,6 +814,23 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                       onPressed: _busy || _snapshot == null ? null : _copy,
                       child: Text(l.fdReportCopy),
                     ),
+                    if (widget.onSubmit != null)
+                      TextButton(
+                        onPressed:
+                            _busy ||
+                                _repairing ||
+                                _submitting ||
+                                _snapshot == null ||
+                                _submittedId != null
+                            ? null
+                            : _submit,
+                        child: Text(
+                          _submittedId == null
+                              ? l.fdSubmitDiagnostic
+                              : l.fdDiagnosticSubmitted,
+                        ),
+                      ),
+                    if (_submittedId != null) SelectableText(_submittedId!),
                     TextButton(
                       onPressed: _busy || _snapshot == null
                           ? null
@@ -782,7 +838,9 @@ class _NetworkDiagnosticsDialogState extends State<NetworkDiagnosticsDialog> {
                       child: Text(l.fdCopyJson),
                     ),
                     FilledButton(
-                      onPressed: _busy || _repairing ? null : _run,
+                      onPressed: _busy || _repairing || _submitting
+                          ? null
+                          : _run,
                       child: Text(l.fdDiagnosticRetry),
                     ),
                   ],

@@ -406,6 +406,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "當前連線狀態或裝置無需執行此項檢查。",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("報告已提交"),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "TUN 許可權未就緒，請重新連線並完成授權，或切換系統代理。",
     ),
@@ -581,6 +582,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("顯示密碼"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("正在登入…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("智慧模式"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("提交診斷"),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "將應用程式版本、系統類型、檢查結果及耗時提交給本站管理員，並關聯目前帳號。不傳送瀏覽紀錄、IP 位址、DNS 結果、節點憑證或設定。報告預設保留 30 天，管理員可調整保留期。",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("重新整理線路"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage("線路重新整理失敗，請重試後再連線。"),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("正在同步線路…"),

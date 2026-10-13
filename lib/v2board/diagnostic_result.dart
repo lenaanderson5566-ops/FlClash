@@ -44,6 +44,17 @@ class DiagnosticSnapshot {
   final DateTime finishedAt;
   final List<NetworkCheckResult> results;
 
+  List<Map<String, Object>> submissionChecks() => [
+    for (final result in results)
+      {
+        'id': result.check.name,
+        'status': result.status.name,
+        if (int.tryParse(result.parameters['elapsedMs'] ?? '')
+            case final int ms)
+          'elapsedMs': ms.clamp(0, 300000),
+      },
+  ];
+
   Map<String, Object> toJson() => {
     'schemaVersion': 1,
     'startedAt': startedAt.toUtc().toIso8601String(),

@@ -744,5 +744,8 @@
   "fdProxyCore": "프록시 코어",
   "fdRoutePreview": "경로 미리 보기",
   "fdRoutePreviewHint": "미리 보기 전용입니다. 연결하려면 유효한 요금제가 필요합니다.",
-  "fdRoutesEmpty": "아직 경로가 없습니다. 나중에 새로고침하세요."
+  "fdRoutesEmpty": "아직 경로가 없습니다. 나중에 새로고침하세요.",
+  "fdSubmitDiagnostic": "진단 제출",
+  "fdSubmitDiagnosticPrivacy": "앱 버전, 운영체제, 검사 결과와 소요 시간을 현재 계정과 연결하여 사이트 관리자에게 보냅니다. 방문 기록, IP 주소, DNS 결과, 노드 인증 정보나 설정은 전송하지 않습니다. 기본 보관 기간은 30일이며 관리자가 변경할 수 있습니다.",
+  "fdDiagnosticSubmitted": "보고서 제출됨"
 }

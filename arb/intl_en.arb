@@ -744,5 +744,8 @@
   "fdProxyCore": "Proxy core",
   "fdRoutePreview": "Route preview",
   "fdRoutePreviewHint": "Preview only. A valid subscription is required to connect.",
-  "fdRoutesEmpty": "No routes are available yet. Try refreshing."
+  "fdRoutesEmpty": "No routes are available yet. Try refreshing.",
+  "fdSubmitDiagnostic": "Submit diagnostics",
+  "fdSubmitDiagnosticPrivacy": "Send app version, platform, check results and durations to the site administrator, linked to your account. No browsing history, IP addresses, DNS answers, node credentials or configuration is sent. Reports are normally kept for 30 days; the administrator can change retention.",
+  "fdDiagnosticSubmitted": "Report submitted"
 }

@@ -6182,6 +6182,36 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Submit diagnostics`
+  String get fdSubmitDiagnostic {
+    return Intl.message(
+      'Submit diagnostics',
+      name: 'fdSubmitDiagnostic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send app version, platform, check results and durations to the site administrator, linked to your account. No browsing history, IP addresses, DNS answers, node credentials or configuration is sent. Reports are normally kept for 30 days; the administrator can change retention.`
+  String get fdSubmitDiagnosticPrivacy {
+    return Intl.message(
+      'Send app version, platform, check results and durations to the site administrator, linked to your account. No browsing history, IP addresses, DNS answers, node credentials or configuration is sent. Reports are normally kept for 30 days; the administrator can change retention.',
+      name: 'fdSubmitDiagnosticPrivacy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report submitted`
+  String get fdDiagnosticSubmitted {
+    return Intl.message(
+      'Report submitted',
+      name: 'fdDiagnosticSubmitted',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

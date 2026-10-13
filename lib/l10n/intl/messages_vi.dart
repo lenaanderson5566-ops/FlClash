@@ -508,6 +508,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "Kiểm tra này không áp dụng cho trạng thái kết nối hoặc thiết bị hiện tại.",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
+      "Đã gửi báo cáo",
+    ),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "Chưa có quyền TUN. Kết nối lại và cấp quyền hoặc chọn proxy hệ thống.",
     ),
@@ -763,6 +766,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("Hiện mật khẩu"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("Đang đăng nhập…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Chế độ thông minh"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("Gửi chẩn đoán"),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "Gửi phiên bản ứng dụng, hệ điều hành, kết quả và thời gian kiểm tra cho quản trị viên, liên kết với tài khoản hiện tại. Không gửi lịch sử duyệt web, địa chỉ IP, kết quả DNS, thông tin xác thực nút hoặc cấu hình. Báo cáo được lưu 30 ngày theo mặc định; quản trị viên có thể thay đổi thời hạn.",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Làm mới tuyến"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Không thể làm mới tuyến. Thử lại trước khi kết nối.",

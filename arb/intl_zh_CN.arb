@@ -744,5 +744,8 @@
   "fdProxyCore": "代理核心",
   "fdRoutePreview": "线路预览",
   "fdRoutePreviewHint": "仅供预览，有效套餐可用于连接。",
-  "fdRoutesEmpty": "暂无线路，请稍后刷新。"
+  "fdRoutesEmpty": "暂无线路，请稍后刷新。",
+  "fdSubmitDiagnostic": "提交诊断",
+  "fdSubmitDiagnosticPrivacy": "将应用版本、系统类型、检查结果和耗时提交给本站管理员，并关联当前账号。不发送浏览记录、IP 地址、DNS 结果、节点凭据或配置。报告默认保留 30 天，管理员可调整保留期。",
+  "fdDiagnosticSubmitted": "报告已提交"
 }

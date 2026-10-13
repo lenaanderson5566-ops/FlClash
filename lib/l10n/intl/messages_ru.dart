@@ -523,6 +523,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "Эта проверка не применяется к текущему состоянию подключения или устройству.",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
+      "Отчёт отправлен",
+    ),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "Нет разрешения TUN. Переподключитесь и разрешите доступ или выберите системный прокси.",
     ),
@@ -782,6 +785,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("Показать пароль"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("Вход…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("Умный режим"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage(
+      "Отправить диагностику",
+    ),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "Версия приложения, платформа, результаты и длительность проверок будут отправлены администратору сайта с привязкой к аккаунту. История просмотров, IP-адреса, ответы DNS, данные доступа узлов и конфигурация не отправляются. По умолчанию отчёты хранятся 30 дней; администратор может изменить срок.",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("Обновить маршруты"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось обновить маршруты. Повторите попытку перед подключением.",

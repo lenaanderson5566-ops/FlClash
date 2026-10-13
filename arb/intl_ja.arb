@@ -744,5 +744,8 @@
   "fdProxyCore": "プロキシコア",
   "fdRoutePreview": "ルートのプレビュー",
   "fdRoutePreviewHint": "プレビューのみです。接続には有効なプランが必要です。",
-  "fdRoutesEmpty": "利用可能なルートがありません。後でもう一度更新してください。"
+  "fdRoutesEmpty": "利用可能なルートがありません。後でもう一度更新してください。",
+  "fdSubmitDiagnostic": "診断を送信",
+  "fdSubmitDiagnosticPrivacy": "アプリのバージョン、OS、検査結果と所要時間を、アカウントに関連付けてサイト管理者へ送信します。閲覧履歴、IP アドレス、DNS 結果、ノード認証情報、設定は送信しません。既定の保存期間は30日で、管理者が変更できます。",
+  "fdDiagnosticSubmitted": "送信済み"
 }

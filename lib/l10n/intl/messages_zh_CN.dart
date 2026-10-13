@@ -406,6 +406,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "当前连接状态或设备无需执行此项检查。",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("报告已提交"),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "TUN 权限未就绪，请重新连接并完成授权，或切换系统代理。",
     ),
@@ -579,6 +580,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("显示密码"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("正在登录…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("智能模式"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("提交诊断"),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "将应用版本、系统类型、检查结果和耗时提交给本站管理员，并关联当前账号。不发送浏览记录、IP 地址、DNS 结果、节点凭据或配置。报告默认保留 30 天，管理员可调整保留期。",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("刷新线路"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage("线路刷新失败，请重试后再连接。"),
     "fdSyncingRoutes": MessageLookupByLibrary.simpleMessage("正在同步线路…"),

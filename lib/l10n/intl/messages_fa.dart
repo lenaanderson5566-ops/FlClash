@@ -491,6 +491,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "این بررسی برای وضعیت اتصال یا دستگاه فعلی کاربرد ندارد.",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage(
+      "گزارش ارسال شد",
+    ),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "مجوز TUN آماده نیست. دوباره متصل شوید و مجوز بدهید یا پروکسی سیستم را انتخاب کنید.",
     ),
@@ -738,6 +741,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("نمایش گذرواژه"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("در حال ورود…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("حالت هوشمند"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage(
+      "ارسال عیب‌یابی",
+    ),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "نسخه برنامه، سیستم‌عامل، نتایج و مدت بررسی‌ها همراه با ارتباط به حساب شما برای مدیر سایت ارسال می‌شود. سابقه مرور، نشانی IP، پاسخ DNS، اطلاعات ورود گره یا پیکربندی ارسال نمی‌شود. گزارش‌ها به‌طور پیش‌فرض ۳۰ روز نگهداری می‌شوند؛ مدیر می‌تواند این مدت را تغییر دهد.",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("تازه‌سازی مسیرها"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "تازه‌سازی مسیرها ممکن نیست. پیش از اتصال دوباره تلاش کنید.",

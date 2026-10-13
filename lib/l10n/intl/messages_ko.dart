@@ -422,6 +422,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "현재 연결 상태 또는 기기에는 이 점검이 적용되지 않습니다.",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("보고서 제출됨"),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "TUN 권한이 필요합니다. 다시 연결하고 권한을 허용하거나 시스템 프록시를 선택하세요.",
     ),
@@ -629,6 +630,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("비밀번호 표시"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("로그인 중…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("스마트 모드"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("진단 제출"),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "앱 버전, 운영체제, 검사 결과와 소요 시간을 현재 계정과 연결하여 사이트 관리자에게 보냅니다. 방문 기록, IP 주소, DNS 결과, 노드 인증 정보나 설정은 전송하지 않습니다. 기본 보관 기간은 30일이며 관리자가 변경할 수 있습니다.",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("연결 경로 새로고침"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "경로를 새로고칠 수 없습니다. 다시 시도한 뒤 연결하세요.",

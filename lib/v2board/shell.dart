@@ -1463,6 +1463,20 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
                 onRefresh: () => _run(_refreshSubscription),
               ),
       2 => ToolsView(
+        onSubmit: _api == null
+            ? null
+            : (snapshot) async {
+                final response = await _api!.request(
+                  'POST',
+                  '/me/diagnostic-reports',
+                  body: {
+                    'clientVersion': globalState.packageInfo.version,
+                    'platform': defaultTargetPlatform.name,
+                    'checks': snapshot.submissionChecks(),
+                  },
+                );
+                return response['reportId'] as String;
+              },
         coreSetting:
             defaultTargetPlatform == TargetPlatform.windows ||
                 defaultTargetPlatform == TargetPlatform.android ||

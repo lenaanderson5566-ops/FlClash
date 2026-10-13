@@ -436,6 +436,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdDiagnosticSkipped": MessageLookupByLibrary.simpleMessage(
       "現在の接続状態や端末では、この検査は対象外です。",
     ),
+    "fdDiagnosticSubmitted": MessageLookupByLibrary.simpleMessage("送信済み"),
     "fdDiagnosticTunDenied": MessageLookupByLibrary.simpleMessage(
       "TUN 権限がありません。再接続して許可するか、システムプロキシを選択してください。",
     ),
@@ -635,6 +636,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdShowPassword": MessageLookupByLibrary.simpleMessage("パスワードを表示"),
     "fdSigningIn": MessageLookupByLibrary.simpleMessage("ログイン中…"),
     "fdSmartMode": MessageLookupByLibrary.simpleMessage("スマートモード"),
+    "fdSubmitDiagnostic": MessageLookupByLibrary.simpleMessage("診断を送信"),
+    "fdSubmitDiagnosticPrivacy": MessageLookupByLibrary.simpleMessage(
+      "アプリのバージョン、OS、検査結果と所要時間を、アカウントに関連付けてサイト管理者へ送信します。閲覧履歴、IP アドレス、DNS 結果、ノード認証情報、設定は送信しません。既定の保存期間は30日で、管理者が変更できます。",
+    ),
     "fdSync": MessageLookupByLibrary.simpleMessage("経路を更新"),
     "fdSyncFailed": MessageLookupByLibrary.simpleMessage(
       "経路を更新できませんでした。再試行してから接続してください。",
