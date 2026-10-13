@@ -671,5 +671,16 @@
   "fdOpenSourceLicenses": "オープンソースライセンス",
   "fdTimeZone": "時刻の表示タイムゾーン",
   "fdDeviceTimeZone": "端末に合わせる",
-  "fdTimeZoneHint": "表示のみ変更します。有効期限とリセット時刻は変わりません。"
+  "fdTimeZoneHint": "表示のみ変更します。有効期限とリセット時刻は変わりません。",
+  "fdZoneBeijing": "北京",
+  "fdZoneHongKong": "香港",
+  "fdZoneTokyo": "東京",
+  "fdZoneSingapore": "シンガポール",
+  "fdZoneLondon": "ロンドン",
+  "fdZoneNewYork": "ニューヨーク",
+  "fdZoneLosAngeles": "ロサンゼルス",
+  "fdZoneSydney": "シドニー",
+  "fdMoreTimeZones": "その他のタイムゾーン",
+  "fdSearchTimeZones": "都市またはタイムゾーンを検索",
+  "fdTimeZonePreview": "開いた時点の現地時刻"
 }

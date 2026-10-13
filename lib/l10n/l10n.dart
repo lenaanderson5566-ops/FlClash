@@ -5462,6 +5462,91 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Beijing`
+  String get fdZoneBeijing {
+    return Intl.message('Beijing', name: 'fdZoneBeijing', desc: '', args: []);
+  }
+
+  /// `Hong Kong`
+  String get fdZoneHongKong {
+    return Intl.message(
+      'Hong Kong',
+      name: 'fdZoneHongKong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tokyo`
+  String get fdZoneTokyo {
+    return Intl.message('Tokyo', name: 'fdZoneTokyo', desc: '', args: []);
+  }
+
+  /// `Singapore`
+  String get fdZoneSingapore {
+    return Intl.message(
+      'Singapore',
+      name: 'fdZoneSingapore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `London`
+  String get fdZoneLondon {
+    return Intl.message('London', name: 'fdZoneLondon', desc: '', args: []);
+  }
+
+  /// `New York`
+  String get fdZoneNewYork {
+    return Intl.message('New York', name: 'fdZoneNewYork', desc: '', args: []);
+  }
+
+  /// `Los Angeles`
+  String get fdZoneLosAngeles {
+    return Intl.message(
+      'Los Angeles',
+      name: 'fdZoneLosAngeles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sydney`
+  String get fdZoneSydney {
+    return Intl.message('Sydney', name: 'fdZoneSydney', desc: '', args: []);
+  }
+
+  /// `More time zones`
+  String get fdMoreTimeZones {
+    return Intl.message(
+      'More time zones',
+      name: 'fdMoreTimeZones',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search city or time zone`
+  String get fdSearchTimeZones {
+    return Intl.message(
+      'Search city or time zone',
+      name: 'fdSearchTimeZones',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Local time when opened`
+  String get fdTimeZonePreview {
+    return Intl.message(
+      'Local time when opened',
+      name: 'fdTimeZonePreview',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

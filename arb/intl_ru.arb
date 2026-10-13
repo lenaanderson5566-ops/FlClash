@@ -671,5 +671,16 @@
   "fdOpenSourceLicenses": "Лицензии открытого ПО",
   "fdTimeZone": "Часовой пояс отображения",
   "fdDeviceTimeZone": "Как на устройстве",
-  "fdTimeZoneHint": "Меняется только отображение. Срок действия и момент сброса остаются прежними."
+  "fdTimeZoneHint": "Меняется только отображение. Срок действия и момент сброса остаются прежними.",
+  "fdZoneBeijing": "Пекин",
+  "fdZoneHongKong": "Гонконг",
+  "fdZoneTokyo": "Токио",
+  "fdZoneSingapore": "Сингапур",
+  "fdZoneLondon": "Лондон",
+  "fdZoneNewYork": "Нью-Йорк",
+  "fdZoneLosAngeles": "Лос-Анджелес",
+  "fdZoneSydney": "Сидней",
+  "fdMoreTimeZones": "Другие часовые пояса",
+  "fdSearchTimeZones": "Поиск города или часового пояса",
+  "fdTimeZonePreview": "Местное время при открытии"
 }

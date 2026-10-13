@@ -671,5 +671,16 @@
   "fdOpenSourceLicenses": "Open-source licenses",
   "fdTimeZone": "Time display zone",
   "fdDeviceTimeZone": "Follow device",
-  "fdTimeZoneHint": "Changes display only; expiry and reset instants stay the same."
+  "fdTimeZoneHint": "Changes display only; expiry and reset instants stay the same.",
+  "fdZoneBeijing": "Beijing",
+  "fdZoneHongKong": "Hong Kong",
+  "fdZoneTokyo": "Tokyo",
+  "fdZoneSingapore": "Singapore",
+  "fdZoneLondon": "London",
+  "fdZoneNewYork": "New York",
+  "fdZoneLosAngeles": "Los Angeles",
+  "fdZoneSydney": "Sydney",
+  "fdMoreTimeZones": "More time zones",
+  "fdSearchTimeZones": "Search city or time zone",
+  "fdTimeZonePreview": "Local time when opened"
 }

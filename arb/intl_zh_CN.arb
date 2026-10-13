@@ -671,5 +671,16 @@
   "fdOpenSourceLicenses": "开源许可",
   "fdTimeZone": "时间显示时区",
   "fdDeviceTimeZone": "跟随设备",
-  "fdTimeZoneHint": "仅改变显示方式，到期与流量重置时刻不变。"
+  "fdTimeZoneHint": "仅改变显示方式，到期与流量重置时刻不变。",
+  "fdZoneBeijing": "北京",
+  "fdZoneHongKong": "香港",
+  "fdZoneTokyo": "东京",
+  "fdZoneSingapore": "新加坡",
+  "fdZoneLondon": "伦敦",
+  "fdZoneNewYork": "纽约",
+  "fdZoneLosAngeles": "洛杉矶",
+  "fdZoneSydney": "悉尼",
+  "fdMoreTimeZones": "更多时区",
+  "fdSearchTimeZones": "搜索城市或时区名称",
+  "fdTimeZonePreview": "打开时的当地时间"
 }

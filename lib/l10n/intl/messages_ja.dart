@@ -402,6 +402,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("ログイン"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("アカウントにログイン"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("ログアウト"),
+    "fdMoreTimeZones": MessageLookupByLibrary.simpleMessage("その他のタイムゾーン"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "サービスに接続できません。ネットワークを確認して再試行してください。",
     ),
@@ -471,6 +472,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
       "利用可能なルートがありません。後でもう一度更新してください。",
     ),
+    "fdSearchTimeZones": MessageLookupByLibrary.simpleMessage("都市またはタイムゾーンを検索"),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "セッションが切れました。再ログインしてください。",
     ),
@@ -494,6 +496,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
       "表示のみ変更します。有効期限とリセット時刻は変わりません。",
     ),
+    "fdTimeZonePreview": MessageLookupByLibrary.simpleMessage("開いた時点の現地時刻"),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "このインストールで利用できないプロトコルのノードをスキップしました。FastAI を更新または再インストールしてください。",
     ),
@@ -510,6 +513,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "更新、注文、アカウント設定とサポートは公式サイトでご利用いただけます。",
     ),
     "fdWelcome": MessageLookupByLibrary.simpleMessage("ログインして接続先を選択"),
+    "fdZoneBeijing": MessageLookupByLibrary.simpleMessage("北京"),
+    "fdZoneHongKong": MessageLookupByLibrary.simpleMessage("香港"),
+    "fdZoneLondon": MessageLookupByLibrary.simpleMessage("ロンドン"),
+    "fdZoneLosAngeles": MessageLookupByLibrary.simpleMessage("ロサンゼルス"),
+    "fdZoneNewYork": MessageLookupByLibrary.simpleMessage("ニューヨーク"),
+    "fdZoneSingapore": MessageLookupByLibrary.simpleMessage("シンガポール"),
+    "fdZoneSydney": MessageLookupByLibrary.simpleMessage("シドニー"),
+    "fdZoneTokyo": MessageLookupByLibrary.simpleMessage("東京"),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("フィデリティ"),
     "file": MessageLookupByLibrary.simpleMessage("ファイル"),
     "fileDesc": MessageLookupByLibrary.simpleMessage("プロファイルファイルを直接アップロードします"),

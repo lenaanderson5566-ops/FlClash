@@ -476,6 +476,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sign in to your account",
     ),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Sign out"),
+    "fdMoreTimeZones": MessageLookupByLibrary.simpleMessage("More time zones"),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Unable to reach the service. Check your network and try again.",
     ),
@@ -569,6 +570,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
       "No routes are available yet. Try refreshing.",
     ),
+    "fdSearchTimeZones": MessageLookupByLibrary.simpleMessage(
+      "Search city or time zone",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Your session expired. Please sign in again.",
     ),
@@ -594,6 +598,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
       "Changes display only; expiry and reset instants stay the same.",
     ),
+    "fdTimeZonePreview": MessageLookupByLibrary.simpleMessage(
+      "Local time when opened",
+    ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Some nodes use protocols unavailable in this installation and were skipped. Update or reinstall FastAI to enable them.",
     ),
@@ -614,6 +621,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdWelcome": MessageLookupByLibrary.simpleMessage(
       "Sign in to connect and choose a location",
     ),
+    "fdZoneBeijing": MessageLookupByLibrary.simpleMessage("Beijing"),
+    "fdZoneHongKong": MessageLookupByLibrary.simpleMessage("Hong Kong"),
+    "fdZoneLondon": MessageLookupByLibrary.simpleMessage("London"),
+    "fdZoneLosAngeles": MessageLookupByLibrary.simpleMessage("Los Angeles"),
+    "fdZoneNewYork": MessageLookupByLibrary.simpleMessage("New York"),
+    "fdZoneSingapore": MessageLookupByLibrary.simpleMessage("Singapore"),
+    "fdZoneSydney": MessageLookupByLibrary.simpleMessage("Sydney"),
+    "fdZoneTokyo": MessageLookupByLibrary.simpleMessage("Tokyo"),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("Fidelity"),
     "file": MessageLookupByLibrary.simpleMessage("File"),
     "fileDesc": MessageLookupByLibrary.simpleMessage(

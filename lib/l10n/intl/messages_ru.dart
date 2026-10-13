@@ -487,6 +487,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdLogin": MessageLookupByLibrary.simpleMessage("Войти"),
     "fdLoginTitle": MessageLookupByLibrary.simpleMessage("Вход в аккаунт"),
     "fdLogout": MessageLookupByLibrary.simpleMessage("Выйти"),
+    "fdMoreTimeZones": MessageLookupByLibrary.simpleMessage(
+      "Другие часовые пояса",
+    ),
     "fdNetworkError": MessageLookupByLibrary.simpleMessage(
       "Не удалось подключиться к сервису. Проверьте сеть и повторите попытку.",
     ),
@@ -586,6 +589,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdRoutesEmpty": MessageLookupByLibrary.simpleMessage(
       "Маршрутов пока нет. Попробуйте обновить позже.",
     ),
+    "fdSearchTimeZones": MessageLookupByLibrary.simpleMessage(
+      "Поиск города или часового пояса",
+    ),
     "fdSessionExpired": MessageLookupByLibrary.simpleMessage(
       "Сессия истекла. Войдите снова.",
     ),
@@ -615,6 +621,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdTimeZoneHint": MessageLookupByLibrary.simpleMessage(
       "Меняется только отображение. Срок действия и момент сброса остаются прежними.",
     ),
+    "fdTimeZonePreview": MessageLookupByLibrary.simpleMessage(
+      "Местное время при открытии",
+    ),
     "fdUnsupportedNodesSkipped": MessageLookupByLibrary.simpleMessage(
       "Узлы с недоступными протоколами пропущены. Обновите или переустановите FastAI, чтобы использовать их.",
     ),
@@ -637,6 +646,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fdWelcome": MessageLookupByLibrary.simpleMessage(
       "Войдите, чтобы подключиться и выбрать маршрут",
     ),
+    "fdZoneBeijing": MessageLookupByLibrary.simpleMessage("Пекин"),
+    "fdZoneHongKong": MessageLookupByLibrary.simpleMessage("Гонконг"),
+    "fdZoneLondon": MessageLookupByLibrary.simpleMessage("Лондон"),
+    "fdZoneLosAngeles": MessageLookupByLibrary.simpleMessage("Лос-Анджелес"),
+    "fdZoneNewYork": MessageLookupByLibrary.simpleMessage("Нью-Йорк"),
+    "fdZoneSingapore": MessageLookupByLibrary.simpleMessage("Сингапур"),
+    "fdZoneSydney": MessageLookupByLibrary.simpleMessage("Сидней"),
+    "fdZoneTokyo": MessageLookupByLibrary.simpleMessage("Токио"),
     "fidelityScheme": MessageLookupByLibrary.simpleMessage("Точная передача"),
     "file": MessageLookupByLibrary.simpleMessage("Файл"),
     "fileDesc": MessageLookupByLibrary.simpleMessage(

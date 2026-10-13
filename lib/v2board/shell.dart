@@ -1,3 +1,4 @@
+import 'time_zone_picker.dart';
 import 'telemetry.dart';
 import 'dart:ui' as ui show TextDirection;
 import 'account_avatar.dart';
@@ -343,29 +344,16 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
     if (api == null) return;
     final options = await api.object('GET', '/me/preferences/options');
     if (!mounted || _api != api) return;
-    final l = context.appLocalizations;
-    final zones = (options['timeZones'] as List? ?? const [])
-        .whereType<String>()
-        .toList();
     final selected = await showDialog<String>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l.fdTimeZone),
-        content: SizedBox(
-          width: 420,
-          height: 420,
-          child: ListView.builder(
-            itemCount: zones.length + 1,
-            itemBuilder: (context, index) {
-              final zone = index == 0 ? '' : zones[index - 1];
-              return ListTile(
-                selected: zone == (_account?.displayTimeZone ?? ''),
-                title: Text(zone.isEmpty ? l.fdDeviceTimeZone : zone),
-                onTap: () => Navigator.of(dialogContext).pop(zone),
-              );
-            },
-          ),
-        ),
+      builder: (_) => TimeZonePicker(
+        zones: (options['timeZones'] as List? ?? const [])
+            .whereType<String>()
+            .toList(),
+        choices: (options['timeZoneChoices'] as List? ?? const [])
+            .whereType<Map>()
+            .toList(),
+        initial: _account?.displayTimeZone ?? '',
       ),
     );
     if (selected == null || !mounted || _api != api) return;
@@ -1086,7 +1074,7 @@ class _V2BoardShellState extends ConsumerState<_V2BoardContent> {
             child: ListTile(
               title: Text(l.fdTimeZone),
               subtitle: Text(
-                '${account.displayTimeZone ?? l.fdDeviceTimeZone}\n${l.fdTimeZoneHint}',
+                '${account.displayTimeZone == null ? l.fdDeviceTimeZone : timeZoneTitle(context, account.displayTimeZone!)}\n${l.fdTimeZoneHint}',
               ),
               onTap: _busy ? null : () => _run(_selectTimeZone),
             ),
